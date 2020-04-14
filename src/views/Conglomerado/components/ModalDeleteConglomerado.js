@@ -67,6 +67,7 @@ class ModalDeleteConglomerado extends React.Component {
       alertError500: false,
       alertError400: false,
       alertSuccess: false,
+      spinnerDelete: false,
     });
   };
 
@@ -217,9 +218,6 @@ class ModalDeleteConglomerado extends React.Component {
                         onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
-                          // this.setState({
-                          //   spinnerDelete: true,
-                          // });
                         }}
                         disabled={this.state.spinnerDelete}
                       >
@@ -227,7 +225,6 @@ class ModalDeleteConglomerado extends React.Component {
                         {this.state.spinnerDelete ? (
                           <i className=" fa fa-spinner fa-refresh" />
                         ) : (
-                          // fa-spin
                           <div>
                             <i className="fa fa-trash" />{" "}
                             {t("app_conglomerado_modal_eliminar_boton")}

@@ -37,6 +37,7 @@ class ModalEditConglomerado extends React.Component {
     oldValue: "",
     newValue: "",
     spinner: true,
+    spinnerEdit: false,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -122,6 +123,7 @@ class ModalEditConglomerado extends React.Component {
     this.setState({
       alertError500: false,
       alertSuccess: false,
+      spinnerEdit: false,
     });
   };
 
@@ -171,12 +173,17 @@ class ModalEditConglomerado extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerEdit: true,
+              });
               const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  return (tipo = 1);
+                  tipo = 0;
+                  return tipo;
                 } else if (data === false || data === 0) {
-                  return (tipo = 0);
+                  tipo = 0;
+                  return tipo;
                 }
                 return 0;
               };
@@ -205,6 +212,7 @@ class ModalEditConglomerado extends React.Component {
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState(
@@ -218,6 +226,7 @@ class ModalEditConglomerado extends React.Component {
                     } else if (response.status === 400) {
                       this.setState({
                         alertError400: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState({
@@ -227,6 +236,7 @@ class ModalEditConglomerado extends React.Component {
                     } else if (response.status === 500) {
                       this.setState({
                         alertError500: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState({
@@ -603,12 +613,11 @@ class ModalEditConglomerado extends React.Component {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      disabled={isSubmitting}
+                      disabled={this.state.spinnerEdit}
                     >
-                      {isSubmitting ? (
+                      {this.state.spinnerEdit ? (
                         <i className=" fa fa-spinner fa-refresh" />
                       ) : (
-                        // fa-spin
                         <div>
                           <i className="fa fa-pencil" />
                           {t(

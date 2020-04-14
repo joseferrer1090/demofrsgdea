@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Input from "./PreviewMetadata/Input";
 
 class ModalEditIndexText extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class ModalEditIndexText extends Component {
           <div className="float-right">
             <button
               type="button"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
                   modal: false,
@@ -40,5 +42,9 @@ class ModalEditIndexText extends Component {
     );
   }
 }
+
+ModalEditIndexText.propTypes = {
+  authorization: PropTypes.string.isRequired,
+};
 
 export default ModalEditIndexText;

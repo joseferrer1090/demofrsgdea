@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { Card, CardBody, CardFooter, CardHeader, Row, Col } from "reactstrap";
-import {
-  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
-  THIRDPARTYS_EXPORT,
-} from "./../../../services/EndPoints";
+import { Card, CardBody, Row, Col } from "reactstrap";
+import { TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID } from "./../../../services/EndPoints";
 import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
-import ModalMultiple from "./ModalDeleteMultipleIndex";
 import ModalEditText from "./ModalEditIndexText";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
@@ -104,7 +100,7 @@ class AddIndexPlantilla extends Component {
             });
           }}
         >
-          <i className="fa fa-pencil" />
+          <i className="fa fa-list" />
         </button>
       );
     } else if (data === "text" || data === "date" || data === "textarea") {

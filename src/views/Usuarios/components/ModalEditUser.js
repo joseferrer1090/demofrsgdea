@@ -15,7 +15,7 @@ import {
   NavLink,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import classnames from "classnames";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -51,7 +51,8 @@ class ModalEditUser extends React.Component {
       alertError500: false,
       t: this.props.t,
       auth: this.props.authorization,
-      spinner: true
+      spinner: true,
+      spinnerActualizar: false,
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -59,7 +60,7 @@ class ModalEditUser extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -67,29 +68,29 @@ class ModalEditUser extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toogleTab = tab => {
+  toogleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
     this.getDataUser(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
@@ -104,27 +105,27 @@ class ModalEditUser extends React.Component {
     return;
   };
 
-  getDataUser = id => {
+  getDataUser = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${USER}${id}/?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataUser: data
+          dataUser: data,
         });
       })
-      .catch(Error => console.log("Error", Error));
+      .catch((Error) => console.log("Error", Error));
   };
 
   render() {
-    const birthDate = data => {
+    const birthDate = (data) => {
       let birthDate;
       birthDate = new Date(data);
       return moment(birthDate).format("YYYY-MM-DD");
@@ -144,7 +145,7 @@ class ModalEditUser extends React.Component {
       usuario_headquarter: dataUser.headquarterId,
       usuario_dependence: dataUser.dependenceId,
       usuario_charge: dataUser.chargeId,
-      usuario_status: dataUser.enabled
+      usuario_status: dataUser.enabled,
     };
     const { t } = this.props;
     return (
@@ -158,6 +159,9 @@ class ModalEditUser extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerActualizar: true,
+              });
               const auth = this.state.auth;
               const username = decode(auth);
               const formData = new FormData();
@@ -178,11 +182,11 @@ class ModalEditUser extends React.Component {
                       name: values.usuario_name,
                       phone: values.usuario_phone,
                       userRoleRequests: values.usuario_roles,
-                      userNameAuthenticate: username.user_name
-                    })
+                      userNameAuthenticate: username.user_name,
+                    }),
                   ],
                   {
-                    type: "application/json"
+                    type: "application/json",
                   }
                 )
               );
@@ -191,45 +195,47 @@ class ModalEditUser extends React.Component {
                 axios
                   .put(`${USER_PUT}`, formData, {
                     headers: {
-                      Authorization: "Bearer " + auth
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
@@ -251,9 +257,7 @@ class ModalEditUser extends React.Component {
                 .length(10, " Mínimo 10 digitos")
                 .required(" Por favor introduzca un número."),
               usuario_address: Yup.string(),
-              usuario_birthDate: Yup.date()
-                .nullable()
-                .notRequired(),
+              usuario_birthDate: Yup.date().nullable().notRequired(),
               usuario_username: Yup.string().required(
                 " Por favor introduzca un username"
               ),
@@ -275,19 +279,19 @@ class ModalEditUser extends React.Component {
               usuario_status: Yup.bool().test(
                 "Activado",
                 "",
-                value => value === true
+                (value) => value === true
               ),
               usuario_roles: Yup.array()
                 .of(
                   Yup.object().shape({
                     label: Yup.string().required(),
-                    value: Yup.string().required()
+                    value: Yup.string().required(),
                   })
                 )
-                .required(" Por favor seleccione al menos un rol.")
+                .required(" Por favor seleccione al menos un rol."),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -296,7 +300,7 @@ class ModalEditUser extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -395,9 +399,11 @@ class ModalEditUser extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.usuario_identification}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.usuario_identification &&
+                                        className={`form-control form-control-sm ${
+                                          errors.usuario_identification &&
                                           touched.usuario_identification &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.usuario_identification &&
@@ -423,9 +429,11 @@ class ModalEditUser extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.usuario_name}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.usuario_name &&
+                                        className={`form-control form-control-sm ${
+                                          errors.usuario_name &&
                                           touched.usuario_name &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.usuario_name &&
@@ -450,9 +458,11 @@ class ModalEditUser extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.usuario_email}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.usuario_email &&
+                                        className={`form-control form-control-sm ${
+                                          errors.usuario_email &&
                                           touched.usuario_email &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.usuario_email &&
@@ -478,9 +488,11 @@ class ModalEditUser extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.usuario_phone}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.usuario_phone &&
+                                        className={`form-control form-control-sm ${
+                                          errors.usuario_phone &&
                                           touched.usuario_phone &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.usuario_phone &&
@@ -542,7 +554,7 @@ class ModalEditUser extends React.Component {
                             <NavItem>
                               <NavLink
                                 className={classnames({
-                                  active: this.state.activeTab === "1"
+                                  active: this.state.activeTab === "1",
                                 })}
                                 onClick={() => {
                                   this.toogleTab("1");
@@ -554,7 +566,7 @@ class ModalEditUser extends React.Component {
                             <NavItem>
                               <NavLink
                                 className={classnames({
-                                  active: this.state.activeTab === "2"
+                                  active: this.state.activeTab === "2",
                                 })}
                                 onClick={() => {
                                   this.toogleTab("2");
@@ -575,7 +587,7 @@ class ModalEditUser extends React.Component {
                                         <Spinner
                                           style={{
                                             width: "3rem",
-                                            height: "3rem"
+                                            height: "3rem",
                                           }}
                                           type="grow"
                                           color="primary"
@@ -599,7 +611,7 @@ class ModalEditUser extends React.Component {
                                                 authorization={this.state.auth}
                                                 t={this.state.t}
                                                 name={"usuario_conglomerate"}
-                                                onChange={e =>
+                                                onChange={(e) =>
                                                   setFieldValue(
                                                     "usuario_conglomerate",
                                                     e.target.value
@@ -614,9 +626,11 @@ class ModalEditUser extends React.Component {
                                                 value={
                                                   values.usuario_conglomerate
                                                 }
-                                                className={`form-control form-control-sm ${errors.usuario_conglomerate &&
+                                                className={`form-control form-control-sm ${
+                                                  errors.usuario_conglomerate &&
                                                   touched.usuario_conglomerate &&
-                                                  "is-invalid"}`}
+                                                  "is-invalid"
+                                                }`}
                                               />
                                               <div style={{ color: "#D54B4B" }}>
                                                 {errors.usuario_conglomerate &&
@@ -756,7 +770,7 @@ class ModalEditUser extends React.Component {
                                                 authorization={this.state.auth}
                                                 t={this.state.t}
                                                 name={"usuario_charge"}
-                                                onChange={e =>
+                                                onChange={(e) =>
                                                   setFieldValue(
                                                     "usuario_charge",
                                                     e.target.value
@@ -769,9 +783,11 @@ class ModalEditUser extends React.Component {
                                                   );
                                                 }}
                                                 value={values.usuario_charge}
-                                                className={`form-control form-control-sm ${errors.usuario_charge &&
+                                                className={`form-control form-control-sm ${
+                                                  errors.usuario_charge &&
                                                   touched.usuario_charge &&
-                                                  "is-invalid"}`}
+                                                  "is-invalid"
+                                                }`}
                                               />
                                               <div style={{ color: "#D54B4B" }}>
                                                 {errors.usuario_charge &&
@@ -799,7 +815,7 @@ class ModalEditUser extends React.Component {
                                         <Spinner
                                           style={{
                                             width: "3rem",
-                                            height: "3rem"
+                                            height: "3rem",
                                           }}
                                           type="grow"
                                           color="primary"
@@ -823,9 +839,11 @@ class ModalEditUser extends React.Component {
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                               value={values.usuario_username}
-                                              className={`form-control form-control-sm ${errors.usuario_username &&
+                                              className={`form-control form-control-sm ${
+                                                errors.usuario_username &&
                                                 touched.usuario_username &&
-                                                "is-invalid"}`}
+                                                "is-invalid"
+                                              }`}
                                               type="text"
                                             />
                                             <div style={{ color: "#D54B4B" }}>
@@ -931,15 +949,22 @@ class ModalEditUser extends React.Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                       type="button"
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_usuarios_modal_editar_boton_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_usuarios_modal_editar_boton_actualizar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
@@ -948,7 +973,7 @@ class ModalEditUser extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -971,7 +996,7 @@ ModalEditUser.propTypes = {
   id: PropTypes.any.isRequired,
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditUser;

@@ -10,7 +10,8 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import classnames from "classnames";
@@ -31,14 +32,15 @@ class ModalViewUser extends Component {
       activeTab: "1",
       t: this.props.t,
       auth: this.props.authorization,
-      photo: ""
+      photo: "",
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -46,57 +48,68 @@ class ModalViewUser extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggleTab = tab => {
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
+    this.getInfoUsuario(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
+  };
+  getInfoUsuario = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${USER}${id}/?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState(
           {
             data: data,
-            dataRoles: data.listRoleResponses
+            dataRoles: data.listRoleResponses,
+            spinner: false,
           },
           () => this.getPhoto(this.state.id)
         );
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
-
-  getPhoto = id => {
+  getPhoto = (id) => {
     fetch(`${USER_PHOTO}${id}`, {
-      method: "GET"
+      method: "GET",
     })
-      .then(response => response.text())
-      .then(data => {
+      .then((response) => response.text())
+      .then((data) => {
         this.setState({
-          photo: data
+          photo: data,
         });
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch((err) => console.log(`err => ${err}`));
   };
 
   toggleCollapse = () => {
@@ -150,67 +163,79 @@ class ModalViewUser extends Component {
                 width={"180px"}
               />
             </Col>
-            <Col sm="9">
-              <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+
+            {this.state.spinner !== false ? (
+              <center>
+                <br />
+                <Spinner
+                  style={{ width: "3rem", height: "3rem" }}
+                  type="grow"
+                  color="primary"
+                />
+              </center>
+            ) : (
+              <Col sm="9">
+                <div className="">
                   {" "}
-                  {t("app_usuarios_modal_ver_titulo_2")}{" "}
-                </h5>{" "}
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_identificacion")} </dt>
-                      <dd>{this.state.data.identification} </dd>
-                    </dl>
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    {t("app_usuarios_modal_ver_titulo_2")}{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_identificacion")} </dt>
+                        <dd>{this.state.data.identification} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_nombre")} </dt>
+                        <dd>{this.state.data.name}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_email")} </dt>
+                        <dd>{this.state.data.email}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_telefono")} </dt>
+                        <dd>{this.state.data.phone} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_direccion")} </dt>
+                        <dd>{this.state.data.address}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_fecha_nacimiento")} </dt>
+                        <dd>
+                          {this.FechaCreacionUsuario(this.state.data.birthDate)}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_nombre")} </dt>
-                      <dd>{this.state.data.name}</dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_email")} </dt>
-                      <dd>{this.state.data.email}</dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_telefono")} </dt>
-                      <dd>{this.state.data.phone} </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_direccion")} </dt>
-                      <dd>{this.state.data.address}</dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_fecha_nacimiento")} </dt>
-                      <dd>
-                        {this.FechaCreacionUsuario(this.state.data.birthDate)}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </Col>
+              </Col>
+            )}
           </Row>
           <br />
           <Nav tabs>
@@ -238,111 +263,135 @@ class ModalViewUser extends Component {
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
               <Row>
-                <div className="col-md-12">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_usuarios_modal_ver_conglomerado")} </dt>
-                          <dd>{this.state.data.conglomerateName} </dd>
-                        </dl>
+                {this.state.spinner !== false ? (
+                  <center>
+                    <br />
+                    <Spinner
+                      style={{ width: "3rem", height: "3rem" }}
+                      type="grow"
+                      color="primary"
+                    />
+                  </center>
+                ) : (
+                  <div className="col-md-12">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>{t("app_usuarios_modal_ver_conglomerado")} </dt>
+                            <dd>{this.state.data.conglomerateName} </dd>
+                          </dl>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_usuarios_modal_ver_empresa")} </dt>
-                          <dd> {this.state.data.companyName} </dd>
-                        </dl>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>{t("app_usuarios_modal_ver_empresa")} </dt>
+                            <dd> {this.state.data.companyName} </dd>
+                          </dl>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_usuarios_modal_ver_sede")} </dt>
-                          <dd> {this.state.data.headquarterName} </dd>
-                        </dl>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>{t("app_usuarios_modal_ver_sede")} </dt>
+                            <dd> {this.state.data.headquarterName} </dd>
+                          </dl>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_usuarios_modal_ver_dependencia")} </dt>
-                          <dd> {this.state.data.dependenceName} </dd>
-                        </dl>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>{t("app_usuarios_modal_ver_dependencia")} </dt>
+                            <dd> {this.state.data.dependenceName} </dd>
+                          </dl>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_usuarios_modal_ver_cargo")} </dt>
-                          <dd>{this.state.data.chargeName} </dd>
-                        </dl>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>{t("app_usuarios_modal_ver_cargo")} </dt>
+                            <dd>{this.state.data.chargeName} </dd>
+                          </dl>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </Row>
             </TabPane>
             <TabPane tabId="2">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_usuario")} </dt>
-                      <dd>{this.state.data.username}</dd>
-                    </dl>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_usuario")} </dt>
+                        <dd>{this.state.data.username}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_roles")} </dt>
+                        <dd>{dataRoles}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_estado")} </dt>
+                        <dd>
+                          {this.state.data.enabled ? (
+                            <p className="text-success">
+                              <b>{t("app_tablas_estado_activo")}</b>
+                            </p>
+                          ) : (
+                            <p className="text-danger">
+                              <b>{t("app_tablas_estado_inactivo")}</b>
+                            </p>
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>{t("app_usuarios_modal_ver_fecha_creacion")} </dt>
+                        <dd>
+                          {this.FechaCreacionUsuario(this.state.data.createdAt)}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          {t("app_usuarios_modal_ver_fecha_modificacion")}{" "}
+                        </dt>
+                        <dd>
+                          {this.FechaModificacionActualizacion(
+                            this.state.data.updatedAt
+                          )}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_roles")} </dt>
-                      <dd>{dataRoles}</dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_estado")} </dt>
-                      <dd>
-                        {this.state.data.enabled ? (
-                          <p className="text-success">
-                            <b>{t("app_tablas_estado_activo")}</b>
-                          </p>
-                        ) : (
-                          <p className="text-danger">
-                            <b>{t("app_tablas_estado_inactivo")}</b>
-                          </p>
-                        )}{" "}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_fecha_creacion")} </dt>
-                      <dd>
-                        {this.FechaCreacionUsuario(this.state.data.createdAt)}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>{t("app_usuarios_modal_ver_fecha_modificacion")} </dt>
-                      <dd>
-                        {this.FechaModificacionActualizacion(
-                          this.state.data.updatedAt
-                        )}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
+              )}
             </TabPane>
           </TabContent>
         </ModalBody>
@@ -369,7 +418,7 @@ ModalViewUser.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.any.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewUser;

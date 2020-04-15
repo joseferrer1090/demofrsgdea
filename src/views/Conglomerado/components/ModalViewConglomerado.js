@@ -68,13 +68,6 @@ class ModalViewConglomerado extends Component {
       spinner: true,
     });
     this.getInfoConglomerate(id);
-    setTimeout(() => {
-      if (this.state.spinner !== false) {
-        this.setState({
-          spinner: false,
-        });
-      }
-    }, 2000);
   };
 
   getInfoConglomerate = (id) => {

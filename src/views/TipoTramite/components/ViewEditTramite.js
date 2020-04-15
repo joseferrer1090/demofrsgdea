@@ -10,7 +10,7 @@ import FieldDependence from "./component_viewEdit/SelectDependencia";
 import {
   TYPEPROCEDURE,
   USERS_BY_DEPENDENCE,
-  TYPEPROCEDURE_UPDATE
+  TYPEPROCEDURE_UPDATE,
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,29 +19,30 @@ import {
   obtenerTramiteEditarAction,
   agregarUsuarioEditar,
   borrarUsuarioEditar,
-  asignarOriginalTipoTramiteeditar
+  asignarOriginalTipoTramiteeditar,
 } from "./../../../actions/typeProcedureAction";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
 const ViewEditTramite = ({ match, history, authorization, t }) => {
-  const { users, data } = useSelector(state => ({
+  const { users, data } = useSelector((state) => ({
     users: state.typeProcedureReducer.tramite.users,
-    data: state.typeProcedureReducer.tramite.typeProcedure
+    data: state.typeProcedureReducer.tramite.typeProcedure,
   }));
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
+  const [spinner, setSpinner] = useState(false);
   const [response, setResponse] = useState({});
   const usersData = useSelector(
-    state => state.typeProcedureReducer.tramite.users
+    (state) => state.typeProcedureReducer.tramite.users
   );
   const userOriginal = useSelector(
-    state => state.typeProcedureReducer.tramite.original
+    (state) => state.typeProcedureReducer.tramite.original
   );
   const dispatch = useDispatch();
   const [aux, setAux] = useState(
-    useSelector(state => state.typeProcedureReducer.assigned)
+    useSelector((state) => state.typeProcedureReducer.assigned)
   );
 
   useEffect(() => {
@@ -55,17 +56,17 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setResponse(data.typeProcedure);
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch((err) => console.log(`err => ${err}`));
   };
 
-  const back = e => {
+  const back = (e) => {
     e.preventDefault();
     let path = `#/configuracion/tipotramite`;
     window.location.replace(path);
@@ -81,12 +82,13 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
         descripcion: response.description,
         d_maximos: response.answerDays,
         estado: response.status,
-        asunto: response.issue
+        asunto: response.issue,
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        setSpinner(true);
         const token = auth;
         const userName = decode(auth);
-        const TipoEstado = data => {
+        const TipoEstado = (data) => {
           let tipo;
           if (data === true || data === 1) {
             return (tipo = 1);
@@ -100,7 +102,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + authorization
+              Authorization: "Bearer " + authorization,
             },
             body: JSON.stringify({
               id: id,
@@ -114,48 +116,52 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: userName.user_name,
               users: usersData,
-              original: userOriginal
-            })
+              original: userOriginal,
+            }),
           })
-            .then(response =>
-              response.json().then(data => {
+            .then((response) =>
+              response.json().then((data) => {
                 if (response.status === 200) {
+                  setSpinner(false);
                   toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   });
                   setTimeout(() => {
                     let path = `#/configuracion/tipotramite`;
                     window.location.replace(path);
                   }, 5000);
                 } else if (response.status === 400) {
+                  setSpinner(false);
                   toast.error(
                     "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 } else if (response.status === 500) {
+                  setSpinner(false);
                   toast.error("Error, el tipo de trámite ya esta asignado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   });
                 }
               })
             )
-            .catch(error => {
+            .catch((error) => {
+              setSpinner(false);
               toast.error(`Error ${error}.`, {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             });
           setAux(null);
@@ -175,10 +181,10 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           .integer()
           .positive()
           .required(" Por favor introduzca los días máximos de respuesta."),
-        estado: Yup.bool().test("Activado", "", value => value === true)
+        estado: Yup.bool().test("Activado", "", (value) => value === true),
       })}
     >
-      {props => {
+      {(props) => {
         const {
           values,
           touched,
@@ -187,7 +193,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           handleBlur,
           handleSubmit,
           setFieldTouched,
-          setFieldValue
+          setFieldValue,
         } = props;
         return (
           <Fragment>
@@ -219,9 +225,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         value={values.tipocorrespondencia}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                        className={`form-control form-control-sm ${
+                                          errors.tipocorrespondencia &&
                                           touched.tipocorrespondencia &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       >
                                         <option value={" "}>
                                           --{" "}
@@ -269,9 +277,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.codigo}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.codigo &&
+                                        className={`form-control form-control-sm ${
+                                          errors.codigo &&
                                           touched.codigo &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.codigo && touched.codigo ? (
@@ -293,9 +303,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.nombre}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.nombre &&
+                                        className={`form-control form-control-sm ${
+                                          errors.nombre &&
                                           touched.nombre &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.nombre && touched.nombre ? (
@@ -319,9 +331,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.descripcion}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.descripcion &&
+                                        className={`form-control form-control-sm ${
+                                          errors.descripcion &&
                                           touched.descripcion &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.descripcion &&
@@ -347,9 +361,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.d_maximos}
                                         type="number"
-                                        className={`form-control form-control-sm ${errors.d_maximos &&
+                                        className={`form-control form-control-sm ${
+                                          errors.d_maximos &&
                                           touched.d_maximos &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                         min={0}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
@@ -422,7 +438,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         authorization={auth}
                                         name="conglomerado"
                                         value={values.conglomerado}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                           setFieldValue(
                                             "conglomerado",
                                             e.target.value
@@ -611,21 +627,28 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                       <div className="float-right">
                         <button
                           type="button"
-                          className="btn btn-outline-success btn-sm"
-                          onClick={e => {
+                          className="btn btn-success btn-sm"
+                          onClick={(e) => {
                             e.preventDefault();
                             handleSubmit();
                           }}
+                          disabled={spinner}
                         >
                           {" "}
-                          <i className="fa fa-pencil" />{" "}
-                          {t("app_tipoTramite_actualizar_boton_actualizar")}{" "}
+                          {spinner ? (
+                            <i className=" fa fa-spinner fa-refresh" />
+                          ) : (
+                            <div>
+                              <i className="fa fa-pencil" />{" "}
+                              {t("app_tipoTramite_actualizar_boton_actualizar")}{" "}
+                            </div>
+                          )}
                         </button>
                         <button
                           style={{ margin: 5 }}
                           type="button"
-                          className="btn btn-outline-secondary btn-sm"
-                          onClick={e => {
+                          className="btn btn-secondary btn-sm"
+                          onClick={(e) => {
                             back(e);
                           }}
                         >
@@ -655,21 +678,21 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
+  const AgregarUserEditar = (user) => dispatch(agregarUsuarioEditar(user));
 
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setData(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setData([]);
       });
@@ -696,7 +719,7 @@ function UserList(props) {
           overflowX: "hidden",
           border: "1px solid #e3e3e3",
           background: "#e3e3e3",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         {data.length > 0 ? (
@@ -735,9 +758,9 @@ function UserList(props) {
   );
 }
 
-const UserListEnabled = props => {
-  const users = useSelector(state => state.typeProcedureReducer.tramite);
-  const aux = useSelector(state => state.typeProcedureReducer.assigned);
+const UserListEnabled = (props) => {
+  const users = useSelector((state) => state.typeProcedureReducer.tramite);
+  const aux = useSelector((state) => state.typeProcedureReducer.assigned);
   const dispatch = useDispatch();
   const t = props.t;
   const [state, setstate] = useState(aux);

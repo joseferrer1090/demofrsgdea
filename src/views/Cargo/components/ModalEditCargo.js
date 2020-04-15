@@ -9,7 +9,7 @@ import {
   ModalFooter,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -29,13 +29,14 @@ class ModalEditCargo extends React.Component {
     status: 0,
     auth: this.props.authorization,
     userName: "",
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -43,39 +44,39 @@ class ModalEditCargo extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
     this.getDataChargeById(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getDataChargeById = id => {
+  getDataChargeById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${CHARGE}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCharge: data
+          dataCharge: data,
         });
       })
       .catch(Error, console.log("Error", Error));
@@ -83,7 +84,7 @@ class ModalEditCargo extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError500: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
@@ -108,11 +109,18 @@ class ModalEditCargo extends React.Component {
                 .max(15, " Máximo 15 caracteres."),
               name: Yup.string().required(" Por favor introduzca un nombre."),
               description: Yup.string().max(250, " Máximo 250 caracteres."),
-              status: Yup.bool().test("Activado", "", value => value === true)
+              status: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerActualizar: true,
+              });
               setTimeout(() => {
-                const tipoEstado = data => {
+                const tipoEstado = (data) => {
                   let tipo;
                   if (data === true || data === 1) {
                     return (tipo = 1);
@@ -130,7 +138,7 @@ class ModalEditCargo extends React.Component {
                   method: "PUT",
                   headers: {
                     Authorization: "Bearer " + this.state.auth,
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
                     code: values.code,
@@ -138,57 +146,64 @@ class ModalEditCargo extends React.Component {
                     id: this.state.id,
                     status: tipoEstado(values.status),
                     description: values.description,
-                    userName: user()
-                  })
+                    userName: user(),
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 1000);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -255,9 +270,11 @@ class ModalEditCargo extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.code}
-                                        className={`form-control form-control-sm ${errors.code &&
+                                        className={`form-control form-control-sm ${
+                                          errors.code &&
                                           touched.code &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.code && touched.code ? (
@@ -282,9 +299,11 @@ class ModalEditCargo extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.name}
-                                        className={`form-control form-control-sm ${errors.name &&
+                                        className={`form-control form-control-sm ${
+                                          errors.name &&
                                           touched.name &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.name && touched.name ? (
@@ -363,13 +382,20 @@ class ModalEditCargo extends React.Component {
                     <button
                       type="button"
                       className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_cargo_modal_actualizar_button_actualizar")}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_cargo_modal_actualizar_button_actualizar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}
@@ -379,7 +405,7 @@ class ModalEditCargo extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -399,7 +425,7 @@ class ModalEditCargo extends React.Component {
 ModalEditCargo.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditCargo;

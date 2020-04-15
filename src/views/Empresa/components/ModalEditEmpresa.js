@@ -12,7 +12,7 @@ import {
   CardHeader,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -39,13 +39,14 @@ class ModalEditEmpresa extends React.Component {
       t: this.props.t,
       company_status: 0,
       auth: this.props.authorization,
-      spinner: true
+      spinner: true,
+      spinnerDelete: false,
     };
   }
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -53,59 +54,59 @@ class ModalEditEmpresa extends React.Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         this.getDataConglomerates()
       );
     }
   }
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
         id: id,
-        spinner: true
+        spinner: true,
       },
       () => this.props.updateTable()
     );
     this.getCompanyById(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
-    }, 1500);
+    }, 2000);
   };
 
-  getDataConglomerates = data => {
+  getDataConglomerates = (data) => {
     const auth = this.state.auth;
     fetch(CONGLOMERATES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          optionsConglomerate: data
+          optionsConglomerate: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getCompanyById = id => {
+  getCompanyById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${COMPANYS}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataCompany: {
             company_country:
@@ -121,12 +122,13 @@ class ModalEditEmpresa extends React.Component {
             company_description: data.description,
             company_status: data.status,
             company_conglomerate: data.conglomerate.id,
-            company_charge: data.charge === null ? " " : data.charge.id
+            company_charge: data.charge === null ? " " : data.charge.id,
             // data.charge !== null ? { company_charge: data.charge.id } : ''
-          }
+          },
+          spinner: false,
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch((Error) => console.log("", Error));
   };
 
   render() {
@@ -154,12 +156,17 @@ class ModalEditEmpresa extends React.Component {
             enableReinitialize={true}
             initialValues={this.state.dataCompany}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerDelete: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  return (tipo = 1);
+                  tipo = 1;
+                  return tipo;
                 } else if (data === false || data === 0) {
-                  return (tipo = 0);
+                  tipo = 0;
+                  return tipo;
                 }
                 return 0;
               };
@@ -171,7 +178,7 @@ class ModalEditEmpresa extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -183,39 +190,41 @@ class ModalEditEmpresa extends React.Component {
                     chargeId: values.company_charge,
                     cityId: values.company_city,
                     status: tipoEstado(values.company_status),
-                    userName: username.user_name
-                  })
-                }).then(response => {
+                    userName: username.user_name,
+                  }),
+                }).then((response) => {
                   if (response.status === 200) {
                     this.setState(
                       {
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerDelete: false,
                       },
                       () => this.props.updateTable()
                     );
                     setTimeout(() => {
                       this.setState({
                         alertSuccess: false,
-                        modal: false
                       });
                     }, 3000);
                   } else if (response.status === 400) {
                     this.setState({
-                      alertError400: true
+                      alertError400: true,
+                      spinnerDelete: false,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError400: false
+                        alertError400: false,
                       });
                     }, 3000);
                   } else if (response.status === 500) {
                     this.setState({
-                      alertError500: true
+                      alertError500: true,
+                      spinnerDelete: false,
                     });
                     setTimeout(() => {
                       this.setState({
                         alertError500: false,
-                        modal: !this.state.modal
+                        modal: !this.state.modal,
                       });
                     }, 3000);
                   }
@@ -259,11 +268,11 @@ class ModalEditEmpresa extends React.Component {
               company_status: Yup.bool().test(
                 "Activo",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -272,7 +281,7 @@ class ModalEditEmpresa extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -335,9 +344,11 @@ class ModalEditEmpresa extends React.Component {
                                     <dd>
                                       {" "}
                                       <select
-                                        className={`form-control form-control-sm ${errors.company_conglomerate &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_conglomerate &&
                                           touched.company_conglomerate &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         name={"company_conglomerate"}
@@ -375,9 +386,11 @@ class ModalEditEmpresa extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.company_code}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.company_code &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_code &&
                                           touched.company_code &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div
                                         className=""
@@ -406,9 +419,11 @@ class ModalEditEmpresa extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.company_nit}
-                                        className={`form-control form-control-sm ${errors.company_nit &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_nit &&
                                           touched.company_nit &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />{" "}
                                       <div
                                         className=""
@@ -437,9 +452,11 @@ class ModalEditEmpresa extends React.Component {
                                         onBlur={handleBlur}
                                         value={values.company_name}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.company_name &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_name &&
                                           touched.company_name &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />{" "}
                                       <div
                                         className=""
@@ -493,7 +510,7 @@ class ModalEditEmpresa extends React.Component {
                                         authorization={this.state.auth}
                                         t={this.state.t}
                                         name={"company_country"}
-                                        onChange={e =>
+                                        onChange={(e) =>
                                           setFieldValue(
                                             "company_country",
                                             e.target.value
@@ -506,9 +523,11 @@ class ModalEditEmpresa extends React.Component {
                                           )
                                         }
                                         value={values.company_country}
-                                        className={`form-control form-control-sm ${errors.company_country &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_country &&
                                           touched.company_country &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.company_country &&
@@ -591,9 +610,11 @@ class ModalEditEmpresa extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.company_description &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_description &&
                                           touched.company_description &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div
                                         className=""
@@ -619,7 +640,7 @@ class ModalEditEmpresa extends React.Component {
                                         authorization={this.state.auth}
                                         t={this.state.t}
                                         name={"company_charge"}
-                                        onChange={e =>
+                                        onChange={(e) =>
                                           setFieldValue(
                                             "company_charge",
                                             e.target.value
@@ -632,9 +653,11 @@ class ModalEditEmpresa extends React.Component {
                                           );
                                         }}
                                         value={values.company_charge}
-                                        className={`form-control form-control-sm ${errors.company_charge &&
+                                        className={`form-control form-control-sm ${
+                                          errors.company_charge &&
                                           touched.company_charge &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.company_charge &&
@@ -693,24 +716,30 @@ class ModalEditEmpresa extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_empresa_modal_actualizar_boton_actualizar")}
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_empresa_modal_actualizar_boton_actualizar")}
+                        </div>
+                      )}
                     </button>
                     <button
-                      className={"btn btn-outline-secondary btn-sm"}
+                      className={"btn btn-secondary btn-sm"}
                       type="button"
                       onClick={() => {
                         this.setState({
                           modal: false,
                           alertSuccess: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -731,6 +760,6 @@ class ModalEditEmpresa extends React.Component {
 ModalEditEmpresa.propTypes = {
   modaleditempresa: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 export default ModalEditEmpresa;

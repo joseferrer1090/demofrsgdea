@@ -57,6 +57,9 @@ class ModalAddIndexes extends Component {
           <ModalBody>
             <form className="form">
               <div className="row">
+                <div className="col-md-12">
+                  <p className="text-justify">Los valores que se registren a</p>
+                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>
@@ -87,13 +90,13 @@ class ModalAddIndexes extends Component {
                       Requerido <span className="text-danger">*</span>{" "}
                     </label>
                   </div>
-                </div>  
+                </div>
               </div>
             </form>
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success btn-sm">
-              <i className="fa fa-pencil" /> Editar índice
+              <i className="fa fa-pencil" /> Editar metadato
             </button>
             <button
               type="button"

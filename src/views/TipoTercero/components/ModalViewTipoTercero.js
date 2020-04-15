@@ -75,7 +75,12 @@ class ModalViewTipoTercero extends Component {
           spinner: false,
         });
       })
-      .catch((Error) => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
   FechaCreacionTipoTecero(data) {
     let createdAt;

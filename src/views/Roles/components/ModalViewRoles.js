@@ -65,7 +65,12 @@ class ModalViewRoles extends Component {
           spinner: false,
         });
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => {
+        console.log("Error", err);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
   FechaCreacionRol(data) {
     let createdAt;

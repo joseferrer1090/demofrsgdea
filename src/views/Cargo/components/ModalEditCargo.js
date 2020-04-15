@@ -381,7 +381,7 @@ class ModalEditCargo extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
+                      className={"btn btn-success btn-sm"}
                       onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
@@ -398,7 +398,7 @@ class ModalEditCargo extends React.Component {
                       )}
                     </button>
                     <button
-                      className={"btn btn-outline-secondary btn-sm"}
+                      className={"btn btn-secondary btn-sm"}
                       type="button"
                       onClick={() => {
                         this.setState({

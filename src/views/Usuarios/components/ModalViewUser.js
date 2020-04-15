@@ -97,7 +97,12 @@ class ModalViewUser extends Component {
           () => this.getPhoto(this.state.id)
         );
       })
-      .catch((Error) => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
   getPhoto = (id) => {
     fetch(`${USER_PHOTO}${id}`, {

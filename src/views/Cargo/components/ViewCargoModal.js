@@ -83,7 +83,12 @@ class ModalViewCargo extends Component {
           spinner: false,
         });
       })
-      .catch("Error", console.log("Error", Error));
+      .catch((error) => {
+        console.log("Error", error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
   FechaCreacionCargo(data) {
     let createdAt;

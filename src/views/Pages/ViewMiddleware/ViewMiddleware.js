@@ -18,7 +18,7 @@ import {
   Card,
   Col,
   Row,
-  Button
+  Button,
 } from "reactstrap";
 
 import "./../../../css/custom_footer.css";
@@ -31,25 +31,25 @@ import url from "./../../../services/deploymentdata";
 import { decode } from "jsonwebtoken";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 const asyncSessionStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return sessionStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return sessionStorage.getItem(key);
-  }
+  },
 };
 
 class ViewMiddleware extends Component {
@@ -64,7 +64,7 @@ class ViewMiddleware extends Component {
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   };
 
@@ -80,12 +80,12 @@ class ViewMiddleware extends Component {
   getDataStorage = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.setState({
-          datalocal: decode(resp.data.access_token)
+          datalocal: decode(resp.data.access_token),
         });
       });
   };
@@ -122,7 +122,7 @@ class ViewMiddleware extends Component {
           <br />
           <br />
           <div className="card-deck mb-3 text-center">
-            <div className="col-md-3">
+            <div className="col-md-3 offset-2">
               <Link to="/configuracion" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
@@ -151,7 +151,7 @@ class ViewMiddleware extends Component {
                 </div>
               </a>
             </div>
-            <div className="col-md-3">
+            {/* <div className="col-md-3">
               <a href={`${url.defaultServer}3002`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
@@ -163,8 +163,8 @@ class ViewMiddleware extends Component {
                   </div>
                 </div>
               </a>
-            </div>
-            <div className="col-md-3">
+            </div> */}
+            {/* <div className="col-md-3">
               <a href={`${url.defaultServer}3003`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
@@ -179,7 +179,7 @@ class ViewMiddleware extends Component {
                   </div>
                 </div>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -196,7 +196,7 @@ function mapStateToProps(state) {
 }
 
 const actionCreators = {
-  logout: userActions.logout
+  logout: userActions.logout,
 };
 
 export default connect(mapStateToProps, actionCreators)(ViewMiddleware);

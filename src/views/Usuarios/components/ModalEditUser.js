@@ -235,7 +235,12 @@ class ModalEditUser extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch((error) => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}

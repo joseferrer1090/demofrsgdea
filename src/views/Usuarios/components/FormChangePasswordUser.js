@@ -6,7 +6,7 @@ import {
   ModalBody,
   Alert,
   Card,
-  CardBody
+  CardBody,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
@@ -24,13 +24,14 @@ class ModalChangePasswordUser extends React.Component {
     alertError400: false,
     alertError500: false,
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinnerChangePassword: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -38,15 +39,15 @@ class ModalChangePasswordUser extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
     });
     const auth = this.state.auth;
     const username = decode(auth);
@@ -54,23 +55,23 @@ class ModalChangePasswordUser extends React.Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameUser: data.name
+          nameUser: data.name,
         });
       })
-      .catch(Error => console.log(Error));
+      .catch((Error) => console.log(Error));
   };
 
   onDismiss = () => {
     this.setState({
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
@@ -85,6 +86,9 @@ class ModalChangePasswordUser extends React.Component {
           </ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerChangePassword: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -92,48 +96,56 @@ class ModalChangePasswordUser extends React.Component {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + this.state.auth,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
                     password: values.newpassword,
                     passwordConfirm: values.confirmpassword,
-                    userNameAuthenticate: username.user_name
-                  })
+                    userNameAuthenticate: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerChangePassword: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     } else if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerChangePassword: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
+                          modal: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerChangePassword: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerChangePassword: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 5000);
             }}
@@ -153,17 +165,17 @@ class ModalChangePasswordUser extends React.Component {
                 )
                 .required(" Por favor confirme la contraseña.")
                 .min(8, " Mínimo 8 caracteres.")
-                .max(15, " Máximo 15 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 handleChange,
                 handleBlur,
                 handleSubmit,
                 errors,
-                touched
+                touched,
               } = props;
               return (
                 <Fragment>
@@ -218,9 +230,11 @@ class ModalChangePasswordUser extends React.Component {
                               value={values.newpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              className={`form-control form-control-sm ${errors.newpassword &&
+                              className={`form-control form-control-sm ${
+                                errors.newpassword &&
                                 touched.newpassword &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                               type="password"
                               placeholder=""
                             />
@@ -244,9 +258,11 @@ class ModalChangePasswordUser extends React.Component {
                               value={values.confirmpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              className={`form-control form-control-sm ${errors.confirmpassword &&
+                              className={`form-control form-control-sm ${
+                                errors.confirmpassword &&
                                 touched.confirmpassword &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                               type="password"
                               placeholder=""
                             />
@@ -265,15 +281,22 @@ class ModalChangePasswordUser extends React.Component {
                       <button
                         type="submit"
                         className="btn btn-outline-warning btn-sm"
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
                         }}
+                        disabled={this.state.spinnerChangePassword}
                       >
-                        {" "}
-                        <i className="fa fa-pencil" />{" "}
-                        {t(
-                          "app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña"
+                        {this.state.spinnerChangePassword ? (
+                          <i className=" fa fa-spinner fa-refresh" />
+                        ) : (
+                          <div>
+                            {" "}
+                            <i className="fa fa-pencil" />{" "}
+                            {t(
+                              "app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña"
+                            )}
+                          </div>
                         )}
                       </button>
                       <button
@@ -284,7 +307,7 @@ class ModalChangePasswordUser extends React.Component {
                             modal: false,
                             alertError500: false,
                             alertError400: false,
-                            alertSuccess: false
+                            alertSuccess: false,
                           });
                         }}
                       >
@@ -307,7 +330,7 @@ ModalChangePasswordUser.propTypes = {
   modalpassword: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalChangePasswordUser;

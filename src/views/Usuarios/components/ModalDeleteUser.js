@@ -129,7 +129,12 @@ class ModalDeleteUser extends React.Component {
                       });
                     }
                   })
-                  .catch((Error) => console.log("", Error));
+                  .catch((Error) => {
+                    console.log("", Error);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
               }, 3000);
             }}
             validationSchema={Yup.object().shape({

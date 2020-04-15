@@ -179,11 +179,9 @@ class ModalEditConglomerado extends React.Component {
               const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  tipo = 0;
-                  return tipo;
+                  return (tipo = 1);
                 } else if (data === false || data === 0) {
-                  tipo = 0;
-                  return tipo;
+                  return (tipo = 0);
                 }
                 return 0;
               };
@@ -246,7 +244,12 @@ class ModalEditConglomerado extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch((error) => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}

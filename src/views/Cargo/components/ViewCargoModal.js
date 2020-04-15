@@ -80,6 +80,7 @@ class ModalViewCargo extends Component {
       .then((data) => {
         this.setState({
           datCharge: data,
+          spinner: false,
         });
       })
       .catch("Error", console.log("Error", Error));

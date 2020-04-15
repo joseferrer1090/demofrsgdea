@@ -5,7 +5,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import ImgMensajero from "./../../../assets/img/courier.svg";
 import PropTypes from "prop-types";
@@ -22,13 +23,14 @@ class ModalViewMensajero extends Component {
       dataMessenger: {},
       t: this.props.t,
       username: "",
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,20 +38,28 @@ class ModalViewMensajero extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
-      id: id
+      id: id,
+      spinner: true,
     }));
     this.getDataMessengerById(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
   };
 
-  getDataMessengerById = id => {
+  getDataMessengerById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
 
@@ -57,16 +67,17 @@ class ModalViewMensajero extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataMessenger: data
+          dataMessenger: data,
+          spinner: false,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   FechaCreacionMensajero(data) {
@@ -83,7 +94,7 @@ class ModalViewMensajero extends Component {
   render() {
     const { t } = this.props;
 
-    const statusMessenger = data => {
+    const statusMessenger = (data) => {
       let status;
       if (data === 1) {
         status = (
@@ -113,67 +124,88 @@ class ModalViewMensajero extends Component {
               <Col sm="3">
                 <img src={ImgMensajero} />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    {t("app_mensajero_modal_ver_titulo_2")}{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_mensajero_modal_ver_identificacion")} </dt>
-                        <dd>{identification} </dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_mensajero_modal_ver_titulo_2")}{" "}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_mensajero_modal_ver_identificacion")}{" "}
+                          </dt>
+                          <dd>{identification} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_mensajero_modal_ver_nombre")} </dt>
+                          <dd> {name} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_mensajero_modal_ver_descripcion")} </dt>
+                          <dd> {description} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_mensajero_modal_ver_estado")} </dt>
+                          <dd> {statusMessenger(status)} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_mensajero_modal_ver_fecha_creacion")}{" "}
+                          </dt>
+                          <dd> {this.FechaCreacionMensajero(createdAt)} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_mensajero_modal_ver_fecha_modificacion")}{" "}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaModificacionMensajero(updatedAt)}{" "}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_mensajero_modal_ver_nombre")} </dt>
-                        <dd> {name} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_mensajero_modal_ver_descripcion")} </dt>
-                        <dd> {description} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_mensajero_modal_ver_estado")} </dt>
-                        <dd> {statusMessenger(status)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_mensajero_modal_ver_fecha_creacion")} </dt>
-                        <dd> {this.FechaCreacionMensajero(createdAt)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_mensajero_modal_ver_fecha_modificacion")}{" "}
-                        </dt>
-                        <dd> {this.FechaModificacionMensajero(updatedAt)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -199,7 +231,7 @@ ModalViewMensajero.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewMensajero;

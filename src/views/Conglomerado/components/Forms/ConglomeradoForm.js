@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -6,7 +6,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Card
+  Card,
 } from "reactstrap";
 import { CONGLOMERATES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,7 +19,7 @@ import SelectCountry from "./components/SelectCountry";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
-const ConglomeradorForm = props => {
+const ConglomeradorForm = (props) => {
   const {
     values,
     touched,
@@ -30,7 +30,7 @@ const ConglomeradorForm = props => {
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    t
+    t,
   } = props;
 
   const [oldValue, setOldValue] = useState();
@@ -58,14 +58,14 @@ const ConglomeradorForm = props => {
                   </label>
                   <input
                     name="codigo"
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("codigo", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     type="text"
-                    className={`form-control form-control-sm ${errors.codigo &&
-                      touched.codigo &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.codigo && touched.codigo && "is-invalid"
+                    }`}
                     placeholder=""
                     value={values.codigo}
                   />
@@ -86,14 +86,14 @@ const ConglomeradorForm = props => {
                   </label>
                   <input
                     name="nombre"
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("nombre", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     type="text"
-                    className={`form-control form-control-sm ${errors.nombre &&
-                      touched.nombre &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.nombre && touched.nombre && "is-invalid"
+                    }`}
                     value={values.nombre}
                     placeholder=""
                   />
@@ -117,7 +117,7 @@ const ConglomeradorForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("countryId", e.target.value);
                       changeInValue(values.countryId, e.target.value);
                     }}
@@ -125,9 +125,9 @@ const ConglomeradorForm = props => {
                       setFieldTouched("countryId", true);
                     }}
                     value={values.countryId}
-                    className={`form-control form-control-sm ${errors.countryId &&
-                      touched.countryId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.countryId && touched.countryId && "is-invalid"
+                    }`}
                   />
 
                   {touched ? (
@@ -198,14 +198,14 @@ const ConglomeradorForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"chargeId"}
-                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onChange={(e) => setFieldValue("chargeId", e.target.value)}
                     onBlur={() => {
                       setFieldTouched("chargeId", true);
                     }}
                     value={values.chargeId}
-                    className={`form-control form-control-sm ${errors.chargeId &&
-                      touched.chargeId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.chargeId && touched.chargeId && "is-invalid"
+                    }`}
                   />
                 </div>
               </div>
@@ -289,7 +289,7 @@ const ConglomeradorForm = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       codigo: props.conglomerado.codigo,
       nombre: props.conglomerado.nombre,
       descripcion: props.conglomerado.descripcion,
@@ -297,7 +297,7 @@ export default withTranslation("translations")(
       countryId: props.conglomerado.countryId,
       departmentId: props.conglomerado.departmentId,
       cityId: props.conglomerado.cityId,
-      chargeId: props.conglomerado.chargeId
+      chargeId: props.conglomerado.chargeId,
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
@@ -313,7 +313,7 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           " Es necesario activar el conglomerado.",
-          value => value === true
+          (value) => value === true
         )
         .required(" Es necesario activar el conglomerado."),
       countryId: Yup.string()
@@ -325,15 +325,17 @@ export default withTranslation("translations")(
       cityId: Yup.string()
         .required(" Por favor seleccione una ciudad.")
         .ensure(),
-      chargeId: Yup.string().ensure()
+      chargeId: Yup.string().ensure(),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
-        let tipo = null;
+      const tipoEstado = (data) => {
+        let tipo;
         if (data === true) {
-          return (tipo = 1);
+          tipo = 1;
+          return tipo;
         } else if (data === false) {
-          return (tipo = 0);
+          tipo = 0;
+          return tipo;
         }
         return null;
       };
@@ -344,7 +346,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + props.authorization,
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -353,17 +355,17 @@ export default withTranslation("translations")(
             status: tipoEstado(values.estado),
             chargeId: values.chargeId,
             cityId: values.cityId,
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
                 toast.success("Se registro el conglomerado con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
                 toast.error(
@@ -371,26 +373,26 @@ export default withTranslation("translations")(
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   }
                 );
               } else if (response.status === 500) {
                 toast.error("Error, el conglomerado ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}.`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
@@ -402,9 +404,9 @@ export default withTranslation("translations")(
           countryId: "",
           departmentId: "",
           cityId: "",
-          chargeId: ""
+          chargeId: "",
         });
       }, 1000);
-    }
+    },
   })(ConglomeradorForm)
 );

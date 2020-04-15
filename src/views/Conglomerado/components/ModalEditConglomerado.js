@@ -6,7 +6,7 @@ import {
   ModalBody,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import {
   CONGLOMERATES,
   CHARGES_STATUS,
-  CONGLOMERATE
+  CONGLOMERATE,
 } from "./../../../services/EndPoints";
 import { Trans } from "react-i18next";
 import FieldCity from "./SelectCityModalEdit";
@@ -36,12 +36,13 @@ class ModalEditConglomerado extends React.Component {
     auth: this.props.authorization,
     oldValue: "",
     newValue: "",
-    spinner: true
+    spinner: true,
+    spinnerEdit: false,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -50,7 +51,7 @@ class ModalEditConglomerado extends React.Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
 
         this.getDataCharges()
@@ -58,12 +59,12 @@ class ModalEditConglomerado extends React.Component {
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
         idConglomerado: id,
-        spinner: true
+        spinner: true,
       },
       () => {
         this.props.updateTable();
@@ -73,24 +74,24 @@ class ModalEditConglomerado extends React.Component {
     setTimeout(() => {
       if (this.state.spinner !== false) {
         this.setState({
-          spinner: false
+          spinner: false,
         });
       }
-    }, 1500);
+    }, 2000);
   };
 
-  getConglomeradoByID = id => {
+  getConglomeradoByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${CONGLOMERATE}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             conglomerate_country:
@@ -104,12 +105,12 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge: data.charge === null ? "" : data.charge.id
-          }
-          // spinner: false
+            conglomerate_charge: data.charge === null ? "" : data.charge.id,
+          },
+          spinner: false,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   handleSubmit = (values, { props = this.props, setSubmitting }) => {
@@ -121,31 +122,32 @@ class ModalEditConglomerado extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError500: false,
-      alertSuccess: false
+      alertSuccess: false,
+      spinnerEdit: false,
     });
   };
 
-  getDataCharges = data => {
+  getDataCharges = (data) => {
     fetch(CHARGES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          optionsCharges: data
+          optionsCharges: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   changeInValue = (Old, New) => {
     this.setState({
       oldValue: Old,
-      newValue: New
+      newValue: New,
     });
   };
 
@@ -171,12 +173,17 @@ class ModalEditConglomerado extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerEdit: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  return (tipo = 1);
+                  tipo = 0;
+                  return tipo;
                 } else if (data === false || data === 0) {
-                  return (tipo = 0);
+                  tipo = 0;
+                  return tipo;
                 }
                 return 0;
               };
@@ -187,7 +194,7 @@ class ModalEditConglomerado extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idConglomerado,
@@ -197,45 +204,49 @@ class ModalEditConglomerado extends React.Component {
                     status: tipoEstado(values.status),
                     cityId: values.conglomerate_city,
                     chargeId: values.conglomerate_charge,
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
+                    console.log(this.state.alertSuccess);
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: false,
-                            modal: false
+                            // modal: false,
                           },
                           this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerEdit: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
@@ -261,10 +272,10 @@ class ModalEditConglomerado extends React.Component {
               description: Yup.string()
                 .nullable()
                 .max(250, " Máximo 250 caracteres."),
-              status: Yup.bool().test("Activo", "", value => value === true)
+              status: Yup.bool().test("Activo", "", (value) => value === true),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -273,7 +284,8 @@ class ModalEditConglomerado extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
+                isSubmitting,
               } = props;
               return (
                 <Fragment>
@@ -350,9 +362,11 @@ class ModalEditConglomerado extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.code}
-                                    className={`form-control form-control-sm ${errors.code &&
+                                    className={`form-control form-control-sm ${
+                                      errors.code &&
                                       touched.code &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   />
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.code && touched.code ? (
@@ -379,9 +393,11 @@ class ModalEditConglomerado extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.conglomerate_name}
-                                    className={`form-control form-control-sm ${errors.conglomerate_name &&
+                                    className={`form-control form-control-sm ${
+                                      errors.conglomerate_name &&
                                       touched.conglomerate_name &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   />
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.conglomerate_name &&
@@ -404,7 +420,7 @@ class ModalEditConglomerado extends React.Component {
                                     authorization={this.state.auth}
                                     t={this.state.t}
                                     name={"conglomerate_country"}
-                                    onChange={e => {
+                                    onChange={(e) => {
                                       setFieldValue(
                                         "conglomerate_country",
                                         e.target.value
@@ -421,9 +437,11 @@ class ModalEditConglomerado extends React.Component {
                                       );
                                     }}
                                     value={values.conglomerate_country}
-                                    className={`form-control form-control-sm ${errors.conglomerate_country &&
+                                    className={`form-control form-control-sm ${
+                                      errors.conglomerate_country &&
                                       touched.conglomerate_country &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   />
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.conglomerate_country &&
@@ -590,24 +608,33 @@ class ModalEditConglomerado extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerEdit}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_conglomerado_modal_actualizar_botom_actualizar")}
+                      {this.state.spinnerEdit ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />
+                          {t(
+                            "app_conglomerado_modal_actualizar_botom_actualizar"
+                          )}
+                        </div>
+                      )}
                     </button>
                     <button
-                      className={"btn btn-outline-secondary btn-sm"}
+                      className={"btn btn-secondary btn-sm"}
                       type="button"
                       onClick={() => {
                         this.setState({
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -629,7 +656,7 @@ ModalEditConglomerado.propTypes = {
   modaleditstate: PropTypes.bool.isRequired,
   id: PropTypes.string,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditConglomerado;

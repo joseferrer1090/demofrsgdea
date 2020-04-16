@@ -86,7 +86,7 @@ class AddIndexPlantilla extends Component {
     this.modaEditText.toggle();
   }
 
-  renderModal = (data) => {
+  renderModal = (data, id) => {
     let aux;
     if (data === "checkbox" || data === "select" || data === "radio") {
       aux = (
@@ -96,8 +96,9 @@ class AddIndexPlantilla extends Component {
           onClick={() => {
             this.openModaEdit();
             this.setState({
-              idSelectedTable: aux.id,
+              idSelectedTable: id,
             });
+            console.log(id);
           }}
         >
           <i className="fa fa-list" />
@@ -157,7 +158,10 @@ class AddIndexPlantilla extends Component {
                             <td>{aux.metadataBag.name}</td>
                             <td>{aux.metadataBag.inputType}</td>
                             <td>
-                              {this.renderModal(aux.metadataBag.inputType)}
+                              {this.renderModal(
+                                aux.metadataBag.inputType,
+                                aux.id
+                              )}
                               {/* <button
                                 className="btn btn-secondary btn-sm mr-1"
                                 onClick={() => {

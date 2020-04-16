@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
 import PropTypes from "prop-types";
 
@@ -50,6 +50,7 @@ class ModalAddIndexes extends Component {
   };
 
   render() {
+    console.log(this.props.metadataid);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -94,6 +95,13 @@ class ModalAddIndexes extends Component {
                       Requerido <span className="text-danger">*</span>{" "}
                     </label>
                   </div>
+                </div>
+                <div className="col-md-12">
+                  <p className="text-helper">
+                    <span className="text-danger">*</span> El valor que se
+                    seleccione, sera definido como valor por defecto en la
+                    plantilla donde se asocio el metadato.
+                  </p>
                 </div>
               </div>
             </form>

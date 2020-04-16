@@ -21,14 +21,14 @@ class TableContentCiudad extends Component {
       modalExport: false,
       dataCity: [],
       hiddenColumnId: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableContentCiudad extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataCity();
     }
@@ -47,16 +47,16 @@ class TableContentCiudad extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCity: data
+          dataCity: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   FechaCreacionCiudad(cell, row) {
@@ -73,6 +73,7 @@ class TableContentCiudad extends Component {
           style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
         >
           <button
+            title="Ver ciudad"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -84,6 +85,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar ciudad"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -102,6 +104,7 @@ class TableContentCiudad extends Component {
           style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
         >
           <button
+            title="Ver ciudad"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -113,6 +116,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
+            title="Editar ciudad"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -123,6 +127,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar ciudad"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -170,7 +175,7 @@ class TableContentCiudad extends Component {
     }
     return status;
   }
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -184,16 +189,16 @@ class TableContentCiudad extends Component {
     );
   };
 
-  DepartamentoInfo = department => {
+  DepartamentoInfo = (department) => {
     return !department ? null : `<div>${department.name}</div>`;
   };
 
-  CountryInfo = department => {
+  CountryInfo = (department) => {
     return !department ? null : `<div>${department.country.name}</div>`;
   };
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -293,27 +298,27 @@ class TableContentCiudad extends Component {
         <ModalView
           t={this.props.t}
           modalview={this.state.ModalViewPais}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
           updateTable={this.getDataCity}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
           updateTable={this.getDataCity}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalExport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -322,7 +327,7 @@ class TableContentCiudad extends Component {
 }
 TableContentCiudad.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentCiudad);

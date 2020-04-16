@@ -16,7 +16,7 @@ const dataExample = [
     dependencia: "dependencia_nombre",
     descripcion: "descripcion general",
     hr: 12,
-    estado: true
+    estado: true,
   },
   {
     id: 1,
@@ -25,7 +25,7 @@ const dataExample = [
     dependencia: "dependencia_nombre",
     descripcion: "descripcion general",
     hr: 12,
-    estado: true
+    estado: true,
   },
   {
     id: 1,
@@ -34,7 +34,7 @@ const dataExample = [
     dependencia: "dependencia_nombre",
     descripcion: "descripcion general",
     hr: 12,
-    estado: true
+    estado: true,
   },
   {
     id: 1,
@@ -43,7 +43,7 @@ const dataExample = [
     dependencia: "dependencia_nombre",
     descripcion: "descripcion general",
     hr: 12,
-    estado: true
+    estado: true,
   },
   {
     id: 1,
@@ -52,8 +52,8 @@ const dataExample = [
     dependencia: "dependencia_nombre",
     descripcion: "descripcion general",
     hr: 12,
-    estado: true
-  }
+    estado: true,
+  },
 ];
 
 class TableContentTipoDocumental extends Component {
@@ -63,7 +63,7 @@ class TableContentTipoDocumental extends Component {
       modalview: false,
       modaldel: false,
       modaledit: false,
-      modalindices: false
+      modalindices: false,
     };
   }
 
@@ -74,6 +74,7 @@ class TableContentTipoDocumental extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
+          title="Ver tipo documental"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView();
@@ -83,6 +84,7 @@ class TableContentTipoDocumental extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tipo documental"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit();
@@ -92,6 +94,7 @@ class TableContentTipoDocumental extends Component {
         </button>
         &nbsp;
         <button
+          title="Agregar indices"
           className="btn btn-warning btn-sm"
           onClick={() => {
             this.openModalIndices();
@@ -101,6 +104,7 @@ class TableContentTipoDocumental extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tipo documental"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDel();
@@ -157,7 +161,11 @@ class TableContentTipoDocumental extends Component {
               {" "}
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"100"}>
+            <TableHeaderColumn
+              dataField="codigo"
+              dataAlign="center"
+              width={"100"}
+            >
               {" "}
               Código{" "}
             </TableHeaderColumn>
@@ -165,7 +173,11 @@ class TableContentTipoDocumental extends Component {
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="dependencia" dataAlign="center" width={"200"}>
+            <TableHeaderColumn
+              dataField="dependencia"
+              dataAlign="center"
+              width={"200"}
+            >
               {" "}
               Dependencia{" "}
             </TableHeaderColumn>
@@ -177,7 +189,11 @@ class TableContentTipoDocumental extends Component {
               {" "}
               Descripción{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center" dataFormat={(cell, row) => this.EstadoTipoDoc(cell, row)}>
+            <TableHeaderColumn
+              dataField="estado"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoTipoDoc(cell, row)}
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

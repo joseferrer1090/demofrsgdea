@@ -24,14 +24,14 @@ class TableContentTramite extends Component {
       modalexport: false,
       modalexport2: false,
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -41,7 +41,7 @@ class TableContentTramite extends Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         this.getDataTipoTramite()
       );
@@ -53,16 +53,16 @@ class TableContentTramite extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataTipoTramite: data
+          dataTipoTramite: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   accionesTramite = (cell, row) => {
@@ -72,6 +72,7 @@ class TableContentTramite extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
+          title="Ver tipo de tramite"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -81,6 +82,7 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tipo de tramite"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.routeChange(row.id);
@@ -90,6 +92,7 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tipo de tramite"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);
@@ -127,7 +130,7 @@ class TableContentTramite extends Component {
     this.ModalViewRef.toggle(id);
   }
 
-  routeChange = id => {
+  routeChange = (id) => {
     let path = `/#/configuracion/tipotramite/edit/${id}`;
     window.location.replace(path);
   };
@@ -151,7 +154,7 @@ class TableContentTramite extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <div>
@@ -183,7 +186,7 @@ class TableContentTramite extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     return (
       <div className="animated fadeIn">
@@ -279,26 +282,26 @@ class TableContentTramite extends Component {
           t={this.state.t}
           authorization={auth}
           modalviewtramit={this.state.modalview}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalDeleteTramite
           t={this.state.t}
           authorization={auth}
           updateTable={this.getDataTipoTramite}
           modaldelete={this.state.modaldel}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           t={this.state.t}
           authorization={auth}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
         <ModalExport2
           t={this.state.t}
           authorization={auth}
           modalexport2={this.state.modalexport2}
-          ref={mexpu => (this.ModalExportUsersRef = mexpu)}
+          ref={(mexpu) => (this.ModalExportUsersRef = mexpu)}
         />
       </div>
     );

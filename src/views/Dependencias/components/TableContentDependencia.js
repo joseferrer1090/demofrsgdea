@@ -22,13 +22,13 @@ class TableContentDependencia extends Component {
       modalexport: false,
       dataDependence: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableContentDependencia extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataDependence();
     }
@@ -47,16 +47,16 @@ class TableContentDependencia extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataDependence: data
+          dataDependence: data,
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch((Error) => console.log("", Error));
   };
   FechaCreacionDependencia(cell, row) {
     let createdAt;
@@ -70,6 +70,7 @@ class TableContentDependencia extends Component {
       return (
         <div className="table-actionMenuDep" style={{ marginRight: "55px" }}>
           <button
+            title="Ver dependencia"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -81,6 +82,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar dependencia"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -96,6 +98,7 @@ class TableContentDependencia extends Component {
       return (
         <div className="table-actionMenuDep" style={{ marginRight: "40px" }}>
           <button
+            title="Ver dependencia"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -107,6 +110,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
+            title="Editar dependencia"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -117,6 +121,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar dependencia"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -166,15 +171,15 @@ class TableContentDependencia extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  headquarter = headquarter => {
+  headquarter = (headquarter) => {
     return !headquarter ? null : `<div>${headquarter.name}</div>`;
   };
 
-  charge = charge => {
+  charge = (charge) => {
     return !charge ? null : `<div>${charge.name}</div>`;
   };
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -191,7 +196,7 @@ class TableContentDependencia extends Component {
   render() {
     const dataDependence = this.state.dataDependence;
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -295,27 +300,27 @@ class TableContentDependencia extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalView={this.state.modalviewstate}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={this.props.t}
           modalEdit={this.state.modaleditstate}
           updateTable={this.getDataDependence}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modalDel={this.state.modaldelstate}
           updateTable={this.getDataDependence}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -324,7 +329,7 @@ class TableContentDependencia extends Component {
 
 TableContentDependencia.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentDependencia);

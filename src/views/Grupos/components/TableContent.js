@@ -22,14 +22,14 @@ class TableContent extends Component {
       modalexport: false,
       dataGroup: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -38,7 +38,7 @@ class TableContent extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataGroup();
     }
@@ -53,16 +53,16 @@ class TableContent extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataGroup: data
+          dataGroup: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   accionesGrupo = (cel, row) => {
@@ -72,6 +72,7 @@ class TableContent extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
+          title="Ver grupo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -83,6 +84,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar grupo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -93,6 +95,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar grupo"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -104,6 +107,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Exportar"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -138,22 +142,22 @@ class TableContent extends Component {
     return status;
   }
 
-  openModalView = id => {
+  openModalView = (id) => {
     // this.refs.child.toggle(id);
     this.ModalViewRef.toggle(id);
   };
 
-  openModalEdit = id => {
+  openModalEdit = (id) => {
     // this.refs.child3.toggle(id);
     this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
+  openModalDelete = (id) => {
     // this.refs.child2.toggle(id);
     this.ModalDeleteRef.toggle(id);
   };
 
-  opneModalExport = id => {
+  opneModalExport = (id) => {
     // this.refs.child4.toggle(id);
     this.ModalExportRef.toggle(id);
   };
@@ -168,7 +172,7 @@ class TableContent extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button type="button" className={`btn btn-secondary btn-sm`}>
@@ -180,7 +184,7 @@ class TableContent extends Component {
   render() {
     const { t } = this.props;
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     return (
       <div className="animated fadeIn">
@@ -265,27 +269,27 @@ class TableContent extends Component {
         <ModalView
           authorization={this.state.auth}
           modalview={this.state.modalview}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           t={this.props.t}
         />
         <ModalDelete
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaldel={this.state.modaldelete}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
           t={this.props.t}
         />
         <ModalEdit
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaledit={this.state.modaledit}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
           t={this.props.t}
         />
         <ModalExport
           authorization={this.state.auth}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           t={this.props.t}
         />
       </div>
@@ -294,6 +298,6 @@ class TableContent extends Component {
 }
 TableContent.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TableContent);

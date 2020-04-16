@@ -7,7 +7,7 @@ import {
   CardHeader,
   Card,
   Collapse,
-  Form
+  Form,
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import { REQUEST_EMAIL, EMAIL_ACCOUNTS } from "./../../../services/EndPoints";
@@ -34,13 +34,13 @@ class TableContentEmailRequest extends Component {
       /* */
       collapase: true,
       dataTable: [],
-      dataEmailAccount: []
+      dataEmailAccount: [],
     };
   }
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -48,7 +48,7 @@ class TableContentEmailRequest extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getData();
     }
@@ -59,37 +59,37 @@ class TableContentEmailRequest extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataEmailAccount: data
+          dataEmailAccount: data,
         });
       });
   };
 
-  getDataRequestEmail = id => {
+  getDataRequestEmail = (id) => {
     fetch(`${REQUEST_EMAIL}${id}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.state.auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataTable: data
+          dataTable: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   toggleCollapse = () => {
     this.setState({
-      collapase: !this.state.collapase
+      collapase: !this.state.collapase,
     });
   };
 
@@ -106,6 +106,7 @@ class TableContentEmailRequest extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
+          title="Ver informacion de la cuenta "
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -117,6 +118,7 @@ class TableContentEmailRequest extends Component {
         </button>
         &nbsp;
         <button
+          title="Ver archivos adjuntos"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -155,7 +157,7 @@ class TableContentEmailRequest extends Component {
     return status;
   }
 
-  openModal = id => {
+  openModal = (id) => {
     // this.refs.child2.toggle(id);
     this.ModalViewFilesRef.toggle(id);
   };
@@ -170,13 +172,13 @@ class TableContentEmailRequest extends Component {
   }
 
   render() {
-    const dataTable = e => {
+    const dataTable = (e) => {
       const value = e.target.value;
       if (value !== "") {
         this.getDataRequestEmail(value);
       } else {
         this.setState({
-          dataTable: []
+          dataTable: [],
         });
       }
     };
@@ -210,7 +212,7 @@ class TableContentEmailRequest extends Component {
                           <dd>
                             <select
                               name={"email_accounts"}
-                              onChange={e => dataTable(e)}
+                              onChange={(e) => dataTable(e)}
                               className={`form-control form-control-sm`}
                             >
                               <option value={""}>
@@ -308,13 +310,13 @@ class TableContentEmailRequest extends Component {
           </BootstrapTable>
         </div>
         <ModalViewEmailRequest
-          ref={mi => (this.ModalViewInfoRef = mi)}
+          ref={(mi) => (this.ModalViewInfoRef = mi)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}
         />
         <Modalc
-          ref={mf => (this.ModalViewFilesRef = mf)}
+          ref={(mf) => (this.ModalViewFilesRef = mf)}
           modal={this.state.ModalInfo}
           authorization={this.state.auth}
           t={this.state.t}
@@ -325,7 +327,7 @@ class TableContentEmailRequest extends Component {
 }
 TableContentEmailRequest.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentEmailRequest);

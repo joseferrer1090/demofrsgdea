@@ -98,7 +98,6 @@ class AddIndexPlantilla extends Component {
             this.setState({
               idSelectedTable: id,
             });
-            console.log(id);
           }}
         >
           <i className="fa fa-list" />
@@ -111,6 +110,9 @@ class AddIndexPlantilla extends Component {
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEditText();
+            this.setState({
+              idSelectedTable: id,
+            });
           }}
         >
           <i className="fa fa-pencil" />
@@ -260,6 +262,8 @@ class AddIndexPlantilla extends Component {
         />
         <ModalEditText
           authorization={this.state.auth}
+          templateid={this.props.match.params.id}
+          metadataid={this.state.idSelectedTable}
           ref={(el) => (this.modaEditText = el)}
         ></ModalEditText>
       </div>

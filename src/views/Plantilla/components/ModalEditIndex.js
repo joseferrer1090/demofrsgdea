@@ -58,7 +58,11 @@ class ModalAddIndexes extends Component {
             <form className="form">
               <div className="row">
                 <div className="col-md-12">
-                  <p className="text-justify">Los valores que se registren a</p>
+                  <p className=" alert alert-secondary">
+                    <i className="fa fa-exclamation-triangle" /> Los valores que
+                    se ingresen en el siguiente formulario solo afecta al valor
+                    por defecto que tendra el metadato en la plantilla asociada.
+                  </p>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">

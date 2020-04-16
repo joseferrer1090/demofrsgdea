@@ -20,6 +20,11 @@ class ModalEditIndexText extends Component {
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>Editar valores del metadato</ModalHeader>
         <ModalBody>
+          <p className=" alert alert-secondary">
+            <i className="fa fa-exclamation-triangle" /> Los valores que se
+            ingresen en el siguiente formulario solo afecta al valor por defecto
+            que tendra el metadato en la plantilla asociada.
+          </p>
           <form className="form">
             <div className="form-group">
               <label>Requerido</label>

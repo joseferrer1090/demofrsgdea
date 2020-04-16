@@ -40,6 +40,8 @@ class ModalEditIndexText extends Component {
       this.setState({
         template: this.props.templateid,
       });
+    } else {
+      return null;
     }
     this.getDataMetadata(this.state.metadata);
   }

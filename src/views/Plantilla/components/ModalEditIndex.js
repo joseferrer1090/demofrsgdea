@@ -42,6 +42,7 @@ class ModalAddIndexes extends Component {
       this.setState({
         template: this.props.templateid,
       });
+    } else {
     }
     this.getDataMetadata(this.state.metadata);
   }

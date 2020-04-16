@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
 import PropTypes from "prop-types";
+import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
@@ -41,7 +43,30 @@ class ModalAddIndexes extends Component {
         template: this.props.templateid,
       });
     }
+    this.getDataMetadata(this.state.metadata);
   }
+
+  getDataMetadata = (id) => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(
+      `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
 
   toggle = () => {
     this.setState((prevState) => ({
@@ -50,7 +75,6 @@ class ModalAddIndexes extends Component {
   };
 
   render() {
-    console.log(this.props.metadataid);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

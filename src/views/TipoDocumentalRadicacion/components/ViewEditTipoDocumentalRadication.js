@@ -11,12 +11,12 @@ import {
   obtenerTipoDocumentalAction,
   agregarusuarioTipodocumentaleditar,
   borrarusuarioTipodocumentaleditar,
-  asignarOriginalTipodocumentaleditar
+  asignarOriginalTipodocumentaleditar,
 } from "./../../../actions/documentaryTypeAction";
 import {
   TYPEDOCUMENTARY_SHOW,
   USERS_BY_DEPENDENCE,
-  TYPEDOCUMENTARY_PUT
+  TYPEDOCUMENTARY_PUT,
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
@@ -29,18 +29,19 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
   const [response, setResponse] = useState({});
+  const [spinnerActualizar, setSpinnerActualizar] = useState(false);
 
   const dispatch = useDispatch();
   const usersData = useSelector(
-    state => state.documentaryTypeReducer.tipodocumental.users
+    (state) => state.documentaryTypeReducer.tipodocumental.users
   );
   const userOriginal = useSelector(
-    state => state.documentaryTypeReducer.tipodocumental.original
+    (state) => state.documentaryTypeReducer.tipodocumental.original
   );
 
   useEffect(() => {
     dispatch(obtenerTipoDocumentalAction(id));
-    getDataTypeDocumentary();    
+    getDataTypeDocumentary();
   }, []);
 
   const getDataTypeDocumentary = () => {
@@ -49,17 +50,17 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setResponse(data.typeDocumentary);
       })
-      .catch(err => console.log(`error ${err}`));
+      .catch((err) => console.log(`error ${err}`));
   };
 
-  const back = e => {
+  const back = (e) => {
     e.preventDefault();
     let path = `#/configuracion/tipodocumentalradicacion`;
     window.location.replace(path);
@@ -75,7 +76,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
         descripcion: response.description,
         d_maximos: response.answerDays,
         estado: response.status,
-        asunto: response.issue
+        asunto: response.issue,
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -90,12 +91,13 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
           .integer()
           .positive()
           .required("Por favor introduzca los dias maximos de respuesta."),
-        estado: Yup.bool().test("Activado", "", value => value === true)
+        estado: Yup.bool().test("Activado", "", (value) => value === true),
       })}
       onSubmit={(values, { setSubmitting, props, resetForm }) => {
+        setSpinnerActualizar(true);
         const token = auth;
         const userName = decode(auth);
-        const TipoEstado = data => {
+        const TipoEstado = (data) => {
           let tipo;
           if (data === true || data === 1) {
             return (tipo = 1);
@@ -111,7 +113,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + authorization
+              Authorization: "Bearer " + authorization,
             },
             body: JSON.stringify({
               id: id,
@@ -125,19 +127,20 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
               users: usersData,
-              original: userOriginal
-            })
+              original: userOriginal,
+            }),
           })
-            .then(response =>
-              response.json().then(data => {
+            .then((response) =>
+              response.json().then((data) => {
                 if (response.status === 200) {
+                  setSpinnerActualizar(false);
                   toast.success(
                     "Se actualizo el tipo documental de radicación con éxito.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                   setTimeout(() => {
@@ -145,41 +148,44 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                     window.location.replace(path);
                   }, 5000);
                 } else if (response.status === 400) {
+                  setSpinnerActualizar(false);
                   toast.error(
                     "Error al actualizar el tipo documental de radicación. Inténtelo nuevamente.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 } else if (response.status === 500) {
+                  setSpinnerActualizar(false);
                   toast.error(
                     "Error, el tipo documental de radicación ya esta asignado.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 }
               })
             )
-            .catch(error => {
+            .catch((error) => {
+              setSpinnerActualizar(false);
               toast.error(`Error ${error}.`, {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             });
           setSubmitting(false);
         }, 1000);
       }}
     >
-      {props => {
+      {(props) => {
         const {
           values,
           touched,
@@ -188,7 +194,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
           handleBlur,
           handleSubmit,
           setFieldValue,
-          setFieldTouched
+          setFieldTouched,
         } = props;
         return (
           <Fragment>
@@ -220,9 +226,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         value={values.tipocorrespondencia}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                        className={`form-control form-control-sm ${
+                                          errors.tipocorrespondencia &&
                                           touched.tipocorrespondencia &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       >
                                         <option value={" "}>
                                           --{" "}
@@ -272,9 +280,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.codigo}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.codigo &&
+                                        className={`form-control form-control-sm ${
+                                          errors.codigo &&
                                           touched.codigo &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.codigo && touched.codigo ? (
@@ -298,9 +308,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.nombre}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.nombre &&
+                                        className={`form-control form-control-sm ${
+                                          errors.nombre &&
                                           touched.nombre &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.nombre && touched.nombre ? (
@@ -324,9 +336,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.descripcion}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.descripcion &&
+                                        className={`form-control form-control-sm ${
+                                          errors.descripcion &&
                                           touched.descripcion &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.descripcion &&
@@ -352,9 +366,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         onBlur={handleBlur}
                                         value={values.d_maximos}
                                         type="number"
-                                        className={`form-control form-control-sm ${errors.d_maximos &&
+                                        className={`form-control form-control-sm ${
+                                          errors.d_maximos &&
                                           touched.d_maximos &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                         min={0}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
@@ -429,7 +445,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         authorization={authorization}
                                         name="conglomerado"
                                         value={values.conglomerado}
-                                        onChange={e => {
+                                        onChange={(e) => {
                                           setFieldValue(
                                             "conglomerado",
                                             e.target.value
@@ -623,23 +639,30 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                       <div className="float-right">
                         <button
                           type="button"
-                          className="btn btn-outline-success btn-sm"
-                          onClick={e => {
+                          className="btn btn-success btn-sm"
+                          onClick={(e) => {
                             e.preventDefault();
                             handleSubmit();
                           }}
+                          disabled={spinnerActualizar}
                         >
-                          {" "}
-                          <i className="fa fa-pencil" />{" "}
-                          {t(
-                            "app_documentalRadicacion_actualizar_boton_actualizar"
-                          )}{" "}
+                          {spinnerActualizar ? (
+                            <i className=" fa fa-spinner fa-refresh" />
+                          ) : (
+                            <div>
+                              {" "}
+                              <i className="fa fa-pencil" />{" "}
+                              {t(
+                                "app_documentalRadicacion_actualizar_boton_actualizar"
+                              )}{" "}
+                            </div>
+                          )}
                         </button>
                         <button
                           style={{ margin: 5 }}
                           type="button"
-                          className="btn btn-outline-secondary btn-sm"
-                          onClick={e => {
+                          className="btn btn-secondary btn-sm"
+                          onClick={(e) => {
                             back(e);
                           }}
                         >
@@ -669,21 +692,22 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUsuario = user => dispatch(agregarusuarioTipodocumentaleditar(user));
+  const AgregarUsuario = (user) =>
+    dispatch(agregarusuarioTipodocumentaleditar(user));
 
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setData(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setData([]);
       });
@@ -710,7 +734,7 @@ function UserList(props) {
           overflowX: "hidden",
           border: "1px solid #e3e3e3",
           background: "#e3e3e3",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         {data.length > 0 ? (
@@ -728,7 +752,9 @@ function UserList(props) {
                     <Button
                       style={{ marginTop: "-13px", marginLeft: "-12px" }}
                       color={"link"}
-                      onClick={() => AgregarUsuario({id:aux.id, name:aux.name})}
+                      onClick={() =>
+                        AgregarUsuario({ id: aux.id, name: aux.name })
+                      }
                     >
                       <h6 className="badge badge-secondary">
                         {t(
@@ -753,12 +779,12 @@ function UserList(props) {
   );
 }
 
-const UserListEnabled = props => {
+const UserListEnabled = (props) => {
   const t = props.t;
   const dispatch = useDispatch();
-  const aux = useSelector(state => state.documentaryTypeReducer.assigned);
+  const aux = useSelector((state) => state.documentaryTypeReducer.assigned);
   const users = useSelector(
-    state => state.documentaryTypeReducer.tipodocumental
+    (state) => state.documentaryTypeReducer.tipodocumental
   );
   const [state, setstate] = useState(aux);
 

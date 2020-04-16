@@ -25,7 +25,6 @@ class ModalViewPais extends Component {
       modal: this.props.modalview,
       collapse: false,
       id: this.props.id,
-      username: "jferrer",
       dataGroup: {},
       dataUsers: [],
       authorization: this.props.authorization,

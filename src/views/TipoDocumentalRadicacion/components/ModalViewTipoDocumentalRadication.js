@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
 import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
@@ -23,14 +24,15 @@ class ModalviewTipoDocumentoRadication extends Component {
       modal: this.props.modalviewtramit,
       auth: this.props.authorization,
       data: {},
-      users: []
+      users: [],
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
 
@@ -40,37 +42,48 @@ class ModalviewTipoDocumentoRadication extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  getDataById = id => {
+  getDataById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           data: data.typeDocumentary,
-          users: data.users
+          users: data.users,
+          spinner: false
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => {console.log(err); this.setState({
+        spinner:false
+      })});
   };
 
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
-      id: id
+      id: id,
+      spinner: true,
     }));
     this.getDataById(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
   };
 
   FechaCreacionTipoTramite(data) {
@@ -88,7 +101,7 @@ class ModalviewTipoDocumentoRadication extends Component {
     const { data } = this.state;
     const { t } = this.props;
     console.log(data);
-    const statusTipoDocumentalRadicacion = data => {
+    const statusTipoDocumentalRadicacion = (data) => {
       let status;
       if (data === 1) {
         status = (
@@ -107,7 +120,7 @@ class ModalviewTipoDocumentoRadication extends Component {
       }
       return status;
     };
-    const TypeCorrespondence = data => {
+    const TypeCorrespondence = (data) => {
       let type;
       if (data === 1) {
         type = (
@@ -145,99 +158,123 @@ class ModalviewTipoDocumentoRadication extends Component {
                   style={{ width: "169px", height: "169px" }}
                 />
               </Col>
-              <Col>
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col>
+                  <div className="">
                     {" "}
-                    {t("app_documentalRadicacion_ver_titulo_2")}{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_documentalRadicacion_ver_codigo")} </dt>
-                        <dd> {data.code} </dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_documentalRadicacion_ver_titulo_2")}{" "}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_documentalRadicacion_ver_codigo")} </dt>
+                          <dd> {data.code} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t(
+                              "app_documentalRadicacion_ver_tipo_correspondencia"
+                            )}{" "}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {TypeCorrespondence(data.typeCorrespondence)}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_documentalRadicacion_ver_nombre")} </dt>
+                          <dd> {data.name} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_documentalRadicacion_ver_descripcion")}{" "}
+                          </dt>
+                          <dd> {data.description} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_documentalRadicacion_ver_estado")} </dt>
+                          <dd>
+                            {" "}
+                            {statusTipoDocumentalRadicacion(data.status)}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_documentalRadicacion_ver_asunto")} </dt>
+                          <dd> {data.issue} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t(
+                              "app_documentalRadicacion_ver_fecha_modificacion"
+                            )}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaCreacionTipoTramite(data.createdAt)}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t(
+                              "app_documentalRadicacion_ver_fecha_modificacion"
+                            )}{" "}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaModificacionTipoTramite(
+                              data.updatedAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t(
-                            "app_documentalRadicacion_ver_tipo_correspondencia"
-                          )}{" "}
-                        </dt>
-                        <dd> {TypeCorrespondence(data.typeCorrespondence)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_documentalRadicacion_ver_nombre")} </dt>
-                        <dd> {data.name} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_documentalRadicacion_ver_descripcion")}{" "}
-                        </dt>
-                        <dd> {data.description} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_documentalRadicacion_ver_estado")} </dt>
-                        <dd> {statusTipoDocumentalRadicacion(data.status)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_documentalRadicacion_ver_asunto")} </dt>
-                        <dd> {data.issue} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_documentalRadicacion_ver_fecha_modificacion")}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaCreacionTipoTramite(data.createdAt)}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_documentalRadicacion_ver_fecha_modificacion")}{" "}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaModificacionTipoTramite(
-                            data.updatedAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
             <br />
             <Row>
@@ -250,66 +287,20 @@ class ModalviewTipoDocumentoRadication extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
-                  <TableModal data={this.state.users} t={this.state.t} />
+                  {this.state.spinner !== false ? (
+                    <center>
+                      <br />
+                      <Spinner
+                        style={{ width: "3rem", height: "3rem" }}
+                        type="grow"
+                        color="primary"
+                      />
+                    </center>
+                  ) : (
+                    <TableModal data={this.state.users} t={this.state.t} />
+                  )}
                 </div>
               </Col>
-              {/* <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Asunto{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Asunto </dt>
-                        <dd> asunto </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Plantilla{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Workflow{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col> */}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -332,7 +323,7 @@ class ModalviewTipoDocumentoRadication extends Component {
 
 ModalviewTipoDocumentoRadication.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalviewTipoDocumentoRadication;

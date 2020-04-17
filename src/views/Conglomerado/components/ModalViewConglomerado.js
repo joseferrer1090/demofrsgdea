@@ -68,13 +68,6 @@ class ModalViewConglomerado extends Component {
       spinner: true,
     });
     this.getInfoConglomerate(id);
-    setTimeout(() => {
-      if (this.state.spinner !== false) {
-        this.setState({
-          spinner: false,
-        });
-      }
-    }, 2000);
   };
 
   getInfoConglomerate = (id) => {
@@ -98,7 +91,12 @@ class ModalViewConglomerado extends Component {
           spinner: false,
         });
       })
-      .catch((Error) => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
 
   FechaCreacionConglomerado(data) {

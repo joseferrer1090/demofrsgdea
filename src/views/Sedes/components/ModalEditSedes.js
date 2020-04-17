@@ -12,7 +12,7 @@ import {
   Alert,
   CardHeader,
   Collapse,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
@@ -39,13 +39,14 @@ class ModalEditSedes extends React.Component {
     t: this.props.t,
     headquarter_status: 0,
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -53,7 +54,7 @@ class ModalEditSedes extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -61,16 +62,16 @@ class ModalEditSedes extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError500: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
         idSedes: id,
-        spinner: true
+        spinner: true,
       },
       () => {
         this.props.updateTable();
@@ -79,7 +80,7 @@ class ModalEditSedes extends React.Component {
     this.getHeadquarterByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
@@ -88,18 +89,18 @@ class ModalEditSedes extends React.Component {
     this.setState({ collapse: !this.state.collapse });
   };
 
-  getHeadquarterByID = id => {
+  getHeadquarterByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             headquarter_name: data.name,
@@ -119,11 +120,11 @@ class ModalEditSedes extends React.Component {
             headquarter_phone: data.phone,
             headquarter_conglomerate: data.company.conglomerate.id,
             headquarter_company: data.company.id,
-            headquarter_charge: data.charge === null ? " " : data.charge.id
-          }
+            headquarter_charge: data.charge === null ? " " : data.charge.id,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -185,11 +186,14 @@ class ModalEditSedes extends React.Component {
               headquarter_status: Yup.bool().test(
                 "Activo",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -204,7 +208,7 @@ class ModalEditSedes extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + this.state.auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idSedes,
@@ -219,50 +223,57 @@ class ModalEditSedes extends React.Component {
                     chargeId: values.headquarter_charge,
                     description: values.headquarter_description,
                     status: tipoEstado(values.headquarter_status),
-                    userName: "ccuartas"
-                  })
+                    userName: "ccuartas",
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: false,
-                            modal: false
                           },
                           () => this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 1000);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -271,7 +282,7 @@ class ModalEditSedes extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -336,7 +347,7 @@ class ModalEditSedes extends React.Component {
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"headquarter_conglomerate"}
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setFieldValue(
                                       "headquarter_conglomerate",
                                       e.target.value
@@ -349,9 +360,11 @@ class ModalEditSedes extends React.Component {
                                     )
                                   }
                                   value={values.headquarter_conglomerate}
-                                  className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_conglomerate &&
                                     touched.headquarter_conglomerate &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
 
                                 <div style={{ color: "#D54B4B" }}>
@@ -402,9 +415,11 @@ class ModalEditSedes extends React.Component {
                                   onBlur={handleBlur}
                                   value={values.headquarter_code}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.headquarter_code &&
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_code &&
                                     touched.headquarter_code &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter_code &&
@@ -428,9 +443,11 @@ class ModalEditSedes extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.headquarter_name}
-                                  className={`form-control form-control-sm ${errors.headquarter_name &&
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_name &&
                                     touched.headquarter_name &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter_name &&
@@ -454,9 +471,11 @@ class ModalEditSedes extends React.Component {
                                   value={values.headquarter_description}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  className={`form-control form-control-sm ${errors.headquarter_description &&
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_description &&
                                     touched.headquarter_description &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter_description &&
@@ -484,9 +503,11 @@ class ModalEditSedes extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.headquarter_prefix}
-                                  className={`form-control form-control-sm ${errors.headquarter_prefix &&
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_prefix &&
                                     touched.headquarter_prefix &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                   maxLength={"6"}
                                   placeholder=" "
                                 />
@@ -571,7 +592,7 @@ class ModalEditSedes extends React.Component {
                                           authorization={this.state.auth}
                                           t={this.state.t}
                                           name={"headquarter_charge"}
-                                          onChange={e =>
+                                          onChange={(e) =>
                                             setFieldValue(
                                               "headquarter_charge",
                                               e.target.value
@@ -584,9 +605,11 @@ class ModalEditSedes extends React.Component {
                                             );
                                           }}
                                           value={values.headquarter_charge}
-                                          className={`form-control form-control-sm ${errors.headquarter_charge &&
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_charge &&
                                             touched.headquarter_charge &&
-                                            "is-invalid"}`}
+                                            "is-invalid"
+                                          }`}
                                         />
 
                                         <ErrorMessage name="headquarter_charge" />
@@ -606,7 +629,7 @@ class ModalEditSedes extends React.Component {
                                           authorization={this.state.auth}
                                           t={this.state.t}
                                           name={"headquarter_country"}
-                                          onChange={e =>
+                                          onChange={(e) =>
                                             setFieldValue(
                                               "headquarter_country",
                                               e.target.value
@@ -618,9 +641,11 @@ class ModalEditSedes extends React.Component {
                                             )
                                           }
                                           value={values.headquarter_country}
-                                          className={`form-control form-control-sm ${errors.headquarter_country &&
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_country &&
                                             touched.headquarter_country &&
-                                            "is-invalid"}`}
+                                            "is-invalid"
+                                          }`}
                                         />
 
                                         <div style={{ color: "#D54B4B" }}>
@@ -709,9 +734,11 @@ class ModalEditSedes extends React.Component {
                                           onBlur={handleBlur}
                                           value={values.headquarter_address}
                                           type="text"
-                                          className={`form-control form-control-sm ${errors.headquarter_address &&
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_address &&
                                             touched.headquarter_address &&
-                                            "is-invalid"}`}
+                                            "is-invalid"
+                                          }`}
                                         />
                                         <div style={{ color: "#D54B4B" }}>
                                           {errors.headquarter_address &&
@@ -737,9 +764,11 @@ class ModalEditSedes extends React.Component {
                                           onChange={handleChange}
                                           onBlur={handleBlur}
                                           value={values.headquarter_phone}
-                                          className={`form-control form-control-sm ${errors.headquarter_phone &&
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_phone &&
                                             touched.headquarter_phone &&
-                                            "is-invalid"}`}
+                                            "is-invalid"
+                                          }`}
                                         />
                                         <div style={{ color: "#D54B4B" }}>
                                           {errors.headquarter_phone &&
@@ -797,14 +826,21 @@ class ModalEditSedes extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_sedes_form_actualizar_boton_actualizar")}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_sedes_form_actualizar_boton_actualizar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -814,7 +850,7 @@ class ModalEditSedes extends React.Component {
                           modal: false,
                           alertSuccess: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -836,7 +872,7 @@ class ModalEditSedes extends React.Component {
 ModalEditSedes.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalEditSedes;

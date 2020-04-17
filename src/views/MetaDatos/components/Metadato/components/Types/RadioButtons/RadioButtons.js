@@ -15,7 +15,7 @@ import {
   ToastHeader,
   ToastBody,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -38,7 +38,7 @@ class RadioButtons extends Component {
         isReadOnly: false,
         isRequired: false,
         min: 6,
-        max: 6
+        max: 6,
       },
       radios: [],
       active: true,
@@ -53,14 +53,15 @@ class RadioButtons extends Component {
       alert500: false,
       alertError: false,
       alertErrorMessage: "",
-      t: this.props.t
+      t: this.props.t,
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -69,7 +70,7 @@ class RadioButtons extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -95,12 +96,12 @@ class RadioButtons extends Component {
         break;
       case "IS_REQUIRED":
         this.setState({
-          validation: { ...this.state.validation, isRequired: value }
+          validation: { ...this.state.validation, isRequired: value },
         });
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "MAX":
@@ -123,11 +124,11 @@ class RadioButtons extends Component {
     }, 0);
   };
 
-  removeOption = index => {
+  removeOption = (index) => {
     let radios = this.state.radios;
     radios.splice(index, 1);
     this.setState({
-      radios: radios
+      radios: radios,
     });
     this.duplicate();
     setTimeout(() => {
@@ -135,10 +136,10 @@ class RadioButtons extends Component {
     }, 0);
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -148,26 +149,26 @@ class RadioButtons extends Component {
     let u = _.uniqBy(radios, "value");
     if (!_.isEqual(radios, u)) {
       this.setState({
-        duplicate: true
+        duplicate: true,
       });
     } else {
       this.setState({
-        duplicate: false
+        duplicate: false,
       });
     }
   };
 
-  addOption = e => {
+  addOption = (e) => {
     e.preventDefault();
     let radio = {
       title: "",
       value: "",
-      selected: false
+      selected: false,
     };
     let radios = this.state.radios;
     radios.push(radio);
     this.setState({
-      radios: radios
+      radios: radios,
     });
     this.duplicate();
     setTimeout(() => {
@@ -180,33 +181,33 @@ class RadioButtons extends Component {
     let radio = {};
     if (state === "DEFAULT_VALUE") {
       this.setState({
-        defaultValue: index
+        defaultValue: index,
       });
     }
     if (state === "TITLE") {
       radio = {
         ...radios[index],
-        title: value
+        title: value,
       };
     } else if (state === "SELECTED") {
       radio = {
         ...radios[index],
-        selected: !radios[index].selected
+        selected: !radios[index].selected,
       };
     } else if (state === "VALUE") {
       radio = {
         ...radios[index],
-        value: value
+        value: value,
       };
     } else {
       radio = {
-        ...radios[index]
+        ...radios[index],
       };
     }
 
     radios[index] = radio;
     this.setState({
-      radios: radios
+      radios: radios,
     });
     this.duplicate();
     setTimeout(() => {
@@ -215,13 +216,16 @@ class RadioButtons extends Component {
   }
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -239,56 +243,60 @@ class RadioButtons extends Component {
           {
             labelText: this.state.radios[0].title,
             inputValue: this.state.radios[0].value,
-            inputId: this.state.radios[0].value
-          }
-        ]
-      })
+            inputId: this.state.radios[0].value,
+          },
+        ],
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.setState({
-            alert200: true
+            alert200: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
             });
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
+          spinner: false,
           alertError: true,
-          alertErrorMessage: error.message
+          alertErrorMessage: error.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
     this.resetForm();
   };
 
-  createMetada = e => {
+  createMetada = (e) => {
     e.preventDefault();
     Yup.setLocale({});
 
@@ -297,21 +305,21 @@ class RadioButtons extends Component {
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       radios: Yup.array()
         .of(
           Yup.object().shape({
             title: Yup.string().required(" Por favor introduzca la etiqueta."),
             value: Yup.string().required(" Por favor introduzca el valor."),
-            selected: Yup.bool()
+            selected: Yup.bool(),
           })
         )
         .required(" Por favor agregue las opciones."),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
 
     schema
@@ -320,19 +328,19 @@ class RadioButtons extends Component {
         active: this.state.active,
         radios: this.state.radios,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         this.sendData();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
         console.log(err.message);
@@ -353,8 +361,8 @@ class RadioButtons extends Component {
       inline: false,
       validation: {
         isReadOnly: false,
-        isRequired: false
-      }
+        isRequired: false,
+      },
     });
     this.changeValue("TITLE", this.state.title);
   };
@@ -410,12 +418,12 @@ class RadioButtons extends Component {
                 <p className="text-justify">Error, interno del servidor</p>
               </ToastBody>
             </Toast>
-            <form className="form" ref={el => (this.myForm = el)}>
+            <form className="form" ref={(el) => (this.myForm = el)}>
               <Nav tabs>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "1"
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
                       this.toggle("1");
@@ -431,7 +439,7 @@ class RadioButtons extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "2"
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
                       this.toggle("2");
@@ -447,7 +455,7 @@ class RadioButtons extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "3"
+                      active: this.state.activeTab === "3",
                     })}
                     onClick={() => {
                       this.toggle("3");
@@ -476,7 +484,7 @@ class RadioButtons extends Component {
                           <input
                             type="text"
                             className="form-control form-control-sm"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("NAME", e.target.value)
                             }
                             placeholder={`${t(
@@ -497,7 +505,7 @@ class RadioButtons extends Component {
                           <input
                             type="text"
                             className="form-control form-control-sm"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("TITLE", e.target.value)
                             }
                             value={this.state.title}
@@ -519,7 +527,7 @@ class RadioButtons extends Component {
                           <textarea
                             className="form-control form-control-sm"
                             value={this.state.description}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("DESCRIPTION", e.target.value)
                             }
                           ></textarea>
@@ -536,7 +544,7 @@ class RadioButtons extends Component {
                           <input
                             type={"checkbox"}
                             value={this.state.validation.isRequired}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_REQUIRED", e.target.checked)
                             }
                             id={"isRequired"}
@@ -557,7 +565,7 @@ class RadioButtons extends Component {
                           <input
                             type={"checkbox"}
                             value={this.state.validation}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_READONLY", e.target.checked)
                             }
                             id={"isReadOnly"}
@@ -578,7 +586,7 @@ class RadioButtons extends Component {
                           <input
                             type="checkbox"
                             value={this.state.inline}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("INLINE", e.target.checked)
                             }
                             id="inline"
@@ -625,7 +633,7 @@ class RadioButtons extends Component {
                                           value={
                                             this.state.radios[index].selected
                                           }
-                                          onChange={e =>
+                                          onChange={(e) =>
                                             this.changeOptionValue(
                                               index,
                                               e.target.checked,
@@ -646,7 +654,7 @@ class RadioButtons extends Component {
                                       "app_metadatos_crear_metadato_entrada_radio_valores_placeholder_label"
                                     )}`}
                                     value={this.state.radios[index].title}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -663,7 +671,7 @@ class RadioButtons extends Component {
                                       "app_metadatos_crear_metadato_entrada_radio_valores_placeholder_value"
                                     )}`}
                                     value={this.state.radios[index].value}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -680,7 +688,7 @@ class RadioButtons extends Component {
                                     <input
                                       name="default"
                                       value={this.state.defaultValue}
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         this.changeOptionValue(
                                           index,
                                           e.target.checked,
@@ -715,7 +723,7 @@ class RadioButtons extends Component {
                     )}
                     <button
                       type="button"
-                      onClick={e => this.addOption(e)}
+                      onClick={(e) => this.addOption(e)}
                       className="btn btn-secondary btn-sm"
                     >
                       <i className="fa fa-plus" />{" "}
@@ -738,9 +746,9 @@ class RadioButtons extends Component {
                       label={t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status"
                       )}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          active: e.target.checked
+                          active: e.target.checked,
                         });
                       }}
                     />
@@ -755,9 +763,9 @@ class RadioButtons extends Component {
                       label={t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                       )}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          formula: e.target.checked
+                          formula: e.target.checked,
                         });
                       }}
                     />
@@ -783,17 +791,26 @@ class RadioButtons extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => this.createMetada(e)}
+                onClick={(e) => this.createMetada(e)}
+                disabled={this.state.spinner}
               >
-                {" "}
-                <i className="fa fa-save" />{" "}
-                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}
+                {this.state.spinner ? (
+                  <i className=" fa fa-spinner fa-refresh" />
+                ) : (
+                  <div>
+                    {" "}
+                    <i className="fa fa-save" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}
+                  </div>
+                )}
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={el => (this.MyModal = el)}
+          ref={(el) => (this.MyModal = el)}
           modalpreview={this.state.modalpreview}
           field={this.props.field}
           inputType={this.state.dragType}
@@ -810,7 +827,7 @@ RadioButtons.propsTypes = {
   index: PropTypes.any.isRequired,
   key: PropTypes.any.isRequired,
   removeField: PropTypes.func.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default RadioButtons;

@@ -31,6 +31,7 @@ class ModalDeleteMetadata extends Component {
       alertError: false,
       spinner: false,
       t: this.props.t,
+      spinnerDelete: false,
     };
   }
 
@@ -113,6 +114,10 @@ class ModalDeleteMetadata extends Component {
   };
 
   deleteMetadata = () => {
+    this.setState({
+      spinnerDelete: true,
+    });
+
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(
@@ -128,6 +133,7 @@ class ModalDeleteMetadata extends Component {
       .then((resp) => {
         if (resp.status === 204) {
           this.setState({
+            spinnerDelete: false,
             alert200: true,
             spinner: false,
           });
@@ -144,6 +150,7 @@ class ModalDeleteMetadata extends Component {
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
+            spinnerDelete: false,
             alert400: true,
             spinner: false,
           });
@@ -154,6 +161,7 @@ class ModalDeleteMetadata extends Component {
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
+            spinnerDelete: false,
             alert500: true,
             spinner: false,
           });
@@ -166,6 +174,9 @@ class ModalDeleteMetadata extends Component {
       })
       .catch((err) => {
         console(`Error => ${err.message}`);
+        this.setState({
+          spinnerDelete: false,
+        });
       });
     this.resetForm();
   };
@@ -253,10 +264,19 @@ class ModalDeleteMetadata extends Component {
                 //   spinner: true
                 // });
               }}
+              disabled={this.state.spinnerDelete}
             >
-              {" "}
-              <i className="fa fa-trash" />{" "}
-              {t("app_metadatos_remover_metadatos_moda_eliminar_btn_eliminar")}{" "}
+              {this.state.spinnerDelete ? (
+                <i className=" fa fa-spinner fa-refresh" />
+              ) : (
+                <div>
+                  {" "}
+                  <i className="fa fa-trash" />{" "}
+                  {t(
+                    "app_metadatos_remover_metadatos_moda_eliminar_btn_eliminar"
+                  )}{" "}
+                </div>
+              )}
             </button>
             &nbsp;
             <button

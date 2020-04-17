@@ -17,13 +17,14 @@ class ModalDeleteUser extends React.Component {
     useLogged: "",
     nameUser: "",
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinnerDelete: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -31,16 +32,16 @@ class ModalDeleteUser extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
-        id: id
+        id: id,
       },
       () => this.props.updateTable()
     );
@@ -50,29 +51,29 @@ class ModalDeleteUser extends React.Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameUser: data.name
+          nameUser: data.name,
         });
       })
-      .catch(Error => console.log(Error));
+      .catch((Error) => console.log(Error));
   };
 
   onDismiss = () => {
     this.setState({
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      identificacion: ""
+      identificacion: "",
     };
     const { t } = this.props;
     return (
@@ -85,6 +86,9 @@ class ModalDeleteUser extends React.Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, setSubmitting) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -94,51 +98,59 @@ class ModalDeleteUser extends React.Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + auth
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(Error => console.log("", Error));
+                  .catch((Error) => {
+                    console.log("", Error);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
               }, 3000);
             }}
             validationSchema={Yup.object().shape({
               identificacion: Yup.string().required(
                 " Por favor introduzca la identificacion del usuario."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -185,9 +197,11 @@ class ModalDeleteUser extends React.Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.identificacion &&
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.identificacion &&
                           touched.identificacion &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.identificacion && touched.identificacion ? (
@@ -204,14 +218,19 @@ class ModalDeleteUser extends React.Component {
                       <button
                         type="submit"
                         className="btn btn-outline-danger btn-sm"
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
                         }}
                       >
-                        {" "}
-                        <i className="fa fa-trash" />{" "}
-                        {t("app_usuarios_modal_eliminar_boton_eliminar")}
+                        {this.state.spinnerDelete ? (
+                          <i className=" fa fa-spinner fa-refresh" />
+                        ) : (
+                          <div>
+                            <i className="fa fa-trash" />{" "}
+                            {t("app_usuarios_modal_eliminar_boton_eliminar")}
+                          </div>
+                        )}{" "}
                       </button>
                       <button
                         type="button"
@@ -221,7 +240,7 @@ class ModalDeleteUser extends React.Component {
                             modal: false,
                             alertError400: false,
                             alertError500: false,
-                            alertSuccess: false
+                            alertSuccess: false,
                           });
                         }}
                       >
@@ -244,7 +263,7 @@ ModalDeleteUser.propTypes = {
   modaldeletestate: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalDeleteUser;

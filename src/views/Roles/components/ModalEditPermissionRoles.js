@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   ROLES_SHOW,
-  ROLES_PERMISSION_BY_ROL
+  ROLES_PERMISSION_BY_ROL,
 } from "./../../../services/EndPoints";
 import {
   Modal,
@@ -12,7 +12,7 @@ import {
   Row,
   Col,
   UncontrolledAlert,
-  Alert
+  Alert,
 } from "reactstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,14 +35,15 @@ class ModalEditPermissionRoles extends Component {
       auth: this.props.authorization,
       alertSuccess: false,
       alertError400: false,
-      alertError500: false
+      alertError500: false,
+      spinnerPermisos: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -51,56 +52,56 @@ class ModalEditPermissionRoles extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
     });
     this.getDataPermissionById(id);
     this.getDataRoleById(id);
   };
 
-  getDataRoleById = id => {
+  getDataRoleById = (id) => {
     const token = this.state.auth;
     const username = decode(token);
     fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataRolById: data
+          dataRolById: data,
         });
       })
-      .catch(err => console.log("Err", err));
+      .catch((err) => console.log("Err", err));
   };
 
-  getDataPermissionById = id => {
+  getDataPermissionById = (id) => {
     const token = this.state.auth;
     const username = decode(token);
     fetch(`${ROLES_PERMISSION_BY_ROL}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Cotent-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataPermisosId: data
+          dataPermisosId: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   render() {
@@ -119,9 +120,12 @@ class ModalEditPermissionRoles extends Component {
                 return { label: aux.name, value: aux.id };
               }),
               nombre: this.state.dataRolById.name,
-              codigo: this.state.dataRolById.code
+              codigo: this.state.dataRolById.code,
             }}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerPermisos: true,
+              });
               setTimeout(() => {
                 const token = this.state.auth;
                 const username = decode(token);
@@ -129,47 +133,50 @@ class ModalEditPermissionRoles extends Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + token,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
                     permissions: values.permisos,
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerPermisos: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
+                          modal: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerPermisos: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerPermisos: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => console.log("", error));
                 setSubmitting(false);
               }, 1000);
             }}
@@ -177,19 +184,19 @@ class ModalEditPermissionRoles extends Component {
               permisos: Yup.array().of(
                 Yup.object().shape({
                   label: Yup.string().required(),
-                  value: Yup.string().required()
+                  value: Yup.string().required(),
                 })
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleSubmit,
                 setFieldTouched,
-                setFieldValue
+                setFieldValue,
               } = props;
               return (
                 <Fragment>
@@ -284,15 +291,17 @@ class ModalEditPermissionRoles extends Component {
                                   t={this.props.t}
                                   name="modulos"
                                   value={values.modulos}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue("modulos", e.target.value);
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("modulos", true);
                                   }}
-                                  className={`form-control form-control-sm ${errors.modulos &&
+                                  className={`form-control form-control-sm ${
+                                    errors.modulos &&
                                     touched.modulos &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                               </div>
                             </Col>
@@ -311,15 +320,17 @@ class ModalEditPermissionRoles extends Component {
                                   modulo={props.values.modulos}
                                   name={"entidad"}
                                   value={values.entidad}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue("entidad", e.target.value);
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("entidad", true);
                                   }}
-                                  className={`form-control form-control-sm ${errors.entidad &&
+                                  className={`form-control form-control-sm ${
+                                    errors.entidad &&
                                     touched.entidad &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                               </div>
                             </Col>
@@ -352,17 +363,24 @@ class ModalEditPermissionRoles extends Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                       className="btn btn-outline-warning btn-sm"
+                      disabled={this.state.spinnerPermisos}
                     >
-                      {" "}
-                      <i className="fa fa-lock" />{" "}
-                      {t(
-                        "app_roles_modal_editar_permisos_boton_editar_permisos"
-                      )}{" "}
+                      {this.state.spinnerPermisos ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          {" "}
+                          <i className="fa fa-lock" />{" "}
+                          {t(
+                            "app_roles_modal_editar_permisos_boton_editar_permisos"
+                          )}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -372,7 +390,7 @@ class ModalEditPermissionRoles extends Component {
                           modal: false,
                           alertSuccess: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -394,7 +412,7 @@ class ModalEditPermissionRoles extends Component {
 ModalEditPermissionRoles.propTypes = {
   id: PropTypes.string.isRequired,
   modal: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalEditPermissionRoles;

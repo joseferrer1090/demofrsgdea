@@ -41,6 +41,7 @@ class ModalUpdateMetadata extends Component {
       alert500: false,
       spinner: true,
       t: this.props.t,
+      spinnerActualizar: false,
     };
   }
 
@@ -154,6 +155,9 @@ class ModalUpdateMetadata extends Component {
   };
 
   sendEditMetadata = () => {
+    this.setState({
+      spinnerActualizar: true,
+    });
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_UPDATE}/${this.state.id}`, {
@@ -181,6 +185,7 @@ class ModalUpdateMetadata extends Component {
         if (resp.status === 400) {
           this.setState({
             alert400: true,
+            spinnerActualizar: false,
           });
           setTimeout(() => {
             this.setState({
@@ -190,6 +195,7 @@ class ModalUpdateMetadata extends Component {
         } else if (resp.status === 200) {
           this.setState({
             alert200: true,
+            spinnerActualizar: false,
           });
           setTimeout(() => {
             this.setState(
@@ -205,6 +211,7 @@ class ModalUpdateMetadata extends Component {
         } else if (resp.status === 500) {
           this.setState({
             alert500: true,
+            spinnerActualizar: false,
           });
           setTimeout(() => {
             this.setState({
@@ -215,6 +222,9 @@ class ModalUpdateMetadata extends Component {
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
+        this.setState({
+          spinnerActualizar: false,
+        });
       });
   };
   FechaCreacionMetadato = (data) => {
@@ -439,16 +449,23 @@ class ModalUpdateMetadata extends Component {
             <button
               type="button"
               // className="btn btn-secondary btn-sm"
-              className={"btn btn-outline-success btn-sm"}
+              className={"btn btn-success btn-sm"}
               onClick={(e) => {
                 this.sendData(e);
               }}
+              disabled={this.state.spinnerActualizar}
             >
-              {" "}
-              <i className="fa fa-pencil" />{" "}
-              {t(
-                "app_metadatos_actualizar_metdatos_modal_controles_btn_actualizar"
-              )}{" "}
+              {this.state.spinnerActualizar ? (
+                <i className=" fa fa-spinner fa-refresh" />
+              ) : (
+                <div>
+                  {" "}
+                  <i className="fa fa-pencil" />{" "}
+                  {t(
+                    "app_metadatos_actualizar_metdatos_modal_controles_btn_actualizar"
+                  )}{" "}
+                </div>
+              )}
             </button>
             &nbsp;
             <button

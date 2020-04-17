@@ -14,7 +14,7 @@ import {
   ToastHeader,
   ToastBody,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -38,7 +38,7 @@ class Paragraph extends Component {
       align: "center",
       validation: {
         isReadOnly: false,
-        isRequired: false
+        isRequired: false,
       },
       description: "",
       disabled: false,
@@ -52,14 +52,15 @@ class Paragraph extends Component {
       formula: false,
       alertError: false,
       t: this.props.t,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -68,7 +69,7 @@ class Paragraph extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -78,10 +79,10 @@ class Paragraph extends Component {
     console.log(this.props.field);
   }
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -111,15 +112,15 @@ class Paragraph extends Component {
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "IS_REQUIRED":
         this.setState({
           validation: {
             ...this.state.validation,
-            isRequired: value
-          }
+            isRequired: value,
+          },
         });
         break;
       case "IS_DISABLED":
@@ -154,24 +155,27 @@ class Paragraph extends Component {
       title: "Title",
       validation: {
         isReadOnly: false,
-        isRequired: false
+        isRequired: false,
       },
       align: "center",
       fontSize: "",
       colorText: "",
-      background: ""
+      background: "",
     });
     this.changeValue("TITLE", this.state.title);
   };
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + aux
+        Authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -184,55 +188,59 @@ class Paragraph extends Component {
         inputPlaceholder: this.state.content,
         formula: this.state.formula,
         status: this.state.active,
-        userName: user.user_name
-      })
+        userName: user.user_name,
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.setState({
-            alert200: true
+            alert200: true,
+            spinner: false,
           });
 
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
             });
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
+          spinner: false,
           alertError: true,
-          alertErrorMessage: error.message
+          alertErrorMessage: error.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
     this.resetForm();
   };
 
-  createMatadata = e => {
+  createMatadata = (e) => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
@@ -240,31 +248,31 @@ class Paragraph extends Component {
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         this.sendData();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
         console.log(err);
@@ -329,12 +337,12 @@ class Paragraph extends Component {
                 <p className="text-justify"> Error, interno el el servidor </p>
               </ToastBody>
             </Toast>
-            <form ref={el => (this.MyForm = el)} className="form"></form>
+            <form ref={(el) => (this.MyForm = el)} className="form"></form>
             <Nav tabs>
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "1"
+                    active: this.state.activeTab === "1",
                   })}
                   onClick={() => {
                     this.toggle("1");
@@ -350,7 +358,7 @@ class Paragraph extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "2"
+                    active: this.state.activeTab === "2",
                   })}
                   onClick={() => {
                     this.toggle("2");
@@ -367,7 +375,7 @@ class Paragraph extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "3"
+                    active: this.state.activeTab === "3",
                   })}
                   onClick={() => {
                     this.toggle("3");
@@ -400,7 +408,7 @@ class Paragraph extends Component {
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.name}
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("NAME", e.target.value)
                           }
                         />
@@ -420,7 +428,7 @@ class Paragraph extends Component {
                           )}`}
                           type="text"
                           className="form-control form-control-sm"
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("TITLE", e.target.value)
                           }
                           value={this.state.title}
@@ -441,7 +449,7 @@ class Paragraph extends Component {
                           )}`}
                           type="text"
                           className="form-control form-control-sm"
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("CONTENT", e.target.value)
                           }
                           value={this.state.content}
@@ -459,7 +467,7 @@ class Paragraph extends Component {
                         <textarea
                           type="text"
                           className="form-control form-control-sm"
-                          onChange={e => {
+                          onChange={(e) => {
                             this.changeValue("DESCRIPTION", e.target.value);
                           }}
                           value={this.state.description}
@@ -480,7 +488,7 @@ class Paragraph extends Component {
                               type="checkbox"
                               id="isRequired"
                               value={this.state.validation.isRequired}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue(
                                   "IS_REQUIRED",
                                   e.target.checked
@@ -505,7 +513,7 @@ class Paragraph extends Component {
                               type="checkbox"
                               id="isReadOnly"
                               value={this.state.validation.isReadOnly}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue(
                                   "IS_READONLY",
                                   e.target.checked
@@ -530,7 +538,7 @@ class Paragraph extends Component {
                               type="checkbox"
                               id="disabled"
                               value={this.state.disabled}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue(
                                   "IS_DISABLED",
                                   e.target.checked
@@ -566,7 +574,7 @@ class Paragraph extends Component {
                         </label>
                         <input
                           value={this.state.colorText}
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("TEXT_COLOR", e.target.value)
                           }
                           className={"form-control form-control-sm"}
@@ -584,7 +592,7 @@ class Paragraph extends Component {
                         </label>
                         <input
                           value={this.state.background}
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("BACKGROUND_COLOR", e.target.value)
                           }
                           className="form-control form-control-sm"
@@ -603,7 +611,7 @@ class Paragraph extends Component {
                         </label>
                         <select
                           className="form-control form-control-sm"
-                          onChange={e =>
+                          onChange={(e) =>
                             this.changeValue("TEXT_ALIGN", e.target.value)
                           }
                           value={this.state.align}
@@ -641,11 +649,11 @@ class Paragraph extends Component {
                       <select
                         className="form-control form-control-sm"
                         value={this.state.fontSize}
-                        onChange={e =>
+                        onChange={(e) =>
                           this.changeValue("FONT_SIZE", e.target.value)
                         }
                       >
-                        {this.fontSizes().map(size => {
+                        {this.fontSizes().map((size) => {
                           return (
                             <option key={size} value={size}>
                               {size} pt
@@ -670,9 +678,9 @@ class Paragraph extends Component {
                     label={t(
                       "app_metadatos_crear_metadato_bolsa_metadatos_status"
                     )}
-                    onChange={e => {
+                    onChange={(e) => {
                       this.setState({
-                        active: e.target.checked
+                        active: e.target.checked,
                       });
                     }}
                   />
@@ -687,9 +695,9 @@ class Paragraph extends Component {
                     label={t(
                       "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                     )}
-                    onChange={e => {
+                    onChange={(e) => {
                       this.setState({
-                        formula: e.target.checked
+                        formula: e.target.checked,
                       });
                     }}
                   />
@@ -713,19 +721,28 @@ class Paragraph extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => {
+                onClick={(e) => {
                   this.createMatadata(e);
                 }}
+                disabled={this.state.spinner}
               >
-                <i className="fa fa-save" />{" "}
-                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}
+                {this.state.spinner ? (
+                  <i className=" fa fa-spinner fa-refresh" />
+                ) : (
+                  <div>
+                    <i className="fa fa-save" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}
+                  </div>
+                )}
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
           modalpreview={this.state.modalpreview}
-          ref={el => (this.MyModal = el)}
+          ref={(el) => (this.MyModal = el)}
           field={this.props.field}
           inputType={this.props.dragType}
           t={this.state.t}
@@ -740,6 +757,6 @@ Paragraph.propsTypes = {
   index: PropTypes.any.isRequired,
   key: PropTypes.any.isRequired,
   removeField: PropTypes.func.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default Paragraph;

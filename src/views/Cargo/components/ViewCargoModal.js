@@ -5,7 +5,8 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCARGO from "./../../../assets/img/employee.svg";
@@ -23,14 +24,14 @@ class ModalViewCargo extends Component {
       collapase: false,
       t: this.props.t,
       auth: this.props.authorization,
-      username: ""
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -38,42 +39,56 @@ class ModalViewCargo extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
     this.getDataCargoById(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
   };
 
   toggleCollapse = () => {
     this.setState({
-      collapase: !this.state.collapase
+      collapase: !this.state.collapase,
     });
   };
 
-  getDataCargoById = id => {
+  getDataCargoById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${CHARGE}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          datCharge: data
+          datCharge: data,
+          spinner: false,
         });
       })
-      .catch("Error", console.log("Error", Error));
+      .catch((error) => {
+        console.log("Error", error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
   FechaCreacionCargo(data) {
     let createdAt;
@@ -87,7 +102,7 @@ class ModalViewCargo extends Component {
   }
 
   render() {
-    const statusCharge = data => {
+    const statusCharge = (data) => {
       const { t } = this.props;
       let status;
       if (data === 1) {
@@ -113,73 +128,84 @@ class ModalViewCargo extends Component {
             <Col sm="3">
               <img src={IMGCARGO} className="img-thumbnail" />
             </Col>
-            <Col sm="9">
-              <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+            {this.state.spinner !== false ? (
+              <center>
+                <br />
+                <Spinner
+                  style={{ width: "3rem", height: "3rem" }}
+                  type="grow"
+                  color="primary"
+                />
+              </center>
+            ) : (
+              <Col sm="9">
+                <div className="">
                   {" "}
-                  {t("app_cargo_modal_ver_titulo_2")}{" "}
-                </h5>{" "}
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_codigo")} </dt>
-                      <dd> {this.state.datCharge.code} </dd>
-                    </dl>
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    {t("app_cargo_modal_ver_titulo_2")}{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_codigo")} </dt>
+                        <dd> {this.state.datCharge.code} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_nombre")} </dt>
+                        <dd> {this.state.datCharge.name} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_descripcion")} </dt>
+                        <dd> {this.state.datCharge.description} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_estado")} </dt>
+                        <dd> {statusCharge(this.state.datCharge.status)} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_fecha_creacion")} </dt>
+                        <dd>
+                          {this.FechaCreacionCargo(
+                            this.state.datCharge.createdAt
+                          )}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> {t("app_cargo_modal_ver_fecha_modificacion")} </dt>
+                        <dd>
+                          {this.FechaModificacionCargo(
+                            this.state.datCharge.updatedAt
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_nombre")} </dt>
-                      <dd> {this.state.datCharge.name} </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_descripcion")} </dt>
-                      <dd> {this.state.datCharge.description} </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_estado")} </dt>
-                      <dd> {statusCharge(this.state.datCharge.status)} </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_fecha_creacion")} </dt>
-                      <dd>
-                        {this.FechaCreacionCargo(
-                          this.state.datCharge.createdAt
-                        )}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> {t("app_cargo_modal_ver_fecha_modificacion")} </dt>
-                      <dd>
-                        {this.FechaModificacionCargo(
-                          this.state.datCharge.updatedAt
-                        )}{" "}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </Col>
+              </Col>
+            )}
           </Row>
         </ModalBody>
 
@@ -203,7 +229,7 @@ ModalViewCargo.propTypes = {
   modalviewcargo: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewCargo;

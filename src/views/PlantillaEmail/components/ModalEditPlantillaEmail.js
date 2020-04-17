@@ -22,8 +22,9 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
   const [CodeCSS, setCodeCSS] = useState("");
   const [CodeBody, setCodeBody] = useState("");
   const [showTemplate, setShowTemplate] = useState("");
-  /* Estado Alert */
+  /* Estado Alert & Spinner de carga */
   const [visible, setVisible] = useState(true);
+  const [spinner, setSpinner] = useState(false);
   /* Estado del modal de previsualización */
   const [modalPreviewTemplate, setmodalPreviewTemplate] = useState(false);
   /* Estado que almacena Autorización y el Id de la plantilla */
@@ -37,7 +38,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
 
   const ref = useRef("child");
 
-  const openModalTemplate = e => {
+  const openModalTemplate = (e) => {
     e.preventDefault();
     ref.current.toggle();
   };
@@ -55,25 +56,25 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer" + auth
-      }
+        authorization: "Bearer" + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setDataPlantillaEmail(data);
         editor(data);
       })
-      .catch(error => console.log(`Error ${error}`));
+      .catch((error) => console.log(`Error ${error}`));
   };
 
-  const editor = data => {
+  const editor = (data) => {
     const txtxhtml = document.getElementById("txthtml");
     const HTMLCode = CodeMirror.fromTextArea(txtxhtml, {
       mode: "htmlmixed",
       theme: "ambiance",
-      lineNumbers: true
+      lineNumbers: true,
     });
-    HTMLCode.on("change", value => {
+    HTMLCode.on("change", (value) => {
       setCodeBody(value.getValue());
     });
     HTMLCode.setValue(beautify_html(data.body, { indent_size: 2 }));
@@ -82,9 +83,9 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
     const CSSCode = CodeMirror.fromTextArea(txtcss, {
       mode: "css",
       theme: "ambiance",
-      lineNumbers: true
+      lineNumbers: true,
     });
-    CSSCode.on("change", value => {
+    CSSCode.on("change", (value) => {
       setCodeCSS(value.getValue());
     });
     CSSCode.setValue(beautify_css(data.css, { indent_size: 2 }));
@@ -110,7 +111,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
     return template;
   };
 
-  const Template = value => {
+  const Template = (value) => {
     setShowTemplate(value);
   };
 
@@ -302,16 +303,17 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
         templateEmail_subject: dataPlantillaEmail.subject,
         templateEmail_from: dataPlantillaEmail.from,
         txthtml: CodeBody,
-        txtcss: CodeCSS
+        txtcss: CodeCSS,
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        setSpinner(true);
         const userName = decode(auth);
         setTimeout(() => {
           fetch(`${TEMPLATES_EMAIL}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + authorization
+              Authorization: "Bearer " + authorization,
             },
             body: JSON.stringify({
               id: id,
@@ -321,44 +323,47 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
               from: values.templateEmail_from,
               body: values.txthtml,
               css: values.txtcss,
-              username: userName.user_name
-            })
+              username: userName.user_name,
+            }),
           })
-            .then(response =>
-              response.json().then(data => {
+            .then((response) =>
+              response.json().then((data) => {
                 if (response.status === 200) {
+                  setSpinner(false);
                   toast.success(
                     "Se edito la plantilla de correo electrónico con éxito.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
-                  setTimeout(()=>{
+                  setTimeout(() => {
                     let path = `#/configuracion/plantillaemail`;
                     window.location.replace(path);
-                  },5000)
+                  }, 5000);
                 } else if (response.status === 400) {
+                  setSpinner(false);
                   toast.error(
                     "Error, la plantilla de correo electrónico ya existe.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 }
               })
             )
-            .catch(error => {
+            .catch((error) => {
+              setSpinner(false);
               toast.error(`Error ${error}.`, {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             });
           setSubmitting(false);
@@ -368,7 +373,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
             subject: "",
             from: "",
             body: "",
-            html: ""
+            html: "",
           });
         }, 500);
       }}
@@ -390,10 +395,10 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
         ),
         txtcss: Yup.string().required(
           " Por favor introduzca el estilo de la plantilla."
-        )
+        ),
       })}
     >
-      {props => {
+      {(props) => {
         const {
           values,
           touched,
@@ -402,7 +407,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
           handleBlur,
           handleSubmit,
           setFieldTouched,
-          setFieldValue
+          setFieldValue,
         } = props;
         return (
           <div className="col-md-12">
@@ -428,9 +433,11 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                               name={"templateEmail_name"}
                               value={values.templateEmail_name}
                               disabled
-                              className={`form-control form-control-sm ${errors.templateEmail_name &&
+                              className={`form-control form-control-sm ${
+                                errors.templateEmail_name &&
                                 touched.templateEmail_name &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                               onChange={handleChange}
                               onBlur={handleBlur}
                             />
@@ -459,9 +466,11 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                               value={values.templateEmail_description}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              className={`form-control form-control-sm ${errors.templateEmail_description &&
+                              className={`form-control form-control-sm ${
+                                errors.templateEmail_description &&
                                 touched.templateEmail_description &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                             />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.templateEmail_description &&
@@ -487,9 +496,11 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                               value={values.templateEmail_subject}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              className={`form-control form-control-sm ${errors.templateEmail_subject &&
+                              className={`form-control form-control-sm ${
+                                errors.templateEmail_subject &&
                                 touched.templateEmail_subject &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                             />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.templateEmail_subject &&
@@ -515,9 +526,11 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                               value={values.templateEmail_from}
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              className={`form-control form-control-sm ${errors.templateEmail_from &&
+                              className={`form-control form-control-sm ${
+                                errors.templateEmail_from &&
                                 touched.templateEmail_from &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                             />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.templateEmail_from &&
@@ -546,9 +559,9 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                       <textarea
                         id="txthtml"
                         name="txthtml"
-                        className={`form-control form-control-sm ${errors.txthtml &&
-                          touched.txthtml &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.txthtml && touched.txthtml && "is-invalid"
+                        }`}
                       ></textarea>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.txthtml && touched.txthtml ? (
@@ -573,9 +586,9 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                       <textarea
                         id="txtcss"
                         name="txtcss"
-                        className={`form-control form-control-sm ${errors.txtcss &&
-                          touched.txtcss &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.txtcss && touched.txtcss && "is-invalid"
+                        }`}
                       ></textarea>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.txtcss && touched.txtcss ? (
@@ -587,7 +600,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                     <div className="col-12" style={{ padding: 5 }}>
                       <button
                         className="btn btn-dark btn-sm btn-block"
-                        onClick={e => {
+                        onClick={(e) => {
                           openModalTemplate(e);
                         }}
                         style={{ margin: "1px" }}
@@ -608,21 +621,27 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                     <button
                       type="button"
                       className="btn btn-success btn-sm"
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={spinner}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_plantilla_email_modal_editar_btn_actualizar")}{" "}
+                      {spinner ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          {" "}
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_plantilla_email_modal_editar_btn_actualizar")}{" "}
+                        </div>
+                      )}
                     </button>
-
                     <button
                       style={{ margin: 5 }}
                       type="button"
                       className="btn btn-outline-secondary btn-sm"
-                      onClick={e => {
+                      onClick={(e) => {
                         back(e);
                       }}
                     >
@@ -642,6 +661,6 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
 };
 PlantillaEmailForm.propTypes = {
   authorization: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(PlantillaEmailForm);

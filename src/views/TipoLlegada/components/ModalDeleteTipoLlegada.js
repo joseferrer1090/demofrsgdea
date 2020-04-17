@@ -18,14 +18,15 @@ class ModalDeleteTipoLlegada extends Component {
       alertError400: false,
       nameTipoLlegada: "",
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinnerDelete: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -33,16 +34,16 @@ class ModalDeleteTipoLlegada extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
       idTipoLlegada: id,
-      nombre: ""
+      nombre: "",
     }));
     const auth = this.state.auth;
     const username = decode(auth);
@@ -50,29 +51,29 @@ class ModalDeleteTipoLlegada extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameTipoLlegada: data.name
+          nameTipoLlegada: data.name,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   onDismiss = () => {
     this.setState({
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      code: ""
+      code: "",
     };
     const nameTipoLlegada = this.state.nameTipoLlegada;
     const { t } = this.props;
@@ -85,6 +86,9 @@ class ModalDeleteTipoLlegada extends Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -94,51 +98,59 @@ class ModalDeleteTipoLlegada extends Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + auth
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(error => console.log(" ", error));
+                  .catch((error) => {
+                    console.log(" ", error);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
                 " Por favor introduzca el código del tipo de envío / llegada."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -182,9 +194,9 @@ class ModalDeleteTipoLlegada extends Component {
                           "app_tipoLlegada_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -203,13 +215,20 @@ class ModalDeleteTipoLlegada extends Component {
                     <button
                       type="button"
                       className={"btn btn-outline-danger btn-sm"}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      handleBlur={this.state.spinnerDelete}
                     >
-                      <i className="fa fa-trash" />{" "}
-                      {t("app_tipoLlegada_modal_eliminar_button_eliminar")}
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-trash" />{" "}
+                          {t("app_tipoLlegada_modal_eliminar_button_eliminar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -219,7 +238,7 @@ class ModalDeleteTipoLlegada extends Component {
                           modal: false,
                           alertError500: false,
                           alertError400: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -241,7 +260,7 @@ ModalDeleteTipoLlegada.propTypes = {
   modaldelete: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalDeleteTipoLlegada;

@@ -5,7 +5,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import PropTypes from "prop-types";
@@ -21,13 +22,14 @@ class ModalViewRadicacionEmail extends Component {
       id: this.props.id,
       dataRadicacionEmail: {},
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -35,33 +37,49 @@ class ModalViewRadicacionEmail extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
-      id: id
+      id: id,
+      spinner: true,
     }));
+    this.getInfoRadicacionEmail(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
+  };
+  getInfoRadicacionEmail = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataRadicacionEmail: data
+          dataRadicacionEmail: data,
+          spinner: false,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
-
   FechaCreacionRadicacionEmail(data) {
     let createdAt;
     createdAt = new Date(data);
@@ -76,7 +94,7 @@ class ModalViewRadicacionEmail extends Component {
 
   render() {
     const { t } = this.props;
-    const statusRadicacionEmail = data => {
+    const statusRadicacionEmail = (data) => {
       let status;
       if (data === true) {
         status = (
@@ -107,87 +125,103 @@ class ModalViewRadicacionEmail extends Component {
               <Col sm="3">
                 <img src={ImgRadicacionEmail} />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    {t("app_radicacion_email_modal_ver_titulo_2")}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_radicacion_email_modal_ver_protocol")}</dt>
-                        <dd>{protocol} </dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_radicacion_email_modal_ver_titulo_2")}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_radicacion_email_modal_ver_protocol")}
+                          </dt>
+                          <dd>{protocol} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_radicacion_email_modal_ver_host")}</dt>
+                          <dd> {host} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_radicacion_email_modal_ver_puerto")}</dt>
+                          <dd> {port} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_radicacion_email_modal_ver_email")}</dt>
+                          <dd> {email} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_radicacion_email_modal_ver_estado")}</dt>
+                          <dd> {statusRadicacionEmail(status)} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_radicacion_email_modal_ver_fecha_creacion")}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaCreacionRadicacionEmail(createdAt)}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t(
+                              "app_radicacion_email_modal_ver_fecha_modificacion"
+                            )}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaModificacionRadicacionEmail(
+                              updatedAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_radicacion_email_modal_ver_host")}</dt>
-                        <dd> {host} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_radicacion_email_modal_ver_puerto")}</dt>
-                        <dd> {port} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_radicacion_email_modal_ver_email")}</dt>
-                        <dd> {email} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_radicacion_email_modal_ver_estado")}</dt>
-                        <dd> {statusRadicacionEmail(status)} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_radicacion_email_modal_ver_fecha_creacion")}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaCreacionRadicacionEmail(createdAt)}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t(
-                            "app_radicacion_email_modal_ver_fecha_modificacion"
-                          )}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaModificacionRadicacionEmail(
-                            updatedAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -212,7 +246,7 @@ class ModalViewRadicacionEmail extends Component {
 ModalViewRadicacionEmail.propTypes = {
   authorization: PropTypes.string.isRequired,
   modalview: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalViewRadicacionEmail;

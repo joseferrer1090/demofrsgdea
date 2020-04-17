@@ -17,48 +17,49 @@ class ModalDeleteRoles extends Component {
       alertError500: false,
       alertSuccess: false,
       alertError400: false,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinnerDelete: false,
     };
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
     });
     this.getDataRolById(id);
   };
 
-  getDataRolById = id => {
+  getDataRolById = (id) => {
     const token = this.props.authorization;
     const username = decode(token);
     fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataRolById: data
+          dataRolById: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   onDismiss = () => {
     this.setState({
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      codigo: ""
+      codigo: "",
     };
     const { t } = this.props;
     return (
@@ -71,6 +72,9 @@ class ModalDeleteRoles extends Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const token = this.props.authorization;
                 const username = decode(token);
@@ -80,51 +84,59 @@ class ModalDeleteRoles extends Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + token
-                    }
+                      Authorization: "Bearer " + token,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(err => console.log("Error", err));
+                  .catch((err) => {
+                    console.log("Error", err);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               codigo: Yup.string().required(
                 " Por favor introduzca el codigo del rol a eliminar"
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -158,9 +170,9 @@ class ModalDeleteRoles extends Component {
                         value={values.codigo}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={`form-control col-sm-6 offset-sm-3 form-control-sm ${errors.codigo &&
-                          touched.codigo &&
-                          "is-invalid"}`}
+                        className={`form-control col-sm-6 offset-sm-3 form-control-sm ${
+                          errors.codigo && touched.codigo && "is-invalid"
+                        }`}
                         type="text"
                         placeholder={t("app_roles_modal_eliminar_placeholder")}
                         style={{ textAlign: "center" }}
@@ -183,14 +195,20 @@ class ModalDeleteRoles extends Component {
                     <button
                       type="submit"
                       className="btn btn-outline-danger btn-sm"
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerDelete}
                     >
-                      {" "}
-                      <i className="fa fa-trash" />{" "}
-                      {t("app_roles_modal_eliminar_boton_eliminar")}
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-trash" />{" "}
+                          {t("app_roles_modal_eliminar_boton_eliminar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -200,7 +218,7 @@ class ModalDeleteRoles extends Component {
                           modal: false,
                           alertSuccess: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -221,7 +239,7 @@ class ModalDeleteRoles extends Component {
 ModalDeleteRoles.propType = {
   modaldelete: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.array
+  t: PropTypes.array,
 };
 
 export default ModalDeleteRoles;

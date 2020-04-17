@@ -40,7 +40,7 @@ class ModalEditEmpresa extends React.Component {
       company_status: 0,
       auth: this.props.authorization,
       spinner: true,
-      spinnerDelete: false,
+      spinnerActualizar: false,
     };
   }
   static getDerivedStateFromProps(props, state) {
@@ -157,16 +157,14 @@ class ModalEditEmpresa extends React.Component {
             initialValues={this.state.dataCompany}
             onSubmit={(values, { setSubmitting }) => {
               this.setState({
-                spinnerDelete: true,
+                spinnerActualizar: true,
               });
               const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  tipo = 1;
-                  return tipo;
+                  return (tipo = 1);
                 } else if (data === false || data === 0) {
-                  tipo = 0;
-                  return tipo;
+                  return (tipo = 0);
                 }
                 return 0;
               };
@@ -192,43 +190,50 @@ class ModalEditEmpresa extends React.Component {
                     status: tipoEstado(values.company_status),
                     userName: username.user_name,
                   }),
-                }).then((response) => {
-                  if (response.status === 200) {
-                    this.setState(
-                      {
-                        alertSuccess: true,
-                        spinnerDelete: false,
-                      },
-                      () => this.props.updateTable()
-                    );
-                    setTimeout(() => {
+                })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      this.setState(
+                        {
+                          alertSuccess: true,
+                          spinnerActualizar: false,
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
                       this.setState({
-                        alertSuccess: false,
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
-                    }, 3000);
-                  } else if (response.status === 400) {
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false,
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError500: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError500: false,
+                          modal: !this.state.modal,
+                        });
+                      }, 3000);
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("", error);
                     this.setState({
-                      alertError400: true,
-                      spinnerDelete: false,
+                      spinnerActualizar: false,
                     });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError400: false,
-                      });
-                    }, 3000);
-                  } else if (response.status === 500) {
-                    this.setState({
-                      alertError500: true,
-                      spinnerDelete: false,
-                    });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError500: false,
-                        modal: !this.state.modal,
-                      });
-                    }, 3000);
-                  }
-                });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -722,7 +727,7 @@ class ModalEditEmpresa extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      {this.state.spinnerDelete ? (
+                      {this.state.spinnerActualizar ? (
                         <i className=" fa fa-spinner fa-refresh" />
                       ) : (
                         <div>

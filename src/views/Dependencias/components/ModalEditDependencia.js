@@ -7,7 +7,7 @@ import {
   ModalFooter,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -39,12 +39,13 @@ class ModalEditDependencia extends React.Component {
     t: this.props.t,
     status: 0,
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -52,46 +53,46 @@ class ModalEditDependencia extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
     this.getDataDependence(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getDataDependence = id => {
+  getDataDependence = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${DEPENDENCE}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataDependence: data,
           dataCharge: data.charge,
           dataDependenceConglomerate: data.headquarter.company.conglomerate,
           dataDependenceCompany: data.headquarter.company,
-          dataDependenceSede: data.headquarter
+          dataDependenceSede: data.headquarter,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   render() {
@@ -104,7 +105,7 @@ class ModalEditDependencia extends React.Component {
       name: this.state.dataDependence.name,
       code: this.state.dataDependence.code,
       description: this.state.dataDependence.description,
-      status: this.state.dataDependence.status
+      status: this.state.dataDependence.status,
     };
     return (
       <Fragment>
@@ -117,7 +118,10 @@ class ModalEditDependencia extends React.Component {
             enableReinitialize={true}
             initialValues={result}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -134,7 +138,7 @@ class ModalEditDependencia extends React.Component {
                   method: "PUT",
                   headers: {
                     Authorization: "Bearer " + this.state.auth,
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -144,45 +148,52 @@ class ModalEditDependencia extends React.Component {
                     headquarterId: values.headquarter,
                     chargeId: values.charge,
                     status: tipoEstado(values.status),
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: false,
-                            modal: false
                           },
                           () => this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(Error => console.log("Error", Error));
+                  .catch((Error) => {
+                    console.log("Error", Error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
               }, 500);
             }}
             validationSchema={Yup.object().shape({
@@ -207,10 +218,14 @@ class ModalEditDependencia extends React.Component {
               charge: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione el cargo."),
-              status: Yup.bool().test("Activado", "", value => value === true)
+              status: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -219,7 +234,7 @@ class ModalEditDependencia extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -287,7 +302,7 @@ class ModalEditDependencia extends React.Component {
                                       authorization={this.state.auth}
                                       t={this.state.t}
                                       name={"conglomerate"}
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         setFieldValue(
                                           "conglomerate",
                                           e.target.value
@@ -297,9 +312,11 @@ class ModalEditDependencia extends React.Component {
                                         setFieldTouched("conglomerate", true)
                                       }
                                       value={values.conglomerate}
-                                      className={`form-control form-control-sm ${errors.conglomerate &&
+                                      className={`form-control form-control-sm ${
+                                        errors.conglomerate &&
                                         touched.conglomerate &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.conglomerate &&
@@ -405,9 +422,11 @@ class ModalEditDependencia extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.name}
-                                      className={`form-control form-control-sm ${errors.name &&
+                                      className={`form-control form-control-sm ${
+                                        errors.name &&
                                         touched.name &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.name && touched.name ? (
@@ -430,16 +449,18 @@ class ModalEditDependencia extends React.Component {
                                       authorization={this.state.auth}
                                       t={this.state.t}
                                       name={"charge"}
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         setFieldValue("charge", e.target.value)
                                       }
                                       onBlur={() => {
                                         setFieldTouched("charge", true);
                                       }}
                                       value={values.charge}
-                                      className={`form-control form-control-sm ${errors.charge &&
+                                      className={`form-control form-control-sm ${
+                                        errors.charge &&
                                         touched.charge &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.charge && touched.charge ? (
@@ -516,14 +537,23 @@ class ModalEditDependencia extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_dependencia_form_actualizar_boton_actualizar")}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t(
+                            "app_dependencia_form_actualizar_boton_actualizar"
+                          )}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -533,7 +563,7 @@ class ModalEditDependencia extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -555,7 +585,7 @@ class ModalEditDependencia extends React.Component {
 ModalEditDependencia.propTypes = {
   modalEdit: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ModalEditDependencia;

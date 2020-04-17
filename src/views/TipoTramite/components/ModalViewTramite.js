@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
 import moment from "moment";
@@ -23,14 +24,15 @@ class ModalViewTramite extends Component {
       id: this.props.id,
       dataTipoTramite: {},
       users: [],
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -39,38 +41,51 @@ class ModalViewTramite extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
-      id: id
+      id: id,
+      spinner: true,
     }));
     this.getDataTipoTramiteById(id);
-    console.log(this.state.auth);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
   };
 
-  getDataTipoTramiteById = id => {
+  getDataTipoTramiteById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataTipoTramite: data.typeProcedure,
-          users: data.users
+          users: data.users,
+          spinner: false,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => {
+        console.log("Error", err);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
 
   FechaCreacionTipoTramite(data) {
@@ -87,7 +102,7 @@ class ModalViewTramite extends Component {
 
   render() {
     const { t } = this.props;
-    const statusTipoTramite = data => {
+    const statusTipoTramite = (data) => {
       let status;
       if (data === 1) {
         status = (
@@ -106,7 +121,7 @@ class ModalViewTramite extends Component {
       }
       return status;
     };
-    const typeProcedure = data => {
+    const typeProcedure = (data) => {
       let type;
       if (data === 1) {
         type = <p>{t("app_tipoTramite_ver_tipo_correspondencia_recibida")}</p>;
@@ -134,100 +149,119 @@ class ModalViewTramite extends Component {
                   style={{ width: "169px", height: "169px" }}
                 />
               </Col>
-              <Col>
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col>
+                  <div className="">
                     {" "}
-                    {t("app_tipoTramite_ver_titulo_2")}{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_codigo")} </dt>
-                        <dd>{this.state.dataTipoTramite.code}</dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_tipoTramite_ver_titulo_2")}{" "}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_codigo")} </dt>
+                          <dd>{this.state.dataTipoTramite.code}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_tipoTramite_ver_tipo_correspondencia")}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {typeProcedure(
+                              this.state.dataTipoTramite.typeCorrespondence
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_nombre")} </dt>
+                          <dd> {this.state.dataTipoTramite.name} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_descripcion")} </dt>
+                          <dd> {this.state.dataTipoTramite.description} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_estado")} </dt>
+                          <dd>
+                            {" "}
+                            {statusTipoTramite(
+                              this.state.dataTipoTramite.status
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_asunto")} </dt>
+                          <dd> {this.state.dataTipoTramite.issue}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_tipoTramite_ver_fecha_creacion")} </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaCreacionTipoTramite(
+                              this.state.dataTipoTramite.createdAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_tipoTramite_ver_fecha_modificacion")}{" "}
+                          </dt>
+                          <dd>
+                            {this.FechaModificacionTipoTramite(
+                              this.state.dataTipoTramite.updatedAt
+                            )}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_tipo_correspondencia")}</dt>
-                        <dd>
-                          {" "}
-                          {typeProcedure(
-                            this.state.dataTipoTramite.typeCorrespondence
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_nombre")} </dt>
-                        <dd> {this.state.dataTipoTramite.name} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_descripcion")} </dt>
-                        <dd> {this.state.dataTipoTramite.description} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_estado")} </dt>
-                        <dd>
-                          {" "}
-                          {statusTipoTramite(
-                            this.state.dataTipoTramite.status
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_asunto")} </dt>
-                        <dd> {this.state.dataTipoTramite.issue}</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_fecha_creacion")} </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaCreacionTipoTramite(
-                            this.state.dataTipoTramite.createdAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_tipoTramite_ver_fecha_modificacion")} </dt>
-                        <dd>
-                          {this.FechaModificacionTipoTramite(
-                            this.state.dataTipoTramite.updatedAt
-                          )}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
             <Row>
               <Col sm="12">
@@ -261,7 +295,7 @@ class ModalViewTramite extends Component {
 
 ModalViewTramite.propTypes = {
   t: PropTypes.any.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewTramite;

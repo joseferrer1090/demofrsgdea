@@ -12,7 +12,7 @@ import {
   ToastBody,
   ToastHeader,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -36,7 +36,7 @@ class SingleField extends Component {
         isReadOnly: false,
         isRequired: false,
         min: 6,
-        max: 6
+        max: 6,
       },
       active: true,
       formula: false,
@@ -51,14 +51,15 @@ class SingleField extends Component {
       alertError: false,
       alertErrorMessage: "",
       previewInfoField: false,
-      t: this.props.t
+      t: this.props.t,
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -67,7 +68,7 @@ class SingleField extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -99,12 +100,12 @@ class SingleField extends Component {
         break;
       case "IS_REQUIRED":
         this.setState({
-          validation: { ...this.state.validation, isRequired: value }
+          validation: { ...this.state.validation, isRequired: value },
         });
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "MIN":
@@ -124,10 +125,10 @@ class SingleField extends Component {
     }, 0);
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -137,13 +138,16 @@ class SingleField extends Component {
   };
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + this.state.auth
+        authorization: "Bearer " + this.state.auth,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -156,13 +160,13 @@ class SingleField extends Component {
         inputPlaceholder: this.state.placeholder,
         formula: this.state.formula,
         status: this.state.active,
-        userName: username.user_name
-      })
+        userName: username.user_name,
+      }),
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           this.setState({
-            alert200: true
+            alert200: true,
           });
           console.log({
             id: this.state.name,
@@ -172,38 +176,41 @@ class SingleField extends Component {
             inputPlaceholder: this.state.placeholder,
             description: this.state.description,
             formula: this.state.formula,
-            active: this.state.active
+            active: this.state.active,
           });
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
+              spinner: false,
             });
           }, 1500);
         } else if (response.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (response.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(error => {
-        this.setState({ alert500: true });
+      .catch((error) => {
+        this.setState({ alert500: true, spinner: false });
         setTimeout(() => {
           this.setState({
-            alert500: false
+            alert500: false,
           });
         }, 1500);
         console.log(`error, ${error}`);
@@ -213,7 +220,7 @@ class SingleField extends Component {
     }, 500);
   };
 
-  CreateMetadate = e => {
+  CreateMetadate = (e) => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
@@ -221,36 +228,36 @@ class SingleField extends Component {
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         if (schema.isValid) {
           this.sendData();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState(
           {
             alertError: true,
-            alertErrorMessage: err.message
+            alertErrorMessage: err.message,
           },
           console.log(err)
         );
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
@@ -271,8 +278,8 @@ class SingleField extends Component {
         isReadOnly: false,
         isRequired: false,
         min: 6,
-        max: 6
-      }
+        max: 6,
+      },
     });
     this.changeValue("TITLE", this.state.title);
   };
@@ -340,7 +347,7 @@ class SingleField extends Component {
                 <Nav tabs>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "1"
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => {
                       this.toggle("1");
@@ -354,7 +361,7 @@ class SingleField extends Component {
                   </NavLink>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "2"
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => {
                       this.toggle("2");
@@ -367,7 +374,7 @@ class SingleField extends Component {
                     )}
                   </NavLink>
                 </Nav>
-                <form className="form" ref={el => (this.myFormRef = el)}>
+                <form className="form" ref={(el) => (this.myFormRef = el)}>
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                       <Card body>
@@ -383,7 +390,7 @@ class SingleField extends Component {
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
-                                onChange={e => {
+                                onChange={(e) => {
                                   this.changeValue("NAME", e.target.value);
                                 }}
                                 placeholder={`${t(
@@ -405,7 +412,7 @@ class SingleField extends Component {
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
-                                onChange={e => {
+                                onChange={(e) => {
                                   this.changeValue(
                                     "DEFAULT_VALUE",
                                     e.target.value
@@ -428,7 +435,7 @@ class SingleField extends Component {
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
-                                onChange={e => {
+                                onChange={(e) => {
                                   this.changeValue(
                                     "HELPER_TEXT",
                                     e.target.value
@@ -456,7 +463,7 @@ class SingleField extends Component {
                               <input
                                 type="text"
                                 value={this.state.title}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue("TITLE", e.target.value)
                                 }
                                 placeholder={`${t(
@@ -476,7 +483,7 @@ class SingleField extends Component {
                               <input
                                 type="text"
                                 value={this.state.placeholder}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue(
                                     "PLACEHOLDER",
                                     e.target.value
@@ -501,7 +508,7 @@ class SingleField extends Component {
                               </label>
                               <textarea
                                 value={this.state.description}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue(
                                     "DESCRIPTION",
                                     e.target.value
@@ -521,7 +528,7 @@ class SingleField extends Component {
                             <div className="form-group">
                               <input
                                 value={this.state.validation.isRequired}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue(
                                     "IS_REQUIRED",
                                     e.target.checked
@@ -547,7 +554,7 @@ class SingleField extends Component {
                             <div className="form-group">
                               <input
                                 value={this.state.validation.isReadOnly}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue(
                                     "IS_READONLY",
                                     e.target.checked
@@ -581,7 +588,7 @@ class SingleField extends Component {
                                 type="number"
                                 className="form-control form-control-sm"
                                 value={this.state.validation.max}
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue("MAX", e.target.value)
                                 }
                                 placeholder={"20"}
@@ -597,7 +604,7 @@ class SingleField extends Component {
                               </label>
                               <input
                                 type="number"
-                                onChange={e =>
+                                onChange={(e) =>
                                   this.changeValue("MIN", e.target.value)
                                 }
                                 value={this.state.validation.min}
@@ -622,9 +629,9 @@ class SingleField extends Component {
                           label={`${t(
                             "app_metadatos_crear_metadato_bolsa_metadatos_status"
                           )}`}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              active: e.target.checked
+                              active: e.target.checked,
                             });
                           }}
                         ></CustomInput>
@@ -636,7 +643,7 @@ class SingleField extends Component {
                             "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                           )}`}
                           id={"formula"}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({ formula: e.target.checked });
                           }}
                         />
@@ -661,15 +668,22 @@ class SingleField extends Component {
                   <button
                     className="btn btn-secondary btn-sm "
                     type="button"
-                    onClick={e => {
+                    onClick={(e) => {
                       this.CreateMetadate(e);
                     }}
+                    disabled={this.state.spinner}
                   >
-                    {" "}
-                    <i className="fa fa-save" />{" "}
-                    {t(
-                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
-                    )}{" "}
+                    {this.state.spinner ? (
+                      <i className=" fa fa-spinner fa-refresh" />
+                    ) : (
+                      <div>
+                        {" "}
+                        <i className="fa fa-save" />{" "}
+                        {t(
+                          "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                        )}{" "}
+                      </div>
+                    )}
                   </button>
                 </div>
               </CardFooter>
@@ -677,7 +691,7 @@ class SingleField extends Component {
           </div>
         </div>
         <ModalPreview
-          ref={m => (this.myModal = m)}
+          ref={(m) => (this.myModal = m)}
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}

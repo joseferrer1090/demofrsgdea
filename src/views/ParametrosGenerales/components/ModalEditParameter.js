@@ -118,6 +118,7 @@ class ModalEditParameter extends Component {
       alertError500: false,
       valor: null,
       t: this.props.t,
+      spinnerActualizar: false,
     };
   }
 
@@ -181,6 +182,9 @@ class ModalEditParameter extends Component {
           }}
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
+            this.setState({
+              spinnerActualizar: true,
+            });
             setTimeout(() => {
               const token = this.state.auth;
               const user = decode(token);
@@ -200,6 +204,7 @@ class ModalEditParameter extends Component {
                   if (response.ok) {
                     this.setState({
                       alertSuccess: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState(
@@ -213,6 +218,7 @@ class ModalEditParameter extends Component {
                   } else if (response.status === 400) {
                     this.setState({
                       alertError: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState({
@@ -222,6 +228,7 @@ class ModalEditParameter extends Component {
                   } else if (response.status === 500) {
                     this.setState({
                       alertError500: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState({
@@ -233,6 +240,9 @@ class ModalEditParameter extends Component {
                 })
                 .catch((error) => {
                   console.log(`${error}`);
+                  this.setState({
+                    spinnerActualizar: false,
+                  });
                 });
               console.log(values);
               //alert(JSON.stringify({ values }, null, 2));
@@ -398,10 +408,19 @@ class ModalEditParameter extends Component {
                       e.preventDefault();
                       handleSubmit();
                     }}
+                    disabled={this.state.spinnerActualizar}
                   >
-                    {" "}
-                    {t("app_parametros_generales_modal_accion_btn_editar")}{" "}
-                    <i className="fa fa-pencil" />{" "}
+                    {this.state.spinnerActualizar ? (
+                      <i className=" fa fa-spinner fa-refresh" />
+                    ) : (
+                      <div>
+                        {" "}
+                        {t(
+                          "app_parametros_generales_modal_accion_btn_editar"
+                        )}{" "}
+                        <i className="fa fa-pencil" />{" "}
+                      </div>
+                    )}
                   </button>
                   <button
                     className="btn btn-secondary btn-sm"

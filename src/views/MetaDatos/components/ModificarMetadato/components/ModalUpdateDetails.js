@@ -25,6 +25,9 @@ class ModalUpdateDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      spinnerActualizar: false,
+      spinnerEliminar: false,
+      spinnerCrear: false,
       modal: this.props.modaldetails,
       auth: this.props.authorization,
       id: this.props.id,
@@ -209,6 +212,9 @@ class ModalUpdateDetails extends Component {
 
   // PostCreateDetail
   createDetail = () => {
+    this.setState({
+      spinnerCrear: true,
+    });
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_DETAIL_CREATE}`, {
@@ -229,6 +235,7 @@ class ModalUpdateDetails extends Component {
         if (resp.status === 201) {
           this.getDataDetailsById(this.state.id, this.state.auth);
           this.setState({
+            spinnerCrear: false,
             alertSuccess: true,
             spinner: false,
           });
@@ -239,6 +246,7 @@ class ModalUpdateDetails extends Component {
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
+            spinnerCrear: false,
             alertError400: true,
             spinner: false,
           });
@@ -249,6 +257,7 @@ class ModalUpdateDetails extends Component {
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
+            spinnerCrear: false,
             alertError500: true,
             spinner: false,
           });
@@ -263,6 +272,7 @@ class ModalUpdateDetails extends Component {
         console.log(`Error => ${err.message}`);
         this.setState({
           spinner: false,
+          spinnerCrear: false,
         });
       });
     this.resetForm();
@@ -280,6 +290,9 @@ class ModalUpdateDetails extends Component {
 
   // DeleteDetails
   deleteDetail = (e) => {
+    this.setState({
+      spinnerEliminar: true,
+    });
     e.preventDefault();
     const aux = this.state.auth;
     const username = decode(aux);
@@ -296,6 +309,7 @@ class ModalUpdateDetails extends Component {
       .then((resp) => {
         if (resp.status === 204) {
           this.setState({
+            spinnerEliminar: false,
             actions: {
               ...this.state.actions,
               visible3: !this.state.actions.visible3,
@@ -311,6 +325,7 @@ class ModalUpdateDetails extends Component {
           this.getDataDetailsById(this.state.id, this.state.auth);
         } else if (resp.status === 500) {
           this.setState({
+            spinnerEliminar: false,
             actions: {
               ...this.state.actions,
               visible3: !this.state.actions.visible3,
@@ -325,6 +340,7 @@ class ModalUpdateDetails extends Component {
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
+            spinnerEliminar: false,
             alertError400Delete: true,
             actions: {
               ...this.state.actions,
@@ -341,11 +357,17 @@ class ModalUpdateDetails extends Component {
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
+        this.setState({
+          spinnerEliminar: false,
+        });
       });
   };
 
   // PutDeatiails
   putDetails = (e) => {
+    this.setState({
+      spinnerActualizar: true,
+    });
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_DETAIL_PUT}`, {
@@ -367,6 +389,7 @@ class ModalUpdateDetails extends Component {
         if (resp.status === 200) {
           this.getDataDetailsById(this.state.id, this.state.auth);
           this.setState({
+            spinnerActualizar: false,
             alertsSuccessPut: true,
             spinner: false,
           });
@@ -377,6 +400,7 @@ class ModalUpdateDetails extends Component {
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
+            spinnerActualizar: false,
             alertError400Put: true,
             spinner: false,
           });
@@ -387,6 +411,7 @@ class ModalUpdateDetails extends Component {
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
+            spinnerActualizar: false,
             alertError500Put: true,
             spinner: false,
           });
@@ -401,6 +426,7 @@ class ModalUpdateDetails extends Component {
         console.log(`Error => ${err.message}`);
         this.setState({
           spinner: false,
+          spinnerActualizar: false,
         });
       });
   };
@@ -622,10 +648,17 @@ class ModalUpdateDetails extends Component {
                         spinner: true,
                       });
                     }}
+                    disabled={this.state.spinnerEliminar}
                   >
-                    <i className="fa fa-trash" />{" "}
-                    {t(
-                      "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_eliminar"
+                    {this.state.spinnerEliminar ? (
+                      <i className=" fa fa-spinner fa-refresh" />
+                    ) : (
+                      <div>
+                        <i className="fa fa-trash" />{" "}
+                        {t(
+                          "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_eliminar"
+                        )}
+                      </div>
                     )}
                   </button>
                   &nbsp;
@@ -796,11 +829,18 @@ class ModalUpdateDetails extends Component {
                         //   }
                         // });
                       }}
+                      disabled={this.state.spinnerCrear}
                     >
-                      <i className="fa fa-plus-circle" />{" "}
-                      {t(
-                        "app_metadatos_actualizar_metdatos_modal_detalles_agregar_btn_crear"
-                      )}{" "}
+                      {this.state.spinnerCrear ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-plus-circle" />{" "}
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_agregar_btn_crear"
+                          )}{" "}
+                        </div>
+                      )}
                     </button>
                     &nbsp;
                     <button
@@ -916,10 +956,17 @@ class ModalUpdateDetails extends Component {
                           });
                         }
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />
-                      {t(
-                        "app_metadatos_actualizar_metdatos_modal_detalles_editar_btn_actualizar_"
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_editar_btn_actualizar_"
+                          )}{" "}
+                        </div>
                       )}
                     </button>
                     &nbsp;

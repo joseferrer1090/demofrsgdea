@@ -4,6 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
 import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import * as Yup from "yup";
 
 class ModalEditIndexText extends Component {
   constructor(props) {
@@ -89,12 +90,14 @@ class ModalEditIndexText extends Component {
             <div className="row">
               <div className="col-md-6">
                 <div className="form-group">
-                  <label>Formula</label>
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    disabled
-                  />
+                  <label>
+                    Formula<span className="text-danger"> *</span>{" "}
+                  </label>
+                  <select className="form-control form-control-sm">
+                    <option>Seleccione</option>
+                    <option>Si</option>
+                    <option>No</option>
+                  </select>
                 </div>
               </div>
               <div className="col-md-6">
@@ -103,11 +106,11 @@ class ModalEditIndexText extends Component {
                     {" "}
                     Requerido <span className="text-danger">*</span>
                   </label>
-                  <input
-                    type="text"
-                    className="form-control form-control-sm"
-                    disabled
-                  />
+                  <select className="form-control form-control-sm">
+                    <option>Seleccione</option>
+                    <option>Si</option>
+                    <option>No</option>
+                  </select>
                 </div>
               </div>
               <div className="col-md-12">

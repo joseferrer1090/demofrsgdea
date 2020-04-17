@@ -4,6 +4,7 @@ import Input from "./PreviewMetadata/Input";
 import PropTypes from "prop-types";
 import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import * as Yup from "yup";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
@@ -13,6 +14,11 @@ class ModalAddIndexes extends Component {
       auth: this.props.authorization,
       template: this.props.templateid,
       metadata: this.props.metadataid,
+      objMetadata: {
+        defaultvalue: "",
+        formula: {},
+        required: "",
+      },
     };
   }
 
@@ -75,13 +81,34 @@ class ModalAddIndexes extends Component {
     }));
   };
 
+  updateMetadata = (e) => {
+    e.preventDefault();
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      formula: Yup.bool().required(),
+      required: Yup.bool().required("Necesario asignar un valor"),
+    });
+    schema
+      .validate({
+        formula: this.state.objMetadata.formula,
+        required: this.state.objMetadata.required,
+      })
+      .then(() => {
+        console.log("los datos correctos");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   render() {
+    console.log(this.state.objMetadata);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Editar valores del Metadato</ModalHeader>
-          <ModalBody>
-            <form className="form">
+          <form>
+            <ModalBody>
               <div className="row">
                 <div className="col-md-12">
                   <p className=" alert alert-secondary">
@@ -96,11 +123,22 @@ class ModalAddIndexes extends Component {
                       {" "}
                       Formula <span className="text-danger">*</span>{" "}
                     </label>
-                    <input
-                      type="text"
+                    <select
+                      value={this.state.objMetadata.formula}
                       className="form-control form-control-sm"
-                      disabled
-                    />
+                      onChange={(e) => {
+                        this.setState({
+                          objMetadata: {
+                            ...this.state.objMetadata,
+                            formula: e.target.value,
+                          },
+                        });
+                      }}
+                    >
+                      <option value="">Seleccione...</option>
+                      <option value="true">Si</option>
+                      <option value="false">No</option>
+                    </select>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -109,11 +147,23 @@ class ModalAddIndexes extends Component {
                       {" "}
                       Requerido <span className="text-danger">*</span>{" "}
                     </label>
-                    <input
-                      type="text"
+                    <select
+                      id="required"
                       className="form-control form-control-sm"
-                      disabled
-                    />
+                      value={this.state.objMetadata.required}
+                      onChange={(e) => {
+                        this.setState({
+                          objMetadata: {
+                            ...this.state.objMetadata,
+                            required: e.target.value,
+                          },
+                        });
+                      }}
+                    >
+                      <option value="">Seleccione...</option>
+                      <option value="true">Si</option>
+                      <option value="false">No</option>
+                    </select>
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -134,23 +184,27 @@ class ModalAddIndexes extends Component {
                   </p>
                 </div>
               </div>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <button type="button" className="btn btn-outline-success btn-sm">
-              <i className="fa fa-pencil" /> Editar metadato
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
+            </ModalBody>
+            <ModalFooter>
+              <button
+                type="button"
+                onClick={(e) => this.updateMetadata(e)}
+                className="btn btn-outline-success btn-sm"
+              >
+                <i className="fa fa-pencil" /> Editar metadato
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.setState({ modal: false });
+                }}
+              >
+                {" "}
+                <i className="fa fa-times" /> Cerrar{" "}
+              </button>
+            </ModalFooter>
+          </form>
         </Modal>
       </div>
     );

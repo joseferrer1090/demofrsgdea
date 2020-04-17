@@ -103,6 +103,19 @@ class ModalAddIndexes extends Component {
                     />
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>
+                      {" "}
+                      Requerido <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      disabled
+                    />
+                  </div>
+                </div>
                 <div className="col-md-12">
                   <div className="form-group">
                     <div className="card">
@@ -111,14 +124,6 @@ class ModalAddIndexes extends Component {
                         <Input formType="select" />
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Requerido <span className="text-danger">*</span>{" "}
-                    </label>
                   </div>
                 </div>
                 <div className="col-md-12">

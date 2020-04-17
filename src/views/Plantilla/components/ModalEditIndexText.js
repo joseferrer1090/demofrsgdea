@@ -86,16 +86,47 @@ class ModalEditIndexText extends Component {
             que tendra el metadato en la plantilla asociada.
           </p>
           <form className="form">
-            <div className="form-group">
-              <label>Requerido</label>
-              <input type="checkbox" />
-            </div>
-            <div className="form-group">
-              <label>Formula</label>
-              <input type="checkbox" />
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Formula</label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>
+                    {" "}
+                    Requerido <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="card-header">Metadato</div>
+                  <div className="card-body">
+                    <Input formType="text" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <p className="text-helper">
+                  <span className="text-danger">*</span> El valor que se
+                  seleccione, sera definido como valor por defecto en la
+                  plantilla donde se asocio el metadato.
+                </p>
+              </div>
             </div>
           </form>
-          <Input formType="text" />
         </ModalBody>
         <ModalFooter>
           <div className="float-right">

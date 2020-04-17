@@ -14,7 +14,7 @@ import {
   ToastBody,
   ToastHeader,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -37,7 +37,7 @@ class DateField extends Component {
         isRequired: false,
         isReadOnly: false,
         min: "",
-        max: ""
+        max: "",
       },
       activeTab: "1",
       modalpreview: false,
@@ -49,14 +49,15 @@ class DateField extends Component {
       formula: false,
       alertError: false,
       alertErrorMessage: "",
-      t: this.props.t
+      t: this.props.t,
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -65,7 +66,7 @@ class DateField extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -99,18 +100,18 @@ class DateField extends Component {
         this.setState({
           validation: {
             ...this.state.validation,
-            isRequired: value
-          }
+            isRequired: value,
+          },
         });
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "MAX":
         this.setState({
-          validation: { ...this.state.validation, max: value }
+          validation: { ...this.state.validation, max: value },
         });
         break;
       case "MIN":
@@ -125,22 +126,25 @@ class DateField extends Component {
     }, 0);
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + aux
+        Authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -153,54 +157,58 @@ class DateField extends Component {
         inputPlaceholder: "",
         formula: this.state.formula,
         status: this.state.active,
-        userName: user.user_name
-      })
+        userName: user.user_name,
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.setState({
-            alert200: true
+            alert200: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
             });
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
+          spinner: false,
           alertError: true,
-          alertErrorMessage: error.message
+          alertErrorMessage: error.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
     this.resetForm();
   };
 
-  createMetadata = e => {
+  createMetadata = (e) => {
     e.preventDefault();
     Yup.setLocale({});
 
@@ -209,14 +217,14 @@ class DateField extends Component {
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       min: Yup.date(new Date()),
       max: Yup.date(new Date()),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
 
     schema
@@ -226,19 +234,19 @@ class DateField extends Component {
         min: this.state.validation.min,
         max: this.state.validation.max,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         this.sendData();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
@@ -258,8 +266,8 @@ class DateField extends Component {
         isRequired: false,
         isReadOnly: false,
         min: "",
-        max: ""
-      }
+        max: "",
+      },
     });
     this.changeValue("TITLE", this.state.title);
   };
@@ -282,7 +290,7 @@ class DateField extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <form ref={el => (this.MyForm = el)} className="form">
+            <form ref={(el) => (this.MyForm = el)} className="form">
               <Alert color={"danger"} isOpen={this.state.alertError}>
                 <i className="fa fa-exclamation-triangle" />
                 {this.state.alertErrorMessage}
@@ -322,7 +330,7 @@ class DateField extends Component {
               <Nav tabs>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "1"
+                    active: this.state.activeTab === "1",
                   })}
                   onClick={() => this.toggle("1")}
                 >
@@ -332,7 +340,7 @@ class DateField extends Component {
                 </NavLink>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "2"
+                    active: this.state.activeTab === "2",
                   })}
                   onClick={() => this.toggle("2")}
                 >
@@ -360,7 +368,7 @@ class DateField extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.name}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("NAME", e.target.value)
                             }
                             placeholder={`${t(
@@ -381,7 +389,7 @@ class DateField extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.title}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("TITLE", e.target.value)
                             }
                             placeholder={`${t(
@@ -403,7 +411,7 @@ class DateField extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
-                            onChange={e => {
+                            onChange={(e) => {
                               this.changeValue("DESCRIPTION", e.target.value);
                             }}
                           />
@@ -420,7 +428,7 @@ class DateField extends Component {
                           <input
                             type="checkbox"
                             value={this.state.validation.isRequired}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_REQUIRED", e.target.checked)
                             }
                             id={"isRequired"}
@@ -442,7 +450,7 @@ class DateField extends Component {
                           <input
                             type={"checkbox"}
                             value={this.state.validation.isReadOnly}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_READONLY", e.target.checked)
                             }
                             id="isReadOnly"
@@ -470,7 +478,7 @@ class DateField extends Component {
                             type="date"
                             className="form-control form-control-sm"
                             value={this.state.validation.min}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("MIN", e.target.value)
                             }
                             patter={"yyyy/mm/dd"}
@@ -487,7 +495,7 @@ class DateField extends Component {
                           <input
                             type={"date"}
                             className={"form-control form-control-sm"}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("MAX", e.target.value)
                             }
                             value={this.state.validation.max}
@@ -511,9 +519,9 @@ class DateField extends Component {
                       label={`${t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status"
                       )}`}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          active: e.target.checked
+                          active: e.target.checked,
                         });
                       }}
                     />
@@ -528,9 +536,9 @@ class DateField extends Component {
                       label={t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                       )}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          formula: e.target.checked
+                          formula: e.target.checked,
                         });
                       }}
                     />
@@ -555,19 +563,26 @@ class DateField extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => this.createMetadata(e)}
+                onClick={(e) => this.createMetadata(e)}
+                disabled={this.state.spinner}
               >
-                {" "}
-                <i className="fa fa-save" />
-                {t(
-                  "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
-                )}{" "}
+                {this.state.spinner ? (
+                  <i className=" fa fa-spinner fa-refresh" />
+                ) : (
+                  <div>
+                    {" "}
+                    <i className="fa fa-save" />
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}{" "}
+                  </div>
+                )}
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={el => (this.MyModal = el)}
+          ref={(el) => (this.MyModal = el)}
           modalpreview={this.state.modalpreview}
           field={this.props.field}
           inputType={this.props.dragType}
@@ -583,6 +598,6 @@ DateField.propTypes = {
   index: PropTypes.any.isRequired,
   key: PropTypes.any.isRequired,
   removeField: PropTypes.func.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default DateField;

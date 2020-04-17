@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalHeader,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
 import { INFO_EMAIL } from "./../../../services/EndPoints";
@@ -21,14 +22,15 @@ class Modalc extends React.Component {
       dataInfo: {},
       auth: this.props.authorization,
       id: this.props.id,
-      t: this.props.t
+      t: this.props.t,
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,36 +38,51 @@ class Modalc extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
-    console.log(this.state.id);
+    this.getInfoEmailRequest(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
+  };
+  getInfoEmailRequest = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${INFO_EMAIL}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataInfo: data.filingEmail
+          dataInfo: data.filingEmail,
+          spinner: false,
         });
         // console.log(this.state.dataTemplate);
       })
-      .catch(Error => console.log(Error));
+      .catch((Error) => {
+        console.log(Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
-
   FechaCreacionEmailRequest(data) {
     let createdAt;
     createdAt = new Date(data);
@@ -81,7 +98,7 @@ class Modalc extends React.Component {
   render() {
     const { dataInfo } = this.state;
     const { t } = this.state;
-    const statusAnswer = data => {
+    const statusAnswer = (data) => {
       const { t } = this.props;
       let status;
       if (data === true) {
@@ -110,79 +127,93 @@ class Modalc extends React.Component {
               <Col sm="3">
                 <img src={IMGEMAILREQUEST} className="img-thumbnail" />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    {t("app_emailRequest_modal_ver_datos")}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_emailRequest_modal_ver_remitente")}</dt>
-                        <dd>{dataInfo.sender}</dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_emailRequest_modal_ver_datos")}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_emailRequest_modal_ver_remitente")}</dt>
+                          <dd>{dataInfo.sender}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_emailRequest_modal_ver_asunto")}</dt>
+                          <dd>{dataInfo.subject}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_emailRequest_modal_ver_mensaje")}</dt>
+                          <dd>{dataInfo.body}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_emailRequest_modal_ver_respuesta")}</dt>
+                          <dd>{statusAnswer(dataInfo.answer)}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_emailRequest_modal_ver_fecha_creacion")}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaCreacionEmailRequest(
+                              dataInfo.createdAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {t("app_emailRequest_modal_ver_fecha_modificacion")}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaModificacionEmailRequest(
+                              dataInfo.updatedAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_emailRequest_modal_ver_asunto")}</dt>
-                        <dd>{dataInfo.subject}</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_emailRequest_modal_ver_mensaje")}</dt>
-                        <dd>{dataInfo.body}</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_emailRequest_modal_ver_respuesta")}</dt>
-                        <dd>{statusAnswer(dataInfo.answer)}</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_emailRequest_modal_ver_fecha_creacion")}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaCreacionEmailRequest(
-                            dataInfo.createdAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {t("app_emailRequest_modal_ver_fecha_modificacion")}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaModificacionEmailRequest(
-                            dataInfo.updatedAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -203,7 +234,7 @@ class Modalc extends React.Component {
 }
 Modalc.propTypes = {
   modal: PropTypes.bool.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
   //   id: PropTypes.string.isRequired
 };
 export default Modalc;

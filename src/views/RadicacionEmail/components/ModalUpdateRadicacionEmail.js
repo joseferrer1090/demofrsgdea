@@ -8,7 +8,7 @@ import {
   Col,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgRadicacionEmail from "./../../../assets/img/message.svg";
@@ -28,13 +28,14 @@ class ModalUpdateRadicacionEmail extends React.Component {
     t: this.props.t,
     messenger_status: 0,
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -42,37 +43,37 @@ class ModalUpdateRadicacionEmail extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       idRadicacionEmail: id,
-      spinner: true
+      spinner: true,
     });
     this.getRadiacionEmailByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getRadiacionEmailByID = id => {
+  getRadiacionEmailByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             radicacionemail_protocol: data.protocol,
@@ -80,11 +81,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
             radicacionemail_port: data.port,
             radicacionemail_email: data.email,
             radicacionemail_password: data.password,
-            radicacionemail_status: data.status
-          }
+            radicacionemail_status: data.status,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -120,11 +121,14 @@ class ModalUpdateRadicacionEmail extends React.Component {
               radicacionemail_status: Yup.bool().test(
                 "Activo",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -141,7 +145,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idRadicacionEmail,
@@ -151,57 +155,64 @@ class ModalUpdateRadicacionEmail extends React.Component {
                     email: values.radicacionemail_email,
                     password: values.radicacionemail_password,
                     status: values.radicacionemail_status,
-                    username: username.user_name
-                  })
+                    username: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -273,9 +284,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.radicacionemail_protocol}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.radicacionemail_protocol &&
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_protocol &&
                                         touched.radicacionemail_protocol &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.radicacionemail_protocol &&
@@ -303,9 +316,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.radicacionemail_host}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.radicacionemail_host &&
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_host &&
                                         touched.radicacionemail_host &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.radicacionemail_host &&
@@ -333,9 +348,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.radicacionemail_port}
                                       type="number"
-                                      className={`form-control form-control-sm ${errors.radicacionemail_port &&
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_port &&
                                         touched.radicacionemail_port &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.radicacionemail_port &&
@@ -363,9 +380,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.radicacionemail_email}
                                       type="email"
-                                      className={`form-control form-control-sm ${errors.radicacionemail_email &&
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_email &&
                                         touched.radicacionemail_email &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.radicacionemail_email &&
@@ -393,9 +412,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.radicacionemail_password}
                                       type="password"
-                                      className={`form-control form-control-sm ${errors.radicacionemail_password &&
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_password &&
                                         touched.radicacionemail_password &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.radicacionemail_password &&
@@ -452,16 +473,23 @@ class ModalUpdateRadicacionEmail extends React.Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                       type="button"
-                      className="btn btn-sm btn-outline-success"
+                      className="btn btn-sm btn-success"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {this.props.t(
-                        "app_radicacion_email_modal_actualizar_boton_actualizar"
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {this.props.t(
+                            "app_radicacion_email_modal_actualizar_boton_actualizar"
+                          )}{" "}
+                        </div>
                       )}
                     </button>
                     <button
@@ -471,7 +499,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -495,7 +523,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
 ModalUpdateRadicacionEmail.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalUpdateRadicacionEmail;

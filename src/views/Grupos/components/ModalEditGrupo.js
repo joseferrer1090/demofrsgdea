@@ -12,7 +12,7 @@ import {
   Alert,
   Spinner,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -38,13 +38,14 @@ class ModalEditGrupos extends React.Component {
     alertSuccess: false,
     auth: this.props.authorization,
     t: this.props.t,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -53,21 +54,21 @@ class ModalEditGrupos extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
     this.getDataGroup(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
@@ -78,25 +79,25 @@ class ModalEditGrupos extends React.Component {
   //     return;
   //  };
 
-  getDataGroup = id => {
+  getDataGroup = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${GROUPUSER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           datagroup: data,
-          datagroupUsers: data.users
+          datagroupUsers: data.users,
         });
         console.log(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
@@ -105,24 +106,7 @@ class ModalEditGrupos extends React.Component {
   // };
 
   render() {
-    // const {dataOk, items, selectedOptionUserAsigandos} = this.state;
-    // const buscarOpciones = items.map(item => (
-    //   <option
-    //     key={item.id}
-    //     onClick={() => {
-    //     const string = JSON.stringify({
-    //       value: `${item.id}`,
-    //       label: `${item.nombre}`
-    //     });
-    //     filtraritems.push(JSON.parse(string));
-    //     console.log(filtraritems);
-    //   }}
-    // >
-    //   {item.nombre}
-    // </option>
-    //     ));
-    // console.log(filtraritems);
-    const tipoEstado = data => {
+    const tipoEstado = (data) => {
       let tipo;
       if (data === true || data === 1) {
         return (tipo = 1);
@@ -138,7 +122,7 @@ class ModalEditGrupos extends React.Component {
       usuarios: this.state.datagroupUsers.map((aux, id) => {
         return { label: aux.name, value: aux.id };
       }),
-      estado: this.state.datagroup.status
+      estado: this.state.datagroup.status,
     };
     const { t } = this.state;
 
@@ -158,9 +142,12 @@ class ModalEditGrupos extends React.Component {
               usuarios: this.state.datagroupUsers.map((aux, id) => {
                 return { label: aux.name, value: aux.id };
               }),
-              estado: this.state.datagroup.status
+              estado: this.state.datagroup.status,
             }}
             onSubmit={(values, { setSubmitting, props }) => {
+              this.setState({
+                spinnerActualizar: true,
+              });
               const userName = decode(this.props.authorization);
               setTimeout(() => {
                 // alert(JSON.stringify(values, null, 2));
@@ -168,7 +155,7 @@ class ModalEditGrupos extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.props.authorization
+                    Authorization: "Bearer " + this.props.authorization,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -177,47 +164,49 @@ class ModalEditGrupos extends React.Component {
                     description: values.descripcion,
                     userName: userName.user_name,
                     users: values.usuarios,
-                    status: values.estado
-                  })
+                    status: values.estado,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: false,
-                            modal: false
                           },
                           this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError400: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(err => console.log("Error", err));
+                  .catch((err) => console.log("Error", err));
               }, 1000);
               setSubmitting(false);
             }}
@@ -243,13 +232,17 @@ class ModalEditGrupos extends React.Component {
               usuarios: Yup.array().of(
                 Yup.object().shape({
                   label: Yup.string().required(),
-                  value: Yup.string().required()
+                  value: Yup.string().required(),
                 })
               ),
-              estado: Yup.bool().test("Activado", "", value => value === true)
+              estado: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -258,7 +251,7 @@ class ModalEditGrupos extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -406,7 +399,7 @@ class ModalEditGrupos extends React.Component {
                                         style={{
                                           width: "3rem",
                                           height: "3rem",
-                                          marginBottom: "10px"
+                                          marginBottom: "10px",
                                         }}
                                         type="grow"
                                         color="primary"
@@ -429,7 +422,7 @@ class ModalEditGrupos extends React.Component {
                                             t={t}
                                             token={this.props.authorization}
                                             name={"conglomerado"}
-                                            onChange={e =>
+                                            onChange={(e) =>
                                               setFieldValue(
                                                 "conglomerado",
                                                 e.target.value
@@ -442,9 +435,11 @@ class ModalEditGrupos extends React.Component {
                                               )
                                             }
                                             value={values.conglomerado}
-                                            className={`form-control form-control-sm ${errors.conglomerado &&
+                                            className={`form-control form-control-sm ${
+                                              errors.conglomerado &&
                                               touched.conglomerado &&
-                                              "is-invalid"}`}
+                                              "is-invalid"
+                                            }`}
                                           />
                                           <div style={{ color: "#D54B4B" }}>
                                             {errors.conglomerado &&
@@ -649,15 +644,22 @@ class ModalEditGrupos extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
-                      onClick={e => {
+                      className="btn btn-success btn-sm"
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
                       {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_grupoUsuarios_modal_editar_btn_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_grupoUsuarios_modal_editar_btn_actualizar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -667,7 +669,7 @@ class ModalEditGrupos extends React.Component {
                           modal: false,
                           alertSuccess: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -688,7 +690,7 @@ class ModalEditGrupos extends React.Component {
 
 ModalEditGrupos.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditGrupos;
@@ -697,18 +699,18 @@ class UsuariosAsignados extends React.Component {
   state = {
     dataUsers: [],
     id: this.props.dependencia,
-    auth: this.props.token
+    auth: this.props.token,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.dependencia !== state.id) {
       return {
-        id: props.dependencia
+        id: props.dependencia,
       };
     }
     if (props.token !== state.token) {
       return {
-        auth: props.token
+        auth: props.token,
       };
     }
     return null;
@@ -720,7 +722,7 @@ class UsuariosAsignados extends React.Component {
     }
     if (this.props.token !== prevProps.token) {
       this.setState({
-        auth: this.props.token
+        auth: this.props.token,
       });
     }
   }
@@ -730,24 +732,24 @@ class UsuariosAsignados extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
+        Authorization: "Bearer " + this.props.token,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataUsers: data
+          dataUsers: data,
         });
         //console.log(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   componentDidMount() {
     this.getDataUserDependenceList();
   }
 
-  handleChange = value => {
+  handleChange = (value) => {
     this.props.onChange("usuarios", value);
   };
 

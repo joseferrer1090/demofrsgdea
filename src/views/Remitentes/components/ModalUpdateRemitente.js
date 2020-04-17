@@ -15,7 +15,7 @@ import {
   NavLink,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
@@ -45,13 +45,14 @@ class ModalUpdateRemitente extends React.Component {
     tercero_estado: 0,
     username: "",
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -59,36 +60,36 @@ class ModalUpdateRemitente extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
     this.getTerceroByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
-  getTerceroByID = id => {
+  getTerceroByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${THIRDPARTY}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         this.setState({
           dataResult: {
@@ -109,14 +110,14 @@ class ModalUpdateRemitente extends React.Component {
                 : data.city.department.country.id,
             tercero_departamento:
               data.city.department.status !== 1 ? "" : data.city.department.id,
-            tercero_ciudad: data.city.status !== 1 ? "" : data.city.id
-          }
+            tercero_ciudad: data.city.status !== 1 ? "" : data.city.id,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
-  toggleTab = tab => {
+  toggleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({ activeTab: tab });
     }
@@ -143,7 +144,10 @@ class ModalUpdateRemitente extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -159,7 +163,7 @@ class ModalUpdateRemitente extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     address: values.tercero_direccion,
@@ -175,45 +179,52 @@ class ModalUpdateRemitente extends React.Component {
                     reference: values.tercero_referencia,
                     status: tipoEstado(values.tercero_estado),
                     typeThirdPartyId: values.tercero_tipoTercero,
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -269,11 +280,11 @@ class ModalUpdateRemitente extends React.Component {
               tercero_estado: Yup.bool().test(
                 "Activado",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -282,7 +293,7 @@ class ModalUpdateRemitente extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
@@ -348,7 +359,7 @@ class ModalUpdateRemitente extends React.Component {
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"tercero_tipoTercero"}
-                                  onChange={e =>
+                                  onChange={(e) =>
                                     setFieldValue(
                                       "tercero_tipoTercero",
                                       e.target.value
@@ -361,9 +372,11 @@ class ModalUpdateRemitente extends React.Component {
                                     );
                                   }}
                                   value={values.tercero_tipoTercero}
-                                  className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
+                                  className={`form-control form-control-sm ${
+                                    errors.tercero_tipoTercero &&
                                     touched.tercero_tipoTercero &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
 
                                 <div style={{ color: "#D54B4B" }}>
@@ -389,9 +402,11 @@ class ModalUpdateRemitente extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.tercero_elementoComunicacion}
-                                  className={`form-control form-control-sm ${errors.tercero_elementoComunicacion &&
+                                  className={`form-control form-control-sm ${
+                                    errors.tercero_elementoComunicacion &&
                                     touched.tercero_elementoComunicacion &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 >
                                   <option disabled value={""}>
                                     --{" "}
@@ -440,9 +455,11 @@ class ModalUpdateRemitente extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.tercero_identificacion}
-                                  className={`form-control form-control-sm ${errors.tercero_identificacion &&
+                                  className={`form-control form-control-sm ${
+                                    errors.tercero_identificacion &&
                                     touched.tercero_identificacion &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.tercero_identificacion &&
@@ -468,9 +485,11 @@ class ModalUpdateRemitente extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.tercero_nombre}
-                                  className={`form-control form-control-sm ${errors.tercero_nombre &&
+                                  className={`form-control form-control-sm ${
+                                    errors.tercero_nombre &&
                                     touched.tercero_nombre &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.tercero_nombre &&
@@ -494,9 +513,11 @@ class ModalUpdateRemitente extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.tercero_email}
-                                  className={`form-control form-control-sm ${errors.tercero_email &&
+                                  className={`form-control form-control-sm ${
+                                    errors.tercero_email &&
                                     touched.tercero_email &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.tercero_email &&
@@ -515,7 +536,7 @@ class ModalUpdateRemitente extends React.Component {
                           <NavItem>
                             <NavLink
                               className={classnames({
-                                active: this.state.activeTab === "1"
+                                active: this.state.activeTab === "1",
                               })}
                               onClick={() => {
                                 this.toggleTab("1");
@@ -552,9 +573,11 @@ class ModalUpdateRemitente extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.tercero_telFijo}
-                                      className={`form-control form-control-sm ${errors.tercero_telFijo &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_telFijo &&
                                         touched.tercero_telFijo &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_telFijo &&
@@ -580,9 +603,11 @@ class ModalUpdateRemitente extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.tercero_telCel}
-                                      className={`form-control form-control-sm ${errors.tercero_telCel &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_telCel &&
                                         touched.tercero_telCel &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_telCel &&
@@ -608,9 +633,11 @@ class ModalUpdateRemitente extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.tercero_direccion}
-                                      className={`form-control form-control-sm ${errors.tercero_direccion &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_direccion &&
                                         touched.tercero_direccion &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_direccion &&
@@ -634,7 +661,7 @@ class ModalUpdateRemitente extends React.Component {
                                       authorization={this.state.auth}
                                       t={this.state.t}
                                       name={"tercero_pais"}
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         setFieldValue(
                                           "tercero_pais",
                                           e.target.value
@@ -644,9 +671,11 @@ class ModalUpdateRemitente extends React.Component {
                                         setFieldTouched("tercero_pais", true)
                                       }
                                       value={values.tercero_pais}
-                                      className={`form-control form-control-sm ${errors.tercero_pais &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_pais &&
                                         touched.tercero_pais &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_pais &&
@@ -728,9 +757,11 @@ class ModalUpdateRemitente extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.tercero_referencia}
-                                      className={`form-control form-control-sm ${errors.tercero_referencia &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_referencia &&
                                         touched.tercero_referencia &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_referencia &&
@@ -755,9 +786,11 @@ class ModalUpdateRemitente extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.tercero_observacion}
-                                      className={`form-control form-control-sm ${errors.tercero_observacion &&
+                                      className={`form-control form-control-sm ${
+                                        errors.tercero_observacion &&
                                         touched.tercero_observacion &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.tercero_observacion &&
@@ -812,15 +845,22 @@ class ModalUpdateRemitente extends React.Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          {" "}
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <Button
                       className="btn btn-secodary btn-sm"
@@ -829,7 +869,7 @@ class ModalUpdateRemitente extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -852,7 +892,7 @@ ModalUpdateRemitente.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalUpdateRemitente;

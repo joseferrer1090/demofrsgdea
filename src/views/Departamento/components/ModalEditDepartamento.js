@@ -35,7 +35,8 @@ class ModalEditDepartamento extends React.Component {
     department_status: 0,
     username: "",
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -117,6 +118,9 @@ class ModalEditDepartamento extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerActualizar: true,
+              })
               const tipoEstado = data => {
                 let tipo;
                 if (data === true || data === 1) {
@@ -149,19 +153,21 @@ class ModalEditDepartamento extends React.Component {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
+                          
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
@@ -170,7 +176,8 @@ class ModalEditDepartamento extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
@@ -180,7 +187,9 @@ class ModalEditDepartamento extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => {console.log("", error); this.setState({
+                    spinnerActualizar: false,
+                  })});
                 setSubmitting(false);
               }, 500);
             }}
@@ -404,15 +413,24 @@ class ModalEditDepartamento extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
+                       {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          
                       {" "}
                       <i className="fa fa-pencil" />{" "}
                       {t("app_departamento_modal_actualizar_button_actualizar")}{" "}
+                                                  </div>
+                      )}
+
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"

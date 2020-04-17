@@ -15,7 +15,7 @@ import {
   ToastHeader,
   ToastBody,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -37,7 +37,7 @@ class CheckBoxes extends Component {
       description: "",
       validation: {
         isReadOnly: false,
-        isRequired: false
+        isRequired: false,
       },
       active: true,
       formula: false,
@@ -51,14 +51,15 @@ class CheckBoxes extends Component {
       alert500: false,
       alertError: false,
       alertErrorMessage: "",
-      t: this.props.t
+      t: this.props.t,
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -67,7 +68,7 @@ class CheckBoxes extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -85,35 +86,35 @@ class CheckBoxes extends Component {
         break;
       case "DESCRIPTION":
         this.setState({
-          description: value
+          description: value,
         });
         break;
       case "TITLE":
         this.setState({
-          title: value
+          title: value,
         });
         break;
       case "DEFAULT_VALUE":
         this.setState({
-          defaultValue: value
+          defaultValue: value,
         });
         break;
       case "IS_REQUIRED":
         this.setState({
           validation: {
             ...this.state.validation,
-            isRequired: value
-          }
+            isRequired: value,
+          },
         });
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "MIN":
         this.setState({
-          validation: { ...this.state.validation, min: value }
+          validation: { ...this.state.validation, min: value },
         });
         break;
       case "MAX":
@@ -121,7 +122,7 @@ class CheckBoxes extends Component {
         break;
       case "INLINE":
         this.setState({
-          inline: value
+          inline: value,
         });
         break;
 
@@ -133,11 +134,11 @@ class CheckBoxes extends Component {
     }, 0);
   };
 
-  removeOption = index => {
+  removeOption = (index) => {
     let checboxes = this.state.checkBoxes;
     checboxes.splice(index, 1);
     this.setState({
-      checkBoxes: checboxes
+      checkBoxes: checboxes,
     });
     this.duplicate();
     setTimeout(() => {
@@ -150,11 +151,11 @@ class CheckBoxes extends Component {
     let u = _.uniqBy(checboxes, "value");
     if (!_.isEqual(checboxes, u)) {
       this.setState({
-        duplicate: true
+        duplicate: true,
       });
     } else {
       this.setState({
-        duplicate: false
+        duplicate: false,
       });
     }
   };
@@ -163,12 +164,12 @@ class CheckBoxes extends Component {
     let checkbox = {
       title: "",
       value: "",
-      checked: false
+      checked: false,
     };
     let checboxes = this.state.checkBoxes;
     checboxes.push(checkbox);
     this.setState({
-      checkBoxes: checboxes
+      checkBoxes: checboxes,
     });
     this.duplicate();
     setTimeout(() => {
@@ -183,26 +184,26 @@ class CheckBoxes extends Component {
     if (state === "TITLE") {
       checkBox = {
         ...checkBoxes[index],
-        title: value
+        title: value,
       };
     } else if (state === "SELECTED") {
       checkBox = {
         ...checkBoxes[index],
-        selected: checkBox[index].checked
+        selected: checkBox[index].checked,
       };
     } else if (state === "VALUE") {
       checkBox = {
         ...checkBoxes[index],
-        value: value
+        value: value,
       };
     } else {
       checkBox = {
-        ...checkBoxes[index]
+        ...checkBoxes[index],
       };
     }
     checkBoxes[index] = checkBox;
     this.setState({
-      checkBoxes: checkBoxes
+      checkBoxes: checkBoxes,
     });
     this.duplicate();
     setTimeout(() => {
@@ -210,22 +211,25 @@ class CheckBoxes extends Component {
     }, 0);
   }
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -243,56 +247,60 @@ class CheckBoxes extends Component {
           {
             labelText: this.state.checkBoxes[0].title,
             inputValue: this.state.checkBoxes[0].value,
-            inputId: this.state.checkBoxes[0].value
-          }
-        ]
-      })
+            inputId: this.state.checkBoxes[0].value,
+          },
+        ],
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.setState({
-            alert200: true
+            alert200: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
             });
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: error.message
+          alertErrorMessage: error.message,
+          spinner: false,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
     this.resetForm();
   };
 
-  createMetadata = e => {
+  createMetadata = (e) => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
@@ -300,21 +308,21 @@ class CheckBoxes extends Component {
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       checboxes: Yup.array()
         .of(
           Yup.object().shape({
             title: Yup.string().required(" Por favor introduzca la etiqueta."),
             value: Yup.string().required(" Por favor introduzca el valor."),
-            selected: Yup.bool()
+            selected: Yup.bool(),
           })
         )
         .required("Por favor agregue las opciones."),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
     schema
       .validate({
@@ -322,19 +330,19 @@ class CheckBoxes extends Component {
         active: this.state.active,
         checboxes: this.state.checkBoxes,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         this.sendData();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
@@ -355,8 +363,8 @@ class CheckBoxes extends Component {
       inline: false,
       validation: {
         isReadOnly: false,
-        isRequired: false
-      }
+        isRequired: false,
+      },
     });
     this.changeValue("TITLE", this.state.title);
   };
@@ -416,12 +424,12 @@ class CheckBoxes extends Component {
                 </p>
               </ToastBody>
             </Toast>
-            <form ref={el => (this.myForm = el)} className="form" role="form">
+            <form ref={(el) => (this.myForm = el)} className="form" role="form">
               <Nav tabs>
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "1"
+                      active: this.state.activeTab === "1",
                     })}
                     onClick={() => this.toggle("1")}
                   >
@@ -435,7 +443,7 @@ class CheckBoxes extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "2"
+                      active: this.state.activeTab === "2",
                     })}
                     onClick={() => this.toggle("2")}
                   >
@@ -449,7 +457,7 @@ class CheckBoxes extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: this.state.activeTab === "3"
+                      active: this.state.activeTab === "3",
                     })}
                     onClick={() => this.toggle("3")}
                   >
@@ -478,7 +486,7 @@ class CheckBoxes extends Component {
                             type={"text"}
                             className={"form-control form-control-sm"}
                             value={this.state.name}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("NAME", e.target.value)
                             }
                             placeholder={`${t(
@@ -500,7 +508,7 @@ class CheckBoxes extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.title}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("TITLE", e.target.value)
                             }
                             placeholder={`${t(
@@ -522,7 +530,7 @@ class CheckBoxes extends Component {
                             // type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("DESCRIPTION", e.target.value)
                             }
                           />
@@ -539,7 +547,7 @@ class CheckBoxes extends Component {
                           <input
                             type="checkbox"
                             value={this.state.validation.isRequired}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_REQUIRED", e.target.checked)
                             }
                             id="isRequired"
@@ -561,7 +569,7 @@ class CheckBoxes extends Component {
                           <input
                             id={"isReadOnly"}
                             type={"checkbox"}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("IS_READONLY", e.target.checked)
                             }
                             value={this.state.validation.isReadOnly}
@@ -582,7 +590,7 @@ class CheckBoxes extends Component {
                         <div className="form-group">
                           <input
                             type="checkbox"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("INLINE", e.target.checked)
                             }
                             value={this.state.inline}
@@ -632,7 +640,7 @@ class CheckBoxes extends Component {
                                       value={
                                         this.state.checkBoxes[index].selected
                                       }
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         this.changeOptionValue(
                                           index,
                                           e.target.checked,
@@ -652,7 +660,7 @@ class CheckBoxes extends Component {
                                     )}`}
                                     autoFocus={true}
                                     value={this.state.checkBoxes[index].title}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -667,7 +675,7 @@ class CheckBoxes extends Component {
                                       "app_metadatos_crear_metadato_entrada_check_valores_placeholder_value"
                                     )}`}
                                     value={this.state.checkBoxes[index].value}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -723,9 +731,9 @@ class CheckBoxes extends Component {
                       label={`${t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status"
                       )}`}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          active: e.target.checked
+                          active: e.target.checked,
                         });
                       }}
                     />
@@ -740,7 +748,7 @@ class CheckBoxes extends Component {
                       label={`${t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                       )}`}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({ formula: e.target.checked });
                       }}
                     />
@@ -766,17 +774,26 @@ class CheckBoxes extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => this.createMetadata(e)}
+                onClick={(e) => this.createMetadata(e)}
+                disabled={this.state.spinner}
               >
-                {" "}
-                <i className="fa fa-save" />{" "}
-                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}{" "}
+                {this.state.spinner ? (
+                  <i className=" fa fa-spinner fa-refresh" />
+                ) : (
+                  <div>
+                    {" "}
+                    <i className="fa fa-save" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}{" "}
+                  </div>
+                )}
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={el => (this.myModal = el)}
+          ref={(el) => (this.myModal = el)}
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}
@@ -793,6 +810,6 @@ CheckBoxes.propTypes = {
   index: PropTypes.any.isRequired,
   key: PropTypes.any.isRequired,
   removeField: PropTypes.func.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default CheckBoxes;

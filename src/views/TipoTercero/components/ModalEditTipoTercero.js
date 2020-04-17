@@ -8,7 +8,7 @@ import {
   Col,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGTERCERO from "./../../../assets/img/supply.svg";
@@ -28,13 +28,14 @@ class ModalEditTipoTercero extends React.Component {
     t: this.props,
     typethirdparty_status: 0,
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -42,47 +43,47 @@ class ModalEditTipoTercero extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       idTipoTerceros: id,
-      spinner: true
+      spinner: true,
     });
     this.getTipoTercerosByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getTipoTercerosByID = id => {
+  getTipoTercerosByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TYPETHIRDPARTY}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             typethirdparty_code: data.code,
             typethirdparty_name: data.name,
             typethirdparty_description: data.description,
-            typethirdparty_status: data.status
-          }
+            typethirdparty_status: data.status,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
   render() {
     const dataResult = this.state.dataResult;
@@ -98,7 +99,10 @@ class ModalEditTipoTercero extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -115,7 +119,7 @@ class ModalEditTipoTercero extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idTipoTerceros,
@@ -123,45 +127,53 @@ class ModalEditTipoTercero extends React.Component {
                     name: values.typethirdparty_name,
                     description: values.typethirdparty_description,
                     status: tipoEstado(values.typethirdparty_status),
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
+                          modal: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -180,18 +192,18 @@ class ModalEditTipoTercero extends React.Component {
               typethirdparty_status: Yup.bool().test(
                 "Activado",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -259,9 +271,11 @@ class ModalEditTipoTercero extends React.Component {
                                   onBlur={handleBlur}
                                   value={values.typethirdparty_code}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.typethirdparty_code &&
+                                  className={`form-control form-control-sm ${
+                                    errors.typethirdparty_code &&
                                     touched.typethirdparty_code &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.typethirdparty_code &&
@@ -286,9 +300,11 @@ class ModalEditTipoTercero extends React.Component {
                                   onBlur={handleBlur}
                                   value={values.typethirdparty_name}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.typethirdparty_name &&
+                                  className={`form-control form-control-sm ${
+                                    errors.typethirdparty_name &&
                                     touched.typethirdparty_name &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.typethirdparty_name &&
@@ -313,9 +329,11 @@ class ModalEditTipoTercero extends React.Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.typethirdparty_description}
-                                  className={`form-control form-control-sm ${errors.typethirdparty_description &&
+                                  className={`form-control form-control-sm ${
+                                    errors.typethirdparty_description &&
                                     touched.typethirdparty_description &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.typethirdparty_description &&
@@ -371,15 +389,23 @@ class ModalEditTipoTercero extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_tipoTerecero_modal_actualizar_button_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t(
+                            "app_tipoTerecero_modal_actualizar_button_actualizar"
+                          )}{" "}
+                        </div>
+                      )}{" "}
                     </button>
                     <button
                       type="button"
@@ -389,7 +415,7 @@ class ModalEditTipoTercero extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -413,7 +439,7 @@ ModalEditTipoTercero.propTypes = {
   t: PropTypes.any,
   updateTable: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditTipoTercero;

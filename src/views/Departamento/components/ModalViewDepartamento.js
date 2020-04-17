@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalHeader,
   Row,
-  Col
+  Col,
+  Spinner,
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
 import moment from "moment";
@@ -23,14 +24,15 @@ class ModalViewDepartamento extends Component {
       dataPais: {},
       t: this.props.t,
       username: "",
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -38,35 +40,53 @@ class ModalViewDepartamento extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
     this.getDataDeparmentById(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
   };
 
-  getDataDeparmentById = id => {
+  getDataDeparmentById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${DEPARTMENT}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data =>
-        this.setState({ dataPais: data.country, dataDepartamento: data })
+      .then((response) => response.json())
+      .then((data) =>
+        this.setState({
+          dataPais: data.country,
+          dataDepartamento: data,
+          spinner: false,
+        })
       )
-      .catch(Error => console.log("", Error));
+      .catch((Error) => {
+        console.log("", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
+
   FechaCreacionDeparment(data) {
     let createdAt;
     createdAt = new Date(data);
@@ -82,7 +102,7 @@ class ModalViewDepartamento extends Component {
     const department = this.state.dataDepartamento;
     const country = this.state.dataPais;
 
-    const statusDepartamento = data => {
+    const statusDepartamento = (data) => {
       let status;
       if (data === 1) {
         status = (
@@ -108,66 +128,85 @@ class ModalViewDepartamento extends Component {
               <Col sm="3">
                 <img src={IMGDEPARTAMENTO} className="img-thumbnail" />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    {t("app_departamento_modal_ver_titulo_2")}{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt> {t("app_departamento_modal_ver_pais")} </dt>
-                      <dd> {country.name} </dd>
-                    </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_departamento_modal_ver_titulo_2")}{" "}
+                    </h5>{" "}
                   </div>
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt> {t("app_departamento_modal_ver_codigo")} </dt>
-                      <dd> {department.code} </dd>
-                    </dl>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt> {t("app_departamento_modal_ver_pais")} </dt>
+                        <dd> {country.name} </dd>
+                      </dl>
+                    </div>
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt> {t("app_departamento_modal_ver_codigo")} </dt>
+                        <dd> {department.code} </dd>
+                      </dl>
+                    </div>
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt> {t("app_departamento_modal_ver_nombre")} </dt>
+                        <dd> {department.name} </dd>
+                      </dl>
+                    </div>
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt> {t("app_departamento_modal_ver_estado")} </dt>
+                        <dd> {statusDepartamento(department.status)} </dd>
+                      </dl>
+                    </div>
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt>
+                          {" "}
+                          {t("app_departamento_modal_ver_fecha_creacion")}
+                        </dt>
+                        <dd>
+                          {" "}
+                          {this.FechaCreacionDeparment(
+                            department.createdAt
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                    <div className="col-md-6">
+                      <dl className="param">
+                        <dt>
+                          {" "}
+                          {t(
+                            "app_departamento_modal_ver_fecha_modificacion"
+                          )}{" "}
+                        </dt>
+                        <dd>
+                          {" "}
+                          {this.FechaModificacionDeparment(
+                            department.updatedAt
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt> {t("app_departamento_modal_ver_nombre")} </dt>
-                      <dd> {department.name} </dd>
-                    </dl>
-                  </div>
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt> {t("app_departamento_modal_ver_estado")} </dt>
-                      <dd> {statusDepartamento(department.status)} </dd>
-                    </dl>
-                  </div>
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt> {t("app_departamento_modal_ver_fecha_creacion")}</dt>
-                      <dd>
-                        {" "}
-                        {this.FechaCreacionDeparment(department.createdAt)}{" "}
-                      </dd>
-                    </dl>
-                  </div>
-                  <div className="col-md-6">
-                    <dl className="param">
-                      <dt>
-                        {" "}
-                        {t(
-                          "app_departamento_modal_ver_fecha_modificacion"
-                        )}{" "}
-                      </dt>
-                      <dd>
-                        {" "}
-                        {this.FechaModificacionDeparment(
-                          department.updatedAt
-                        )}{" "}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -192,7 +231,7 @@ ModalViewDepartamento.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewDepartamento;

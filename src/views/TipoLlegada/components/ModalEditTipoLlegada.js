@@ -8,7 +8,7 @@ import {
   Col,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
@@ -16,7 +16,7 @@ import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   TYPESHIPMENTARRIVAL,
-  TYPESHIPMENTSARRIVALS
+  TYPESHIPMENTSARRIVALS,
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
@@ -32,13 +32,14 @@ class ModalEditTipoLlegada extends React.Component {
     typeshipmentarrival_status: 0,
     username: "",
     auth: this.props.authorization,
-    spinner: true
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -46,47 +47,47 @@ class ModalEditTipoLlegada extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
-    this.setState(prevState => ({
+  toggle = (id) => {
+    this.setState((prevState) => ({
       modal: !prevState.modal,
       idTipoLlegada: id,
-      spinner: true
+      spinner: true,
     }));
     this.getTipoLlegadaByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getTipoLlegadaByID = id => {
+  getTipoLlegadaByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TYPESHIPMENTSARRIVALS}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             typeshipmentarrival_code: data.code,
             typeshipmentarrival_name: data.name,
             typeshipmentarrival_description: data.description,
-            typeshipmentarrival_status: data.status
-          }
+            typeshipmentarrival_status: data.status,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -103,7 +104,10 @@ class ModalEditTipoLlegada extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -120,7 +124,7 @@ class ModalEditTipoLlegada extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idTipoLlegada,
@@ -128,45 +132,52 @@ class ModalEditTipoLlegada extends React.Component {
                     name: values.typeshipmentarrival_name,
                     description: values.typeshipmentarrival_description,
                     status: tipoEstado(values.typeshipmentarrival_status),
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -185,18 +196,18 @@ class ModalEditTipoLlegada extends React.Component {
               typeshipmentarrival_status: Yup.bool().test(
                 "Activado",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -265,9 +276,11 @@ class ModalEditTipoLlegada extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.typeshipmentarrival_code}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_code &&
+                                      className={`form-control form-control-sm ${
+                                        errors.typeshipmentarrival_code &&
                                         touched.typeshipmentarrival_code &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.typeshipmentarrival_code &&
@@ -295,9 +308,11 @@ class ModalEditTipoLlegada extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.typeshipmentarrival_name}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_name &&
+                                      className={`form-control form-control-sm ${
+                                        errors.typeshipmentarrival_name &&
                                         touched.typeshipmentarrival_name &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.typeshipmentarrival_name &&
@@ -327,9 +342,11 @@ class ModalEditTipoLlegada extends React.Component {
                                       value={
                                         values.typeshipmentarrival_description
                                       }
-                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_description &&
+                                      className={`form-control form-control-sm ${
+                                        errors.typeshipmentarrival_description &&
                                         touched.typeshipmentarrival_description &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.typeshipmentarrival_description &&
@@ -389,15 +406,22 @@ class ModalEditTipoLlegada extends React.Component {
                   <ModalFooter>
                     <div className="float-right">
                       <button
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
                         }}
-                        className="btn btn-sm btn-outline-success"
+                        className="btn btn-sm btn-success"
+                        disabled={this.state.spinnerActualizar}
                       >
-                        <i className="fa fa-pencil" />{" "}
-                        {t(
-                          "app_tipoLlegada_modal_actualizar_button_actualizar"
+                        {this.state.spinnerActualizar ? (
+                          <i className=" fa fa-spinner fa-refresh" />
+                        ) : (
+                          <div>
+                            <i className="fa fa-pencil" />{" "}
+                            {t(
+                              "app_tipoLlegada_modal_actualizar_button_actualizar"
+                            )}
+                          </div>
                         )}
                       </button>
                       &nbsp;
@@ -408,7 +432,7 @@ class ModalEditTipoLlegada extends React.Component {
                             modal: false,
                             alertSuccess: false,
                             alertError500: false,
-                            alertError400: false
+                            alertError400: false,
                           });
                         }}
                       >
@@ -430,7 +454,7 @@ class ModalEditTipoLlegada extends React.Component {
 ModalEditTipoLlegada.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ModalEditTipoLlegada;

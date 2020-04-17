@@ -15,7 +15,7 @@ import {
   ToastBody,
   ToastHeader,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "../../ModalPreview";
@@ -37,7 +37,7 @@ class SelectField extends Component {
       description: "",
       validation: {
         isReadOnly: false,
-        isRequired: false
+        isRequired: false,
         // min: 6,
         // max: 6
       },
@@ -55,14 +55,15 @@ class SelectField extends Component {
       alert400: false,
       alertError: false,
       alertErrorMessage: "",
-      t: this.props.t
+      t: this.props.t,
+      spinner: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -71,7 +72,7 @@ class SelectField extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -102,12 +103,12 @@ class SelectField extends Component {
         break;
       case "IS_REQUIRED":
         this.setState({
-          validation: { ...this.state.validation, isRequired: value }
+          validation: { ...this.state.validation, isRequired: value },
         });
         break;
       case "IS_READONLY":
         this.setState({
-          validation: { ...this.state.validation, isReadOnly: value }
+          validation: { ...this.state.validation, isReadOnly: value },
         });
         break;
       case "MIN":
@@ -138,31 +139,31 @@ class SelectField extends Component {
     if (state === "TITLE") {
       option = {
         ...options[index],
-        title: value
+        title: value,
       };
     } else if (state === "SELECTED") {
       option = {
         ...options[index],
-        selected: !options[index].selected
+        selected: !options[index].selected,
       };
     } else if (state === "VALUE") {
       option = {
         ...options[index],
-        value: value
+        value: value,
       };
     } else if (state === "DEFAULT_VALUE") {
       option = {
         ...options[index],
-        defaultValue: value
+        defaultValue: value,
       };
     } else {
       option = {
-        ...options[index]
+        ...options[index],
       };
     }
     options[index] = option;
     this.setState({
-      options: options
+      options: options,
     });
     this.duplicate();
     setTimeout(() => {
@@ -175,11 +176,11 @@ class SelectField extends Component {
     let u = _.uniqBy(options, "value");
     if (!_.isEqual(options, u)) {
       this.setState({
-        duplicate: true
+        duplicate: true,
       });
     } else {
       this.setState({
-        duplicate: false
+        duplicate: false,
       });
     }
   };
@@ -188,12 +189,12 @@ class SelectField extends Component {
     let option = {
       title: "",
       value: "",
-      selected: false
+      selected: false,
     };
     let options = this.state.options;
     options.push(option);
     this.setState({
-      options: options
+      options: options,
     });
     this.duplicate();
     setTimeout(() => {
@@ -201,26 +202,29 @@ class SelectField extends Component {
     }, 0);
   };
 
-  removeOption = index => {
+  removeOption = (index) => {
     let options = this.state.options;
     options.splice(index, 1);
     this.setState({
-      options: options
+      options: options,
     });
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   sendData = () => {
+    this.setState({
+      spinner: true,
+    });
     const aux = this.state.auth;
     const user = decode(aux);
 
@@ -228,7 +232,7 @@ class SelectField extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         name: this.state.name,
@@ -245,44 +249,48 @@ class SelectField extends Component {
         details: [
           {
             labelText: this.state.options[0].title,
-            inputValue: this.state.options[0].value
-          }
-        ]
-      })
+            inputValue: this.state.options[0].value,
+          },
+        ],
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.setState({
-            alert200: true
+            alert200: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert200: false
+              alert200: false,
             });
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
-          alert500: true
+          alert500: true,
+          spinner: false,
         });
         setTimeout(() => {
           this.setState({ alert500: false });
@@ -291,7 +299,7 @@ class SelectField extends Component {
     this.resetForm();
   };
 
-  createMetada = e => {
+  createMetada = (e) => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
@@ -301,19 +309,19 @@ class SelectField extends Component {
           Yup.object().shape({
             title: Yup.string().required(" Por favor introduzca la etiqueta."),
             value: Yup.string().required(" Por favor introduzca el valor."),
-            selected: Yup.bool()
+            selected: Yup.bool(),
           })
         )
         .required("Por favor agregue las opciones."),
       active: Yup.bool().test(
         "Activo",
         " Es necesario activar el metadato.",
-        value => value === true
+        (value) => value === true
       ),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
       ),
-      title: Yup.string().required(" Por favor introduzca la etiqueta.")
+      title: Yup.string().required(" Por favor introduzca la etiqueta."),
     });
     schema
       .validate({
@@ -321,19 +329,19 @@ class SelectField extends Component {
         options: this.state.options,
         active: this.state.active,
         description: this.state.description,
-        title: this.state.title
+        title: this.state.title,
       })
       .then(() => {
         this.sendData();
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
         console.log(err.message);
@@ -356,9 +364,9 @@ class SelectField extends Component {
       multiple: false,
       validation: {
         isReadOnly: false,
-        isRequired: false
+        isRequired: false,
       },
-      options: []
+      options: [],
     });
     this.changeValue("TITLE", this.state.title);
   };
@@ -424,7 +432,7 @@ class SelectField extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "1"
+                    active: this.state.activeTab === "1",
                   })}
                   onClick={() => this.toggle("1")}
                 >
@@ -438,7 +446,7 @@ class SelectField extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "2"
+                    active: this.state.activeTab === "2",
                   })}
                   onClick={() => this.toggle("2")}
                 >
@@ -452,7 +460,7 @@ class SelectField extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({
-                    active: this.state.activeTab === "3"
+                    active: this.state.activeTab === "3",
                   })}
                   onClick={() => this.toggle("3")}
                 >
@@ -465,7 +473,7 @@ class SelectField extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <form className="form" ref={el => (this.myFormSelect = el)}>
+            <form className="form" ref={(el) => (this.myFormSelect = el)}>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId={"1"}>
                   <Card body>
@@ -485,7 +493,7 @@ class SelectField extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.name}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("NAME", e.target.value)
                             }
                           />
@@ -505,7 +513,7 @@ class SelectField extends Component {
                             )}`}
                             type="text"
                             className="form-control form-control-sm"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("TITLE", e.target.value)
                             }
                             value={this.state.title}
@@ -525,7 +533,7 @@ class SelectField extends Component {
                             )}`}
                             type="text"
                             className="form-control form-control-sm"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("HELPER_TEXT", e.target.value)
                             }
                             value={this.state.helpertext}
@@ -544,7 +552,7 @@ class SelectField extends Component {
                             id="description"
                             className="form-control form-control-sm"
                             value={this.state.description}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.changeValue("DESCRIPTION", e.target.value)
                             }
                           />
@@ -563,7 +571,7 @@ class SelectField extends Component {
                               type={"checkbox"}
                               value={this.state.validation.isRequired}
                               id="isRequired"
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue(
                                   "IS_REQUIRED",
                                   e.target.checked
@@ -588,7 +596,7 @@ class SelectField extends Component {
                               id="isReadOnly"
                               type={"checkbox"}
                               value={this.state.validation.isReadOnly}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue(
                                   "IS_READONLY",
                                   e.target.checked
@@ -613,7 +621,7 @@ class SelectField extends Component {
                               type="checkbox"
                               id={"multiple"}
                               value={this.state.multiple}
-                              onChange={e =>
+                              onChange={(e) =>
                                 this.changeValue("MULTIPLE", e.target.checked)
                               }
                             />
@@ -660,7 +668,7 @@ class SelectField extends Component {
                                           value={
                                             this.state.options[index].selected
                                           }
-                                          onChange={e =>
+                                          onChange={(e) =>
                                             this.changeOptionValue(
                                               index,
                                               e.target.checked,
@@ -682,7 +690,7 @@ class SelectField extends Component {
                                     )}`}
                                     autoFocus={true}
                                     value={this.state.options[index].title}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -700,7 +708,7 @@ class SelectField extends Component {
                                       "app_metadatos_crear_metadato_entrada_seleccion_valores_placeholder_value"
                                     )}`}
                                     value={this.state.options[index].value}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       this.changeOptionValue(
                                         index,
                                         e.target.value,
@@ -717,7 +725,7 @@ class SelectField extends Component {
                                     <input
                                       name="default"
                                       value={this.state.defaultValue}
-                                      onChange={e =>
+                                      onChange={(e) =>
                                         this.changeOptionValue(
                                           index,
                                           e.target.checked,
@@ -776,9 +784,9 @@ class SelectField extends Component {
                       label={`${t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status"
                       )}`}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          active: e.target.checked
+                          active: e.target.checked,
                         });
                       }}
                     />
@@ -793,9 +801,9 @@ class SelectField extends Component {
                       label={`${t(
                         "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
                       )}`}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.setState({
-                          formula: e.target.checked
+                          formula: e.target.checked,
                         });
                       }}
                     />
@@ -820,19 +828,28 @@ class SelectField extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => {
+                onClick={(e) => {
                   this.createMetada(e);
                 }}
+                disabled={this.state.spinner}
               >
-                {" "}
-                <i className="fa fa-save" />{" "}
-                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}{" "}
+                {this.state.spinner ? (
+                  <i className=" fa fa-spinner fa-refresh" />
+                ) : (
+                  <div>
+                    {" "}
+                    <i className="fa fa-save" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}{" "}
+                  </div>
+                )}
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={el => (this.myModal = el)}
+          ref={(el) => (this.myModal = el)}
           modalpreview={this.state.modalpreview}
           inputType={this.props.field.toolType}
           field={this.props.field}
@@ -848,6 +865,6 @@ SelectField.propTypes = {
   index: PropTypes.any.isRequired,
   key: PropTypes.any.isRequired,
   removeField: PropTypes.func.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default SelectField;

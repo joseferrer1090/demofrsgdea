@@ -9,7 +9,7 @@ import {
   Col,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import IMGROLES from "./../../../assets/img/shield.svg";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -29,14 +29,15 @@ class ModalEditRoles extends React.Component {
       alertError400: false,
       t: this.props.t,
       auth: this.props.authorization,
-      spinner: true
+      spinner: true,
+      spinnerActualizar: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -45,40 +46,40 @@ class ModalEditRoles extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      spinner: true
+      spinner: true,
     });
 
     this.getRoleByID(id);
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 1500);
   };
 
-  getRoleByID = id => {
+  getRoleByID = (id) => {
     const token = this.state.auth;
     const username = decode(token);
     fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataResult: data
+          dataResult: data,
         });
       });
   };
@@ -94,7 +95,7 @@ class ModalEditRoles extends React.Component {
       codigo: this.state.dataResult.code,
       nombre: this.state.dataResult.name,
       descripcion: this.state.dataResult.description,
-      estado: this.state.dataResult.status
+      estado: this.state.dataResult.status,
     };
     const { t } = this.props;
     return (
@@ -108,7 +109,10 @@ class ModalEditRoles extends React.Component {
             enableReinitialize={true}
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -124,7 +128,7 @@ class ModalEditRoles extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + token,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -132,45 +136,52 @@ class ModalEditRoles extends React.Component {
                     name: values.nombre,
                     description: values.descripcion,
                     status: tipoEstado(values.estado),
-                    userName: username.user_name
-                  })
+                    userName: username.user_name,
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
                           alertError500: false,
-                          modal: !this.state.modal
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(err => console.log("error"));
+                  .catch((err) => {
+                    console.log("error");
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -180,17 +191,21 @@ class ModalEditRoles extends React.Component {
               descripcion: Yup.string().required(
                 " Por favor introduzca una descripción."
               ),
-              estado: Yup.bool().test("Activado", "", value => value === true)
+              estado: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -255,9 +270,11 @@ class ModalEditRoles extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.codigo}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.codigo &&
+                                      className={`form-control form-control-sm ${
+                                        errors.codigo &&
                                         touched.codigo &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.codigo && touched.codigo ? (
@@ -282,9 +299,11 @@ class ModalEditRoles extends React.Component {
                                       onBlur={handleBlur}
                                       value={values.nombre}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.nombre &&
+                                      className={`form-control form-control-sm ${
+                                        errors.nombre &&
                                         touched.nombre &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.nombre && touched.nombre ? (
@@ -307,9 +326,11 @@ class ModalEditRoles extends React.Component {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       value={values.descripcion}
-                                      className={`form-control form-control-sm ${errors.descripcion &&
+                                      className={`form-control form-control-sm ${
+                                        errors.descripcion &&
                                         touched.descripcion &&
-                                        "is-invalid"}`}
+                                        "is-invalid"
+                                      }`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.descripcion &&
@@ -364,15 +385,21 @@ class ModalEditRoles extends React.Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_roles_modal_editar_boton_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_roles_modal_editar_boton_actualizar")}{" "}
+                        </div>
+                      )}{" "}
                     </button>
                     <button
                       type="button"
@@ -382,7 +409,7 @@ class ModalEditRoles extends React.Component {
                           modal: false,
                           alertError400: false,
                           alertError500: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -404,7 +431,7 @@ class ModalEditRoles extends React.Component {
 ModalEditRoles.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalEditRoles;

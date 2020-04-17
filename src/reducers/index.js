@@ -1,8 +1,14 @@
 import { combineReducers } from "redux";
-import usersReducers from "./usersReducer";
+import typeProcedureReducer from "./typeProcedureReducer";
 import authenticationReducer from "./authenticationReducer";
+import documentaryTypeReducer from "./documentaryTypeReducer";
+import templateMetadata from "./templateMetadataReducer";
+import alertReducer from "./alert.Reducer";
 
 export default combineReducers({
-  users: usersReducers,
-  authenticationReducer
+  typeProcedureReducer,
+  authenticationReducer,
+  documentaryTypeReducer,
+  templateMetadata,
+  alertReducer
 });

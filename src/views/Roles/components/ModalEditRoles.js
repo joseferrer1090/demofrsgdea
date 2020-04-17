@@ -8,47 +8,78 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner,
 } from "reactstrap";
 import IMGROLES from "./../../../assets/img/shield.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { ROLES_SHOW, ROLES_UPDATE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditRoles extends React.Component {
-  state = {
-    modal: this.props.modaledit,
-    dataResult: {},
-    id: this.props.id,
-    userName: "jferrer",
-    alertSuccess: false,
-    alertError: false,
-    alertError400: "",
-    t: this.props.t
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: this.props.modaledit,
+      dataResult: {},
+      id: this.props.id,
+      alertSuccess: false,
+      alertError500: false,
+      alertError400: false,
+      t: this.props.t,
+      auth: this.props.authorization,
+      spinner: true,
+      spinnerActualizar: false,
+    };
+  }
 
-  toggle = id => {
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+  }
+
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
+
     this.getRoleByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
-  getRoleByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+  getRoleByID = (id) => {
+    const token = this.state.auth;
+    const username = decode(token);
+    fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataResult: data
+          dataResult: data,
         });
       });
   };
@@ -64,7 +95,7 @@ class ModalEditRoles extends React.Component {
       codigo: this.state.dataResult.code,
       nombre: this.state.dataResult.name,
       descripcion: this.state.dataResult.description,
-      estado: this.state.dataResult.status
+      estado: this.state.dataResult.status,
     };
     const { t } = this.props;
     return (
@@ -78,7 +109,10 @@ class ModalEditRoles extends React.Component {
             enableReinitialize={true}
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -88,11 +122,13 @@ class ModalEditRoles extends React.Component {
                 return 0;
               };
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+                const token = this.state.auth;
+                const username = decode(token);
+                fetch(`${ROLES_UPDATE}`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + token,
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -100,46 +136,52 @@ class ModalEditRoles extends React.Component {
                     name: values.nombre,
                     description: values.descripcion,
                     status: tipoEstado(values.estado),
-                    userName: this.state.userName
+                    userName: username.user_name,
+                  }),
+                })
+                  .then((response) => {
+                    if (response.status === 200) {
+                      this.setState(
+                        {
+                          alertSuccess: true,
+                          spinnerActualizar: false,
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError400: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false,
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError500: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError500: false,
+                          modal: !this.state.modal,
+                        });
+                      }, 3000);
+                    }
                   })
-                }).then(response => {
-                  if (response.status === 200) {
-                    console.log("Se realizo el put");
-                    this.setState(
-                      {
-                        alertSuccess: true
-                      },
-                      () => this.props.updateTable()
-                    );
-                    setTimeout(() => {
-                      this.setState({
-                        alertSuccess: false,
-                        modal: false
-                      });
-                    }, 3000);
-                  } else if (response.status === 400) {
-                    console.log("Se envio mal un dato");
+                  .catch((err) => {
+                    console.log("error");
                     this.setState({
-                      alertError400: true
+                      spinnerActualizar: false,
                     });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError400: false
-                      });
-                    }, 3000);
-                  } else if (response.status === 500) {
-                    console.log("Error en algo");
-                    this.setState({
-                      alertError: true
-                    });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError: false,
-                        modal: !this.state.modal
-                      });
-                    }, 3000);
-                  }
-                });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -149,29 +191,45 @@ class ModalEditRoles extends React.Component {
               descripcion: Yup.string().required(
                 " Por favor introduzca una descripción."
               ),
-              estado: Yup.bool().test("Activado", "", value => value === true)
+              estado: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_roles_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t("app_roles_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_roles_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_roles_modal_actualizar_alert_error400")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_roles_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -188,143 +246,171 @@ class ModalEditRoles extends React.Component {
                             {t("app_roles_modal_editar_titulo_2")}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_codigo")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"codigo"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.codigo}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.codigo &&
-                                      touched.codigo &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.codigo && touched.codigo ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"codigo"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"nombre"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.nombre}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.nombre &&
-                                      touched.nombre &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.nombre && touched.nombre ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"nombre"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_descripcion")}
-                                <dd>
-                                  {" "}
-                                  <textarea
-                                    name={"descripcion"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.descripcion}
-                                    className={`form-control form-control-sm ${errors.descripcion &&
-                                      touched.descripcion &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.descripcion &&
-                                    touched.descripcion ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"descripcion"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                <label>
-                                  {" "}
-                                  {t("app_roles_modal_editar_estado")}{" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_codigo")}{" "}
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="estado"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckBoxEditRoles"
-                                          label={t(
-                                            "app_roles_modal_editar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.estado &&
-                                            touched.estado &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="estado" />
-                                </div>
-                              </dl>
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"codigo"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.codigo}
+                                      type="text"
+                                      className={`form-control form-control-sm ${
+                                        errors.codigo &&
+                                        touched.codigo &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.codigo && touched.codigo ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"codigo"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"nombre"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.nombre}
+                                      type="text"
+                                      className={`form-control form-control-sm ${
+                                        errors.nombre &&
+                                        touched.nombre &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.nombre && touched.nombre ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"nombre"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_descripcion")}
+                                  <dd>
+                                    {" "}
+                                    <textarea
+                                      name={"descripcion"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.descripcion}
+                                      className={`form-control form-control-sm ${
+                                        errors.descripcion &&
+                                        touched.descripcion &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.descripcion &&
+                                      touched.descripcion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"descripcion"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  <label>
+                                    {" "}
+                                    {t("app_roles_modal_editar_estado")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="estado"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditRoles"
+                                            label={t(
+                                              "app_roles_modal_editar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.estado &&
+                                              touched.estado &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="estado" />
+                                  </div>
+                                </dl>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_roles_modal_editar_boton_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_roles_modal_editar_boton_actualizar")}{" "}
+                        </div>
+                      )}{" "}
                     </button>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false,
+                        });
                       }}
                     >
                       {" "}
@@ -345,7 +431,7 @@ class ModalEditRoles extends React.Component {
 ModalEditRoles.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalEditRoles;

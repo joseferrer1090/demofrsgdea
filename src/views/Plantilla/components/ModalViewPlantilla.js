@@ -13,20 +13,67 @@ import {
   CardBody
 } from "reactstrap";
 import IMGPLANTILLA from "./../../../assets/img/puzzle-pieces.svg";
+import { TEMPLATE_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
+import moment from "moment";
 
 class ModalViewPlantilla extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalview,
-      collapse: false
+      collapse: false,
+      id: this.props.idPlantilla,
+      auth: this.props.authorization,
+      dataTemplate: {}
     };
   }
 
-  toggle = () => {
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+        id: props.idPlantilla
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+        id: this.props.idPlantilla
+      });
+    }
+  }
+
+  getDataTemplate = (id, auth) => {
+    const username = decode(auth);
+    fetch(`${TEMPLATE_SHOW}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          dataTemplate: data
+        });
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+    // console.log({ id: id, auth: this.state.auth });
+  };
+
+  toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
+    this.getDataTemplate(id, this.state.auth);
   };
 
   toggleCollapse = () => {
@@ -36,10 +83,25 @@ class ModalViewPlantilla extends Component {
   };
 
   render() {
+    const data = this.state.dataTemplate;
+    const statusPlantilla = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success">Plantilla activada</p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Plantilla inactiva</p>;
+      }
+      return status;
+    };
+    const fecha = data => {
+      let date;
+      date = new Date(data);
+      return moment(date).format("DD-MM-YYYY, h:mm:ss a");
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver plantilla</ModalHeader>
+          <ModalHeader>Ver plantilla {data.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -59,7 +121,7 @@ class ModalViewPlantilla extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Código </dt>
-                        <dd> código </dd>
+                        <dd> {data.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -67,7 +129,7 @@ class ModalViewPlantilla extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> nombre</dd>
+                        <dd>{data.name}</dd>
                       </dl>
                     </div>
                   </div>
@@ -75,7 +137,7 @@ class ModalViewPlantilla extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd>descripción</dd>
+                        <dd>{data.description}</dd>
                       </dl>
                     </div>
                   </div>
@@ -105,6 +167,7 @@ class ModalViewPlantilla extends Component {
                   </div>
                 </div>
               </Col>
+              <br />
               <Col sm="12">
                 <Card>
                   <CardHeader>
@@ -158,7 +221,7 @@ class ModalViewPlantilla extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Estado </dt>
-                              <dd> estado </dd>
+                              <dd> {statusPlantilla(data.status)} </dd>
                             </dl>
                           </div>
                         </div>
@@ -166,7 +229,7 @@ class ModalViewPlantilla extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Fecha de creación </dt>
-                              <dd> dd/mm/aaaa </dd>
+                              <dd> {fecha(data.createdAt)} </dd>
                             </dl>
                           </div>
                         </div>
@@ -174,7 +237,7 @@ class ModalViewPlantilla extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Fecha de modificación </dt>
-                              <dd>dd/mm/aaaa </dd>
+                              <dd>{fecha(data.updatedAt)}</dd>
                             </dl>
                           </div>
                         </div>

@@ -22,13 +22,13 @@ class TableContentDependencia extends Component {
       modalexport: false,
       dataDependence: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableContentDependencia extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataDependence();
     }
@@ -47,58 +47,93 @@ class TableContentDependencia extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataDependence: data
+          dataDependence: data,
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch((Error) => console.log("", Error));
   };
   FechaCreacionDependencia(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
+
   accionesDependencias(cell, row) {
-    return (
-      <div className="table-actionMenuDep" style={{ marginRight: "49px" }}>
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+    console.log(row);
+    if (row.headquarter.status !== 1)
+      return (
+        <div className="table-actionMenuDep" style={{ marginRight: "55px" }}>
+          <button
+            title="Ver dependencia"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar dependencia"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div className="table-actionMenuDep" style={{ marginRight: "40px" }}>
+          <button
+            title="Ver dependencia"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Editar dependencia"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar dependencia"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   }
 
   StatusDependencia(cell, row) {
@@ -113,34 +148,38 @@ class TableContentDependencia extends Component {
   }
 
   openModalView(id) {
-    this.refs.child1.toggle(id);
+    // this.refs.child1.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalExport() {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  headquarter = headquarter => {
+  headquarter = (headquarter) => {
     return !headquarter ? null : `<div>${headquarter.name}</div>`;
   };
 
-  charge = charge => {
+  charge = (charge) => {
     return !charge ? null : `<div>${charge.name}</div>`;
   };
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -157,7 +196,7 @@ class TableContentDependencia extends Component {
   render() {
     const dataDependence = this.state.dataDependence;
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -261,27 +300,27 @@ class TableContentDependencia extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalView={this.state.modalviewstate}
-          ref="child1"
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={this.props.t}
           modalEdit={this.state.modaleditstate}
           updateTable={this.getDataDependence}
-          ref="child2"
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modalDel={this.state.modaldelstate}
           updateTable={this.getDataDependence}
-          ref="child3"
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
-          ref={"child4"}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -290,7 +329,7 @@ class TableContentDependencia extends Component {
 
 TableContentDependencia.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentDependencia);

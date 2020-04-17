@@ -1,128 +1,209 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect, Suspense } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   CustomInput,
-  Label,
-  FormGroup
+  CardFooter
 } from "reactstrap";
-import dataDependencias from "./../../../../data/json_dependencia.json";
-import "./../css/fixedTable.css";
-import { Formik, withFormik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {
+  METADATA_ACTIVE,
+  METADATA_ALL,
+  TEMPLATE_CREATE
+} from "./../../../../services/EndPoints";
+import AssignedMetadata from "./AssignedMetadata";
+import { decode } from "jsonwebtoken";
+import { resetMetadatoAction } from "./../../../../actions/templateMetadataActions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
-// const [data, setData]= useState(dataDependencias);
+const TableListMetadata = React.lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import("./TableMatadataList")), 1200);
+  });
+});
 
 const CreatePlantillaForm = props => {
-  const {
-    values,
-    touched,
-    errors,
-    dirty,
-    isSubmitting,
-    handleChange,
-    setFieldValue,
-    handleBlur,
-    handleSubmit,
-    handleReset
-  } = props;
-
-  const [term, setTerm]= useState("");
-  const handleSearchInput = event => {
-    setTerm(event.target.value);
+  const [metadata, setMetadata] = useState([]);
+  const [auth, setAuth] = useState("");
+  const arrayMetadata = useSelector(state => state.templateMetadata.metadata);
+  const dispatch = useDispatch();
+  const reset = () => {
+    dispatch(resetMetadatoAction());
   };
 
-  const searchDependecies = term => {
-    return function(x) {
-      return x.nombre.toLowerCase().includes(term);
-    };
+  useEffect(() => {
+    setAuth(props.authorization);
+    if (props.authorization !== "" || props.authorization !== auth) {
+      getData();
+    }
+  }, [props.authorization]);
+
+  const getData = () => {
+    fetch(`${METADATA_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        setMetadata(data);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
   };
 
-  const aux= dataDependencias.data
-  .filter(searchDependecies(term))
-        .map((aux, id) => {
-          return (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>{aux.nombre.toLowerCase()}</td>
-              <td>
-                <input type="checkbox" />
-              </td>
-            </tr>
-          );
-        });
-  return(
+  return (
     <div className="animated fadeIn">
-        <Card>
-          <CardBody>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="p-2 mb-2 bg-secondary text-black">
-                    Datos de registro
-                  </div>
-                  <div className="card-body">
-                    <form className="form">
+      <ToastContainer />
+      <Formik
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          const tipoEstato = data => {
+            let tipo = null;
+            if (data === true) {
+              return (tipo = 1);
+            } else if (data === false) {
+              return (tipo = 0);
+            }
+            return null;
+          };
+          setTimeout(() => {
+            const token = auth;
+            const username = decode(token);
+            fetch(`${TEMPLATE_CREATE}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: "Bearer " + auth
+              },
+              body: JSON.stringify({
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                status: tipoEstato(values.estado),
+                userName: username.user_name,
+                metadata: arrayMetadata
+              })
+            }).then(response =>
+              response
+                .json()
+                .then(data => {
+                  if (response.status === 201) {
+                    toast.success("Se registro la plantilla con exito", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
+                  } else if (response.status === 400) {
+                    toast.error(
+                      "Error al registrar la plantilla, intentalo nuevamente",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: css({
+                          marginTop: "60px"
+                        })
+                      }
+                    );
+                  } else if (response.status === 500) {
+                    toast.error("Error, la plantilla ya existe.", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
+                  }
+                })
+                .catch(err => {
+                  toast.error(`Error ${err.message}`, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                })
+            );
+            setSubmitting(false);
+            resetForm({
+              nombre: "",
+              codigo: "",
+              descripcion: "",
+              arrayMetadata: [],
+              estado: null,
+              metadata: reset()
+            });
+            // alert(JSON.stringify(values, null, 2));
+          }, 1000);
+        }}
+        validationSchema={Yup.object().shape({
+          codigo: Yup.string()
+            .trim()
+            .required("Codigo requerido para el registro"),
+          nombre: Yup.string()
+            .trim()
+            .required("Nombre requqerido para el registro"),
+          descripcion: Yup.string().required(
+            "Descripcion es necesaria para el registro"
+          ),
+          estado: Yup.bool().test("Activo", value => value === true)
+        })}
+        render={({
+          values,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          dirty,
+          isSubmitting,
+          handleReset,
+          errors
+        }) => (
+          <Card>
+            <CardBody>
+              <div className="row">
+                <div className="col-md-6">
+                  <Card>
+                    <CardHeader>
+                      <i className="fa fa-wpforms" /> datos de plantilla
+                    </CardHeader>
+                    <CardBody>
                       <div className="row">
-                        <div className="col-md-12">
-                          <FormGroup>
-                            <Label for="exampleCheckbox">
-                              Unidad de correspondencia{" "}
-                              <span className="text-danger">*</span>
-                            </Label>
-                            <div>
-                                  <Field
-                                  name="recibida"
-                                  render={({field, form})=>{
-                                    return(
-                                    <CustomInput
-                                      type="checkbox"
-                                      id="exampleCustomInline"
-                                      label="Recibida"
-                                      inline
-                                        {...field}
-                                      checked={field.value}
-                                      />
-                                    );
-                                  }}
-
-                                />
-                                <Field
-                                name="despachada"
-                                render={({field, form})=>{
-                                  return(
-                                  <CustomInput
-                                  type="checkbox"
-                                  id="exampleCustomInline2"
-                                  label="Despachada"
-                                  inline
-                                      {...field}
-                                    checked={field.value}
-                                    />
-                                  );
-                                }}
-
-                              />
-                              <Field
-                              name="interna"
-                              render={({field, form})=>{
-                                return(
-                                <CustomInput
-                                  type="checkbox"
-                                  id="exampleCustomInline3"
-                                  label="Interna"
-                                  inline
-                                    {...field}
-                                  checked={field.value}
-                                  />
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Codigo <span className="text-danger">*</span>{" "}
+                            </label>
+                            <input
+                              name="codigo"
+                              value={values.codigo}
+                              type="text"
+                              className={`form-control form-control-sm ${errors.codigo &&
+                                touched.codigo &&
+                                "is-invalid"}`}
+                              onChange={e => {
+                                setFieldValue(
+                                  "codigo",
+                                  e.target.value.toUpperCase()
                                 );
                               }}
-
+                              onBlur={handleBlur}
                             />
+                            <div className="" style={{ color: "#D54B4B" }}>
+                              {errors.codigo && touched.codigo ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="codigo" />
                             </div>
-                          </FormGroup>
+                          </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
@@ -130,244 +211,123 @@ const CreatePlantillaForm = props => {
                               Nombre <span className="text-danger">*</span>
                             </label>
                             <input
+                              value={values.nombre}
                               name="nombre"
-                              onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
-                              onBlur={handleBlur}
                               type="text"
                               className={`form-control form-control-sm ${errors.nombre &&
                                 touched.nombre &&
                                 "is-invalid"}`}
-                              value={values.nombre}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
                             />
-                            <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.nombre && touched.nombre ?
-                                <i className="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                          <ErrorMessage name="nombre" />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>
-                              Descripción <span className="text-danger">*</span>
-                            </label>
-                            <textarea
-                            name="descripcion"
-                            value={values.descripcion}
-                            className="form-control form-control-sm"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                          <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.descripcion && touched.descripcion ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                          <ErrorMessage name="descripcion" />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                          <label>
-                          {" "}
-                          Conglomerado{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select
-                            name="conglomerado"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            className={`form-control form-control-sm ${errors.conglomerado &&
-                              touched.conglomerado &&
-                              "is-invalid"}`}
-                            value={values.conglomerado}
-                          >
-                          <option  disabled value={""}>--Seleccione--</option>
-                          <option value={"1"}>Conglomerado 1</option>
-                          <option value={"2"}>Conglomerado 2</option>
-                          <option value={"3"}>Conglomerado 3</option>
-                        </select>
-                        <div style={{ color: '#D54B4B' }}>
-                        {
-                          errors.conglomerado && touched.conglomerado ?
-                          <i className="fa fa-exclamation-triangle"/> :
-                          null
-                        }
-                        <ErrorMessage name="conglomerado" />
-                        </div>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <label>
-                              Empresa <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              name="empresa"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              className={`form-control form-control-sm
-                              ${errors.empresa &&
-                                touched.empresa &&
-                                "is-invalid"}`}
-                              value={values.empresa}
-                            >
-                            <option disabled value={""}>--Seleccione--</option>
-                            <option value={"1"}>Empresa 1</option>
-                            <option value={"2"}>Empresa 2</option>
-                            <option value={"3"}>Empresa 3</option>
-                          </select>
-                          <div style={{ color: '#D54B4B' }}>
-                          {
-                            errors.empresa && touched.empresa ?
-                            <i className="fa fa-exclamation-triangle"/> :
-                            null
-                          }
-                          <ErrorMessage name="empresa"/>
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <label>
-                              Sede <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              name="sede"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              className={`form-control form-control-sm
-                              ${errors.sede &&
-                                touched.sede &&
-                                "is-invalid"}`}
-                              value={values.sede}
-                            >
-                            <option  disabled value={""}>--Seleccione--</option>
-                            <option value={"1"}>Sede 1</option>
-                            <option value={"2"}>Sede 2</option>
-                            <option value={"3"}>Sede 3</option>
-                          </select>
-                          <div style={{ color: '#D54B4B' }}>
-                          {
-                            errors.sede && touched.sede ?
-                            <i className="fa fa-exclamation-triangle"/> :
-                            null
-                          }
-                          <ErrorMessage name="sede"/>
-                          </div>
+                            <div className="" style={{ color: "#D54B4B" }}>
+                              {errors.nombre && touched.nombre ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="nombre" />
+                            </div>
                           </div>
                         </div>
                         <div className="col-md-12">
-                          <div className="card">
-                            <div className="card-header">
-                              <input
-                                type="text"
-                                className="form-control form-control-sm"
-                                placeholder="Buscar dependencia"
-                                onChange={e => handleSearchInput(e)}
-                              />
+                          <div className="form-group">
+                            <label>
+                              Descripcion <span className="text-danger">*</span>{" "}
+                            </label>
+                            <textarea
+                              value={values.descripcion}
+                              name="descripcion"
+                              className={`form-control form-control-sm ${errors.descripcion &&
+                                touched.descripcion &&
+                                "is-invalid"}`}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            ></textarea>
+                            <div className="" style={{ color: "#D54B4B" }}>
+                              {errors.descripcion && touched.descripcion ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="descripcion" />
                             </div>
-                            <div className="">
-                              <div className="tableFixHead">
-                                <table className="table table-sm table-hover table-bordered ">
-                                  <thead className="thead-light">
-                                    <tr className="text-center">
-                                      <th>id</th>
-                                      <th>Dependencia</th>
-                                      <th>Todos</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className="text-center">{aux}</tbody>
-                                </table>
-                              </div>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>
+                              Estado <span className="text-danger">*</span>
+                            </label>
+                            <div className="text-justify">
+                              <CustomInput
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.estado}
+                                name="estado"
+                                type="checkbox"
+                                id="ExampleInputCheckbox"
+                                label={
+                                  "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
+                                }
+                                className={
+                                  errors.estado &&
+                                  touched.estado &&
+                                  "invalid-feedback"
+                                }
+                              />
                             </div>
                           </div>
                         </div>
                       </div>
-                    </form>
-                  </div>
+                    </CardBody>
+                  </Card>
+                </div>
+                <div className="col-md-6">
+                  <Card>
+                    <CardHeader>
+                      <i className="fa fa-table" /> Metadatos
+                    </CardHeader>
+                    <CardBody>
+                      <Suspense
+                        fallback={
+                          <div className="text-center">
+                            <i className="fa fa-cog fa-spin fa-2x fa-fw" />
+                            <p className="text-center">Loading...</p>
+                          </div>
+                        }
+                      >
+                        <TableListMetadata authorization={auth} />
+                      </Suspense>
+                    </CardBody>
+                  </Card>
                 </div>
               </div>
-            </div>
-          </CardBody>
+              <div className="row">
+                <div className="col-md-12">
+                  <AssignedMetadata data={arrayMetadata} />
+                </div>
+              </div>
+            </CardBody>
             <CardFooter>
               <div className="pull-right">
+                <button className="btn btn-secondary btn-sm">
+                  <i className="fa fa-times" /> Cancelar
+                </button>
+                &nbsp;
                 <button
-                  type="submit"
-                  className="btn btn-outline-secondary btn-sm"
-                  disabled={isSubmitting}
-                  onClick={handleSubmit}
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
                 >
-                  {isSubmitting ? (
-                    <i className=" fa fa-spinner fa-spin" />
-                  ) : (
-                    <div>
-                      <i className="fa fa-save" /> Registrar
-                    </div>
-                  )}
+                  {" "}
+                  <i className="fa fa-save" /> Guardar plantilla{" "}
                 </button>
               </div>
-          </CardFooter>
-        </Card>
-      </div>
+            </CardFooter>
+          </Card>
+        )}
+      />
+    </div>
   );
-}
+};
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    nombre: props.plantilla.nombre,
-    descripcion: props.plantilla.descripcion,
-    conglomerado: props.plantilla.conglomerado,
-    empresa: props.plantilla.empresa,
-    sede: props.plantilla.sede,
-    recibida: props.plantilla.recibida,
-    despachada:props.plantilla.despachada,
-    interna:props.plantilla.interna
-  }),
-  validationSchema: Yup.object().shape({
-    nombre: Yup.string()
-      .required(" Por favor introduzca un nombre.")
-      .max(100),
-    descripcion: Yup.string()
-      .max(250, " Máximo 250 para la descripción del conglomerado"),
-    conglomerado: Yup.string()
-      .ensure()
-      .required(" Por favor seleccione un conglomerado."),
-    empresa: Yup.string()
-      .ensure()
-      .required(" Por favor seleccione una empresa."),
-    sede: Yup.string()
-      .ensure()
-      .required(" Por favor seleccione una sede."),
-    recibida: Yup.bool()
-      .test(
-        "Activado",
-        "",
-        value=> value === true
-      ),
-    despachada: Yup.bool()
-      .test(
-        "Activado",
-        "",
-        value=> value === true
-      ),
-    interna: Yup.bool()
-      .test(
-        "Activado",
-        "",
-        value=> value === true
-      ),
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(CreatePlantillaForm);
+export default CreatePlantillaForm;

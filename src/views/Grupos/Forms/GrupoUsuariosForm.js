@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   Row,
@@ -16,10 +16,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectEmpresa from "./components/SelectEmpresa";
-import SelectSedes from "./components/SelectSedes";
-import SelectDependencia from "./components/SelectDependencia";
+import FieldCompany from "./components/SelectEmpresa";
+import FieldHeadquarter from "./components/SelectSedes";
+import FieldDependence from "./components/SelectDependencia";
 import MySelect from "./components/SelectRoles";
+import { decode } from "jsonwebtoken";
+import { GROUPUSERS } from "./../../../services/EndPoints";
 
 const GrupoUsuariosForm = props => {
   const {
@@ -34,6 +36,15 @@ const GrupoUsuariosForm = props => {
     handleSubmit,
     t
   } = props;
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <Row>
       <ToastContainer />
@@ -142,10 +153,15 @@ const GrupoUsuariosForm = props => {
                               <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectConglomerado
+                              authorization={props.authorization}
                               t={props.t}
                               name="conglomerado"
                               onChange={e => {
                                 setFieldValue("conglomerado", e.target.value);
+                                changeInValueConglomerate(
+                                  values.conglomerado,
+                                  e.target.value
+                                );
                               }}
                               onBlur={() => {
                                 setFieldTouched("conglomerado", true);
@@ -172,21 +188,15 @@ const GrupoUsuariosForm = props => {
                               )}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectEmpresa
+                            <Field
+                              authorization={props.authorization}
                               t={props.t}
-                              idConglomerado={props.values.conglomerado}
                               name="empresa"
-                              value={values.empresa}
-                              onChange={e => {
-                                setFieldValue("empresa", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("empresa", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.empresa &&
-                                touched.empresa &&
-                                "is-invalid"}`}
-                            />
+                              component={FieldCompany}
+                              oldValueConglomerateId={oldValueConglomerate}
+                              newValueConglomerateId={newValueConglomerate}
+                              conglomerado={values.conglomerado}
+                            ></Field>
                             <div style={{ color: "#D54B4B" }}>
                               {errors.empresa && touched.empresa ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -202,21 +212,14 @@ const GrupoUsuariosForm = props => {
                               {t("app_grupoUsuarios_form_registrar_sede")}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectSedes
+                            <Field
+                              authorization={props.authorization}
                               t={props.t}
-                              company={props.values.empresa}
                               name="sede"
-                              value={values.sede}
-                              onChange={e => {
-                                setFieldValue("sede", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("sede", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.sede &&
-                                touched.sede &&
-                                "is-invalid"}`}
-                            />
+                              component={FieldHeadquarter}
+                              companyId={values.empresa}
+                              conglomerateId={values.conglomerado}
+                            ></Field>
                             <div style={{ color: "#D54B4B" }}>
                               {errors.sede && touched.sede ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -234,21 +237,15 @@ const GrupoUsuariosForm = props => {
                               )}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectDependencia
+                            <Field
+                              authorization={props.authorization}
                               t={props.t}
-                              headquarter={props.values.sede}
                               name="dependencia"
-                              value={values.dependencia}
-                              onChange={e => {
-                                setFieldValue("dependencia", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("dependencia", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.dependencia &&
-                                touched.dependencia &&
-                                "is-invalid"}`}
-                            />
+                              component={FieldDependence}
+                              sedeId={values.sede}
+                              companyId={values.empresa}
+                              conglomerateId={values.conglomerado}
+                            ></Field>
                             <div style={{ color: "#D54B4B" }}>
                               {errors.dependencia && touched.dependencia ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -306,6 +303,7 @@ const GrupoUsuariosForm = props => {
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <MySelect
+                      authorization={props.authorization}
                       t={props.t}
                       idDependence={props.values.dependencia}
                       name={"roles"}
@@ -368,9 +366,18 @@ const GrupoUsuariosForm = props => {
               <div className="pull-right">
                 <button
                   type="submit"
+                  // type="button"
                   className="btn btn-outline-secondary btn-sm"
                   disabled={isSubmitting}
                   onClick={handleSubmit}
+                  // onClick={() => {
+                  //   console.log({
+                  //     conglomerado: values.conglomerado,
+                  //     empresa: values.empresa,
+                  //     sede: values.sede,
+                  //     dependencia: values.dependencia
+                  //   });
+                  // }}
                 >
                   {isSubmitting ? (
                     <i className=" fa fa-spinner fa-spin" />
@@ -443,7 +450,8 @@ export default withTranslation("translations")(
         )
         .required(" Por favor seleccione al menos un rol.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
+      const userName = decode(props.authorization);
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -455,11 +463,11 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         //alert(JSON.stringify(values, null, 2));
-        fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+        fetch(GROUPUSERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -467,26 +475,29 @@ export default withTranslation("translations")(
             description: values.descripcion,
             users: values.roles,
             status: tipoEstado(values.estado),
-            userName: "jferrer"
+            userName: userName.user_name
           })
         })
           .then(response => {
             if (response.status === 201) {
-              toast.success("Se creo el grupo de usuario con éxito.", {
+              toast.success("Se registro el grupo de usuarios con éxito.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
                 })
               });
             } else if (response.status === 400) {
-              toast.error("Error.", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: "60px"
-                })
-              });
+              toast.error(
+                "Error al registrar el grupo de usuarios. Inténtelo nuevamente.",
+                {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                }
+              );
             } else if (response.status === 500) {
-              toast.error("El grupo de usuario ya existe.", {
+              toast.error("Error, el grupo de usuarios ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"

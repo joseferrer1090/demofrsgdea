@@ -14,6 +14,8 @@ import {
 } from "reactstrap";
 import IMGAUDITORIA from "./../../../assets/img/auditoria.svg";
 import moment from "moment";
+import { AUDIT_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewAuditoria extends Component {
   constructor(props) {
@@ -22,6 +24,7 @@ class ModalViewAuditoria extends Component {
       id: this.props.id,
       t: this.props.t,
       modal: this.props.modalview,
+      auth: this.props.authorization,
       collapse: false,
       username: "ccuartas",
       dataModulo: {},
@@ -31,24 +34,18 @@ class ModalViewAuditoria extends Component {
     };
   }
 
-  toggle = id => {
-    this.setState({
-      modal: !this.state.modal,
-      id: id
-    });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/audit/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+  getDataAuditoria = id => {
+    const token = this.props.authorization;
+    const username = decode(token);
+    fetch(`${AUDIT_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataAudit: data,
           dataModulo: data.pageAction.pageEntity.pageModule,
@@ -57,6 +54,14 @@ class ModalViewAuditoria extends Component {
         });
       })
       .catch(Error => console.log(" ", Error));
+  };
+
+  toggle = id => {
+    this.setState({
+      modal: !this.state.modal,
+      id: id
+    });
+    this.getDataAuditoria(id);
   };
 
   toggleCollapse = () => {
@@ -68,7 +73,7 @@ class ModalViewAuditoria extends Component {
   FechaAuditoria(data) {
     let date;
     date = new Date(data);
-    return moment(date).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(date).format("DD-MM-YYYY, h:mm:ss a");
   }
 
   render() {
@@ -243,7 +248,8 @@ class ModalViewAuditoria extends Component {
 ModalViewAuditoria.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewAuditoria;

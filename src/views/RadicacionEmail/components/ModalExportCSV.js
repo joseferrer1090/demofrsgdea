@@ -5,6 +5,8 @@ import { Table } from "reactstrap";
 import "./styles/table_fixed.css";
 import { CSVLink, CSVDownload } from "react-csv";
 import { Parser } from "json2csv";
+import { decode } from "jsonwebtoken";
+import { EMAIL_FILING_EXPORT } from "../../../services/EndPoints";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -13,8 +15,24 @@ class ModalExportCSV extends Component {
       modal: this.props.modalexport,
       dataExport: [],
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = () => {
@@ -24,23 +42,16 @@ class ModalExportCSV extends Component {
     this.getDataExportCSV();
   };
 
-  // componentDidMount() {
-  //   this.getDataExportCSV();
-  // }
-
   getDataExportCSV = () => {
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/export/data?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${EMAIL_FILING_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response =>
         response.json().then(data => {
           this.setState({

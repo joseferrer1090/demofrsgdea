@@ -12,32 +12,32 @@ const dataExample = [
     id: 1,
     name: "Tema 1",
     descripcion: "Descripcion del tema",
-    estado: true
+    estado: true,
   },
   {
     id: 2,
     name: "Tema 2",
     descripcion: "Descripcion del tema",
-    estado: true
+    estado: true,
   },
   {
     id: 3,
     name: "Tema 3",
     descripcion: "Descripcion del tema",
-    estado: false
+    estado: false,
   },
   {
     id: 4,
     name: "Tema 4",
     descripcion: "Descripcion del tema",
-    estado: true
+    estado: true,
   },
   {
     id: 5,
     name: "Tema 5",
     descripcion: "Descripcion del tema",
-    estado: false
-  }
+    estado: false,
+  },
 ];
 
 class TableCotent extends Component {
@@ -46,7 +46,7 @@ class TableCotent extends Component {
     this.state = {
       modalview: false,
       modaledit: false,
-      modaldisabled: false
+      modaldisabled: false,
     };
   }
 
@@ -54,6 +54,7 @@ class TableCotent extends Component {
     return (
       <div className="table-actionMenuTema" style={{ marginRight: "180px" }}>
         <button
+          title="Ver tema"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView();
@@ -64,6 +65,7 @@ class TableCotent extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tema"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit();
@@ -74,6 +76,7 @@ class TableCotent extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tema"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDisabled();

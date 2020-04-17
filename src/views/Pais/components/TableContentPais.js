@@ -21,14 +21,14 @@ class TableContentPais extends Component {
       modalexport: false,
       dataPais: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,28 +36,27 @@ class TableContentPais extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataPais();
     }
   }
-
 
   getDataPais = () => {
     fetch(COUNTRIES, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataPais: data
+          dataPais: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   EstadoPais(cell, row) {
@@ -74,7 +73,7 @@ class TableContentPais extends Component {
   FechaCreacionPais(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesPais(cell, row) {
@@ -84,6 +83,7 @@ class TableContentPais extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "75px" }}
       >
         <button
+          title="Ver pais"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -95,6 +95,7 @@ class TableContentPais extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar pais"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -105,6 +106,7 @@ class TableContentPais extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar pais"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -119,26 +121,30 @@ class TableContentPais extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -154,7 +160,7 @@ class TableContentPais extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -231,27 +237,27 @@ class TableContentPais extends Component {
         <ModalView
           t={this.props.t}
           modalview={this.state.ModalViewPais}
-          ref="child"
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           updateTable={this.getDataPais}
-          ref="child3"
+          ref={(me) => (this.ModalEditRef = me)}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
           updateTable={this.getDataPais}
-          ref="child2"
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -260,7 +266,7 @@ class TableContentPais extends Component {
 }
 TableContentPais.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentPais);

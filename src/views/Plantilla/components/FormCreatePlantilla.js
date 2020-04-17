@@ -1,23 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import CreatePlantillaForm from "./Forms/CreatePlantillaForm";
-import PropTypes from "prop-types";
 
-const dataPlantilla = {
-    nombre: "",
-    descripcion: "",
-    conglomerado: "",
-    empresa: "",
-    sede: "",
-    recibida:"",
-    despachada:"",
-    interna:""
-}
-const FormCreatePlantilla = ()=> {
- return(
-   <CreatePlantillaForm plantilla={dataPlantilla} />
- );
-}
-
+const FormCreatePlantilla = props => {
+  return (
+    <div className="">
+      <CreatePlantillaForm authorization={props.authorization} />
+    </div>
+  );
+};
 
 // class FormCreatePlantilla extends Component {
 //   constructor(props) {
@@ -59,7 +49,5 @@ const FormCreatePlantilla = ()=> {
 //     );
 //   }
 // }
-
-FormCreatePlantilla.propTypes = {};
 
 export default FormCreatePlantilla;

@@ -76,6 +76,11 @@ export default {
       url: "/configuracion/tipodocumentalradicacion"
     },
     {
+      name: "Radicación vía email",
+      icon: "icon-settings",
+      url: "/configuracion/radicacionemail"
+    },
+    {
       name: "País",
       icon: "icon-settings",
       url: "/configuracion/pais"
@@ -108,14 +113,52 @@ export default {
       ]
     },
     {
+      name: "Plantilla correo electrónico",
+      icon: "icon-settings",
+      url: "/configuracion/plantillaemail"
+    },
+    {
       name: "Plantilla",
       url: "/configuracion/plantilla",
       icon: "fa fa-puzzle-piece"
     },
+
     {
       name: "Tema",
       icon: "icon-pencil",
       url: "/configuracion/tema"
+    },
+    {
+      name: "Parámetros generales",
+      icon: "icon-pencil",
+      url: "/configuracion/parametrosgenerales"
+    },
+    {
+      name: "Metadatos",
+      icon: "icon-settings",
+      url: "/configuracion/metadatos",
+      children: [
+        {
+          name: "Metadato",
+          icon: "fa fa-plus-circle",
+          url: "/configuracion/metadatos/new"
+        },
+        {
+          name: "Lista Metadatos",
+          icon: "fa fa-list-ul",
+          url: "/configuracion/metadatos/list"
+        },
+        {
+          name: "Actualizar Metadato",
+          icon: "fa fa-wrench",
+          url: "/configuracion/metadatos/update"
+        },
+        {
+          name: "Eliminar Metadato",
+          icon: "fa fa-trash",
+          url: "/configuracion/metadatos/delete"
+        }
+      ]
     }
   ]
 };

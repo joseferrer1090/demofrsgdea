@@ -1,0 +1,42 @@
+/* .tableConglo table > tbody > tr > td,
+.tableConglo table > tbody > tr > th,
+.tableConglo table > tfoot > tr > td,
+.tableConglo table > tfoot > tr > th,
+.tableConglo table > thead > tr > td,
+.tableConglo table > thead > tr > th {
+  padding-bottom: 5px;
+} */
+
+.table-actionMenuMetadatos {
+  display: none;
+}
+/* .actionMenuConglo .table-menu-active {
+    display: inline;
+    float: right;
+  } */
+
+tr:hover td .table-actionMenuMetadatos,
+tr:hover th .table-actionMenuMetadatos {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+.tableMetadatos table > tbody > tr > td,
+.tableMetadatos table > tbody > tr > th,
+.tableMetadatos table > tfoot > tr > td,
+.tableMetadatos table > tfoot > tr > th {
+  padding-bottom: 20px !important;
+}
+
+.tableMetadatos1 table > thead > tr > td,
+.tableMetadatos1 table > thead > tr > th {
+  /* padding-bottom: 0px !important; */
+  padding-top: 20px !important;
+}
+
+.texto-Metadatos {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

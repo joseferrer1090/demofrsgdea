@@ -11,7 +11,8 @@ import {
   CardBody,
   Alert,
   CardHeader,
-  Collapse
+  Collapse,
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
@@ -19,10 +20,10 @@ import { HEADQUARTERS, HEADQUARTER } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
-import SelectCompany from "./SelectCompanyModalEdit";
+import FieldCompany from "./SelectCompanyModalEdit";
 import SelectCountry from "./SelectCountryModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
-import SelectCity from "./SelectCityModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
+import FieldCity from "./SelectCityModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { decode } from "jsonwebtoken";
 
@@ -32,18 +33,20 @@ class ModalEditSedes extends React.Component {
     collapse: false,
     idSedes: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     headquarter_status: 0,
-    username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true,
+    spinnerActualizar: false,
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -51,47 +54,53 @@ class ModalEditSedes extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertSuccess: false
+      alertError500: false,
+      alertSuccess: false,
     });
   };
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
-        idSedes: id
+        idSedes: id,
+        spinner: true,
       },
       () => {
         this.props.updateTable();
       }
     );
     this.getHeadquarterByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
   toggleCollapse = () => {
     this.setState({ collapse: !this.state.collapse });
   };
 
-  getHeadquarterByID = id => {
+  getHeadquarterByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             headquarter_name: data.name,
@@ -100,18 +109,22 @@ class ModalEditSedes extends React.Component {
             headquarter_status: data.status,
             headquarter_prefix: data.prefix,
             headquarter_sequence: data.sequence,
-            headquarter_country: data.city.department.country.id,
-            headquarter_department: data.city.department.id,
-            headquarter_city: data.city.id,
+            headquarter_country:
+              data.city.department.country.status !== 1
+                ? ""
+                : data.city.department.country.id,
+            headquarter_department:
+              data.city.department.status !== 1 ? "" : data.city.department.id,
+            headquarter_city: data.city.status !== 1 ? "" : data.city.id,
             headquarter_address: data.address,
             headquarter_phone: data.phone,
             headquarter_conglomerate: data.company.conglomerate.id,
             headquarter_company: data.company.id,
-            headquarter_charge: data.charge === null ? " " : data.charge.id
-          }
+            headquarter_charge: data.charge === null ? " " : data.charge.id,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -173,11 +186,14 @@ class ModalEditSedes extends React.Component {
               headquarter_status: Yup.bool().test(
                 "Activo",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -192,7 +208,7 @@ class ModalEditSedes extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + this.state.auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idSedes,
@@ -207,73 +223,90 @@ class ModalEditSedes extends React.Component {
                     chargeId: values.headquarter_charge,
                     description: values.headquarter_description,
                     status: tipoEstado(values.headquarter_status),
-                    userName: "ccuartas"
-                  })
+                    userName: "ccuartas",
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: false,
-                            modal: false
                           },
                           () => this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
-                          modal: !this.state.modal
+                          alertError500: false,
+                          modal: !this.state.modal,
                         });
-                      }, 500);
+                      }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 1000);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
                 handleSubmit,
-
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_sedes_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t("app_sedes_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_sedes_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_sedes_modal_Actualizar_alert_error400")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_sedes_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -290,222 +323,232 @@ class ModalEditSedes extends React.Component {
                             {t("app_sedes_modal_actualizar_titulo_2")}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_sedes_form_actualizar_conglomerado"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <SelectConglomerado
-                                authorization={this.state.auth}
-                                t={this.state.t}
-                                name={"headquarter_conglomerate"}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "headquarter_conglomerate",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() =>
-                                  setFieldTouched(
-                                    "headquarter_conglomerate",
-                                    true
-                                  )
-                                }
-                                value={values.headquarter_conglomerate}
-                                className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
-                                  touched.headquarter_conglomerate &&
-                                  "is-invalid"}`}
-                              />
-
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_conglomerate &&
-                                touched.headquarter_conglomerate ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_conglomerate" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("app_sedes_form_actualizar_empresa")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <SelectCompany
-                                authorization={this.state.auth}
-                                t={this.state.t}
-                                headquarter_conglomerate={
-                                  props.values.headquarter_conglomerate
-                                }
-                                name="headquarter_company"
-                                value={values.headquarter_company}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "headquarter_company",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() =>
-                                  setFieldTouched("headquarter_company", true)
-                                }
-                                className={`form-control form-control-sm ${errors.headquarter_company &&
-                                  touched.headquarter_company &&
-                                  "is-invalid"}`}
-                              ></SelectCompany>
-
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_company &&
-                                touched.headquarter_company ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_company" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {t("app_sedes_form_actualizar_codigo")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name={"headquarter_code"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.headquarter_code}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.headquarter_code &&
-                                  touched.headquarter_code &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_code &&
-                                touched.headquarter_code ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_code" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("app_sedes_form_actualizar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name={"headquarter_name"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.headquarter_name}
-                                className={`form-control form-control-sm ${errors.headquarter_name &&
-                                  touched.headquarter_name &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_name &&
-                                touched.headquarter_name ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_name" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_sedes_form_actualizar_descripcion"
-                                )}{" "}
-                              </label>
-                              <textarea
-                                name={"headquarter_description"}
-                                value={values.headquarter_description}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className={`form-control form-control-sm ${errors.headquarter_description &&
-                                  touched.headquarter_description &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_description &&
-                                touched.headquarter_description ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage
-                                  name={"headquarter_description"}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_sedes_form_actualizar_conglomerado"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <SelectConglomerado
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name={"headquarter_conglomerate"}
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      "headquarter_conglomerate",
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={() =>
+                                    setFieldTouched(
+                                      "headquarter_conglomerate",
+                                      true
+                                    )
+                                  }
+                                  value={values.headquarter_conglomerate}
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_conglomerate &&
+                                    touched.headquarter_conglomerate &&
+                                    "is-invalid"
+                                  }`}
                                 />
+
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_conglomerate &&
+                                  touched.headquarter_conglomerate ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_conglomerate" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t("app_sedes_form_actualizar_empresa")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <Field
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name="headquarter_company"
+                                  component={FieldCompany}
+                                  conglomerateId={
+                                    props.values.headquarter_conglomerate
+                                  }
+                                  companyId={props.values.headquarter_company}
+                                ></Field>
+
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_company &&
+                                  touched.headquarter_company ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_company" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {t("app_sedes_form_actualizar_codigo")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  name={"headquarter_code"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.headquarter_code}
+                                  type="text"
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_code &&
+                                    touched.headquarter_code &&
+                                    "is-invalid"
+                                  }`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_code &&
+                                  touched.headquarter_code ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_code" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t("app_sedes_form_actualizar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"headquarter_name"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.headquarter_name}
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_name &&
+                                    touched.headquarter_name &&
+                                    "is-invalid"
+                                  }`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_name &&
+                                  touched.headquarter_name ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_name" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_sedes_form_actualizar_descripcion"
+                                  )}{" "}
+                                </label>
+                                <textarea
+                                  name={"headquarter_description"}
+                                  value={values.headquarter_description}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_description &&
+                                    touched.headquarter_description &&
+                                    "is-invalid"
+                                  }`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_description &&
+                                  touched.headquarter_description ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage
+                                    name={"headquarter_description"}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_sedes_form_actualizar_prefij_radicacion"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name="headquarter_prefix"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.headquarter_prefix}
+                                  className={`form-control form-control-sm ${
+                                    errors.headquarter_prefix &&
+                                    touched.headquarter_prefix &&
+                                    "is-invalid"
+                                  }`}
+                                  maxLength={"6"}
+                                  placeholder=" "
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_prefix &&
+                                  touched.headquarter_prefix ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_prefix" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_sedes_form_actualizar_sec_radicacion"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="number"
+                                  name="headquarter_sequence"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.headquarter_sequence}
+                                  className="form-control form-control-sm"
+                                  min={0}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.headquarter_sequence &&
+                                  touched.headquarter_sequence ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="headquarter_sequence" />
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_sedes_form_actualizar_prefij_radicacion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name="headquarter_prefix"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.headquarter_prefix}
-                                className={`form-control form-control-sm ${errors.headquarter_prefix &&
-                                  touched.headquarter_prefix &&
-                                  "is-invalid"}`}
-                                maxLength={"6"}
-                                placeholder=" "
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_prefix &&
-                                touched.headquarter_prefix ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_prefix" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_sedes_form_actualizar_sec_radicacion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="number"
-                                name="headquarter_sequence"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.headquarter_sequence}
-                                className="form-control form-control-sm"
-                                min={0}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.headquarter_sequence &&
-                                touched.headquarter_sequence ? (
-                                  <i class="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="headquarter_sequence" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        )}
                       </Col>
 
                       <Col sm="12">
@@ -524,258 +567,256 @@ class ModalEditSedes extends React.Component {
                           </CardHeader>
                           <Collapse isOpen={this.state.collapse}>
                             <CardBody>
-                              <form className="form">
-                                <div className="row" />
-                                <div className="row">
-                                  <div className="col-md-12">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_sedes_form_actualizar_cargo_responsable"
-                                        )}{" "}
-                                      </label>
-                                      <SelectCharges
-                                        authorization={this.state.auth}
-                                        t={this.state.t}
-                                        name={"headquarter_charge"}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_charge",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() => {
-                                          setFieldTouched(
-                                            "headquarter_charge",
-                                            true
+                              {this.state.spinner !== false ? (
+                                <center>
+                                  <br />
+                                  <Spinner
+                                    style={{ width: "3rem", height: "3rem" }}
+                                    type="grow"
+                                    color="primary"
+                                  />
+                                </center>
+                              ) : (
+                                <form className="form">
+                                  <div className="row" />
+                                  <div className="row">
+                                    <div className="col-md-12">
+                                      <div className="form-group">
+                                        <label>
+                                          {" "}
+                                          {t(
+                                            "app_sedes_form_actualizar_cargo_responsable"
+                                          )}{" "}
+                                        </label>
+                                        <SelectCharges
+                                          authorization={this.state.auth}
+                                          t={this.state.t}
+                                          name={"headquarter_charge"}
+                                          onChange={(e) =>
+                                            setFieldValue(
+                                              "headquarter_charge",
+                                              e.target.value
+                                            )
+                                          }
+                                          onBlur={() => {
+                                            setFieldTouched(
+                                              "headquarter_charge",
+                                              true
+                                            );
+                                          }}
+                                          value={values.headquarter_charge}
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_charge &&
+                                            touched.headquarter_charge &&
+                                            "is-invalid"
+                                          }`}
+                                        />
+
+                                        <ErrorMessage name="headquarter_charge" />
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-4">
+                                      <div className="form-group">
+                                        <label>
+                                          {" "}
+                                          {t("app_sedes_form_actualizar_pais")}
+                                          <span className="text-danger">
+                                            *
+                                          </span>{" "}
+                                        </label>
+                                        <SelectCountry
+                                          authorization={this.state.auth}
+                                          t={this.state.t}
+                                          name={"headquarter_country"}
+                                          onChange={(e) =>
+                                            setFieldValue(
+                                              "headquarter_country",
+                                              e.target.value
+                                            )
+                                          }
+                                          onBlur={() =>
+                                            setFieldTouched(
+                                              "headquarter_country"
+                                            )
+                                          }
+                                          value={values.headquarter_country}
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_country &&
+                                            touched.headquarter_country &&
+                                            "is-invalid"
+                                          }`}
+                                        />
+
+                                        <div style={{ color: "#D54B4B" }}>
+                                          {errors.headquarter_country &&
+                                          touched.headquarter_country ? (
+                                            <i className="fa fa-exclamation-triangle" />
+                                          ) : null}
+                                          <ErrorMessage name="headquarter_country" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                      <div className="form-group">
+                                        <label>
+                                          {" "}
+                                          {t(
+                                            "app_sedes_form_actualizar_departamento"
+                                          )}
+                                          <span className="text-danger">*</span>{" "}
+                                        </label>
+                                        <Field
+                                          authorization={this.state.auth}
+                                          t={this.state.t}
+                                          name="headquarter_department"
+                                          component={FieldDepartment}
+                                          countryId={
+                                            props.values.headquarter_country
+                                          }
+                                          departmentId={
+                                            props.values.headquarter_department
+                                          }
+                                        ></Field>
+                                        <div style={{ color: "#D54B4B" }}>
+                                          {errors.headquarter_department &&
+                                          touched.headquarter_department ? (
+                                            <i class="fa fa-exclamation-triangle" />
+                                          ) : null}
+                                          <ErrorMessage name="headquarter_department" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                      <div className="form-group">
+                                        <label>
+                                          {" "}
+                                          {t(
+                                            "app_sedes_form_actualizar_ciudad"
+                                          )}{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </label>
+                                        <Field
+                                          authorization={this.state.auth}
+                                          t={this.state.t}
+                                          name="headquarter_city"
+                                          component={FieldCity}
+                                          departmentId={
+                                            props.values.headquarter_department
+                                          }
+                                          cityId={props.values.headquarter_city}
+                                          countryId={
+                                            props.values.headquarter_country
+                                          }
+                                        ></Field>
+                                        <div style={{ color: "#D54B4B" }}>
+                                          {errors.headquarter_city &&
+                                          touched.headquarter_city ? (
+                                            <i class="fa fa-exclamation-triangle" />
+                                          ) : null}
+                                          <ErrorMessage name="headquarter_city" />
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className="col-md-8">
+                                      <div className="form-group">
+                                        <label>
+                                          {" "}
+                                          {t(
+                                            "app_sedes_form_actualizar_direccion"
+                                          )}{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </label>
+                                        <input
+                                          name={"headquarter_address"}
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          value={values.headquarter_address}
+                                          type="text"
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_address &&
+                                            touched.headquarter_address &&
+                                            "is-invalid"
+                                          }`}
+                                        />
+                                        <div style={{ color: "#D54B4B" }}>
+                                          {errors.headquarter_address &&
+                                          touched.headquarter_address ? (
+                                            <i class="fa fa-exclamation-triangle" />
+                                          ) : null}
+                                          <ErrorMessage name="headquarter_address" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                      <div className="from-group">
+                                        <label>
+                                          {" "}
+                                          {t(
+                                            "app_sedes_form_actualizar_telefono"
+                                          )}{" "}
+                                          <span className="text-danger">*</span>{" "}
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="headquarter_phone"
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          value={values.headquarter_phone}
+                                          className={`form-control form-control-sm ${
+                                            errors.headquarter_phone &&
+                                            touched.headquarter_phone &&
+                                            "is-invalid"
+                                          }`}
+                                        />
+                                        <div style={{ color: "#D54B4B" }}>
+                                          {errors.headquarter_phone &&
+                                          touched.headquarter_phone ? (
+                                            <i class="fa fa-exclamation-triangle" />
+                                          ) : null}
+                                          <ErrorMessage name="headquarter_phone" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="row" />
+
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_sedes_form_actualizar_estado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="headquarter_status"
+                                        render={({ field, form }) => {
+                                          return (
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="conglomeradoModalEdit"
+                                              label={t(
+                                                "app_sedes_form_actualizar_estado_descripcion"
+                                              )}
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.headquarter_status &&
+                                                touched.headquarter_status &&
+                                                "invalid-feedback"
+                                              }
+                                            />
                                           );
                                         }}
-                                        value={values.headquarter_charge}
-                                        className={`form-control form-control-sm ${errors.headquarter_charge &&
-                                          touched.headquarter_charge &&
-                                          "is-invalid"}`}
                                       />
-
-                                      <ErrorMessage name="headquarter_charge" />
                                     </div>
                                   </div>
-
-                                  <div className="col-md-4">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t("app_sedes_form_actualizar_pais")}
-                                        <span className="text-danger">
-                                          *
-                                        </span>{" "}
-                                      </label>
-                                      <SelectCountry
-                                        authorization={this.state.auth}
-                                        t={this.state.t}
-                                        name={"headquarter_country"}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_country",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("headquarter_country")
-                                        }
-                                        value={values.headquarter_country}
-                                        className={`form-control form-control-sm ${errors.headquarter_country &&
-                                          touched.headquarter_country &&
-                                          "is-invalid"}`}
-                                      />
-
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.headquarter_country &&
-                                        touched.headquarter_country ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="headquarter_country" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="col-md-4">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_sedes_form_actualizar_departamento"
-                                        )}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <SelectDepartment
-                                        authorization={this.state.auth}
-                                        t={this.state.t}
-                                        headquarter_country={
-                                          props.values.headquarter_country
-                                        }
-                                        name="headquarter_department"
-                                        value={values.headquarter_department}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_department",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched(
-                                            "headquarter_department",
-                                            true
-                                          )
-                                        }
-                                        className={`form-control form-control-sm ${errors.headquarter_department &&
-                                          touched.headquarter_department &&
-                                          "is-invalid"}`}
-                                      />
-
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.headquarter_department &&
-                                        touched.headquarter_department ? (
-                                          <i class="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="headquarter_department" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="col-md-4">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_sedes_form_actualizar_ciudad"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <SelectCity
-                                        authorization={this.state.auth}
-                                        t={this.state.t}
-                                        headquarter_department={
-                                          props.values.headquarter_department
-                                        }
-                                        name={"headquarter_city"}
-                                        value={values.headquarter_city}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_city",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched(
-                                            "headquarter_city",
-                                            true
-                                          )
-                                        }
-                                        className={`form-control form-control-sm ${errors.headquarter_city &&
-                                          touched.headquarter_city &&
-                                          "is-invalid"}`}
-                                      />
-
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.headquarter_city &&
-                                        touched.headquarter_city ? (
-                                          <i class="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="headquarter_city" />
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-8">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_sedes_form_actualizar_direccion"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <input
-                                        name={"headquarter_address"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.headquarter_address}
-                                        type="text"
-                                        className={`form-control form-control-sm ${errors.headquarter_address &&
-                                          touched.headquarter_address &&
-                                          "is-invalid"}`}
-                                      />
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.headquarter_address &&
-                                        touched.headquarter_address ? (
-                                          <i class="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="headquarter_address" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="col-md-4">
-                                    <div className="from-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_sedes_form_actualizar_telefono"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="headquarter_phone"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.headquarter_phone}
-                                        className={`form-control form-control-sm ${errors.headquarter_phone &&
-                                          touched.headquarter_phone &&
-                                          "is-invalid"}`}
-                                      />
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.headquarter_phone &&
-                                        touched.headquarter_phone ? (
-                                          <i class="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="headquarter_phone" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="row" />
-
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t("app_sedes_form_actualizar_estado")}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <div className="text-justify">
-                                    <Field
-                                      name="headquarter_status"
-                                      render={({ field, form }) => {
-                                        return (
-                                          <CustomInput
-                                            type="checkbox"
-                                            id="conglomeradoModalEdit"
-                                            label={t(
-                                              "app_sedes_form_actualizar_estado_descripcion"
-                                            )}
-                                            {...field}
-                                            checked={field.value}
-                                            className={
-                                              errors.headquarter_status &&
-                                              touched.headquarter_status &&
-                                              "invalid-feedback"
-                                            }
-                                          />
-                                        );
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              </form>
+                                </form>
+                              )}
                             </CardBody>
                           </Collapse>
                         </Card>
@@ -785,20 +826,32 @@ class ModalEditSedes extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_sedes_form_actualizar_boton_actualizar")}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_sedes_form_actualizar_boton_actualizar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false,
+                        });
                       }}
                     >
                       {" "}
@@ -819,7 +872,7 @@ class ModalEditSedes extends React.Component {
 ModalEditSedes.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalEditSedes;

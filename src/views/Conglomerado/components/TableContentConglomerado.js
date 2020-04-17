@@ -22,14 +22,14 @@ class TableContentConglomerado extends Component {
       modalexport: false,
       dataConglomerates: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentConglomerado extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataConglomerates();
     }
@@ -48,25 +48,26 @@ class TableContentConglomerado extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataConglomerates: data
+          dataConglomerates: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesConglomerado(cell, row) {
     return (
       <div
         className="table-actionMenuConglo"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "10%" }}
       >
         <button
+          title="Ver conglomerado"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -78,6 +79,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar conglomerado"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -88,6 +90,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar conglomerado"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -115,30 +118,30 @@ class TableContentConglomerado extends Component {
   FechaCreacionConglomerado(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -156,11 +159,11 @@ class TableContentConglomerado extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     const { t } = this.props;
 
-    const placeholder = t => {
+    const placeholder = (t) => {
       return t("app_conglomrado_administrar_table_placeholder");
     };
 
@@ -207,7 +210,7 @@ class TableContentConglomerado extends Component {
                     <TableHeaderColumn
                       dataField={"name"}
                       dataAlign="center"
-                      width={"205"}
+                      width={"250"}
                     >
                       {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
@@ -239,7 +242,7 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_estado")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      width={"200"}
+                      // width={"200"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>
@@ -258,27 +261,27 @@ class TableContentConglomerado extends Component {
         <ModalView
           t={t}
           modalviewstate={this.state.modalView}
-          ref="child"
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={t}
           modaldeletestate={this.state.modalDelete}
           updateTable={this.getDataConglomerates}
-          ref="child2"
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={t}
           modaleditstate={this.state.modalEdit}
-          ref="child3"
-          updateTable={this.getDataConglomerates}
+          ref={(me) => (this.ModalEditRef = me)}
+          updateTable={() => this.getDataConglomerates()}
         />
         <ModalExport
           t={t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -288,7 +291,7 @@ class TableContentConglomerado extends Component {
 
 TableContentConglomerado.propTypes = {
   t: PropTypes.any.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentConglomerado);

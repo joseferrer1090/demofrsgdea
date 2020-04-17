@@ -22,14 +22,14 @@ class TableContentDepartamento extends Component {
       dataDepartment: [],
       hiddenColumnID: true,
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentDepartamento extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataDepartment();
     }
@@ -48,73 +48,113 @@ class TableContentDepartamento extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataDepartment: data
+          dataDepartment: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  accionesPais(cell, row) {
-    return (
-      <div
-        className="table-actionMenuDepto"
-        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
-      >
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
+  accionesDepartamento(cell, row) {
+    if (row.country.status !== 1) {
+      return (
+        <div
+          className="table-actionMenuDepto"
+          style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
+          <button
+            title="Ver departamento"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar departamento"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="table-actionMenuDepto"
+          style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
         >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+          <button
+            title="Ver departamento"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Editar departamento"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar departamento"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -132,7 +172,7 @@ class TableContentDepartamento extends Component {
     return status;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -148,15 +188,15 @@ class TableContentDepartamento extends Component {
   FechaCreacionDepartamento(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
-  PaisInfo = country => {
+  PaisInfo = (country) => {
     return !country ? null : `<div>${country.name}</div>`;
   };
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -239,7 +279,7 @@ class TableContentDepartamento extends Component {
               width={"200"}
               export={false}
               dataAlign="center"
-              dataFormat={(cel, row) => this.accionesPais(cel, row)}
+              dataFormat={(cel, row) => this.accionesDepartamento(cel, row)}
             >
               {" "}
               {t("app_departamento_administrar_table_acciones")}{" "}
@@ -249,27 +289,27 @@ class TableContentDepartamento extends Component {
         <ModalView
           t={this.props.t}
           modalview={this.state.ModalViewPais}
-          ref="child"
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           updateTable={this.getDataDepartment}
-          ref="child3"
+          ref={(me) => (this.ModalEditRef = me)}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDel}
           updateTable={this.getDataDepartment}
-          ref="child2"
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.ModalExport}
-          ref="child4"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -278,6 +318,6 @@ class TableContentDepartamento extends Component {
 }
 TableContentDepartamento.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TableContentDepartamento);

@@ -5,26 +5,50 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
 import classnames from "classnames";
-import PropType from "prop-types";
 import FormCreatePlantilla from "./components/FormCreatePlantilla";
 import TableContent from "./components/TableContentPlantilla";
 import FormImport from "./components/FormImportPlantilla";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Plantilla extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: ""
     };
   }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== "tab") {
@@ -35,6 +59,7 @@ class Plantilla extends Component {
   };
 
   render() {
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -72,15 +97,15 @@ class Plantilla extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm={{ size: 10, offset: 1 }}>
-                <FormCreatePlantilla />
+              <Col sm={12}>
+                <FormCreatePlantilla authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

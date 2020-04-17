@@ -7,7 +7,9 @@ export const userService = {
   logout
 };
 
-const url = `http://192.168.10.180:8090`;
+//const url = `http://192.168.10.180:8090`;
+// const url = `http://192.168.0.19:8090`;
+const url = `http://181.57.182.193:8090`;
 
 function login(username, password, grant_type) {
   //console.log(`voy por este lado =>`, username, password, grant_type);
@@ -23,7 +25,7 @@ function login(username, password, grant_type) {
       Authorization: "Basic " + window.btoa("frontendapp:12345")
     },
     data: qs.stringify({ username, password, grant_type }),
-    url: "http://192.168.10.180:8090/api/security/oauth/token"
+    url: `${url}/api/security/oauth/token`
   };
 
   return axios(requestOptions)
@@ -39,6 +41,7 @@ function login(username, password, grant_type) {
 function logout() {
   localStorage.removeItem("auth_token");
   localStorage.removeItem("user");
+  sessionStorage.removeItem("auth_token");
   window.location.replace("/");
 }
 

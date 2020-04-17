@@ -29,7 +29,7 @@ let routes = [
     exact: true,
     name: " Configuración / Empresa ",
     component: null
-  },  
+  },
   {
     path: "/configuracion/sedes",
     exact: true,
@@ -88,6 +88,12 @@ let routes = [
     path: "/configuracion/tipodocumentalradication/edit",
     exact: true,
     name: "Configuración / Tipo documental de radicación",
+    component: null
+  },
+  {
+    path: "/configuracion/radicacionemail",
+    exact: true,
+    name: "Configuración / Cuenta de correo electrónico para radicación",
     component: null
   },
   {
@@ -163,9 +169,33 @@ let routes = [
     component: null
   },
   {
+    path: "/configuracion/plantillaemail",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: null
+  },
+  {
     path: "/configuracion/plantilla",
     exact: true,
     name: "Configuración / Plantilla de datos",
+    component: null
+  },
+  {
+    path: "/configuracion/peticionescorreoelectronico",
+    exact: true,
+    name: "Configuración / Peticiones vía correo electrónico",
+    component: null
+  },
+  {
+    path: "/configuracion/parametrosgenerales",
+    exact: true,
+    name: "Parámetros generales del sistema",
+    component: null
+  },
+  {
+    path: "/configuracion/metadatos",
+    exact: true,
+    name: "Bolsa de metadatos",
     component: null
   },
   {
@@ -177,7 +207,7 @@ let routes = [
   {
     path: "/configuracion/plantilla/addindexes",
     exact: true,
-    name: "Agregar indices de datos",
+    name: "Edicion estructura de la plantilla",
     component: null
   }
 ];
@@ -330,6 +360,12 @@ class AppBreadcrumb extends Component {
           path: "/configuracion/tipodocumentalradication/edit",
           exact: true,
           name: "Configuración / Tipo documental de radicación",
+          component: null
+        },
+        {
+          path: "/configuracion/radicacionemail",
+          exact: true,
+          name: "Configuración / Cuenta de correo electrónico para radicación",
           component: null
         },
         {

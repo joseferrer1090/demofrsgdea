@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { withFormik, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { withFormik, ErrorMessage, Field } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import {
@@ -11,14 +11,14 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-import { DEPENDENCIES, CHARGES_STATUS } from "./../../../../services/EndPoints";
+import { DEPENDENCIES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectCompany from "./components/SelectCompany";
-import SelectHeadquarter from "./components/SelectHeadquarter";
+import FieldCompany from "./components/SelectCompany";
+import FieldHeadquarter from "./components/SelectHeadquarter";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
@@ -35,6 +35,15 @@ const DependenciaForm = props => {
     setFieldTouched,
     t
   } = props;
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <div>
       <Row>
@@ -56,9 +65,13 @@ const DependenciaForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"conglomerateId"}
-                        onChange={e =>
-                          setFieldValue("conglomerateId", e.target.value)
-                        }
+                        onChange={e => {
+                          setFieldValue("conglomerateId", e.target.value);
+                          changeInValueConglomerate(
+                            values.conglomerateId,
+                            e.target.value
+                          );
+                        }}
                         onBlur={() => setFieldTouched("conglomerateId", true)}
                         value={values.conglomerateId}
                         className={`form-control form-control-sm ${errors.conglomerateId &&
@@ -81,21 +94,15 @@ const DependenciaForm = props => {
                         {t("app_dependencia_form_registrar_empresa")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectCompany
+                      <Field
                         authorization={props.authorization}
                         t={props.t}
-                        conglomerateId={props.values.conglomerateId}
                         name="companyId"
-                        value={values.companyId}
-                        onChange={e =>
-                          setFieldValue("companyId", e.target.value)
-                        }
-                        onBlur={() => setFieldTouched("companyId", true)}
-                        className={`form-control form-control-sm ${errors.companyId &&
-                          touched.companyId &&
-                          "is-invalid"}`}
-                      ></SelectCompany>
-
+                        component={FieldCompany}
+                        oldValueConglomerateId={oldValueConglomerate}
+                        newValueConglomerateId={newValueConglomerate}
+                        conglomerateId={values.conglomerateId}
+                      ></Field>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.companyId && touched.companyId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -111,20 +118,14 @@ const DependenciaForm = props => {
                         {t("app_dependencia_form_registrar_sede")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectHeadquarter
+                      <Field
                         authorization={props.authorization}
                         t={props.t}
-                        companyId={props.values.companyId}
-                        name={"headquarterId"}
-                        onChange={e =>
-                          setFieldValue("headquarterId", e.target.value)
-                        }
-                        onBlur={() => setFieldTouched("headquarterId", true)}
-                        className={`form-control form-control-sm ${errors.headquarterId &&
-                          touched.headquarterId &&
-                          "is-invalid"}`}
-                      ></SelectHeadquarter>
-
+                        name="headquarterId"
+                        component={FieldHeadquarter}
+                        companyId={values.companyId}
+                        conglomerateId={values.conglomerateId}
+                      ></Field>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.headquarterId && touched.headquarterId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -378,21 +379,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la dependencia con éxito.", {
+                toast.success("Se registro la dependencia con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la dependencia  ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la dependencia. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la dependencia.", {
+                toast.error("Error, la dependencia ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

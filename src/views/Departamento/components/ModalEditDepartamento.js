@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
 import {
@@ -27,13 +28,15 @@ class ModalEditDepartamento extends React.Component {
     idDepartment: this.props.id,
     dataResult: {},
     optionsCountries: [],
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     department_status: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -55,9 +58,15 @@ class ModalEditDepartamento extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      idDepartment: id
+      idDepartment: id,
+      spinner: true
     });
     this.getDepartmentByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
     // this.getDataCountries();
   };
 
@@ -73,6 +82,7 @@ class ModalEditDepartamento extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataResult: {
             department_country: data.country.id,
@@ -87,7 +97,7 @@ class ModalEditDepartamento extends React.Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
+      alertError500: false,
       alertSuccess: false,
       alertError400: false
     });
@@ -108,6 +118,9 @@ class ModalEditDepartamento extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerActualizar: true,
+              })
               const tipoEstado = data => {
                 let tipo;
                 if (data === true || data === 1) {
@@ -119,7 +132,7 @@ class ModalEditDepartamento extends React.Component {
               };
 
               setTimeout(() => {
-                const auth  = this.state.auth;
+                const auth = this.state.auth;
                 const username = decode(auth);
                 fetch(DEPARTMENTS, {
                   method: "PUT",
@@ -140,19 +153,21 @@ class ModalEditDepartamento extends React.Component {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
+                          
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
@@ -161,17 +176,20 @@ class ModalEditDepartamento extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => {console.log("", error); this.setState({
+                    spinnerActualizar: false,
+                  })});
                 setSubmitting(false);
               }, 500);
             }}
@@ -208,14 +226,26 @@ class ModalEditDepartamento extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_departamento_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t("app_departamento_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_departamento_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_departamento_modal_actualizar_alert_error400")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_departamento_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -234,159 +264,183 @@ class ModalEditDepartamento extends React.Component {
                             )}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_departamento_modal_actualizar_pais"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-
-                              <CountrySelect
-                                authorization={this.state.auth}
-                                t={this.state.t}
-                                name={"department_country"}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "department_country",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() => {
-                                  setFieldTouched("department_country", true);
-                                }}
-                                value={values.department_country}
-                                className={`form-control form-control-sm ${errors.department_country &&
-                                  touched.department_country &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.department_country &&
-                                touched.department_country ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="department_country" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_departamento_modal_actualizar_codigo"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name="department_code"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.department_code &&
-                                  touched.department_code &&
-                                  "is-invalid"}`}
-                                placeholder=""
-                                value={values.department_code}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.department_code &&
-                                touched.department_code ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="department_code" />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_departamento_modal_actualizar_nombre"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name="department_name"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.department_name &&
-                                  touched.department_name &&
-                                  "is-invalid"}`}
-                                value={values.department_name}
-                                placeholder=""
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.department_name &&
-                                touched.department_name ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="department_name" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_departamento_modal_actualizar_estado"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <div className="text-justify">
-                                <Field
-                                  name="department_status"
-                                  render={({ field, form }) => {
-                                    return (
-                                      <CustomInput
-                                        type="checkbox"
-                                        id="CheckboxEditCiudad"
-                                        label={t(
-                                          "app_departamento_modal_actualizar_estado_descripcion"
-                                        )}
-                                        {...field}
-                                        checked={field.value}
-                                        className={
-                                          errors.department_status &&
-                                          touched.department_status &&
-                                          "invalid-feedback"
-                                        }
-                                      />
-                                    );
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_departamento_modal_actualizar_pais"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <CountrySelect
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name={"department_country"}
+                                  onChange={e =>
+                                    setFieldValue(
+                                      "department_country",
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={() => {
+                                    setFieldTouched("department_country", true);
                                   }}
+                                  value={values.department_country}
+                                  className={`form-control form-control-sm ${errors.department_country &&
+                                    touched.department_country &&
+                                    "is-invalid"}`}
                                 />
-                                <ErrorMessage name="department_status" />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.department_country &&
+                                  touched.department_country ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="department_country" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_departamento_modal_actualizar_codigo"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  name="department_code"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.department_code &&
+                                    touched.department_code &&
+                                    "is-invalid"}`}
+                                  placeholder=""
+                                  value={values.department_code}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.department_code &&
+                                  touched.department_code ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="department_code" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_departamento_modal_actualizar_nombre"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  name="department_name"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.department_name &&
+                                    touched.department_name &&
+                                    "is-invalid"}`}
+                                  value={values.department_name}
+                                  placeholder=""
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.department_name &&
+                                  touched.department_name ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="department_name" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_departamento_modal_actualizar_estado"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <div className="text-justify">
+                                  <Field
+                                    name="department_status"
+                                    render={({ field, form }) => {
+                                      return (
+                                        <CustomInput
+                                          type="checkbox"
+                                          id="CheckboxEditCiudad"
+                                          label={t(
+                                            "app_departamento_modal_actualizar_estado_descripcion"
+                                          )}
+                                          {...field}
+                                          checked={field.value}
+                                          className={
+                                            errors.department_status &&
+                                            touched.department_status &&
+                                            "invalid-feedback"
+                                          }
+                                        />
+                                      );
+                                    }}
+                                  />
+                                  <ErrorMessage name="department_status" />
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
+                       {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          
                       {" "}
                       <i className="fa fa-pencil" />{" "}
                       {t("app_departamento_modal_actualizar_button_actualizar")}{" "}
+                                                  </div>
+                      )}
+
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError500: false,
+                          alertError400: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

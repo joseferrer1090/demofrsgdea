@@ -22,24 +22,26 @@ class TableContentEmpresa extends Component {
       modalexport: false,
       dataCompanys: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
-      this.getDataCompany();
+      this.setState(
+        {
+          auth: this.props.authorization,
+        },
+        () => this.getDataCompany()
+      );
     }
   }
 
@@ -48,60 +50,93 @@ class TableContentEmpresa extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCompanys: data
+          dataCompanys: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesEmpresa = (cel, row) => {
-    return (
-      <div className="table-actionMenuEmpre" style={{ marginRight: "40px" }}>
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+    if (row.conglomerate.status !== 1)
+      return (
+        <div className="table-actionMenuEmpre" style={{ marginRight: "55px" }}>
+          <button
+            title="Ver Empresa"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar Empresa"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div className="table-actionMenuEmpre" style={{ marginRight: "35px" }}>
+          <button
+            title="Ver Empresa"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Editar Empresa"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar Empresa"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   };
 
   FechaCreacionEmpresa(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   EstadoEmpresa(cell, row) {
@@ -115,27 +150,31 @@ class TableContentEmpresa extends Component {
     return status;
   }
 
-  openModalView = id => {
-    this.refs.child.toggle(id);
+  openModalView = (id) => {
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
-  openModalEdit = id => {
-    this.refs.child2.toggle(id);
+  openModalEdit = (id) => {
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
-    this.refs.child3.toggle(id);
+  openModalDelete = (id) => {
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
+    // this.refs.child4.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -149,12 +188,12 @@ class TableContentEmpresa extends Component {
     );
   };
 
-  ConglomerateInfo = conglomerate => {
+  ConglomerateInfo = (conglomerate) => {
     return !conglomerate ? null : `<div>${conglomerate.name}</div>`;
   };
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     const data = this.state.dataCompanys;
@@ -200,7 +239,7 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={"120"}
+              width={"110"}
               dataSort={true}
               dataField={"code"}
               dataAlign="center"
@@ -208,7 +247,7 @@ class TableContentEmpresa extends Component {
               {t("app_empresa_administrar_table_codigo")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"100"}
+              width={"110"}
               dataSort={true}
               dataField={"nit"}
               dataAlign="center"
@@ -216,7 +255,7 @@ class TableContentEmpresa extends Component {
               {t("app_empresa_administrar_table_nit")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"200"}
+              width={"180"}
               dataSort={true}
               dataField={"name"}
               dataAlign="center"
@@ -233,6 +272,7 @@ class TableContentEmpresa extends Component {
               {t("app_empresa_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"100"}
               dataSort={true}
               dataField={"status"}
               dataAlign="center"
@@ -241,7 +281,7 @@ class TableContentEmpresa extends Component {
               {t("app_empresa_administrar_table_estado")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"150"}
+              // width={"160"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
@@ -255,13 +295,13 @@ class TableContentEmpresa extends Component {
         <ModalView
           t={this.props.t}
           modalviewempesa={this.state.modalview}
-          ref={"child"}
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaleditempresa={this.state.modaledit}
-          ref={"child2"}
+          ref={(me) => (this.ModalEditRef = me)}
           updateTable={this.getDataCompany}
           authorization={this.state.auth}
         />
@@ -269,13 +309,13 @@ class TableContentEmpresa extends Component {
           t={this.props.t}
           modaldelempresa={this.state.modaldel}
           updateTable={this.getDataCompany}
-          ref="child3"
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -284,7 +324,7 @@ class TableContentEmpresa extends Component {
 }
 
 TableContentEmpresa.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentEmpresa);

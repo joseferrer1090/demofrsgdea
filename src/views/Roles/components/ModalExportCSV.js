@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
 import { CSVLink } from "react-csv";
 import { Parser } from "json2csv";
+import { ROLES_EXPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -11,7 +13,8 @@ class ModalExportCSV extends Component {
       modal: this.props.modalexport,
       dataExport: [],
       username: "ccuartas",
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization
     };
   }
 
@@ -23,16 +26,15 @@ class ModalExportCSV extends Component {
   };
 
   getDataExportCSV = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/export/data?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "BASIC " + window.btoa("sgdea:123456")
-        }
+    const token = this.props.authorization;
+    const username = decode(token);
+    fetch(`${ROLES_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response =>
         response.json().then(data => {
           this.setState({

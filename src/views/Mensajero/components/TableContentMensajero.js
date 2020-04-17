@@ -22,14 +22,14 @@ class TableContentMensajero extends Component {
       modalexport: false,
       dataMessengers: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentMensajero extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataMessenger();
     }
@@ -48,22 +48,23 @@ class TableContentMensajero extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataMessengers: data
+          dataMessengers: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesMensajero(cell, row) {
     return (
-      <div className="table-actionMenuMensj" style={{ marginRight: "60px" }}>
+      <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
+          title="Ver mensajero"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -75,6 +76,7 @@ class TableContentMensajero extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar mensajero"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -85,6 +87,7 @@ class TableContentMensajero extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar mensajero"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -113,30 +116,34 @@ class TableContentMensajero extends Component {
   FechaCreacionMensajero(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
-  openModalView = id => {
-    this.refs.child.toggle(id);
+  openModalView = (id) => {
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
-  openModalUpdate = id => {
-    this.refs.child2.toggle(id);
+  openModalUpdate = (id) => {
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
-    this.refs.child3.toggle(id);
+  openModalDelete = (id) => {
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -152,7 +159,7 @@ class TableContentMensajero extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -198,14 +205,14 @@ class TableContentMensajero extends Component {
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
-                width={"120"}
+                width={"250"}
               >
                 {t("app_mensajero_administrar_table_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="description"
                 dataAlign="center"
-                width={"200"}
+                width={"220"}
               >
                 {t("app_mensajero_administrar_table_descripción")}{" "}
               </TableHeaderColumn>
@@ -221,7 +228,7 @@ class TableContentMensajero extends Component {
                 {t("app_mensajero_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"100"}
+                width={"120"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
@@ -230,7 +237,6 @@ class TableContentMensajero extends Component {
                 {t("app_mensajero_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"120"}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
@@ -245,27 +251,27 @@ class TableContentMensajero extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={"child"}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalUpdate
           authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataMessenger}
-          ref={"child2"}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <Modaldelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataMessenger}
-          ref={"child3"}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={"child4"}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -274,7 +280,7 @@ class TableContentMensajero extends Component {
 
 TableContentMensajero.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentMensajero);

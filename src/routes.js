@@ -12,7 +12,7 @@ import AddIndexPlantilla from "./views/Plantilla/components/AddIndexPlantilla";
 import { Route, Redirect } from "react-router-dom";
 
 const isAuthenticated = () => {
-  const token = sessionStorage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
   try {
     if (token != null) {
       return true;
@@ -103,6 +103,33 @@ const EditTipoDocumentalRadication = React.lazy(() =>
 const RadicacionEmail = React.lazy(() =>
   import("./views/RadicacionEmail/RadicacionEmail")
 );
+const PeticionesViaCorreoElectronico = React.lazy(() =>
+  import("./views/EmailRequest/EmailRequest")
+);
+
+const PlantillaEmail = React.lazy(() =>
+  import("./views/PlantillaEmail/PlantillaEmail")
+);
+const EditPlantillaEmail = React.lazy(() =>
+  import("./views/PlantillaEmail/components/ModalEditPlantillaEmail")
+);
+const ParametrosGenerales = React.lazy(() =>
+  import("./views/ParametrosGenerales/ParametrosGenerales")
+);
+
+const MetaDatos = React.lazy(() => import("./views/MetaDatos/MetaDatos"));
+const MetaDato = React.lazy(() =>
+  import("./views/MetaDatos/components/Metadato")
+);
+const ListaMetaDatos = React.lazy(() =>
+  import("./views/MetaDatos/components/ListaMetadato")
+);
+const EditMetaDato = React.lazy(() =>
+  import("./views/MetaDatos/components/ModificarMetadato")
+);
+const DeleteMetadato = React.lazy(() =>
+  import("./views/MetaDatos/components/EliminarMetadato")
+);
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -185,10 +212,16 @@ const routes = [
     component: TipoDocumentalesRadicacion
   },
   {
-    path: "/configuracion/tipodocumentalradication/edit",
+    path: "/configuracion/tipodocumentalradication/edit/:id",
     exact: true,
     name: "Configuración / Tipo documental de radicación",
-    component: EditTipoDocumentalRadication
+    component: props => (
+      <EditTipoDocumentalRadication
+        t={props.t}
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/pais",
@@ -218,7 +251,12 @@ const routes = [
     path: "/configuracion/auditoria",
     exact: true,
     name: " Configuración / Auditoria ",
-    component: Auditoria
+    component: props => (
+      <Auditoria
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/auditoria/moverhistorico",
@@ -251,10 +289,16 @@ const routes = [
     component: TipoTramite
   },
   {
-    path: "/configuracion/tipotramite/edit",
+    path: "/configuracion/tipotramite/edit/:id",
     exact: true,
     name: "Editar tipo de tramite",
-    component: EditTramite
+    component: props => (
+      <EditTramite
+        {...props}
+        t={props.t}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/tipotercero",
@@ -275,16 +319,86 @@ const routes = [
     component: EditPlantilla
   },
   {
-    path: "/configuracion/plantilla/addindexes",
+    path: `/configuracion/plantilla/addindexes/:id`,
     exact: true,
-    name: "Agregar indices de datos",
-    component: AddIndexPlantilla
+    name: "Edicion estructura de la plantilla",
+    component: props => (
+      <AddIndexPlantilla
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/radicacionemail",
     exact: true,
-    name: "Cofiguración / Radicación por email",
+    name: "Configuración / Radicación por email",
     component: RadicacionEmail
+  },
+  {
+    path: "/Configuracion/peticionescorreoelectronico",
+    exact: true,
+    name: "Configuración / Peticiones vía correo electrónico",
+    component: PeticionesViaCorreoElectronico
+  },
+  {
+    path: "/configuracion/plantillaemail",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: PlantillaEmail
+  },
+  {
+    path: "/configuracion/plantillaemail/edit/:id",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: props => (
+      <EditPlantillaEmail
+        {...props}
+        t={props.t}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
+  },
+  {
+    path: "/configuracion/parametrosgenerales",
+    exact: true,
+    name: " Configuración / Parámetros generales",
+    component: props => (
+      <ParametrosGenerales
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
+  },
+  {
+    path: "/configuracion/metadatos",
+    exact: true,
+    name: "Configuración / Metadatos",
+    component: MetaDatos
+  },
+  {
+    path: "/configuracion/metadatos/new",
+    exact: true,
+    name: "Configuracion / Metadatos / Nuevo metadato",
+    component: MetaDato
+  },
+  {
+    path: "/configuracion/metadatos/list",
+    exact: true,
+    name: "Configuracion / Metadatos / Lista metadatos",
+    component: ListaMetaDatos
+  },
+  {
+    path: "/configuracion/metadatos/update",
+    exact: true,
+    name: "Configuracion / Metadatos / Actualizar metadato",
+    component: EditMetaDato
+  },
+  {
+    path: "/configuracion/metadatos/delete",
+    exact: true,
+    name: "Configuracion / Metadatos / Eliminar metadato",
+    component: DeleteMetadato
   }
 ];
 

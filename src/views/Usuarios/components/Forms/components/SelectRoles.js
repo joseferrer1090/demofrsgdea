@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
-import { ROLES_STATUS_ACTIVE } from "./../../../../../services/EndPoints";
+import { ROLES_ACTIVE } from "./../../../../../services/EndPoints";
 
 class MySelect extends React.Component {
   state = {
@@ -36,7 +36,7 @@ class MySelect extends React.Component {
   };
 
   getData = async () => {
-    let url = `${ROLES_STATUS_ACTIVE}`;
+    let url = `${ROLES_ACTIVE}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {

@@ -9,6 +9,7 @@ import ModalDeleteRadicacionEmail from "./ModalDeleteRadicacionEmail";
 import ModalExportCSV from "./ModalExportCSV";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
+import { EMAIL_FILING } from "../../../services/EndPoints";
 
 class TableContentRadicacionEmail extends Component {
   constructor(props) {
@@ -19,40 +20,49 @@ class TableContentRadicacionEmail extends Component {
       modaldelte: false,
       modalexport: false,
       dataRadicacionEmail: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization,
     };
   }
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataRadicacionEmail();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+      this.getDataRadicacionEmail();
+    }
   }
 
   getDataRadicacionEmail = () => {
-    fetch(
-      "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+    fetch(`${EMAIL_FILING}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataRadicacionEmail: data
+          dataRadicacionEmail: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesRadicacionEmail(cell, row) {
     return (
       <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
+          title="Ver cuenta"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -64,6 +74,7 @@ class TableContentRadicacionEmail extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar cuenta"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -74,6 +85,7 @@ class TableContentRadicacionEmail extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar cuenta"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -108,27 +120,31 @@ class TableContentRadicacionEmail extends Component {
     return moment(createdAt).format("YYYY-MM-DD");
   }
 
-  openModalView = id => {
-    this.refs.child.toggle(id);
+  openModalView = (id) => {
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
-  openModalUpdate = id => {
-    this.refs.child2.toggle(id);
+  openModalUpdate = (id) => {
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
-    this.refs.child3.toggle(id);
+  openModalDelete = (id) => {
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -144,7 +160,7 @@ class TableContentRadicacionEmail extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -245,27 +261,31 @@ class TableContentRadicacionEmail extends Component {
           </Col>
         </Row>
         <ModalViewRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={"child"}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalUpdateRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataRadicacionEmail}
-          ref={"child2"}
+          ref={(me) => (this.ModalEditRef = me)}
         />
 
         <ModalDeleteRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataRadicacionEmail}
-          ref={"child3"}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExportCSV
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={"child4"}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );

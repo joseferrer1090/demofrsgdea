@@ -1,23 +1,17 @@
 import React from "react";
-import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
 import Changepassword from "./Forms/ChangepasswordForm";
+import { withTranslation } from "react-i18next";
 
-const dataPassword = {
-  new_password: "",
-  confirm_password: "",
-  old_password: ""
-};
-
-const FormChangePassword = () => {
+const FormChangePassword = props => {
   return (
     <div className="animated fadeIn">
       <div className="row">
         <div className="col-md-8 offset-2">
-          <Changepassword changepassword={dataPassword} />
+          <Changepassword authorization={props.authorization} t={props.t} />
         </div>
       </div>
     </div>
   );
 };
 
-export default FormChangePassword;
+export default withTranslation("translations")(FormChangePassword);

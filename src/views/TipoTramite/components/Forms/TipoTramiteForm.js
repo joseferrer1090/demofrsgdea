@@ -1,26 +1,41 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Col, CustomInput, Button, Alert } from "reactstrap";
 import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal
-} from "./../../../../actions/usersActions";
+} from "../../../../actions/typeProcedureAction";
 import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectDependencia from "./components/SelectDependence";
-import SelectEmpresa from "./components/SelectDependence";
-import SelectSede from "./components/SelectHeadquarter";
+import FieldDependencia from "./components/SelectDependence";
+import FieldCompany from "./components/SelectCompany";
+import FieldSede from "./components/SelectHeadquarter";
 import PropTypes from "prop-types";
-import { privateName } from "@babel/types";
+import { TYPEPROCEDURE_POST } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 const TipoTramiteForm = props => {
   const { t } = props;
-  const usersdata = useSelector(state => state.users);
-  const aux = useSelector(state => state.users.assigned);
+  const usersdata = useSelector(state => state.typeProcedureReducer);
+  const [StateChangeAlert, setAux] = useState("");
+
+  const users = usersdata.users;
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
 
   return (
     <Formik
@@ -34,7 +49,8 @@ const TipoTramiteForm = props => {
         empresa: "",
         sede: "",
         dependencia: "",
-        estado: false
+        estado: false,
+        users: ""
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -60,25 +76,98 @@ const TipoTramiteForm = props => {
             value => value === true
           )
           .required(" Es necesario activar el tipo de trámite.")
+        // workflow: Yup.string()
+        //   .ensure()
+        //   .required(" Por favor seleccione el WorkFlow."),
+        // plantilla: Yup.string()
+        //   .ensure()
+        //   .required(" Por favor seleccione la plantilla.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        const tipoEstado = data => {
+          let tipo = null;
+          if (data === true) {
+            return (tipo = 1);
+          } else if (data === false) {
+            return (tipo = 0);
+          }
+          return null;
+        };
+        const tipoCorrespondencia = data => {
+          let tipo = null;
+          if (data === "1") {
+            return (tipo = 1);
+          } else if (data === "2") {
+            return (tipo = 2);
+          } else if (data === "3") {
+            return (tipo = 3);
+          }
+          return null;
+        };
         setTimeout(() => {
-          alert(
-            JSON.stringify(
-              {
-                tipocorrespondencia: values.tipocorrespondencia,
-                codigo: values.codigo,
-                nombre: values.nombre,
-                descripcion: values.descripcion,
-                d_maximos: values.d_maximos,
-                estado: values.estado,
-                user_enabled: usersdata.users,
-                original: usersdata.original
-              },
-              null,
-              2
+          const auth = props.authorization;
+          const username = decode(auth);
+          fetch(`${TYPEPROCEDURE_POST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.authorization
+            },
+            body: JSON.stringify({
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: tipoEstado(values.estado),
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: usersdata.users,
+              original: usersdata.original
+            })
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (response.status === 201) {
+                  toast.success("Se registro el tipo de trámite con éxito.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                } else if (response.status === 400) {
+                  toast.error(
+                    "Error al registrar  el tipo de trámite. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("Error, el tipo de trámite ya existe", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
             )
-          );
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
+          setAux(null);
+          users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -89,7 +178,9 @@ const TipoTramiteForm = props => {
             conglomerado: "",
             empresa: "",
             sede: "",
-            dependencia: ""
+            dependencia: "",
+            workflow: "",
+            plantilla: ""
           });
         }, 1000);
       }}
@@ -112,6 +203,7 @@ const TipoTramiteForm = props => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-6">
+                    <ToastContainer />
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_tipoTramite_form_registrar_titulo_1")}
@@ -143,19 +235,19 @@ const TipoTramiteForm = props => {
                                   )}
                                   --{" "}
                                 </option>
-                                <option value={"1"}>
+                                <option value={1}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
                                   )}{" "}
                                 </option>
-                                <option value={"2"}>
+                                <option value={2}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
                                   )}{" "}
                                 </option>
-                                <option value={"3"}>
+                                <option value={3}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"
@@ -233,32 +325,6 @@ const TipoTramiteForm = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_descripcion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name="descripcion"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.descripcion}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
-                                  touched.descripcion &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.descripcion && touched.descripcion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="descripcion" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
                                   "app_tipoTramite_form_registrar_dias_respuesta"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -282,6 +348,33 @@ const TipoTramiteForm = props => {
                               </div>
                             </div>
                           </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                {t(
+                                  "app_tipoTramite_form_registrar_descripcion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </label>
+                              <textarea
+                                name="descripcion"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.descripcion}
+                                type="text"
+                                className={`form-control form-control-sm ${errors.descripcion &&
+                                  touched.descripcion &&
+                                  "is-invalid"}`}
+                              />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.descripcion && touched.descripcion ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="descripcion" />
+                              </div>
+                            </div>
+                          </div>
+
                           <Col sm="12">
                             <div className="form-group">
                               <label>
@@ -332,6 +425,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectConglomerado
+                                  authorization={props.authorization}
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
@@ -340,15 +434,16 @@ const TipoTramiteForm = props => {
                                       "conglomerado",
                                       e.target.value
                                     );
+                                    changeInValueConglomerate(
+                                      values.conglomerado,
+                                      e.target.value
+                                    );
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("conglomerado", true);
                                   }}
                                   className="form-control form-control-sm"
                                 />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -356,22 +451,15 @@ const TipoTramiteForm = props => {
                                 <label>
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
-                                <SelectEmpresa
-                                  idConglomerado={values.conglomerado}
+                                <Field
+                                  authorization={props.authorization}
                                   t={props.t}
                                   name="empresa"
-                                  value={values.empresa}
-                                  onChange={e => {
-                                    setFieldValue("empresa", e.target.value);
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("empresa", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                  component={FieldCompany}
+                                  oldValueConglomerateId={oldValueConglomerate}
+                                  newValueConglomerateId={newValueConglomerate}
+                                  conglomerado={values.conglomerado}
+                                ></Field>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -382,22 +470,14 @@ const TipoTramiteForm = props => {
                                     "app_tipoTramite_form_registrar_sede"
                                   )}{" "}
                                 </label>
-                                <SelectSede
+                                <Field
+                                  authorization={props.authorization}
                                   t={props.t}
-                                  idEmpresa={values.empresa}
                                   name="sede"
-                                  value={values.sede}
-                                  onChange={e => {
-                                    setFieldValue("sede", e.target.value);
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("sede", true);
-                                  }}
-                                  className="form-control form-control-sm"
-                                />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                  component={FieldSede}
+                                  companyId={values.empresa}
+                                  conglomerateId={values.conglomerado}
+                                ></Field>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -408,26 +488,23 @@ const TipoTramiteForm = props => {
                                     "app_tipoTramite_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
-                                <SelectDependencia
+                                <Field
+                                  authorization={props.authorization}
                                   t={props.t}
-                                  idSede={values.sede}
                                   name="dependencia"
-                                  value={values.dependencia}
-                                  onChange={e => {
-                                    setFieldValue(
-                                      "dependencia",
-                                      e.target.value
-                                    );
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("dependencia", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                />
+                                  component={FieldDependencia}
+                                  sedeId={values.sede}
+                                  companyId={values.empresa}
+                                  conglomerateId={values.conglomerado}
+                                ></Field>                             
                               </div>
                             </div>
                             <div className="col-md-12">
-                              <UserList id={values.dependencia} t={props.t} />
+                              <UserList
+                                authorization={props.authorization}
+                                id={values.dependencia}
+                                t={props.t}
+                              />
                             </div>
                           </div>
                         </div>
@@ -436,7 +513,11 @@ const TipoTramiteForm = props => {
                   </div>
                 </div>
                 <div className="row">
-                  <UserListEnabled data={usersdata} t={props.t} />
+                  <UserListEnabled
+                    data={usersdata}
+                    t={props.t}
+                    aux={StateChangeAlert}
+                  />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -572,76 +653,48 @@ const TipoTramiteForm = props => {
     />
   );
 };
+
 function UserList(props) {
   const t = props.t;
-  const id = props.id;
-
+  let id = props.id;
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
   const AgregarUsuario = user => dispatch(agregarUserAction(user));
 
-  // const getDataUsers = () => {
-  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type":"application/json",
-  //       Authorization: "Basic " + window.btoa('sgdea:123456')
-  //     }
-  //   }).then(response => response.json()).then(data => {
-  //     setdata(data);
-  //     console.log(data);
-  //   }).catch(err => console.log("Error", err));
-  // };
-
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`, {
+  const fetchNewValues = id => {
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
         setdata(data);
-        // console.log(data);
       })
-      .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
-  }, [id]);
+      .catch(err => {
+        console.log("Error", err);
+        setdata([]);
+      });
+  };
 
-  //console.log(id);
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
+  };
+
+  useEffect(() => {
+    validateValues();
+  }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",
@@ -671,7 +724,7 @@ function UserList(props) {
                         AgregarUsuario({ id: aux.id, name: aux.name })
                       }
                     >
-                      <h6 className="badge badge-secondary">agregar</h6>
+                      <h6 className="badge badge-secondary">Agregar</h6>
                     </Button>
                   </div>
                 </li>
@@ -687,33 +740,31 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.users.assigned);
-
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          Usuario Asignado para recibir original
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original
-        </Alert>
-      );
-    }
-    return x;
-  };
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
-  // console.log(users.users);
+  const [state, setstate] = useState(aux);
+
+  useEffect(() => {
+    if (users.users.length === 0) {
+      setstate(null);
+    } else if (props.aux === null) {
+      setstate(null);
+    }
+  }, [state, users, props.aux]);
+
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_form_registrar_titulo_3")}
@@ -745,13 +796,21 @@ const UserListEnabled = props => {
                             <td scope="row">{aux.name}</td>
                             <td>
                               <button
+                                className={"btn btn-secondary btn-sm"}
                                 type="button"
-                                onClick={() =>
-                                  dispatch(agregarOriginal(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(agregarOriginal(aux.id));
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 {" "}
-                                asignar original{" "}
+                                Asignar original{" "}
                               </button>
                             </td>
                             <td>
@@ -759,9 +818,16 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() =>
-                                  dispatch(borrarUserAction(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(borrarUserAction(aux.id));
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}
@@ -782,6 +848,7 @@ const UserListEnabled = props => {
 };
 
 TipoTramiteForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TipoTramiteForm);

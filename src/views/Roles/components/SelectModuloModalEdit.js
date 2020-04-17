@@ -1,22 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { MODULE_ALL } from "./../../../services/EndPoints";
 
 class SelectModulo extends React.Component {
-  state = {
-    dataModule: [],
-    t: this.props.t
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataModule: [],
+      t: this.props.t,
+      auth: this.props.authorization
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   componentDidMount() {
     this.getDataModulos();
   }
 
   getDataModulos = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/module/active`, {
+    fetch(`${MODULE_ALL}`, {
       method: "GET",
       headers: {
         "Content-Type": "Application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())

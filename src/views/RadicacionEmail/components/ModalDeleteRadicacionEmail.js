@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
-
+import { Formik, ErrorMessage } from "formik";
+import { decode } from "jsonwebtoken";
+import { EMAIL_FILING } from "./../../../services/EndPoints";
 class ModalDeleteRadicacionEmail extends Component {
   constructor(props) {
     super(props);
@@ -13,52 +14,67 @@ class ModalDeleteRadicacionEmail extends Component {
       email: "",
       useLogged: "",
       alertSuccess: false,
-      alertError: false,
-      alertemail: false,
+      alertError500: false,
+      alertError400: false,
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization,
+      spinnerDelete: false,
     };
   }
 
-  toggle = id => {
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+  }
+
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       nombre: "",
       idRadicacionEmail: id,
-      useLogged: "jferrer"
+      useLogged: "jferrer",
     });
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+
+    fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          email: data.email
+          email: data.email,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertemail: false,
-      alertSuccess: false
+      alertError500: false,
+      alertError400: false,
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      email: ""
+      email: "",
     };
     const email = this.state.email;
     const { t } = this.props;
@@ -71,86 +87,93 @@ class ModalDeleteRadicacionEmail extends Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerDelete: SVGComponentTransferFunctionElement,
+              });
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${this.state.idRadicacionEmail}?email=${values.email}&username=${this.state.useLogged}`,
+                  `${EMAIL_FILING}/${this.state.idRadicacionEmail}?email=${values.email}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization:
-                        "Bearer " +
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertemail: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(error => console.log(" ", error));
+                  .catch((error) => console.log(" ", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               email: Yup.string().required(
                 " Por favor introduzca el correo electrónico ha eliminar."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
-                values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_radicacion_email_modal_eliminar_alert_error")}
+                        {t(
+                          "app_radicacion_email_modal_eliminar_alert_error_500"
+                        )}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertemail}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_radicacion_email_modal_eliminar_alert_errorId")}
+                        {t(
+                          "app_radicacion_email_modal_eliminar_alert_error_400"
+                        )}
                       </Alert>
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
@@ -171,9 +194,9 @@ class ModalDeleteRadicacionEmail extends Component {
                           "app_radicacion_email_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.email &&
-                          touched.email &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.email && touched.email && "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.email && touched.email ? (
@@ -192,14 +215,21 @@ class ModalDeleteRadicacionEmail extends Component {
                     <button
                       type="button"
                       className={"btn btn-outline-danger btn-sm"}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerDelete}
                     >
-                      <i className="fa fa-trash" />{" "}
-                      {this.props.t(
-                        "app_radicacion_email_modal_eliminar_boton_eliminar"
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-trash" />{" "}
+                          {this.props.t(
+                            "app_radicacion_email_modal_eliminar_boton_eliminar"
+                          )}{" "}
+                        </div>
                       )}
                     </button>
                     <button
@@ -208,9 +238,9 @@ class ModalDeleteRadicacionEmail extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
+                          alertError500: false,
                           alertSuccess: false,
-                          alertIdentification: false
+                          alertError400: false,
                         });
                       }}
                     >
@@ -232,7 +262,7 @@ class ModalDeleteRadicacionEmail extends Component {
 
 ModalDeleteRadicacionEmail.propTypes = {
   modaldelete: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalDeleteRadicacionEmail;

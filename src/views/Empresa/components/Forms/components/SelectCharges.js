@@ -22,7 +22,7 @@ class SelectCharges extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getData()
+        () => this.getData()
       );
     }
   }

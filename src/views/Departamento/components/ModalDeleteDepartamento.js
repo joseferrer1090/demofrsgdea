@@ -14,20 +14,21 @@ class ModalDeleteDepartamento extends Component {
       idDepartment: this.props.id,
       code: "",
       useLogged: "",
-      alertCode: false,
-      alertError: false,
+      alertError400: false,
+      alertError500: false,
       alertSuccess: false,
       nameDepartment: "",
       t: this.props.t,
       username: "",
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinnerDelete: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -36,17 +37,17 @@ class ModalDeleteDepartamento extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       idDepartment: id,
       nombre: "",
-      useLogged: "ccuartas"
+      useLogged: "ccuartas",
     });
     const auth = this.state.auth;
     const username = decode(auth);
@@ -54,29 +55,29 @@ class ModalDeleteDepartamento extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameDepartment: data.name
+          nameDepartment: data.name,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
-      alertSuccess: false
+      alertError500: false,
+      alertError400: false,
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      code: ""
+      code: "",
     };
     const nameDepartment = this.state.nameDepartment;
     const { t } = this.props;
@@ -90,6 +91,9 @@ class ModalDeleteDepartamento extends Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -99,80 +103,91 @@ class ModalDeleteDepartamento extends Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + this.state.auth
-                    }
+                      Authorization: "Bearer " + this.state.auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(error => console.log(error));
+                  .catch((error) => {
+                    console.log(error);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
                 " Por favor introduzca el código del departamento."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_departamento_modal_eliminar_alert_error")}
+                        {t("app_departamento_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_departamento_modal_eliminar_alert_errorCode")}
+                        {t("app_departamento_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_departamento_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
                         {" "}
                         {t("app_departamento_modal_eliminar_titulo_2")}
                       </p>
-
                       <input
                         input
                         name={"code"}
@@ -183,9 +198,9 @@ class ModalDeleteDepartamento extends Component {
                           "app_departamento_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -204,19 +219,31 @@ class ModalDeleteDepartamento extends Component {
                     <button
                       type="button"
                       className={"btn btn-outline-danger btn-sm"}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerDelete}
                     >
-                      <i className="fa fa-trash" />{" "}
-                      {t("app_departamento_modal_eliminar_button_eliminar")}
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-trash" />{" "}
+                          {t("app_departamento_modal_eliminar_button_eliminar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}
@@ -237,7 +264,7 @@ ModalDeleteDepartamento.propTypes = {
   modaldel: PropTypes.bool.isRequired,
   authorization: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalDeleteDepartamento;

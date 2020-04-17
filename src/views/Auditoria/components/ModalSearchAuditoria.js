@@ -12,18 +12,9 @@ import {
   NavLink,
   TabContent,
   TabPane,
-  Alert
+  Alert,
 } from "reactstrap";
-import {
-  MODULES,
-  ACTIONS,
-  ENTITIES,
-  CONGLOMERATES_STATUS,
-  COMPANYS_STATUS,
-  HEADQUARTERS_STATUS,
-  DEPENDENCIES_STATUS,
-  USERS_STATUS
-} from "./../../../services/EndPoints";
+
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import classnames from "classnames";
@@ -31,6 +22,24 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import SelectCompany from "./components/SelectCompany";
 import SelectHeadquarter from "./components/SelectHeadquarter";
 import SelectDependence from "./components/SelectDependence";
+import {
+  MODULE_ALL,
+  MODULE_SHOW,
+  MODULE_ENTITIES_BY_MODULE,
+  ENTITIES_ALL,
+  ENTITIES_SHOW,
+  ENTITIES_BY_MODULE,
+  ACTIONS_ALL,
+  ACTIONS_SHOW,
+  ACTIONS_BY_ENTITY,
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  DEPENDENCIES_STATUS,
+  USERS_STATUS,
+  AUDIT_CONSULT,
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
@@ -49,13 +58,15 @@ class ModalSearchAuditoria extends Component {
       dataDependencias: [],
       dataUsers: [],
       activeTab: "1",
-      alertSucces: false
+      alertSucces: false,
+      auth: this.props.authorization,
+      spinner: false,
     };
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modalSearch
+    this.setState((prevState) => ({
+      modal: !prevState.modalSearch,
     }));
     this.getDataModule();
     this.getDataEntity();
@@ -67,154 +78,154 @@ class ModalSearchAuditoria extends Component {
     this.getDataUsers();
   };
 
-  toogleTab = tab => {
+  toogleTab = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
-  handleChangeSelect = e => {
+  handleChangeSelect = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  getDataModule = data => {
-    fetch(MODULES, {
+  getDataModule = (data) => {
+    fetch(MODULE_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataModules: data
+          dataModules: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataEntity = data => {
-    fetch(ENTITIES, {
+  getDataEntity = (data) => {
+    fetch(ENTITIES_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataEntities: data
+          dataEntities: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataActions = data => {
-    fetch(ACTIONS, {
+  getDataActions = (data) => {
+    fetch(ACTIONS_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataActions: data
+          dataActions: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataConglomerates = data => {
+  getDataConglomerates = (data) => {
     fetch(CONGLOMERATES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataConglomerado: data
+          dataConglomerado: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataCompanys = data => {
+  getDataCompanys = (data) => {
     fetch(COMPANYS_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataEmpresa: data
+          dataEmpresa: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataHeadquarters = data => {
+  getDataHeadquarters = (data) => {
     fetch(HEADQUARTERS_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataSede: data
+          dataSede: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataDependence = data => {
+  getDataDependence = (data) => {
     fetch(DEPENDENCIES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataDependencias: data
+          dataDependencias: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  getDataUsers = data => {
+  getDataUsers = (data) => {
     fetch(USERS_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataUsers: data
+          dataUsers: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
   render() {
     const { t } = this.props;
@@ -253,12 +264,17 @@ class ModalSearchAuditoria extends Component {
           <ModalHeader>{t("app_auditoria_modal_consultar_titulo")}</ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinner: true,
+              });
+              const token = this.props.authorization;
+              const username = decode(token);
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
+                fetch(`${AUDIT_CONSULT}`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.props.authorization,
                   },
                   body: JSON.stringify({
                     actionId: values.audit_accciones,
@@ -267,27 +283,33 @@ class ModalSearchAuditoria extends Component {
                     page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
-                    userNameAuthenticate: "ccuartas",
-                    username: "ccuartas"
-                  })
+                    userNameAuthenticate: username.user_name,
+                    username: username.user_name,
+                  }),
                 })
-                  .then(response => response.json())
-                  .then(data => {
+                  .then((response) => response.json())
+                  .then((data) => {
                     this.setState({
-                      dataAuditoria: data.content
+                      dataAuditoria: data.content,
+                      spinner: false,
+                      alertSucces: true,
                     });
 
                     setTimeout(() => {
                       this.setState({
-                        modal: false
-                        // alertSucces: false
+                        modal: false,
+                        alertSucces: false,
                       });
-                    }, 1000);
-
+                    }, 2000);
                     this.props.onDataFetch(data.content);
                     console.log(data.content);
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinner: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -305,10 +327,10 @@ class ModalSearchAuditoria extends Component {
               audit_empresa: Yup.string().ensure(),
               audit_sede: Yup.string().ensure(),
               audit_dependencia: Yup.string().ensure(),
-              audit_usuarios: Yup.string().ensure()
+              audit_usuarios: Yup.string().ensure(),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
@@ -319,7 +341,7 @@ class ModalSearchAuditoria extends Component {
                 handleBlur,
                 handleSubmit,
                 handleReset,
-                setFieldValue
+                setFieldValue,
               } = props;
               return (
                 <Fragment>
@@ -333,7 +355,7 @@ class ModalSearchAuditoria extends Component {
                           <NavItem>
                             <NavLink
                               className={classnames({
-                                active: this.state.activeTab === "1"
+                                active: this.state.activeTab === "1",
                               })}
                               onClick={() => {
                                 this.toogleTab("1");
@@ -345,7 +367,7 @@ class ModalSearchAuditoria extends Component {
                           <NavItem>
                             <NavLink
                               className={classnames({
-                                active: this.state.activeTab === "2"
+                                active: this.state.activeTab === "2",
                               })}
                               onClick={() => {
                                 this.toogleTab("2");
@@ -371,9 +393,11 @@ class ModalSearchAuditoria extends Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.audit_fechaDesde}
-                                  className={`form-control form-control-sm ${errors.audit_fechaDesde &&
+                                  className={`form-control form-control-sm ${
+                                    errors.audit_fechaDesde &&
                                     touched.audit_fechaDesde &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.audit_fechaDesde &&
@@ -391,9 +415,11 @@ class ModalSearchAuditoria extends Component {
                                 </label>
                                 <input
                                   type="date"
-                                  className={`form-control form-control-sm ${errors.audit_fechaHasta &&
+                                  className={`form-control form-control-sm ${
+                                    errors.audit_fechaHasta &&
                                     touched.audit_fechaHasta &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                   placeholder="Hasta"
                                   name="audit_fechaHasta"
                                   onChange={handleChange}
@@ -421,9 +447,11 @@ class ModalSearchAuditoria extends Component {
                                   </label>
                                   <input
                                     type="date"
-                                    className={`form-control form-control-sm ${errors.audit_fechaDesde &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_fechaDesde &&
                                       touched.audit_fechaDesde &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                     name="audit_fechaDesde"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -445,9 +473,11 @@ class ModalSearchAuditoria extends Component {
                                   </label>
                                   <input
                                     type="date"
-                                    className={`form-control form-control-sm ${errors.audit_fechaHasta &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_fechaHasta &&
                                       touched.audit_fechaHasta &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                     name="audit_fechaHasta"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -473,9 +503,11 @@ class ModalSearchAuditoria extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_modulo}
-                                    className={`form-control form-control-sm ${errors.audit_modulo &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_modulo &&
                                       touched.audit_modulo &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   >
                                     <option value={""}>
                                       --{" "}
@@ -496,9 +528,11 @@ class ModalSearchAuditoria extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_entidad}
-                                    className={`form-control form-control-sm ${errors.audit_entidad &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_entidad &&
                                       touched.audit_entidad &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   >
                                     <option value={""}>
                                       --{" "}
@@ -524,9 +558,11 @@ class ModalSearchAuditoria extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_accciones}
-                                    className={`form-control form-control-sm ${errors.audit_accciones &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_accciones &&
                                       touched.audit_accciones &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   >
                                     <option value={""}>
                                       --{" "}
@@ -550,16 +586,18 @@ class ModalSearchAuditoria extends Component {
                                   <SelectConglomerado
                                     t={this.state.t}
                                     name={"audit_conglomerado"}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       setFieldValue(
                                         "audit_conglomerado",
                                         e.target.value
                                       )
                                     }
                                     value={values.audit_conglomerado}
-                                    className={`form-control form-control-sm ${errors.audit_conglomerado &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_conglomerado &&
                                       touched.audit_conglomerado &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   />
                                 </div>
                                 <div className="col-sm-6">
@@ -573,15 +611,17 @@ class ModalSearchAuditoria extends Component {
                                     }
                                     name="empresa"
                                     value={values.audit_empresa}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       setFieldValue(
                                         "audit_empresa",
                                         e.target.value
                                       )
                                     }
-                                    className={`form-control form-control-sm ${errors.audit_empresa &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_empresa &&
                                       touched.audit_empresa &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   ></SelectCompany>
                                 </div>
                               </div>
@@ -595,15 +635,17 @@ class ModalSearchAuditoria extends Component {
                                     t={this.state.t}
                                     audit_empresa={props.values.audit_empresa}
                                     name={"audit_sede"}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       setFieldValue(
                                         "audit_sede",
                                         e.target.value
                                       )
                                     }
-                                    className={`form-control form-control-sm ${errors.audit_sede &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_sede &&
                                       touched.audit_sede &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   ></SelectHeadquarter>
                                 </div>
                                 <div className="col-sm-6">
@@ -617,15 +659,17 @@ class ModalSearchAuditoria extends Component {
                                     audit_sede={props.values.audit_sede}
                                     name={"audit_dependencia"}
                                     value={values.audit_dependencia}
-                                    onChange={e =>
+                                    onChange={(e) =>
                                       setFieldValue(
                                         "audit_dependencia",
                                         e.target.value
                                       )
                                     }
-                                    className={`form-control form-control-sm ${errors.audit_dependencia &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_dependencia &&
                                       touched.audit_dependencia &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   ></SelectDependence>
                                 </div>
                               </div>
@@ -642,9 +686,11 @@ class ModalSearchAuditoria extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_usuarios}
-                                    className={`form-control form-control-sm ${errors.audit_usuarios &&
+                                    className={`form-control form-control-sm ${
+                                      errors.audit_usuarios &&
                                       touched.audit_usuarios &&
-                                      "is-invalid"}`}
+                                      "is-invalid"
+                                    }`}
                                   >
                                     <option value={""}>
                                       --{" "}
@@ -665,16 +711,23 @@ class ModalSearchAuditoria extends Component {
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                       type="button"
                       className="btn btn-success btn-sm"
+                      disabled={this.state.spinner}
                     >
-                      {" "}
-                      <i className="fa fa-filter" />{" "}
-                      {t("app_auditoria_modal_consultar_boton_consultar")}{" "}
+                      {this.state.spinner ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          {" "}
+                          <i className="fa fa-filter" />{" "}
+                          {t("app_auditoria_modal_consultar_boton_consultar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -702,7 +755,7 @@ class ModalSearchAuditoria extends Component {
 
 ModalSearchAuditoria.propTypes = {
   modalSearch: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalSearchAuditoria;

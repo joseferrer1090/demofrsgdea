@@ -7,49 +7,73 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
+import { EMAIL_FILING } from "../../../services/EndPoints";
 
 class ModalUpdateRadicacionEmail extends React.Component {
   state = {
     modal: this.props.modalupdate,
     idRadicacionEmail: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     messenger_status: 0,
-    username: "ccuartas"
+    auth: this.props.authorization,
+    spinner: true,
+    spinnerActualizar: false,
   };
 
-  toggle = id => {
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+  }
+
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      idRadicacionEmail: id
+      idRadicacionEmail: id,
+      spinner: true,
     });
     this.getRadiacionEmailByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
-  getRadiacionEmailByID = id => {
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+  getRadiacionEmailByID = (id) => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             radicacionemail_protocol: data.protocol,
@@ -57,11 +81,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
             radicacionemail_port: data.port,
             radicacionemail_email: data.email,
             radicacionemail_password: data.password,
-            radicacionemail_status: data.status
-          }
+            radicacionemail_status: data.status,
+          },
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -97,11 +121,14 @@ class ModalUpdateRadicacionEmail extends React.Component {
               radicacionemail_status: Yup.bool().test(
                 "Activo",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -112,92 +139,107 @@ class ModalUpdateRadicacionEmail extends React.Component {
               };
 
               setTimeout(() => {
-                fetch(
-                  "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/",
-                  {
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization:
-                        "Bearer " +
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-                    },
-                    body: JSON.stringify({
-                      id: this.state.idRadicacionEmail,
-                      protocol: values.radicacionemail_protocol,
-                      host: values.radicacionemail_host,
-                      port: values.radicacionemail_port,
-                      email: values.radicacionemail_email,
-                      password: values.radicacionemail_password,
-                      status: values.radicacionemail_status,
-                      username: "ccuartas"
-                    })
-                  }
-                )
-                  .then(response => {
+                const auth = this.state.auth;
+                const username = decode(auth);
+                fetch(`${EMAIL_FILING}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth,
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idRadicacionEmail,
+                    protocol: values.radicacionemail_protocol,
+                    host: values.radicacionemail_host,
+                    port: values.radicacionemail_port,
+                    email: values.radicacionemail_email,
+                    password: values.radicacionemail_password,
+                    status: values.radicacionemail_status,
+                    username: username.user_name,
+                  }),
+                })
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
-                          modal: !this.state.modal
+                          alertError500: false,
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_radicacion_email_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t(
+                        "app_radicacion_email_modal_actualizar_alert_error_500"
+                      )}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_radicacion_email_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t(
-                        "app_radicacion_email_modal_actualizar_alert_error400"
+                        "app_radicacion_email_modal_actualizar_alert_error_400"
                       )}
                     </Alert>
                     <Row>
@@ -217,215 +259,248 @@ class ModalUpdateRadicacionEmail extends React.Component {
                             )}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-3">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_radicacion_email_modal_actualizar_protocol"
-                                )}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  <input
-                                    name={"radicacionemail_protocol"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.radicacionemail_protocol}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.radicacionemail_protocol &&
-                                      touched.radicacionemail_protocol &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.radicacionemail_protocol &&
-                                    touched.radicacionemail_protocol ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="radicacionemail_protocol" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_radicacion_email_modal_actualizar_host"
-                                )}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"radicacionemail_host"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.radicacionemail_host}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.radicacionemail_host &&
-                                      touched.radicacionemail_host &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.radicacionemail_host &&
-                                    touched.radicacionemail_host ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="radicacionemail_host" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-3">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_radicacion_email_modal_actualizar_puerto"
-                                )}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"radicacionemail_port"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.radicacionemail_port}
-                                    type="number"
-                                    className={`form-control form-control-sm ${errors.radicacionemail_port &&
-                                      touched.radicacionemail_port &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.radicacionemail_port &&
-                                    touched.radicacionemail_port ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="radicacionemail_port" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_radicacion_email_modal_actualizar_email"
-                                )}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"radicacionemail_email"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.radicacionemail_email}
-                                    type="email"
-                                    className={`form-control form-control-sm ${errors.radicacionemail_email &&
-                                      touched.radicacionemail_email &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.radicacionemail_email &&
-                                    touched.radicacionemail_email ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="radicacionemail_email" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_radicacion_email_modal_actualizar_constraseña"
-                                )}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"radicacionemail_password"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.radicacionemail_password}
-                                    type="password"
-                                    className={`form-control form-control-sm ${errors.radicacionemail_password &&
-                                      touched.radicacionemail_password &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.radicacionemail_password &&
-                                    touched.radicacionemail_password ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="radicacionemail_password" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                <label>
-                                  {" "}
-                                  {this.props.t(
-                                    "app_radicacion_email_modal_actualizar_estado"
-                                  )}{" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-3">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_radicacion_email_modal_actualizar_protocol"
+                                  )}
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="radicacionemail_status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckBoxEditRoles"
-                                          label={this.props.t(
-                                            "app_radicacion_email_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.radicacionemail_status &&
-                                            touched.radicacionemail_status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="radicacionemail_status" />
-                                </div>
-                              </dl>
+                                  <dd>
+                                    <input
+                                      name={"radicacionemail_protocol"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.radicacionemail_protocol}
+                                      type="text"
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_protocol &&
+                                        touched.radicacionemail_protocol &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.radicacionemail_protocol &&
+                                      touched.radicacionemail_protocol ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="radicacionemail_protocol" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_radicacion_email_modal_actualizar_host"
+                                  )}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"radicacionemail_host"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.radicacionemail_host}
+                                      type="text"
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_host &&
+                                        touched.radicacionemail_host &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.radicacionemail_host &&
+                                      touched.radicacionemail_host ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="radicacionemail_host" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-3">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_radicacion_email_modal_actualizar_puerto"
+                                  )}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"radicacionemail_port"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.radicacionemail_port}
+                                      type="number"
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_port &&
+                                        touched.radicacionemail_port &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.radicacionemail_port &&
+                                      touched.radicacionemail_port ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="radicacionemail_port" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_radicacion_email_modal_actualizar_email"
+                                  )}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"radicacionemail_email"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.radicacionemail_email}
+                                      type="email"
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_email &&
+                                        touched.radicacionemail_email &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.radicacionemail_email &&
+                                      touched.radicacionemail_email ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="radicacionemail_email" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_radicacion_email_modal_actualizar_constraseña"
+                                  )}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"radicacionemail_password"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.radicacionemail_password}
+                                      type="password"
+                                      className={`form-control form-control-sm ${
+                                        errors.radicacionemail_password &&
+                                        touched.radicacionemail_password &&
+                                        "is-invalid"
+                                      }`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.radicacionemail_password &&
+                                      touched.radicacionemail_password ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="radicacionemail_password" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  <label>
+                                    {" "}
+                                    {this.props.t(
+                                      "app_radicacion_email_modal_actualizar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="radicacionemail_status"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditRoles"
+                                            label={this.props.t(
+                                              "app_radicacion_email_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.radicacionemail_status &&
+                                              touched.radicacionemail_status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="radicacionemail_status" />
+                                  </div>
+                                </dl>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>
                   <ModalFooter>
                     <button
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                       type="button"
-                      className="btn btn-sm btn-outline-success"
+                      className="btn btn-sm btn-success"
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {this.props.t(
-                        "app_radicacion_email_modal_actualizar_boton_actualizar"
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {this.props.t(
+                            "app_radicacion_email_modal_actualizar_boton_actualizar"
+                          )}{" "}
+                        </div>
                       )}
                     </button>
                     <button
                       className="btn btn-sm btn-secondary "
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false,
+                        });
                       }}
                     >
                       {" "}
@@ -448,7 +523,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
 ModalUpdateRadicacionEmail.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalUpdateRadicacionEmail;

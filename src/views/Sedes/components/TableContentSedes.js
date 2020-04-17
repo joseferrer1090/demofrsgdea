@@ -22,13 +22,13 @@ class TableContentSedes extends Component {
       modalExport: false,
       dataHeadquarters: [],
       hiddenColumnId: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableContentSedes extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataHeadquarters();
     }
@@ -47,16 +47,16 @@ class TableContentSedes extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataHeadquarters: data
+          dataHeadquarters: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   SedesStatus = (cell, row) => {
@@ -70,58 +70,95 @@ class TableContentSedes extends Component {
     return status;
   };
 
-  accionesSedes = (cell, row) => {
-    return (
-      <div className="table-actionMenuSedes" style={{ marginRight: "60px" }}>
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+  AccionesSedeStatus = (cell, row) => {
+    if (row.company.status !== 1)
+      return (
+        <div className="table-actionMenuSedes" style={{ marginRight: "55px" }}>
+          <button
+            title="Ver Sede"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar Sede"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div className="table-actionMenuSedes" style={{ marginRight: "40px" }}>
+          <button
+            title="Ver Sede"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            title="Editar Sede"
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            title="Eliminar Sede"
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   };
 
-  openModalView = id => {
-    this.refs.child.toggle(id);
+  openModalView = (id) => {
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
-  openModalEdit = id => {
-    this.refs.child2.toggle(id);
+  openModalEdit = (id) => {
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
-    this.refs.child3.toggle(id);
+  openModalDelete = (id) => {
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -131,10 +168,10 @@ class TableContentSedes extends Component {
   FechaCreacionSede(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -148,13 +185,13 @@ class TableContentSedes extends Component {
     );
   };
 
-  EmpresaInfo = company => {
+  EmpresaInfo = (company) => {
     return !company ? null : `<div>${company.name}</div>`;
   };
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -194,7 +231,7 @@ class TableContentSedes extends Component {
                   dataField={"company"}
                   dataFormat={this.EmpresaInfo}
                   dataAlign={"center"}
-                  width={"200"}
+                  width={"230"}
                   dataSort={true}
                 >
                   {" "}
@@ -211,7 +248,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataField={"name"}
                   dataAlign="center"
-                  width={"250"}
+                  width={"270"}
                   dataSort={true}
                 >
                   {t("app_sedes_administrar_table_nombre")}
@@ -238,7 +275,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   export={false}
                   dataAlign="center"
-                  dataFormat={(cell, row) => this.accionesSedes(cell, row)}
+                  dataFormat={(cell, row) => this.AccionesSedeStatus(cell, row)}
                   style={{ border: "none" }}
                 >
                   {" "}
@@ -252,27 +289,27 @@ class TableContentSedes extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
-          ref="child"
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modalEdit}
           updateTable={this.getDataHeadquarters}
-          ref="child2"
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldel={this.state.modalDel}
           updateTable={this.getDataHeadquarters}
-          ref="child3"
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalExport}
-          ref="child4"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -281,7 +318,7 @@ class TableContentSedes extends Component {
 
 TableContentSedes.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentSedes);

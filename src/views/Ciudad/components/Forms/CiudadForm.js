@@ -1,5 +1,5 @@
-import React from "react";
-import { withFormik, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   Card,
@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectCountry from "./components/SelectCountry";
-import SelectDepartment from "./components/SelectDepartment";
+import FieldDepartment from "./components/SelectDepartment";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
@@ -33,7 +33,13 @@ const CiudadForm = props => {
     setFieldTouched,
     t
   } = props;
+  const [oldValue, setOldValue] = useState();
+  const [newValue, setNewValue] = useState();
 
+  const changeInValue = (Old, New) => {
+    setOldValue(Old);
+    setNewValue(New);
+  };
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
@@ -54,7 +60,10 @@ const CiudadForm = props => {
                       authorization={props.authorization}
                       t={props.t}
                       name={"countryId"}
-                      onChange={e => setFieldValue("countryId", e.target.value)}
+                      onChange={e => {
+                        setFieldValue("countryId", e.target.value);
+                        changeInValue(values.countryId, e.target.value);
+                      }}
                       onBlur={() => setFieldTouched("countryId", true)}
                       value={values.countryId}
                       className={`form-control form-control-sm ${errors.countryId &&
@@ -76,20 +85,16 @@ const CiudadForm = props => {
                       {t("app_ciudad_form_select_departamento")}{" "}
                       <span className="text-danger">*</span>{" "}
                     </label>
-                    <SelectDepartment
+
+                    <Field
                       authorization={props.authorization}
                       t={props.t}
-                      countryId={props.values.countryId}
                       name="departmentId"
-                      value={values.departmentId}
-                      onChange={e =>
-                        setFieldValue("departmentId", e.target.value)
-                      }
-                      onBlur={() => setFieldTouched("departmentId", true)}
-                      className={`form-control form-control-sm ${errors.departmentId &&
-                        touched.departmentId &&
-                        "is-invalid"}`}
-                    />
+                      component={FieldDepartment}
+                      oldValueCountryId={oldValue}
+                      newValueCountryId={newValue}
+                      countryId={values.countryId}
+                    ></Field>
                     <div style={{ color: "#D54B4B" }}>
                       {errors.departmentId && touched.departmentId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -270,21 +275,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la ciudad con éxito.", {
+                toast.success("Se registro la ciudad con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la ciudad ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la ciudad. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la ciudad.", {
+                toast.error("Error, la ciudad ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -310,5 +318,5 @@ export default withTranslation("translations")(
 
 CiudadForm.propTypes = {
   t: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };

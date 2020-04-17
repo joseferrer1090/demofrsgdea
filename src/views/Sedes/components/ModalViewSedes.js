@@ -10,7 +10,8 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Collapse
+  Collapse,
+  Spinner,
 } from "reactstrap";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
 import moment from "moment";
@@ -33,13 +34,14 @@ class ModalViewSedes extends Component {
       t: this.props.t,
       dataPais: {},
       username: "",
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -47,27 +49,38 @@ class ModalViewSedes extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
+    this.getInfoSede(id);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false,
+        });
+      }
+    }, 2000);
+  };
+  getInfoSede = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataSedes: data,
           dataEmpresa: data.company,
@@ -75,10 +88,16 @@ class ModalViewSedes extends Component {
           dataCiudad: data.city,
           dataDepartamento: data.city.department,
           dataPais: data.city.department.country,
-          dataCargo: data.charge
+          dataCargo: data.charge,
+          spinner: false,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
 
   toggleCollapse = () => {
@@ -88,12 +107,12 @@ class ModalViewSedes extends Component {
   FechaCreacionSede(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   }
   FechaModificacionSede(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   }
 
   render() {
@@ -116,7 +135,7 @@ class ModalViewSedes extends Component {
       return status;
     };
 
-    const statusHeadquarter = data => {
+    const statusHeadquarter = (data) => {
       const { t } = this.props;
       let status;
       if (data === 1) {
@@ -143,83 +162,97 @@ class ModalViewSedes extends Component {
               <Col sm="3">
                 <img src={IMGSEDE} className="img-thumbnail" />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    {t("app_sedes_modal_ver_titulo_2")}{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_conglomerado")} </dt>
-                        <dd>{dataConglomerado.name}</dd>
-                      </dl>
-                    </div>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      {t("app_sedes_modal_ver_titulo_2")}{" "}
+                    </h5>{" "}
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_empresa")} </dt>
-                        <dd>{dataEmpresa.name}</dd>
-                      </dl>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_conglomerado")} </dt>
+                          <dd>{dataConglomerado.name}</dd>
+                        </dl>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_codigo")} </dt>
-                        <dd> {dataSede.code}</dd>
-                      </dl>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_empresa")} </dt>
+                          <dd>{dataEmpresa.name}</dd>
+                        </dl>
+                      </div>
                     </div>
-                  </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_codigo")} </dt>
+                          <dd> {dataSede.code}</dd>
+                        </dl>
+                      </div>
+                    </div>
 
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_nombre")} </dt>
-                        <dd> {dataSede.name}</dd>
-                      </dl>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_nombre")} </dt>
+                          <dd> {dataSede.name}</dd>
+                        </dl>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_descripcion")} </dt>
-                        <dd> {dataSede.description}</dd>
-                      </dl>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_descripcion")} </dt>
+                          <dd> {dataSede.description}</dd>
+                        </dl>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_prefij_radicacion")} </dt>
-                        <dd> {dataSede.prefix}</dd>
-                      </dl>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_prefij_radicacion")} </dt>
+                          <dd> {dataSede.prefix}</dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_sec_radicacion")} </dt>
+                          <dd>{dataSede.sequence} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>{t("app_sedes_modal_ver_estado")} </dt>
+                          <dd> {statusHeadquarter(dataSede.status)}</dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_sec_radicacion")} </dt>
-                        <dd>{dataSede.sequence} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>{t("app_sedes_modal_ver_estado")} </dt>
-                        <dd> {statusHeadquarter(dataSede.status)}</dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
             <br />
             <Row>
@@ -238,87 +271,102 @@ class ModalViewSedes extends Component {
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
-                    <CardBody>
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>{t("app_sedes_modal_ver_pais")} </dt>
-                              <dd> {dataPais.name}</dd>
-                            </dl>
+                    {this.state.spinner !== false ? (
+                      <center>
+                        <br />
+                        <Spinner
+                          style={{ width: "3rem", height: "3rem" }}
+                          type="grow"
+                          color="primary"
+                        />
+                      </center>
+                    ) : (
+                      <CardBody>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>{t("app_sedes_modal_ver_pais")} </dt>
+                                <dd> {dataPais.name}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>{t("app_sedes_modal_ver_departamento")} </dt>
-                              <dd> {dataDepartamento.name}</dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>
+                                  {t("app_sedes_modal_ver_departamento")}{" "}
+                                </dt>
+                                <dd> {dataDepartamento.name}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>{t("app_sedes_modal_ver_ciudad")} </dt>
-                              <dd> {dataCiudad.name}</dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>{t("app_sedes_modal_ver_ciudad")} </dt>
+                                <dd> {dataCiudad.name}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>{t("app_sedes_modal_ver_direccion")} </dt>
-                              <dd> {dataSede.address}</dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>{t("app_sedes_modal_ver_direccion")} </dt>
+                                <dd> {dataSede.address}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>{t("app_sedes_modal_ver_telefono")} </dt>
-                              <dd> {dataSede.phone}</dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>{t("app_sedes_modal_ver_telefono")} </dt>
+                                <dd> {dataSede.phone}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>
-                                {t("app_sedes_modal_ver_cargo_responsable")}{" "}
-                              </dt>
-                              <dd> {CargoInfo()}</dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>
+                                  {t("app_sedes_modal_ver_cargo_responsable")}{" "}
+                                </dt>
+                                <dd> {CargoInfo()}</dd>
+                              </dl>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>
-                                {" "}
-                                {t("app_sedes_modal_ver_fecha_creacion")}{" "}
-                              </dt>
-                              <dd>
-                                {this.FechaCreacionSede(dataSede.createdAt)}{" "}
-                              </dd>
-                            </dl>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>
+                                  {" "}
+                                  {t("app_sedes_modal_ver_fecha_creacion")}{" "}
+                                </dt>
+                                <dd>
+                                  {this.FechaCreacionSede(dataSede.createdAt)}{" "}
+                                </dd>
+                              </dl>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <dl className="param">
+                                <dt>
+                                  {t("app_sedes_modal_ver_fecha_modificacion")}{" "}
+                                </dt>
+                                <dd>
+                                  {" "}
+                                  {this.FechaModificacionSede(
+                                    dataSede.updatedAt
+                                  )}
+                                </dd>
+                              </dl>
+                            </div>
                           </div>
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>
-                                {t("app_sedes_modal_ver_fecha_modificacion")}{" "}
-                              </dt>
-                              <dd>
-                                {" "}
-                                {this.FechaModificacionSede(dataSede.updatedAt)}
-                              </dd>
-                            </dl>
-                          </div>
-                        </div>
-                      </div>
-                    </CardBody>
+                      </CardBody>
+                    )}
                   </Collapse>
                 </Card>
               </Col>
@@ -328,7 +376,7 @@ class ModalViewSedes extends Component {
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.setState({ modal: false });
+                this.setState({ modal: false, collapse: false });
               }}
             >
               {" "}
@@ -346,7 +394,7 @@ ModalViewSedes.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewSedes;

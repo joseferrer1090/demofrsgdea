@@ -8,32 +8,69 @@ import {
   ModalBody,
   Card,
   CardBody,
-  CustomInput, 
-  Alert
+  CustomInput,
+  Alert,
+  Spinner,
+  Row,
+  Col,
 } from "reactstrap";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { GROUPUSER, USERS_BY_DEPENDENCE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
+import SelectConglomerado from "./SelectConglomerate";
+import FieldCompany from "./SelectCompany";
+import FieldHeadquarter from "./SelectHeadquarter";
+import FieldDependence from "./SelectDependence";
+import IMGGROUP from "./../../../assets/img/groupUser.svg";
 
 class ModalEditGrupos extends React.Component {
-    state = {
-      // items: dataGrupoUsuarios,
-      modal: this.props.modalgitedit,
-      dataOk: false,
-      id: this.props.id, 
-      datagroup:{}, 
-      datagroupUsers: [], 
-      username: "jferrer", 
-      alertError: false,
-      alertError400: false,
-      alertSuccess: false,
-    };
+  state = {
+    // items: dataGrupoUsuarios,
+    modal: this.props.modalgitedit,
+    dataOk: false,
+    id: this.props.id,
+    datagroup: {},
+    datagroupUsers: [],
+    username: "jferrer",
+    alertError500: false,
+    alertError400: false,
+    alertSuccess: false,
+    auth: this.props.authorization,
+    t: this.props.t,
+    spinner: true,
+    spinnerActualizar: false,
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+  }
 
   toggle = (id) => {
     this.setState({
-      modal: !this.state.modal, 
-      id:id
+      modal: !this.state.modal,
+      id: id,
+      spinner: true,
     });
     this.getDataGroup(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
   //  handleSubmit = (values, { props = this.props, setSubmitting }) => {
@@ -43,47 +80,33 @@ class ModalEditGrupos extends React.Component {
   //  };
 
   getDataGroup = (id) => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`, {
-      method: "GET", 
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${GROUPUSER}${id}?username=${username.user_name}`, {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json", 
-        Authorization: "Basic " + window.btoa('sgdea:123456')
-      }
-    }).then(response => response.json()).then(data => {
-      this.setState({
-        datagroup: data, 
-        datagroupUsers: data.users
-
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          datagroup: data,
+          datagroupUsers: data.users,
+        });
+        console.log(data);
       })
-     // console.log(data);
-    }).catch(err => console.log("Error", err));
-  }
+      .catch((err) => console.log("Error", err));
+  };
 
   // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
   //   this.setState({ selectedOptionUserAsigandos });
   //   console.log(this.state.selectedOptionUserAsigandos);
   // };
 
- 
   render() {
-    // const {dataOk, items, selectedOptionUserAsigandos} = this.state;
-    // const buscarOpciones = items.map(item => (
-    //   <option
-    //     key={item.id}
-    //     onClick={() => {
-    //     const string = JSON.stringify({
-    //       value: `${item.id}`,
-    //       label: `${item.nombre}`
-    //     });
-    //     filtraritems.push(JSON.parse(string));
-    //     console.log(filtraritems);
-    //   }}
-    // >
-    //   {item.nombre}
-    // </option>
-    //     ));
-    // console.log(filtraritems);
-    const tipoEstado = data => {
+    const tipoEstado = (data) => {
       let tipo;
       if (data === true || data === 1) {
         return (tipo = 1);
@@ -93,478 +116,567 @@ class ModalEditGrupos extends React.Component {
       return 0;
     };
     const dataPreview = {
-      codigo: this.state.datagroup.code, 
-      nombre: this.state.datagroup.name, 
-      descripcion: this.state.datagroup.description, 
-      usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
-      estado: this.state.datagroup.status
-    }
-    
+      codigo: this.state.datagroup.code,
+      nombre: this.state.datagroup.name,
+      descripcion: this.state.datagroup.description,
+      usuarios: this.state.datagroupUsers.map((aux, id) => {
+        return { label: aux.name, value: aux.id };
+      }),
+      estado: this.state.datagroup.status,
+    };
+    const { t } = this.state;
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar Grupo de usuario {this.state.datagroup.name}</ModalHeader>
+          <ModalHeader>
+            {t("app_grupoUsuarios_modal_editar_titulo")}{" "}
+            {this.state.datagroup.name}
+          </ModalHeader>
           <Formik
-          enableReinitialize={true}
+            enableReinitialize={true}
             initialValues={{
-              codigo: this.state.datagroup.code, 
+              codigo: this.state.datagroup.code,
               nombre: this.state.datagroup.name,
               descripcion: dataPreview.descripcion,
-              usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
-              estado: this.state.datagroup.status
+              usuarios: this.state.datagroupUsers.map((aux, id) => {
+                return { label: aux.name, value: aux.id };
+              }),
+              estado: this.state.datagroup.status,
             }}
-            onSubmit={(values, {setSubmitting}) =>{
-               
-              setTimeout(()=>{
+            onSubmit={(values, { setSubmitting, props }) => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const userName = decode(this.props.authorization);
+              setTimeout(() => {
                 // alert(JSON.stringify(values, null, 2));
-                fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
-                  method: "PUT", 
+                fetch(`${GROUPUSER}`, {
+                  method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa('sgdea:123456')
-                  }, 
+                    Authorization: "Bearer " + this.props.authorization,
+                  },
                   body: JSON.stringify({
                     id: this.state.id,
                     code: values.codigo,
-                    name: values.nombre, 
-                    description: values.descripcion, 
-                    userName: "jferrer",
-                    users: values.usuarios, 
-                    status: values.estado
+                    name: values.nombre,
+                    description: values.descripcion,
+                    userName: userName.user_name,
+                    users: values.usuarios,
+                    status: values.estado,
+                  }),
+                })
+                  .then((response) => {
+                    console.log(response.status);
+                    if (response.status === 200) {
+                      this.setState({
+                        alertSuccess: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState(
+                          {
+                            alertSuccess: false,
+                          },
+                          this.props.updateTable()
+                        );
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError400: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false,
+                          modal: !this.state.modal,
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError500: true,
+                        spinnerActualizar: false,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError500: false,
+                          modal: !this.state.modal,
+                        });
+                      }, 3000);
+                    }
                   })
-                }).then(response => {
-                  console.log(response.status);
-                  if (response.status === 200) {
-                    this.setState({
-                      alertSuccess: true
-                    });
-                    setTimeout(() => {
-                      this.setState(
-                        {
-                          alertSuccess: false,
-                          modal: false
-                        },
-                        this.props.updateTable()
-                      );
-                    }, 3000);
-                  } else if (response.status === 400) {
-                    this.setState({
-                      alertError400: true
-                    });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError400: false
-                      });
-                    }, 3000);
-                  } else if (response.status === 500) {
-                    this.setState({
-                      alertError: true
-                    });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError: false,
-                        modal: !this.state.modal
-                      });
-                    }, 3000);
-                  }
-                }).catch(err => console.log("Error", err));
-              },1000)
+                  .catch((err) => console.log("Error", err));
+              }, 1000);
               setSubmitting(false);
             }}
             validationSchema={Yup.object().shape({
               codigo: Yup.string()
-              .required("Por favor introduzca un código")
-              .min(6, "Mínimo 6 caracteres .")
-              .max(6, "Máximo 6 caracteres"), 
+                .required("Por favor introduzca un código")
+                .min(6, "Mínimo 6 caracteres .")
+                .max(6, "Máximo 6 caracteres"),
               nombre: Yup.string()
-              .required("Por favor introduzca un nombre")
-              .max(100), 
+                .required("Por favor introduzca un nombre")
+                .max(100),
               descripcion: Yup.string()
-              .nullable()
-              .max(250, "Máximo 250 para la descripción del grupo"),
-              conglomerado: Yup.string()
-              .ensure()
-              .required("Por favor seleccione un conglomerado para filtrar"), 
-              empresa: Yup.string()
-              .ensure()
-              .required("Por favor selecciones uan empresa para filtrar"), 
-              sede: Yup.string()
-              .ensure()
-              .required("Por favor Seleccione una sede para filtrar "), 
-              dependencia: Yup.string()
-              .ensure()
-              .required("Por favor seleccione la dependencia para filtrar"),
-              usuarios: Yup.array()
-              .of(
+                .nullable()
+                .max(250, "Máximo 250 para la descripción del grupo"),
+              conglomerado: Yup.string().ensure(),
+
+              empresa: Yup.string().ensure(),
+
+              sede: Yup.string().ensure(),
+
+              dependencia: Yup.string().ensure(),
+
+              usuarios: Yup.array().of(
                 Yup.object().shape({
                   label: Yup.string().required(),
-                  value: Yup.string().required()
+                  value: Yup.string().required(),
                 })
-              )
-              .required("Por favor asignar usuarios al grupo"), 
-              estado: Yup.bool()
-              .test("Activado", "", value => value === true)
+              ),
+              estado: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
-                setFieldTouched
+                setFieldTouched,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                  <Alert
+                    <Alert
+                      className={"text-center"}
                       color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
+                      isOpen={this.state.alertError500}
                     >
-                      Error al actualizar el gruoo de usuarios.
+                      {t("app_grupoUsuarios_modal_editar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, grupo de usuarios ya asignados.
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_grupoUsuarios_modal_editar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el grupo de usuarios  con éxito.
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
+                      {t("app_grupoUsuarios_modal_editar_alert_success")}
                     </Alert>
                     <form className="form">
-                     <div className="container">
-                     <div className="row">
-                     <div className="col-sm-6">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Código <span className="text-danger">*</span>{" "}
-                    </label>
-                    <input 
-                    type="text" 
-                    name="codigo" 
-                    value={values.codigo} 
-                    onChange={handleChange} 
-                    onBlur={handleBlur}
-                    className="form-control form-control-sm"/>
-                    <div style={{ color: '#D54B4B' }}>
-                      {errors.codigo && touched.codigo ? (
-                        <i className="fa fa-exclamation-triangle" />
-                      ) : null}
-                      <ErrorMessage name='codigo' />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-sm-6">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Nombre <span className="text-danger">*</span>{" "}
-                    </label>
-                    <input
-                     type="text"
-                     name="nombre"
-                     onChange={handleChange}
-                     value={values.nombre}
-                     className="form-control form-control-sm"
-                    />
-                    <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.nombre && touched.nombre ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                    <ErrorMessage name="nombre" />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label> Descripción </label>
-                    <textarea
-                      name="descripcion"
-                      value={values.descripcion}
-                      className="form-control form-control-sm"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                          <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.descripcion && touched.descripcion ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                          <ErrorMessage name="descripcion" />
-                          </div>
-                  </div>
-                </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <Card>
-                        <CardBody>
-                        <h5 className=""> Búsqueda de usuarios </h5>
-                        <hr />
-                        <br />
-                        <div className="row">
-                        <div className="col-md-3">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Conglomerado{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </label>
-                          <SelectConglomerado
-                            name={'conglomerado'}
-                            onChange={e =>
-                              setFieldValue(
-                                'conglomerado',
-                                e.target.value
-                              )
-                            }
-                            onBlur={() =>
-                              setFieldTouched(
-                                'conglomerado',
-                                true
-                              )
-                            }
-                            value={
-                              values.conglomerado
-                            }
-                            className={`form-control form-control-sm ${errors.conglomerado &&
-                              touched.conglomerado &&
-                              'is-invalid'}`}
-                          />
-                      <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.conglomerado && touched.conglomerado ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                      <ErrorMessage name="conglomerado" />
-                      </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Empresa{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </label>
-                           <SelectCompany
-                            usuario_conglomerate={
-                              props.values
-                                .conglomerado
-                            }
-                            name="empresa"
-                            value={values.empresa}
-                            onChange={e =>
-                              setFieldValue(
-                                'empresa',
-                                e.target.value
-                              )
-                            }
-                            onBlur={() =>
-                              setFieldTouched(
-                                'empresa',
-                                true
-                              )
-                            }
-                            className={`form-control form-control-sm ${errors.empresa &&
-                              touched.empresa &&
-                            'is-invalid'}`}
-                              ></SelectCompany>
-                         
-                        <div style={{ color: '#D54B4B' }}>
-                        {
-                          errors.empresa && touched.empresa ?
-                          <i className="fa fa-exclamation-triangle"/> :
-                          null
-                        }
-                        <ErrorMessage name="empresa"/>
-                        </div>
-                        </div>
-                      </div>
+                      <div className="container">
+                        <Row>
+                          <Col sm="3">
+                            <img src={IMGGROUP} className="img-thumbnail" />
+                          </Col>
+                          <Col sm="9">
+                            <div className="">
+                              {" "}
+                              <h5
+                                className=""
+                                style={{ borderBottom: "1px solid black" }}
+                              >
+                                {" "}
+                                {t("app_roles_modal_editar_titulo_2")}{" "}
+                              </h5>{" "}
+                            </div>
+                            {this.state.spinner !== false ? (
+                              <center>
+                                <br />
+                                <Spinner
+                                  style={{ width: "3rem", height: "3rem" }}
+                                  type="grow"
+                                  color="primary"
+                                />
+                              </center>
+                            ) : (
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_codigo"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="codigo"
+                                      value={values.codigo}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      className="form-control form-control-sm"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.codigo && touched.codigo ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="codigo" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_nombre"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="nombre"
+                                      onChange={handleChange}
+                                      value={values.nombre}
+                                      className="form-control form-control-sm"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.nombre && touched.nombre ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="nombre" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_descripcion"
+                                      )}{" "}
+                                    </label>
+                                    <textarea
+                                      name="descripcion"
+                                      value={values.descripcion}
+                                      className="form-control form-control-sm"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.descripcion &&
+                                      touched.descripcion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="descripcion" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </Col>
+                          <div className="row">
+                            <div className="col-sm-12">
+                              <Card>
+                                <CardBody>
+                                  <h5 className="">
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_titulo_toast"
+                                    )}{" "}
+                                  </h5>
+                                  <hr />
+                                  <br />
+                                  {this.state.spinner !== false ? (
+                                    <center>
+                                      <Spinner
+                                        style={{
+                                          width: "3rem",
+                                          height: "3rem",
+                                          marginBottom: "10px",
+                                        }}
+                                        type="grow"
+                                        color="primary"
+                                      />
+                                    </center>
+                                  ) : (
+                                    <div className="row">
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_conglomerado"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <SelectConglomerado
+                                            t={t}
+                                            token={this.props.authorization}
+                                            name={"conglomerado"}
+                                            onChange={(e) =>
+                                              setFieldValue(
+                                                "conglomerado",
+                                                e.target.value
+                                              )
+                                            }
+                                            onBlur={() =>
+                                              setFieldTouched(
+                                                "conglomerado",
+                                                true
+                                              )
+                                            }
+                                            value={values.conglomerado}
+                                            className={`form-control form-control-sm ${
+                                              errors.conglomerado &&
+                                              touched.conglomerado &&
+                                              "is-invalid"
+                                            }`}
+                                          />
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.conglomerado &&
+                                            touched.conglomerado ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="conglomerado" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_empresa"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="empresa"
+                                            component={FieldCompany}
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                            companyId={props.values.empresa}
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.empresa &&
+                                            touched.empresa ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="empresa" />
+                                          </div>
+                                        </div>
+                                      </div>
 
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Sede <span className="text-danger">
-                              *
-                            </span>{" "}
-                          </label>
-                          <SelectHeadquarter
-                            usuario_company={
-                              props.values.empresa
-                            }
-                            name={'sede'}
-                            onChange={e =>
-                              setFieldValue(
-                                'sede',
-                                e.target.value
-                              )
-                            }
-                            onBlur={() =>
-                              setFieldTouched(
-                                'sede',
-                                true
-                              )
-                            }
-                            value={values.sede}
-                            className={`form-control form-control-sm ${errors.sede &&
-                              touched.sede &&
-                              'is-invalid'}`}
-                          ></SelectHeadquarter>
-                          
-                        <div style={{ color: '#D54B4B' }}>
-                        {
-                          errors.sede && touched.sede ?
-                          <i className="fa fa-exclamation-triangle"/> :
-                          null
-                        }
-                        <ErrorMessage name="sede"/>
-                        </div>
-                        </div>
-                      </div>
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_sede"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="sede"
+                                            component={FieldHeadquarter}
+                                            companyId={props.values.empresa}
+                                            headquarterId={props.values.sede}
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.sede && touched.sede ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="sede" />
+                                          </div>
+                                        </div>
+                                      </div>
 
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Dependencia{" "}
-                            <span className="text-danger">*</span>{" "}
-                          </label>
-                          <SelectDependence
-                            usuario_headquarter={
-                              props.values.sede
-                            }
-                            name={'dependencia'}
-                            value={values.dependencia}
-                            onChange={e =>
-                              setFieldValue(
-                                'dependencia',
-                                e.target.value
-                              )
-                            }
-                            onBlur={() =>
-                              setFieldTouched(
-                                'dependencia',
-                                true
-                              )
-                            }
-                            className={`form-control form-control-sm ${errors.dependencia &&
-                              touched.dependencia &&
-                              'is-invalid'}`}
-                          ></SelectDependence>
-                          
-                          <div style={{ color: '#D54B4B' }}>
-                          {
-                            errors.dependencia && touched.dependencia ?
-                            <i className="fa fa-exclamation-triangle"/> :
-                            null
-                          }
-                          <ErrorMessage name ="dependencia"/>
-                          </div>
-                        </div>
-                      </div>
-                    
-                        </div>
-                        </CardBody>
-                      </Card>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-sm-12">
-                    <div className="form-group">
-                    <label>
-                      {" "}
-                      Seleccione usuario(s) asignados{" "}
-                      <span className="text-danger">*</span>{" "}
-                    </label>
-                    <UsuariosAsignados 
-                      dependencia={props.values.dependencia}
-                      name="usuarios"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      value={values.usuarios}
-                    />
-                   
-                        {touched ? (
-                          <div style={{ color: "red" }}>
-                            {" "}
-                            <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.usuarios && touched.usuarios ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                            <ErrorMessage name={"usuarios"} />
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_dependencia"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="dependencia"
+                                            component={FieldDependence}
+                                            headquarterId={props.values.sede}
+                                            dependenceId={
+                                              props.values.dependencia
+                                            }
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                            companyId={props.values.empresa}
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.dependencia &&
+                                            touched.dependencia ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="dependencia" />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </CardBody>
+                              </Card>
                             </div>
                           </div>
-                        ) : null}
-                  </div>
-                </div>
-                    <div className="col-sm-12">
-                      <div className="form-group">
-                      <label>
-                      {" "}
-                      Estado <span className="text-danger">*</span>{" "}
-                      </label>
-                      <div className="text-justify">
-                      <Field
-                        name="estado"
-                        render={({field, form})=>{
-                          return(
-                            <CustomInput
-                            type="checkbox"
-                            id="CheckBoxEditGrupos"
-                            label="Si esta opción se encuentra activada, Representa
-                            que el grupo es visible en el sistema y se
-                            podrán realizar operaciones entre cada uno de
-                            los módulos correspondientes de la aplicación.
-                            En caso contrario el grupo no se elimina del
-                            sistema solo quedará inactiva e invisibles para
-                            cada uno de los módulos correspondiente del
-                            sistema."
-                            {...field}
-                            checked={field.value}
-                            className={
-                              errors.estado &&
-                              touched.estado &&
-                              "invalid-feedback"
-                            }
-                          />
-                          );
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-sm-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_usuarios_asignados"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <UsuariosAsignados
+                                    token={this.props.authorization}
+                                    dependencia={props.values.dependencia}
+                                    name="usuarios"
+                                    onChange={setFieldValue}
+                                    onBlur={setFieldTouched}
+                                    value={values.usuarios}
+                                  />
 
-                        }}
-                      />
-                        <ErrorMessage name="estado"/>
+                                  {touched ? (
+                                    <div style={{ color: "red" }}>
+                                      {" "}
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.usuarios && touched.usuarios ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"usuarios"} />
+                                      </div>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="col-sm-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="estado"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditGrupos"
+                                            label={t(
+                                              "app_grupoUsuarios_modal_editar_descripcion_estado"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.estado &&
+                                              touched.estado &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="estado" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </Row>
                       </div>
-                      </div>
-                    </div>
-                  </div> 
-                     </div>
                     </form>
                   </ModalBody>
                   <ModalFooter>
-                    <button type="button" 
-                      className="btn btn-outline-success btn-sm"
-                      onClick={(e) => { 
-                        e.preventDefault(); 
+                    <button
+                      type="button"
+                      className="btn btn-success btn-sm"
+                      onClick={(e) => {
+                        e.preventDefault();
                         handleSubmit();
-                        }}
-                      > <i className="fa fa-pencil"/> Actualizar grupo </button>
-                       <button type="button" 
+                      }}
+                      disabled={this.state.spinnerActualizar}
+                    >
+                      {" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_grupoUsuarios_modal_editar_btn_actualizar")}{" "}
+                        </div>
+                      )}
+                    </button>
+                    <button
+                      type="button"
                       className="btn btn-secondary   btn-sm"
-                      onClick={()=> {this.setState({ modal: false  })}}
-                      > <i className="fa fa-times"/> Cerrar </button>
+                      onClick={() => {
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false,
+                        });
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_grupoUsuarios_modal_editar_btn_cerrar")}{" "}
+                    </button>
                   </ModalFooter>
                 </Fragment>
               );
@@ -577,311 +689,28 @@ class ModalEditGrupos extends React.Component {
 }
 
 ModalEditGrupos.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditGrupos;
 
-
-//--------------------------------------------------------------------------------------------//
-
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: []
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('usuario_conglomerate', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('usuario_conglomerate', true);
-  };
-
-  render() {
-    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
-    //   (aux, id) => {
-    //     return <option value={aux.id}>{aux.name}</option>;
-    //   }
-    // );
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={''}>-- Seleccione --</option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// --------------------------------------------------------------------------------------------- //
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.usuario_conglomerate
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_conglomerate !== state.id) {
-      return {
-        id: props.usuario_conglomerate
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
-      this.getDataCompany();
-    }
-  }
-
-  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>-- Seleccione --</option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-        {/* <select
-          name={this.props.name}
-          value={this.props.value}
-          className="form-control form-control-sm"
-          onChange={this.props.onChange}
-        >
-          {this.dataCompany.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
-          })}
-        </select> */}
-      </div>
-    );
-  }
-}
- // ---------------------------------------------------------------------------------------------------- //
-
- class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.usuario_company
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_company !== state.id) {
-      return {
-        id: props.usuario_company
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_company !== prevProps.usuario_company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.usuario_company}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>-- Seleccione --</option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------------------- //
-
-class SelectDependence extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.usuario_headquarter
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_headquarter !== state.id) {
-      return {
-        id: props.usuario_headquarter
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
-      // metodo del fetch()
-      this.getDataDependence();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDependence();
-  }
-
-  getDataDependence = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.usuario_headquarter}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>-- Seleccione --</option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-// -------------------------------------------------------------------------------------- //
-
 class UsuariosAsignados extends React.Component {
   state = {
-    dataUsers: [], 
-    id: this.props.dependencia
-  }
+    dataUsers: [],
+    id: this.props.dependencia,
+    auth: this.props.token,
+  };
 
   static getDerivedStateFromProps(props, state) {
     if (props.dependencia !== state.id) {
       return {
-        id: props.dependencia
+        id: props.dependencia,
+      };
+    }
+    if (props.token !== state.token) {
+      return {
+        auth: props.token,
       };
     }
     return null;
@@ -891,34 +720,36 @@ class UsuariosAsignados extends React.Component {
     if (this.props.dependencia !== prevProps.dependencia) {
       this.getDataUserDependenceList();
     }
+    if (this.props.token !== prevProps.token) {
+      this.setState({
+        auth: this.props.token,
+      });
+    }
   }
 
- getDataUserDependenceList = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.dependencia}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+  getDataUserDependenceList = () => {
+    fetch(`${USERS_BY_DEPENDENCE}${this.props.dependencia}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataUsers: data
+          dataUsers: data,
         });
         //console.log(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   componentDidMount() {
     this.getDataUserDependenceList();
   }
 
-   handleChange = value => {
+  handleChange = (value) => {
     this.props.onChange("usuarios", value);
   };
 
@@ -929,7 +760,7 @@ class UsuariosAsignados extends React.Component {
   render() {
     return (
       <div>
-         <Select
+        <Select
           name={this.props.name}
           options={this.state.dataUsers.map((aux, id) => {
             return { label: aux.name, value: aux.id };

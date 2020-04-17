@@ -1,15 +1,23 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { PERMISSIONS_BY_PAGE_ENTITY } from "./../../../../../services/EndPoints";
 
 class Assignedpermissions extends React.Component {
   state = {
     dataPermission: [],
     id: this.props.entidad,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
+  //http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}
 
   static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
     if (props.entidad !== state.id) {
       return {
         id: props.entidad
@@ -22,23 +30,25 @@ class Assignedpermissions extends React.Component {
     if (this.props.entidad !== prevProps.entidad) {
       this.getPermissionById();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
-  componentDidMount() {
-    this.getPermissionById();
-  }
+  // componentDidMount() {
+  //   this.getPermissionById();
+  // }
 
   getPermissionById = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${PERMISSIONS_BY_PAGE_ENTITY}${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -77,6 +87,7 @@ class Assignedpermissions extends React.Component {
 }
 Assignedpermissions.propTypes = {
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default Assignedpermissions;

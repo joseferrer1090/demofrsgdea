@@ -8,7 +8,8 @@ import {
   ModalBody,
   ModalFooter,
   CustomInput,
-  Alert
+  Alert,
+  Spinner,
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -21,19 +22,21 @@ class ModalEditCargo extends React.Component {
     modal: this.props.modaledit,
     id: this.props.id,
     dataCharge: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     status: 0,
     auth: this.props.authorization,
-    userName: ""
+    userName: "",
+    spinner: true,
+    spinnerActualizar: false,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -41,41 +44,47 @@ class ModalEditCargo extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
     this.getDataChargeById(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
-  getDataChargeById = id => {
+  getDataChargeById = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${CHARGE}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCharge: data
+          dataCharge: data,
         });
       })
       .catch(Error, console.log("Error", Error));
   };
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertSuccess: false
+      alertError500: false,
+      alertSuccess: false,
     });
   };
 
@@ -100,11 +109,18 @@ class ModalEditCargo extends React.Component {
                 .max(15, " Máximo 15 caracteres."),
               name: Yup.string().required(" Por favor introduzca un nombre."),
               description: Yup.string().max(250, " Máximo 250 caracteres."),
-              status: Yup.bool().test("Activado", "", value => value === true)
+              status: Yup.bool().test(
+                "Activado",
+                "",
+                (value) => value === true
+              ),
             })}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerActualizar: true,
+              });
               setTimeout(() => {
-                const tipoEstado = data => {
+                const tipoEstado = (data) => {
                   let tipo;
                   if (data === true || data === 1) {
                     return (tipo = 1);
@@ -122,7 +138,7 @@ class ModalEditCargo extends React.Component {
                   method: "PUT",
                   headers: {
                     Authorization: "Bearer " + this.state.auth,
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
                     code: values.code,
@@ -130,68 +146,87 @@ class ModalEditCargo extends React.Component {
                     id: this.state.id,
                     status: tipoEstado(values.status),
                     description: values.description,
-                    userName: user()
-                  })
+                    userName: user(),
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
-                          modal: !this.state.modal
+                          alertError500: false,
+                          modal: !this.state.modal,
                         });
-                      }, 500);
+                      }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 1000);
             }}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_cargo_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t("app_cargo_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_cargo_modal_actualizar_alert_error400")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_cargo_modal_actualizar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_cargo_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -210,118 +245,135 @@ class ModalEditCargo extends React.Component {
                               {t("app_cargo_modal_actualizar_titulo_2")}{" "}
                             </h5>{" "}
                           </div>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_codigo")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                  <dd>
-                                    {" "}
-                                    <input
-                                      name={"code"}
-                                      type="text"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.code}
-                                      className={`form-control form-control-sm ${errors.code &&
-                                        touched.code &&
-                                        "is-invalid"}`}
-                                    />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.code && touched.code ? (
-                                        <i className="fa fa-exclamation-triangle" />
-                                      ) : null}
-                                      <ErrorMessage name={"code"} />
-                                    </div>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_nombre")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                  <dd>
-                                    <input
-                                      name={"name"}
-                                      type="text"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.name}
-                                      className={`form-control form-control-sm ${errors.name &&
-                                        touched.name &&
-                                        "is-invalid"}`}
-                                    />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.name && touched.name ? (
-                                        <i className="fa fa-exclamation-triangle" />
-                                      ) : null}
-                                      <ErrorMessage name={"name"} />
-                                    </div>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_descripcion")}
-                                  <dd>
-                                    {" "}
-                                    <textarea
-                                      name={"description"}
-                                      className="form-control form-control-sm"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.description}
-                                    />
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <dl className="param">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_cargo_modal_actualizar_estado"
-                                    )}{" "}
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t("app_cargo_modal_actualizar_codigo")}{" "}
                                     <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <div className="text-justify">
-                                    <Field
-                                      name="status"
-                                      render={({ field, form }) => {
-                                        return (
-                                          <CustomInput
-                                            type="checkbox"
-                                            id="CheckBoxEditRoles"
-                                            label={t(
-                                              "app_cargo_modal_actualizar_estado_descripcion"
-                                            )}
-                                            {...field}
-                                            checked={field.value}
-                                            className={
-                                              errors.status &&
-                                              touched.status &&
-                                              "invalid-feedback"
-                                            }
-                                          />
-                                        );
-                                      }}
-                                    />
-                                    <ErrorMessage name="status" />
-                                  </div>
-                                </dl>
+                                    <dd>
+                                      {" "}
+                                      <input
+                                        name={"code"}
+                                        type="text"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.code}
+                                        className={`form-control form-control-sm ${
+                                          errors.code &&
+                                          touched.code &&
+                                          "is-invalid"
+                                        }`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.code && touched.code ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"code"} />
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t("app_cargo_modal_actualizar_nombre")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                    <dd>
+                                      <input
+                                        name={"name"}
+                                        type="text"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.name}
+                                        className={`form-control form-control-sm ${
+                                          errors.name &&
+                                          touched.name &&
+                                          "is-invalid"
+                                        }`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.name && touched.name ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"name"} />
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t(
+                                      "app_cargo_modal_actualizar_descripcion"
+                                    )}
+                                    <dd>
+                                      {" "}
+                                      <textarea
+                                        name={"description"}
+                                        className="form-control form-control-sm"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.description}
+                                      />
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_cargo_modal_actualizar_estado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="status"
+                                        render={({ field, form }) => {
+                                          return (
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="CheckBoxEditRoles"
+                                              label={t(
+                                                "app_cargo_modal_actualizar_estado_descripcion"
+                                              )}
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.status &&
+                                                touched.status &&
+                                                "invalid-feedback"
+                                              }
+                                            />
+                                          );
+                                        }}
+                                      />
+                                      <ErrorMessage name="status" />
+                                    </div>
+                                  </dl>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                         </Col>
                       </Row>
                     </form>
@@ -329,20 +381,32 @@ class ModalEditCargo extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
+                      className={"btn btn-success btn-sm"}
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_cargo_modal_actualizar_button_actualizar")}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_cargo_modal_actualizar_button_actualizar")}
+                        </div>
+                      )}
                     </button>
                     <button
-                      className={"btn btn-outline-secondary btn-sm"}
+                      className={"btn btn-secondary btn-sm"}
                       type="button"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false,
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}
@@ -361,7 +425,7 @@ class ModalEditCargo extends React.Component {
 ModalEditCargo.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditCargo;

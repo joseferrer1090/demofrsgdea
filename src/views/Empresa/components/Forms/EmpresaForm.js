@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   Card,
@@ -17,9 +17,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
-import SelectCity from "./components/SelectCity";
+import FieldCity from "./components/SelectCity";
 import SelectCountry from "./components/SelectCountry";
-import SelectDepartment from "./components/SelectDeparment";
+import FieldDepartment from "./components/SelectDeparment";
 import SelectCharges from "./components/SelectCharges";
 import SelectConglomerate from "./components/SelectConglomerate";
 import { decode } from "jsonwebtoken";
@@ -37,7 +37,13 @@ const EmpresaForm = props => {
     handleSubmit,
     t
   } = props;
+  const [oldValue, setOldValue] = useState();
+  const [newValue, setNewValue] = useState();
 
+  const changeInValue = (Old, New) => {
+    setOldValue(Old);
+    setNewValue(New);
+  };
   return (
     <div>
       <Card>
@@ -184,7 +190,10 @@ const EmpresaForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => setFieldValue("countryId", e.target.value)}
+                    onChange={e => {
+                      setFieldValue("countryId", e.target.value);
+                      changeInValue(values.countryId, e.target.value);
+                    }}
                     onBlur={() => setFieldTouched("countryId", true)}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
@@ -203,20 +212,15 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label>{t("app_empresa_form_registrar_departamento")}</label>
                   <span className="text-danger">*</span>{" "}
-                  <SelectDepartment
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    countryId={props.values.countryId}
                     name="departmentId"
-                    value={values.departmentId}
-                    onChange={e =>
-                      setFieldValue("departmentId", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("departmentId", true)}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      "is-invalid"}`}
-                  />
+                    component={FieldDepartment}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
+                    countryId={values.countryId}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i className="fa fa-exclamation-triangle" />
@@ -231,17 +235,15 @@ const EmpresaForm = props => {
                     {t("app_empresa_form_registrar_ciudad")}{" "}
                     <span className="text-danger">*</span>
                   </label>
-                  <SelectCity
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    departmentId={props.values.departmentId}
-                    name={"cityId"}
-                    onChange={e => setFieldValue("cityId", e.target.value)}
-                    onBlur={() => setFieldTouched("cityId", true)}
-                    className={`form-control form-control-sm ${errors.cityId &&
-                      touched.cityId &&
-                      "is-invalid"}`}
-                  />
+                    name="cityId"
+                    component={FieldCity}
+                    departmentId={values.departmentId}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (
                       <i className="fa fa-exclamation-triangle" />
@@ -419,21 +421,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la empresa con éxito.", {
+                toast.success("Se registro la empresa con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la empresa ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la empresa. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la empresa.", {
+                toast.error("Error, la empresa ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

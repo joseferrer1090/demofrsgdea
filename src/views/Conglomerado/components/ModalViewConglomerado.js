@@ -10,7 +10,8 @@ import {
   CardBody,
   Row,
   Col,
-  Collapse
+  Collapse,
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
@@ -33,14 +34,15 @@ class ModalViewConglomerado extends Component {
       dataCharge: {},
       t: this.props.t,
       username: "",
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -48,52 +50,64 @@ class ModalViewConglomerado extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
   toggleCollapse = () => {
     this.setState({
-      collapase: !this.state.collapase
+      collapase: !this.state.collapase,
     });
   };
-  toggle = id => {
+
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true,
     });
+    this.getInfoConglomerate(id);
+  };
+
+  getInfoConglomerate = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${CONGLOMERATE}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataConglomerado: data,
           dataPais: data.city.department.country,
           dataDepartamento: data.city.department,
           dataCiudad: data.city,
-          dataCharge: data.charge
+          dataCharge: data.charge,
+          spinner: false,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => {
+        console.log(" ", Error);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
 
   FechaCreacionConglomerado(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   }
   FechaModificacionConglomerado(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   }
 
   CargoInfo = () => {
@@ -109,7 +123,7 @@ class ModalViewConglomerado extends Component {
   };
 
   render() {
-    const statusConglomerado = data => {
+    const statusConglomerado = (data) => {
       const { t } = this.props;
       let status;
       if (data === 1) {
@@ -139,90 +153,109 @@ class ModalViewConglomerado extends Component {
               <Col sm="3">
                 <img src={IMGCONGLOMERADO} className="img-thumbnail" />
               </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+              {this.state.spinner !== false ? (
+                <center>
+                  <br />
+                  <Spinner
+                    style={{ width: "3rem", height: "3rem" }}
+                    type="grow"
+                    color="primary"
+                  />
+                </center>
+              ) : (
+                <Col sm="9">
+                  <div className="">
                     {" "}
-                    <Trans>
-                      {t("app_conglomerado_modal_ver_titulo_2")}
-                    </Trans>{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt> {t("app_conglomerado_modal_ver_codigo")} </dt>
-                        <dd> {this.state.dataConglomerado.code} </dd>
-                      </dl>
+                    <h5
+                      className=""
+                      style={{ borderBottom: "1px solid black" }}
+                    >
+                      {" "}
+                      <Trans>
+                        {t("app_conglomerado_modal_ver_titulo_2")}
+                      </Trans>{" "}
+                    </h5>{" "}
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt> {t("app_conglomerado_modal_ver_codigo")} </dt>
+                          <dd> {this.state.dataConglomerado.code} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt> {t("app_conglomerado_modal_ver_nombre")} </dt>
+                          <dd> {this.state.dataConglomerado.name} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {" "}
+                            {t("app_conglomerado_modal_ver_descripcion")}{" "}
+                          </dt>
+                          <dd> {this.state.dataConglomerado.description} </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt> {t("app_conglomerado_modal_ver_estado")} </dt>
+                          <dd>
+                            {" "}
+                            {statusConglomerado(
+                              this.state.dataConglomerado.status
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {" "}
+                            {t(
+                              "app_conglomerado_modal_ver_fecha_creacion"
+                            )}{" "}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaCreacionConglomerado(
+                              this.state.dataConglomerado.createdAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>
+                            {" "}
+                            {t(
+                              "app_conglomerado_modal_ver_fecha_modificacion"
+                            )}{" "}
+                          </dt>
+                          <dd>
+                            {" "}
+                            {this.FechaModificacionConglomerado(
+                              this.state.dataConglomerado.updatedAt
+                            )}{" "}
+                          </dd>
+                        </dl>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt> {t("app_conglomerado_modal_ver_nombre")} </dt>
-                        <dd> {this.state.dataConglomerado.name} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt> {t("app_conglomerado_modal_ver_descripcion")} </dt>
-                        <dd> {this.state.dataConglomerado.description} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt> {t("app_conglomerado_modal_ver_estado")} </dt>
-                        <dd>
-                          {" "}
-                          {statusConglomerado(
-                            this.state.dataConglomerado.status
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {" "}
-                          {t("app_conglomerado_modal_ver_fecha_creacion")}{" "}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaCreacionConglomerado(
-                            this.state.dataConglomerado.createdAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>
-                          {" "}
-                          {t(
-                            "app_conglomerado_modal_ver_fecha_modificacion"
-                          )}{" "}
-                        </dt>
-                        <dd>
-                          {" "}
-                          {this.FechaModificacionConglomerado(
-                            this.state.dataConglomerado.updatedAt
-                          )}{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
+                </Col>
+              )}
             </Row>
             <br />
             <Row>
@@ -299,7 +332,7 @@ class ModalViewConglomerado extends Component {
               type="button"
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.setState({ modal: false });
+                this.setState({ modal: false, collapase: false });
               }}
             >
               <i className="fa fa-times" />{" "}
@@ -316,7 +349,7 @@ ModalViewConglomerado.propTypes = {
   modalviewstate: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalViewConglomerado;

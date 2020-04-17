@@ -11,6 +11,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { ROLES_ALL } from "./../../../services/EndPoints";
 
 class TableContentRoles extends Component {
   constructor(props) {
@@ -23,30 +24,41 @@ class TableContentRoles extends Component {
       modalexport: false,
       dataRoles: [],
       hiddenColumnID: true,
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization,
     };
   }
 
-  componentDidMount() {
-    this.getDataRoles();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.getDataRoles();
+    }
   }
 
   getDataRoles = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+    fetch(`${ROLES_ALL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataRoles: data
+          dataRoles: data,
         });
-        console.log(this.state.dataRoles);
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   EstadoRoles(cell, row) {
@@ -72,16 +84,17 @@ class TableContentRoles extends Component {
   FechaCreacionRoles(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesRoles(cel, row) {
     return (
       <div
         className="table-actionMenuRP"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
+          title="Ver rol"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -91,6 +104,7 @@ class TableContentRoles extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar rol"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -100,6 +114,7 @@ class TableContentRoles extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar permisos"
           className="btn btn-warning btn-sm"
           onClick={() => {
             this.openModalPermission(row.id);
@@ -109,6 +124,7 @@ class TableContentRoles extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar rol"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDel(row.id);
@@ -121,30 +137,35 @@ class TableContentRoles extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDel(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalPermission(id) {
-    this.refs.child4.toggle(id);
+    // this.refs.child4.toggle(id);
+    this.ModalPermissionRef.toggle(id);
   }
 
   openModalExport() {
-    this.refs.child5.toggle();
+    // this.refs.child5.toggle();
+    this.ModalExportRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -162,7 +183,7 @@ class TableContentRoles extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     const { t } = this.props;
     return (
@@ -197,7 +218,7 @@ class TableContentRoles extends Component {
                   dataFormat={this.indexN}
                   dataField="id"
                   dataAlign="center"
-                  width={"20"}
+                  width={"30"}
                 >
                   #
                 </TableHeaderColumn>
@@ -205,7 +226,7 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="code"
                   dataAlign="center"
-                  width={"50"}
+                  width={"80"}
                 >
                   {t("app_roles_table_administrar_codigo")}
                 </TableHeaderColumn>
@@ -213,7 +234,7 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="name"
                   dataAlign="center"
-                  width={"80"}
+                  width={"180"}
                 >
                   {" "}
                   {t("app_roles_table_administrar_nombre")}{" "}
@@ -222,13 +243,13 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="description"
                   dataAlign="center"
-                  width={"80"}
+                  width={"200"}
                 >
                   {" "}
                   {t("app_roles_table_administrar_descripcion")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"50"}
+                  width={"80"}
                   dataSort={true}
                   dataField="status"
                   dataAlign="center"
@@ -238,7 +259,7 @@ class TableContentRoles extends Component {
                   {t("app_roles_table_administrar_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"80"}
+                  width={"120"}
                   dataSort={true}
                   dataField="createdAt"
                   dataAlign="center"
@@ -249,7 +270,7 @@ class TableContentRoles extends Component {
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={"200"}
+                  width={"150"}
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesRoles(cell, row)}
@@ -265,36 +286,42 @@ class TableContentRoles extends Component {
         <ModalView
           t={this.props.t}
           modalviewroles={this.state.modalview}
-          ref="child"
+          authorization={this.props.authorization}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.modaledit}
-          ref="child2"
+          ref={(me) => (this.ModalEditRef = me)}
           updateTable={this.getDataRoles}
+          authorization={this.props.authorization}
         />
         <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldel}
-          ref="child3"
+          ref={(md) => (this.ModalDeleteRef = md)}
           updateTable={this.getDataRoles}
+          authorization={this.props.authorization}
         />
         <ModalPermission
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
-          ref="child4"
+          ref={(mp) => (this.ModalPermissionRef = mp)}
+          authorization={this.props.authorization}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child5"
+          ref={(mexp) => (this.ModalExportRef = mexp)}
+          authorization={this.props.authorization}
         />
       </div>
     );
   }
 }
 TableContentRoles.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TableContentRoles);

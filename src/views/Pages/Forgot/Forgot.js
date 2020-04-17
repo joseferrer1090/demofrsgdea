@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import SIGNIN from './../../../assets/img/favicon.ico';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import SIGNIN from "./../../../assets/img/favicon.ico";
 import {
   Button,
   Card,
@@ -17,21 +17,40 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  Alert
-} from 'reactstrap';
-
+  Alert,
+  Spinner
+} from "reactstrap";
+import { PASSWORD_RETRIEVAL_REQUEST } from "./../../../services/EndPoints";
 class Forgot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: "",
       alertError: false,
       failed: false,
       alertError404: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
+      spinner: false
     };
   }
+
+  Loadingspinner = () => {
+    const { spinner } = this.state;
+    if (spinner === true) {
+      return (
+        <center>
+          <Spinner
+            style={{ width: "3rem", height: "3rem" }}
+            type="grow"
+            color="primary"
+          />
+        </center>
+      );
+    } else if (spinner === false) {
+      return null;
+    }
+  };
 
   onDismiss = () => {
     this.setState({
@@ -57,24 +76,24 @@ class Forgot extends Component {
           <Formik
             validationSchema={Yup.object().shape({
               user_email: Yup.string()
-                .email(' Por favor introduzca un email valido.')
-                .required(' Por favor introduzca un email.')
+                .email(" Por favor introduzca un email valido.")
+                .required(" Por favor introduzca un email.")
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
-                fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/user/password-reset-request`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Access-Control-Allow-Origin': '*'
-                    },
-                    body: JSON.stringify({
-                      email: values.user_email
-                    })
-                  }
-                )
+                this.setState({
+                  spinner: true
+                });
+                fetch(`${PASSWORD_RETRIEVAL_REQUEST}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                  body: JSON.stringify({
+                    email: values.user_email
+                  })
+                })
                   .then(response => {
                     if (response.status === 200) {
                       this.setState({
@@ -82,7 +101,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -92,7 +112,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError404: true
+                          alertError404: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -102,7 +123,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: true
+                          alertError: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -112,20 +134,22 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: true
+                          alertError400: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
                     }
                   })
                   .catch(error => {
-                    console.log('', error);
+                    console.log("", error);
                     this.setState({
                       failed: false
                     });
                     setTimeout(() => {
                       this.setState({
-                        failed: true
+                        failed: true,
+                        spinner: false
                       });
                     }, 1000);
                   });
@@ -158,6 +182,7 @@ class Forgot extends Component {
                                   Se enviará un correo electrónico para generar
                                   una nueva contraseña.
                                 </p>
+                                {this.Loadingspinner()}
                                 <Alert
                                   toggle={this.onDismiss}
                                   color="danger"
@@ -212,7 +237,7 @@ class Forgot extends Component {
                                   </InputGroupAddon>
                                   <Input
                                     id="email"
-                                    name={'user_email'}
+                                    name={"user_email"}
                                     type="text"
                                     placeholder="Email"
                                     // onChange={e => this.handleChangeInput(e)}
@@ -221,7 +246,7 @@ class Forgot extends Component {
                                     value={values.user_email}
                                     className={`form-control form-control-md ${errors.user_email &&
                                       touched.user_email &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                     /*
                                     name={'usuario_email'}
                                     onChange={handleChange}
@@ -234,7 +259,7 @@ class Forgot extends Component {
                                   />
                                 </InputGroup>
                                 <div className="text-center">
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.user_email && touched.user_email ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
@@ -248,6 +273,9 @@ class Forgot extends Component {
                                       onClick={e => {
                                         e.preventDefault();
                                         handleSubmit();
+                                        // this.setState({
+                                        //   spinner: true
+                                        // })
                                       }}
                                       type="button"
                                       className="btn btn-secondary btn-block"

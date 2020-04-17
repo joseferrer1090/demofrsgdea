@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner,
 } from "reactstrap";
 
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
@@ -22,27 +23,35 @@ class ModalEditPais extends React.Component {
     modal: this.props.modaledit,
     idPais: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     country_status: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true,
+    spinnerActualizar: false,
   };
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
-      idPais: id
+      idPais: id,
+      spinner: true,
     });
     this.getCountryByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false,
+      });
+    }, 1500);
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -50,29 +59,29 @@ class ModalEditPais extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  getCountryByID = id => {
+  getCountryByID = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${COUNTRY}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           dataResult: {
             country_code: data.code,
             country_name: data.name,
-            country_status: data.status
-          }
+            country_status: data.status,
+          },
         });
       })
       .catch("Error", console.log("Error", Error));
@@ -92,7 +101,10 @@ class ModalEditPais extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
-              const tipoEstado = data => {
+              this.setState({
+                spinnerActualizar: true,
+              });
+              const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
                   return (tipo = 1);
@@ -112,52 +124,59 @@ class ModalEditPais extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth
+                    Authorization: "Bearer " + auth,
                   },
                   body: JSON.stringify({
                     id: this.state.idPais,
                     code: values.country_code,
                     name: values.country_name,
                     status: tipoEstado(values.country_status),
-                    userName: user()
-                  })
+                    userName: user(),
+                  }),
                 })
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 200) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerActualizar: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
-                          modal: false
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
                         });
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerActualizar: false,
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
-                          modal: !this.state.modal
+                          alertError500: false,
+                          modal: !this.state.modal,
                         });
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => {
+                    console.log("", error);
+                    this.setState({
+                      spinnerActualizar: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -173,30 +192,42 @@ class ModalEditPais extends React.Component {
               country_status: Yup.bool().test(
                 "Activado",
                 "",
-                value => value === true
-              )
+                (value) => value === true
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_pais_modal_actualizar_alert_error")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
+                      {t("app_pais_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_pais_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_pais_modal_actualizar_alert_error400")}
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
+                      {t("app_pais_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -214,90 +245,106 @@ class ModalEditPais extends React.Component {
                           </h5>{" "}
                         </div>
                         <form className="form">
-                          <div className="row">
-                            <div className="col-md-6">
-                              <label>
-                                {" "}
-                                {t("app_pais_modal_actualizar_codigo")}{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                name={"country_code"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.country_code}
-                                className={`form-control form-control-sm ${errors.country_code &&
-                                  touched.country_code &&
-                                  "is-invalid"}`}
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
                               />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.country_code && touched.country_code ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="country_code" />
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-md-6">
                                 <label>
                                   {" "}
-                                  {t("app_pais_modal_actualizar_nombre")}{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {t("app_pais_modal_actualizar_codigo")}{" "}
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <input
                                   type="text"
-                                  name="country_name"
+                                  name={"country_code"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.country_name}
-                                  className={`form-control form-control-sm ${errors.country_name &&
-                                    touched.country_name &&
-                                    "is-invalid"}`}
-                                />{" "}
+                                  value={values.country_code}
+                                  className={`form-control form-control-sm ${
+                                    errors.country_code &&
+                                    touched.country_code &&
+                                    "is-invalid"
+                                  }`}
+                                />
                                 <div style={{ color: "#D54B4B" }}>
-                                  {errors.country_name &&
-                                  touched.country_name ? (
+                                  {errors.country_code &&
+                                  touched.country_code ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name="country_name" />
+                                  <ErrorMessage name="country_code" />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t("app_pais_modal_actualizar_nombre")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="country_name"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.country_name}
+                                    className={`form-control form-control-sm ${
+                                      errors.country_name &&
+                                      touched.country_name &&
+                                      "is-invalid"
+                                    }`}
+                                  />{" "}
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.country_name &&
+                                    touched.country_name ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="country_name" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t("app_pais_modal_actualizar_estado")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="country_status"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckboxEditPais"
+                                            label={t(
+                                              "app_pais_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.country_status &&
+                                              touched.country_status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="country_status" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t("app_pais_modal_actualizar_estado")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="country_status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckboxEditPais"
-                                          label={t(
-                                            "app_pais_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.country_status &&
-                                            touched.country_status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="country_status" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          )}
                         </form>
                       </Col>
                     </Row>
@@ -305,21 +352,33 @@ class ModalEditPais extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
-                      onClick={e => {
+                      className="btn btn-success btn-sm"
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" />{" "}
-                      {t("app_pais_modal_actualizar_button_actualizar")}{" "}
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          {" "}
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_pais_modal_actualizar_button_actualizar")}{" "}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false,
+                        });
                       }}
                     >
                       {" "}
@@ -342,7 +401,7 @@ ModalEditPais.propTypes = {
   updateTable: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditPais;

@@ -10,11 +10,12 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-import { MESSENGERS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
+import decode from "jsonwebtoken";
+import { EMAIL_FILING } from "./../../../../services/EndPoints";
 const RadicacionEmailForm = props => {
   const {
     values,
@@ -250,7 +251,7 @@ export default withTranslation("translations")(
         value => value === true
       )
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -262,27 +263,25 @@ export default withTranslation("translations")(
       };
 
       setTimeout(() => {
-        fetch(
-          "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization:
-                "Bearer " +
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
-            },
-            body: JSON.stringify({
-              protocol: values.protocolo,
-              host: values.host,
-              port: values.puerto,
-              email: values.email,
-              password: values.password,
-              username: "cantero",
-              status: values.status
-            })
-          }
-        )
+        const auth = props.authorization;
+        const username = decode(auth);
+
+        fetch(`${EMAIL_FILING}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth
+          },
+          body: JSON.stringify({
+            protocol: values.protocolo,
+            host: values.host,
+            port: values.puerto,
+            email: values.email,
+            password: values.password,
+            username: username.user_name,
+            status: values.status
+          })
+        })
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
@@ -293,15 +292,8 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, el correo electrónico ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 500) {
                 toast.error(
-                  "Error, no se pudo registrar el correo electrónico.",
+                  "Error al registrar el correo electrónico. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
@@ -309,6 +301,13 @@ export default withTranslation("translations")(
                     })
                   }
                 );
+              } else if (response.status === 500) {
+                toast.error("Error, el correo electrónico ya existe.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
               }
             })
           )

@@ -8,11 +8,13 @@ import {
   CardBody,
   CardGroup,
   Container,
-  Form
+  Form,
+  Alert
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userActions } from "./../../../actions";
+import { alertActions } from "./../../../actions/alertActions";
 
 const ErrorMessage = ({ errorValue }) => (
   <div style={{ margin: 0, color: "red" }}>
@@ -25,6 +27,20 @@ const ErrorMessage = ({ errorValue }) => (
 );
 
 class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: true,
+      alertType: ""
+    };
+  }
+
+  onDismiss = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
     const {
       values,
@@ -35,7 +51,12 @@ class LoginForm extends React.Component {
       handleBlur,
       handleSubmit,
       handleReset,
-      isSubmitting
+      isSubmitting,
+      isAuthenticated,
+      loginError,
+      isLogginIn,
+      attempts,
+      errorMessage
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -57,11 +78,31 @@ class LoginForm extends React.Component {
                           </div>
                         </div>
                       </div>
+                      {loginError && (
+                        <Alert color="danger" isOpen={loginError}>
+                          {" "}
+                          <p className="text-justify">
+                            <i className="fa fa-exclamation-triangle" />{" "}
+                            {errorMessage}
+                          </p>
+                        </Alert>
+                      )}
+                      {/* {attempts === 3 ? (
+                        <Alert color={"danger"} isOpen={loginError}>
+                          <p>
+                            <i className="fa fa-exclamation-triangle" /> El
+                            usuario se ha bloqueado por numero de intentos
+                            errados, contacte al administrador7
+                            Error
+                            al ingresar a la plataforma , usuario y/o contraseña
+                            no son validos. 
+                          </p>
+                        </Alert>
+                      ) : null} */}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
                       </p>
-
                       <div className="form-group">
                         <div className="input-group input-group mb-3">
                           <div className="input-group-prepend">
@@ -106,7 +147,6 @@ class LoginForm extends React.Component {
                         />
                       </div>
                       <ErrorMessage errorValue={errors.password} />
-
                       {/* <input type="hidden" value={grant_type} /> */}
                       <Row>
                         <Col xs="6">
@@ -160,24 +200,29 @@ const formikEnhancer = withFormik({
     password: "",
     grant_type: "password"
   }),
-  handleSubmit: (values, { props, setSubmitting, resetForm }) => {
+  handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     setTimeout(() => {
       const username = values.username;
       const password = values.password;
       const grant_type = values.grant_type;
       // alert(JSON.stringify(values, null, 2));
       props.login(username, password, grant_type);
+
       setSubmitting(true);
       resetForm();
     }, 1500);
   }
 })(LoginForm);
 
-function mapStateToProps(state) {
-  //const { loggingIn } = state.authentication;
-  console.log(state);
-  return { state };
-}
+const mapStateToProps = state => {
+  return {
+    loginError: state.authenticationReducer.loginError,
+    isLogginIn: state.authenticationReducer.isLogginIn,
+    isAuthenticated: state.authenticationReducer.isAuthenticated,
+    attempts: state.authenticationReducer.attempts,
+    errorMessage: state.authenticationReducer.message
+  };
+};
 
 const actionCreators = {
   login: userActions.login

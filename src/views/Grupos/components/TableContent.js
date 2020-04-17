@@ -10,6 +10,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { GROUPUSERS } from "./../../../services/EndPoints";
 
 class TableContent extends Component {
   constructor(props) {
@@ -20,38 +21,58 @@ class TableContent extends Component {
       modaldelete: false,
       modalexport: false,
       dataGroup: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization,
     };
   }
 
-  componentDidMount() {
-    this.getDataGroup();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+    return null;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+      this.getDataGroup();
+    }
+  }
+
+  // componentDidMount() {
+  //   this.getDataGroup();
+  // }
+
   getDataGroup = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+    fetch(`${GROUPUSERS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataGroup: data
+          dataGroup: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
   accionesGrupo = (cel, row) => {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "195px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
+          title="Ver grupo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -63,6 +84,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar grupo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -73,6 +95,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar grupo"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -84,6 +107,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
+          title="Exportar"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -98,43 +122,70 @@ class TableContent extends Component {
   };
 
   EstadoGrupo(cell, row) {
+    const t = this.props.t;
     let status;
     if (row.status === 1) {
-      status = <p className="text-success"> Activo </p>;
+      status = (
+        <p className="text-success">
+          {" "}
+          <b>{t("app_tablas_estado_activo")}</b>{" "}
+        </p>
+      );
     } else if (row.status === 0) {
-      status = <p className="text-danger"> Inactivo </p>;
+      status = (
+        <p className="text-danger">
+          {" "}
+          <b>{t("app_tablas_estado_inactivo")}</b>{" "}
+        </p>
+      );
     }
     return status;
   }
 
-  openModalView = id => {
-    this.refs.child.toggle(id);
+  openModalView = (id) => {
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
-  openModalEdit = id => {
-    this.refs.child3.toggle(id);
+  openModalEdit = (id) => {
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
-    this.refs.child2.toggle(id);
+  openModalDelete = (id) => {
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
-  opneModalExport = id => {
-    this.refs.child4.toggle(id);
+  opneModalExport = (id) => {
+    // this.refs.child4.toggle(id);
+    this.ModalExportRef.toggle(id);
   };
 
   FechaCreacionRoles(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+  createCustomButtonGroup = (props) => {
+    const { t } = this.props;
+    return (
+      <button type="button" className={`btn btn-secondary btn-sm`}>
+        <i className="fa fa-download" /> Exportar
+      </button>
+    );
+  };
+
   render() {
     const { t } = this.props;
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+    };
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -149,6 +200,7 @@ class TableContent extends Component {
             )}
             pagination
             className="tableGUsu texto-GUsu"
+            // exportCSV
           >
             <TableHeaderColumn
               isKey
@@ -168,20 +220,24 @@ class TableContent extends Component {
             >
               #{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="code" dataAlign="center" width={"80"}>
+            <TableHeaderColumn
+              dataField="code"
+              dataAlign="center"
+              width={"150"}
+            >
               {" "}
               {t("app_grupoUsuarios_table_administrar_codigo")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={"100"}
+              width={"300"}
             >
               {" "}
               {t("app_grupoUsuarios_table_administrar_nombre")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"80"}
+              width={"150"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
@@ -190,7 +246,7 @@ class TableContent extends Component {
               {t("app_grupoUsuarios_table_administrar_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"80"}
+              width={"150"}
               dataSort={true}
               dataField="createdAt"
               dataAlign="center"
@@ -203,30 +259,45 @@ class TableContent extends Component {
               export={false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
-              width={"200"}
+              // width={"200"}
             >
               {" "}
               {t("app_grupoUsuarios_table_administrar_acciones")}{" "}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-        <ModalView modalview={this.state.modalview} ref="child" />
+        <ModalView
+          authorization={this.state.auth}
+          modalview={this.state.modalview}
+          ref={(mv) => (this.ModalViewRef = mv)}
+          t={this.props.t}
+        />
         <ModalDelete
+          authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaldel={this.state.modaldelete}
-          ref="child2"
+          ref={(md) => (this.ModalDeleteRef = md)}
+          t={this.props.t}
         />
         <ModalEdit
+          authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaledit={this.state.modaledit}
-          ref="child3"
+          ref={(me) => (this.ModalEditRef = me)}
+          t={this.props.t}
         />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalExport
+          authorization={this.state.auth}
+          modalexport={this.state.modalexport}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
+          t={this.props.t}
+        />
       </div>
     );
   }
 }
 TableContent.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TableContent);

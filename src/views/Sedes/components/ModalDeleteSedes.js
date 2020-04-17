@@ -12,18 +12,19 @@ class ModalDeleteSedes extends Component {
     idSede: this.props.id,
     code: "",
     useLogged: "",
-    alertError: false,
-    alertCode: false,
+    alertError500: false,
+    alertError400: false,
     alertSuccess: false,
     nameSedes: "",
     t: this.props.t,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinnerDelete: false,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -32,46 +33,48 @@ class ModalDeleteSedes extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       modal: !this.state.modal,
       code: "",
       idSede: id,
-      useLogged: ""
+      useLogged: "",
     });
+    this.getInfoSede(id);
+  };
+
+  onDismiss = () => {
+    this.setState({
+      alertError500: false,
+      alertError400: false,
+      alertSuccess: false,
+    });
+  };
+  getInfoSede = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameSedes: data.name
+          nameSedes: data.name,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
-
-  onDismiss = () => {
-    this.setState({
-      alertError: false,
-      alertCode: false,
-      alertSuccess: false
-    });
-  };
-
   render() {
     const dataPreview = {
-      code: ""
+      code: "",
     };
     const nameSedes = this.state.nameSedes;
     const { t } = this.props;
@@ -85,6 +88,9 @@ class ModalDeleteSedes extends Component {
           <Formik
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -94,57 +100,59 @@ class ModalDeleteSedes extends Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + auth
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertError: false
-                        });
-                      }, 3000);
                     } else if (response.status === 204) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: true,
+                        spinnerDelete: false,
                       });
                       setTimeout(() => {
                         this.setState(
                           {
                             modal: false,
-                            alertSuccess: false
+                            alertSuccess: false,
                           },
                           () => this.props.updateTable()
                         );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(error => console.log(" ", error));
+                  .catch((error) => {
+                    console.log(" ", error);
+                    this.setState({
+                      spinnerDelete: false,
+                    });
+                  });
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
                 " Por favor introduzca el código de la sede."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
               } = props;
               return (
                 <Fragment>
@@ -160,17 +168,18 @@ class ModalDeleteSedes extends Component {
                       <Alert
                         className="text-center"
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_sedes_modal_eliminar_alert_error")}
+                        {t("app_sedes_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_sedes_modal_eliminar_alert_errorCode")}
+                        {t("app_sedes_modal_eliminar_alert_error_400")}
                       </Alert>
                       <p className="text-center">
                         {" "}
@@ -184,9 +193,9 @@ class ModalDeleteSedes extends Component {
                         type="text"
                         placeholder={t("app_sedes_form_eliminar_placeholder")}
                         style={{ textAlign: "center" }}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -205,13 +214,20 @@ class ModalDeleteSedes extends Component {
                     <button
                       type="button"
                       className={"btn btn-outline-danger btn-sm"}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerDelete}
                     >
-                      <i className="fa fa-trash" />{" "}
-                      {t("app_sedes_form_eliminar_boton_eliminar")}
+                      {this.state.spinnerDelete ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-trash" />{" "}
+                          {t("app_sedes_form_eliminar_boton_eliminar")}
+                        </div>
+                      )}
                     </button>
                     <button
                       type="button"
@@ -219,9 +235,9 @@ class ModalDeleteSedes extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false,
-                          alertSuccess: false
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false,
                         });
                       }}
                     >
@@ -243,7 +259,7 @@ ModalDeleteSedes.propTypes = {
   modaldel: PropTypes.bool.isRequired,
   t: PropTypes.any,
   id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalDeleteSedes;

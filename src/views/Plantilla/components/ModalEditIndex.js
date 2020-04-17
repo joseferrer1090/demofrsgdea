@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
+import { setLocale } from "yup";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
@@ -83,21 +84,25 @@ class ModalAddIndexes extends Component {
 
   updateMetadata = (e) => {
     e.preventDefault();
-    Yup.setLocale({});
+    Yup.setLocale({
+      mixed: {
+        required: "my required message",
+      },
+    });
     const schema = Yup.object().shape({
-      formula: Yup.bool().required(),
-      required: Yup.bool().required("Necesario asignar un valor"),
+      formula: Yup.bool(),
+      requerido: Yup.bool().required(),
     });
     schema
       .validate({
         formula: this.state.objMetadata.formula,
-        required: this.state.objMetadata.required,
+        requerido: this.state.objMetadata.required,
       })
       .then(() => {
         console.log("los datos correctos");
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err.errors);
       });
   };
 
@@ -119,7 +124,7 @@ class ModalAddIndexes extends Component {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>
+                    <label htmlFor="formula">
                       {" "}
                       Formula <span className="text-danger">*</span>{" "}
                     </label>

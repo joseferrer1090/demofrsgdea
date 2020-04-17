@@ -90,7 +90,7 @@ class ModalAddIndexes extends Component {
       },
     });
     const schema = Yup.object().shape({
-      formula: Yup.bool(),
+      formula: Yup.bool().required(),
       requerido: Yup.bool().required(),
     });
     schema

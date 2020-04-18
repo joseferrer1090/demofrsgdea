@@ -260,12 +260,12 @@ class AddIndexPlantilla extends Component {
           }
           ref={(el) => (this.modalDel = el)}
         />
-        <ModalEditText
+        {/* <ModalEditText
           authorization={this.state.auth}
           templateid={this.props.match.params.id}
           metadataid={this.state.idSelectedTable}
           ref={(el) => (this.modaEditText = el)}
-        ></ModalEditText>
+        ></ModalEditText> */}
       </div>
     );
   }

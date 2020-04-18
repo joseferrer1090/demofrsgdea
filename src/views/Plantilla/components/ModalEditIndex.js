@@ -5,9 +5,8 @@ import PropTypes from "prop-types";
 import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
-import { setLocale } from "yup";
 
-class ModalAddIndexes extends Component {
+class ModalEditIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,11 +14,14 @@ class ModalAddIndexes extends Component {
       auth: this.props.authorization,
       template: this.props.templateid,
       metadata: this.props.metadataid,
+      dataMetadata: {},
       objMetadata: {
         defaultvalue: "",
         formula: {},
         required: "",
       },
+      alertError: false,
+      alertErrorMessage: "",
     };
   }
 
@@ -30,28 +32,15 @@ class ModalAddIndexes extends Component {
         metadata: props.metadataid,
         template: props.templateid,
       };
-    }
-    return null;
+    } else return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization,
-      });
+    if (prevProps.metadataid !== this.props.metadataid) {
+      //Perform some operation here
+      this.setState({ metadata: this.props.metadataid });
+      this.getDataMetadata(this.props.metadataid);
     }
-    if (this.props.metadataid !== prevProps.metadataid) {
-      this.setState({
-        metadata: this.props.metadataid,
-      });
-    }
-    if (this.props.templateid !== prevProps.templateid) {
-      this.setState({
-        template: this.props.templateid,
-      });
-    } else {
-    }
-    this.getDataMetadata(this.state.metadata);
   }
 
   getDataMetadata = (id) => {
@@ -107,11 +96,10 @@ class ModalAddIndexes extends Component {
   };
 
   render() {
-    console.log(this.state.objMetadata);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar valores del Metadato</ModalHeader>
+          <ModalHeader>Editar valores del Metadato </ModalHeader>
           <form>
             <ModalBody>
               <div className="row">
@@ -216,8 +204,8 @@ class ModalAddIndexes extends Component {
   }
 }
 
-ModalAddIndexes.propTypes = {
+ModalEditIndex.propTypes = {
   modaleditindexes: PropTypes.bool.isRequired,
 };
 
-export default ModalAddIndexes;
+export default ModalEditIndex;

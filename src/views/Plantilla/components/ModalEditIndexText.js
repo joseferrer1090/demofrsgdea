@@ -76,7 +76,6 @@ class ModalEditIndexText extends Component {
   };
 
   render() {
-    console.log(this.state.metadata);
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>Editar valores del metadato</ModalHeader>

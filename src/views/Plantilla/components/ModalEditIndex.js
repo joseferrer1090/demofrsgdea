@@ -15,6 +15,8 @@ class ModalEditIndex extends Component {
       template: this.props.templateid,
       metadata: this.props.metadataid,
       dataMetadata: {},
+      nameMetadata: "",
+      optionsMetadata: [],
       objMetadata: {
         defaultvalue: "",
         formula: {},
@@ -36,7 +38,7 @@ class ModalEditIndex extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.metadataid !== this.props.metadataid) {
+    if (this.props.metadataid !== prevProps.metadataid) {
       //Perform some operation here
       this.setState({ metadata: this.props.metadataid });
       this.getDataMetadata(this.props.metadataid);
@@ -58,7 +60,11 @@ class ModalEditIndex extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        this.setState({
+          dataMetadata: data,
+          nameMetadata: data.metadata.elemtConfig.name,
+          optionsMetadata: data.metadata.elemtConfig.options,
+        });
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -66,9 +72,9 @@ class ModalEditIndex extends Component {
   };
 
   toggle = () => {
-    this.setState((prevState) => ({
-      modal: !prevState.modal,
-    }));
+    this.setState({
+      modal: !this.state.modal,
+    });
   };
 
   updateMetadata = (e) => {
@@ -99,7 +105,9 @@ class ModalEditIndex extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar valores del Metadato </ModalHeader>
+          <ModalHeader>
+            Editar valores del Metadato {this.state.nameMetadata}{" "}
+          </ModalHeader>
           <form>
             <ModalBody>
               <div className="row">

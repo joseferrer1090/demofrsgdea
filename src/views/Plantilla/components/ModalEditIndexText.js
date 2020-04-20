@@ -63,6 +63,7 @@ class ModalEditIndexText extends Component {
         this.setState({
           dataMetadata: data,
           nameMetadata: data.metadata.elementConfig.name,
+          typeMetadata: data.metadata.elementConfig.type,
         });
         // console.log(this.state.dataMetadata);
       })
@@ -105,6 +106,7 @@ class ModalEditIndexText extends Component {
 
   render() {
     console.log(this.state.dataMetadata);
+    console.log(this.state.typeMetadata);
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>
@@ -171,7 +173,7 @@ class ModalEditIndexText extends Component {
                     Metadato {this.state.nameMetadata}
                   </div>
                   <div className="card-body">
-                    <Input formType="text" />
+                    <Input formType={this.state.typeMetadata} />
                   </div>
                 </div>
               </div>

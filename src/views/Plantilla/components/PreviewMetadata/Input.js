@@ -89,9 +89,15 @@ const Input = (props) => {
       break;
     case "date":
       formElement = (
-        <div>
-          <input type="date" />
-        </div>
+        <React.Fragment>
+          <input
+            type="date"
+            className="form-control form-control-sm"
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+          />
+        </React.Fragment>
       );
       break;
 

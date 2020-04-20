@@ -16,7 +16,7 @@ class AddIndexPlantilla extends Component {
       modaladd: false,
       modaledit: false,
       modaldel: false,
-      modaldelmul: false,
+      modeledittext: false,
       auth: this.props.authorization,
       id: this.props.match.params.id,
       dataTemplate: [],
@@ -74,7 +74,7 @@ class AddIndexPlantilla extends Component {
     this.parentRef.current.toggle();
   }
 
-  openModaEdit() {
+  openModalEdit() {
     this.modalEdit.toggle();
   }
 
@@ -83,7 +83,7 @@ class AddIndexPlantilla extends Component {
   }
 
   openModalEditText() {
-    this.modaEditText.toggle();
+    this.modalEditText.toggle();
   }
 
   renderModal = (data, id) => {
@@ -94,7 +94,7 @@ class AddIndexPlantilla extends Component {
           type="button"
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModaEdit();
+            this.openModalEdit();
             this.setState({
               idSelectedTable: id,
             });
@@ -264,8 +264,9 @@ class AddIndexPlantilla extends Component {
           authorization={this.state.auth}
           templateid={this.props.match.params.id}
           metadataid={this.state.idSelectedTable}
-          ref={(el) => (this.modaEditText = el)}
-        ></ModalEditText>
+          modaledittext={this.state.modeledittext}
+          ref={(el) => (this.modalEditText = el)}
+        />
       </div>
     );
   }

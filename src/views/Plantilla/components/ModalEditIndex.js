@@ -109,7 +109,7 @@ class ModalEditIndex extends Component {
   };
 
   render() {
-    console.log(this.state.dataMetadata);
+    //console.log(this.state.dataMetadata);
     // console.log(this.state.typeMetadata);
     // console.log(this.state.objMetadata);
     return (

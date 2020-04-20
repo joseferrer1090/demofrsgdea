@@ -17,56 +17,44 @@ class ModalEditIndexText extends Component {
     };
   }
 
-  static DerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
         auth: props.authorization,
-        template: props.templateid,
         metadata: props.metadataid,
+        template: props.templateid,
       };
-    }
-    return null;
+    } else return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization,
-      });
-    } else if (this.props.metadataid !== prevProps.metadataid) {
-      this.setState({
-        metadata: this.props.metadataid,
-      });
-    } else if (this.props.templateid !== prevProps.templateid) {
-      this.setState({
-        template: this.props.templateid,
-      });
-    } else {
-      return null;
+    if (this.props.metadataid !== prevProps.metadataid) {
+      this.setState({ metadata: this.props.metadataid });
+      this.getDataMetadata(this.props.metadataid);
     }
-    this.getDataMetadata(this.state.metadata);
   }
 
   getDataMetadata = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: "Bearer " + auth,
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(`Error => ${err.message}`);
-      });
+    console.log(id);
+    // fetch(
+    //   `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       authorization: "Bearer " + auth,
+    //     },
+    //   }
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(`Error => ${err.message}`);
+    //   });
   };
 
   toggle = () => {

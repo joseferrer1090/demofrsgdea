@@ -64,8 +64,8 @@ class ModalEditIndex extends Component {
         this.setState({
           dataMetadata: data,
           nameMetadata: data.metadata.elementConfig.name,
-          // optionsMetadata: data.metadata.elementConfig.options,
-          // typeMetadata: data.metadata.elemtConfig.type,
+          optionsMetadata: data.metadata.elementConfig.options,
+          typeMetadata: data.metadata.elementConfig.type,
         });
       })
       .catch((err) => {

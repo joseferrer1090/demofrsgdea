@@ -5,9 +5,26 @@ const Input = (props) => {
   switch (props.formType) {
     case "select":
       formElement = (
-        <div>
-          <select className="form-control form-control-sm"></select>
-        </div>
+        <React.Fragment>
+          <select
+            value={props.value}
+            name={props.name}
+            onChange={props.onChange}
+            className="form-control form-control-sm"
+          >
+            {props.options.length ? (
+              props.options.map((opt, id) => {
+                return (
+                  <option key={id} value={opt.value}>
+                    {opt.displayname}
+                  </option>
+                );
+              })
+            ) : (
+              <option>Seleccione...</option>
+            )}
+          </select>
+        </React.Fragment>
       );
       break;
     case "radio":
@@ -19,9 +36,23 @@ const Input = (props) => {
       break;
     case "checkbox":
       formElement = (
-        <div>
-          <input type="checkbox" />
-        </div>
+        <React.Fragment>
+          {props.options.map((check, id) => (
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={check.id}
+                value={check.value}
+                onChange={props.onChange}
+                data-id={`${check.value} selected `}
+              />
+              <label className="form-check-label" htmlFor={check.id}>
+                {check.displayValue}
+              </label>
+            </div>
+          ))}
+        </React.Fragment>
       );
       break;
     case "text":

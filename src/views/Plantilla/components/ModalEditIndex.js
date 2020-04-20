@@ -17,6 +17,7 @@ class ModalEditIndex extends Component {
       dataMetadata: {},
       nameMetadata: "",
       optionsMetadata: [],
+      typeMetadata: "",
       objMetadata: {
         defaultvalue: "",
         formula: {},
@@ -64,6 +65,7 @@ class ModalEditIndex extends Component {
           dataMetadata: data,
           nameMetadata: data.metadata.elemtConfig.name,
           optionsMetadata: data.metadata.elemtConfig.options,
+          typeMetadata: data.metadata.elemtConfig.type,
         });
       })
       .catch((err) => {
@@ -94,14 +96,22 @@ class ModalEditIndex extends Component {
         requerido: this.state.objMetadata.required,
       })
       .then(() => {
-        console.log("los datos correctos");
+        this.putMetadata();
+        // console.log("los datos correctos");
       })
       .catch((err) => {
         console.log(err.errors);
       });
   };
 
+  putMetadata = () => {
+    console.log(JSON.stringify(this.state.objMetadata, null, 2));
+  };
+
   render() {
+    console.log(this.state.dataMetadata);
+    // console.log(this.state.typeMetadata);
+    // console.log(this.state.objMetadata);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -170,9 +180,22 @@ class ModalEditIndex extends Component {
                 <div className="col-md-12">
                   <div className="form-group">
                     <div className="card">
-                      <div className="card-header">Metadato</div>
+                      <div className="card-header">
+                        Metadato {this.state.nameMetadata}
+                      </div>
                       <div className="card-body">
-                        <Input formType="select" />
+                        <Input
+                          formType={this.state.typeMetadata}
+                          options={this.state.optionsMetadata}
+                          onChange={(e) => {
+                            this.setState({
+                              objMetadata: {
+                                ...this.state.objMetadata,
+                                defaultvalue: e.currentTarget.value,
+                              },
+                            });
+                          }}
+                        />
                       </div>
                     </div>
                   </div>

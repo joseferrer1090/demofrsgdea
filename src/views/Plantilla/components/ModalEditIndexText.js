@@ -14,6 +14,13 @@ class ModalEditIndexText extends Component {
       template: this.props.templateid,
       auth: this.props.authorization,
       metadata: this.props.metadataid,
+      objMetada: {
+        defaultValue: "",
+        formula: "",
+        required: "",
+      },
+      alertError: false,
+      alertMessage: "",
     };
   }
 
@@ -38,23 +45,49 @@ class ModalEditIndexText extends Component {
     const auth = this.state.auth;
     const username = decode(auth);
     console.log(id);
-    // fetch(
-    //   `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       authorization: "Bearer " + auth,
-    //     },
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(`Error => ${err.message}`);
-    //   });
+    fetch(
+      `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + auth,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
+  updatedMetadata = (e) => {
+    e.preventDefault();
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      formula: Yup.bool().required(),
+      requerido: Yup.bool().required(),
+    });
+
+    schema
+      .validate({
+        formula: this.state.objMetada.formula,
+        requerido: this.state.objMetada.required,
+      })
+      .then(() => {
+        this.updateMetadataText();
+      })
+      .catch((err) => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
+  updateMetadataText = () => {
+    console.log(JSON.stringify(this.state.objMetada, null, 2));
   };
 
   toggle = () => {
@@ -80,10 +113,21 @@ class ModalEditIndexText extends Component {
                   <label>
                     Formula<span className="text-danger"> *</span>{" "}
                   </label>
-                  <select className="form-control form-control-sm">
-                    <option>Seleccione</option>
-                    <option>Si</option>
-                    <option>No</option>
+                  <select
+                    className="form-control form-control-sm"
+                    value={this.state.objMetada.formula}
+                    onChange={(e) => {
+                      this.setState({
+                        objMetada: {
+                          ...this.state.objMetada,
+                          formula: e.target.value,
+                        },
+                      });
+                    }}
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
                   </select>
                 </div>
               </div>
@@ -93,10 +137,21 @@ class ModalEditIndexText extends Component {
                     {" "}
                     Requerido <span className="text-danger">*</span>
                   </label>
-                  <select className="form-control form-control-sm">
-                    <option>Seleccione</option>
-                    <option>Si</option>
-                    <option>No</option>
+                  <select
+                    className="form-control form-control-sm"
+                    value={this.state.objMetada.required}
+                    onChange={(e) => {
+                      this.setState({
+                        objMetada: {
+                          ...this.state.objMetada,
+                          required: e.target.value,
+                        },
+                      });
+                    }}
+                  >
+                    <option value="">Seleccione</option>
+                    <option value="true">Si</option>
+                    <option value="false">No</option>
                   </select>
                 </div>
               </div>
@@ -120,7 +175,13 @@ class ModalEditIndexText extends Component {
         </ModalBody>
         <ModalFooter>
           <div className="float-right">
-            <button className="btn btn-outline-success btn-sm">
+            <button
+              type="button"
+              onClick={(e) => {
+                this.updatedMetadata(e);
+              }}
+              className="btn btn-outline-success btn-sm"
+            >
               {" "}
               <i className="fa fa-pencil" /> Editar metadato{" "}
             </button>

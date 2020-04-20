@@ -12,6 +12,7 @@ const Input = (props) => {
             onChange={props.onChange}
             className="form-control form-control-sm"
           >
+            <option>Seleccione...</option>
             {props.options.length ? (
               props.options.map((opt, id) => {
                 return (
@@ -29,9 +30,19 @@ const Input = (props) => {
       break;
     case "radio":
       formElement = (
-        <div>
-          <input type="radio" />
-        </div>
+        <React.Fragment>
+          {props.options.map((option, id) => (
+            <label>
+              <input
+                type="radio"
+                value={option.value}
+                name={option.name}
+                onChange={props.onChange}
+              />
+              {option.displayValue}
+            </label>
+          ))}
+        </React.Fragment>
       );
       break;
     case "checkbox":

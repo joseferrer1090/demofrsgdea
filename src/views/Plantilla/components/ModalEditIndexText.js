@@ -14,6 +14,9 @@ class ModalEditIndexText extends Component {
       template: this.props.templateid,
       auth: this.props.authorization,
       metadata: this.props.metadataid,
+      dataMetadata: {},
+      nameMetadata: "",
+      typeMetadata: "",
       objMetada: {
         defaultValue: "",
         formula: "",
@@ -57,7 +60,11 @@ class ModalEditIndexText extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        this.setState({
+          dataMetadata: data,
+          nameMetadata: data.metadata.elementConfig.name,
+        });
+        // console.log(this.state.dataMetadata);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -97,9 +104,12 @@ class ModalEditIndexText extends Component {
   };
 
   render() {
+    console.log(this.state.dataMetadata);
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader>Editar valores del metadato</ModalHeader>
+        <ModalHeader>
+          Editar valores del metadato {this.state.nameMetadata}
+        </ModalHeader>
         <ModalBody>
           <p className=" alert alert-secondary">
             <i className="fa fa-exclamation-triangle" /> Los valores que se
@@ -157,7 +167,9 @@ class ModalEditIndexText extends Component {
               </div>
               <div className="col-md-12">
                 <div className="card">
-                  <div className="card-header">Metadato</div>
+                  <div className="card-header">
+                    Metadato {this.state.nameMetadata}
+                  </div>
                   <div className="card-body">
                     <Input formType="text" />
                   </div>

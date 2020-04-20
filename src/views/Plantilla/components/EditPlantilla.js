@@ -6,7 +6,7 @@ import {
   CardFooter,
   CustomInput,
   Label,
-  FormGroup
+  FormGroup,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import dataDependencias from "./../../../data/json_dependencia.json";
@@ -15,7 +15,7 @@ import {
   PLANTILLA_EDIT,
   CONGLOMERADO_SELECTED,
   EMPRESA_SELECTED,
-  SEDE_SELECTED
+  SEDE_SELECTED,
 } from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -34,15 +34,15 @@ class EditPlantilla extends React.Component {
     sede_selected: [],
     recibida: "",
     despachada: "",
-    interna: ""
+    interna: "",
   };
 
-  handleSearchInput = event => {
+  handleSearchInput = (event) => {
     this.setState({ term: event.target.value });
   };
 
-  searchDependecies = term => {
-    return function(x) {
+  searchDependecies = (term) => {
+    return function (x) {
       return x.nombre.toLowerCase().includes(term);
     };
   };
@@ -62,8 +62,8 @@ class EditPlantilla extends React.Component {
 
   getPlantillaInformation() {
     fetch(PLANTILLA_EDIT)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         this.setState({
           nombre: data.nombre,
@@ -73,42 +73,42 @@ class EditPlantilla extends React.Component {
           sede: data.sede,
           recibida: data.recibida,
           despachada: data.despachad,
-          interna: data.interna
+          interna: data.interna,
         });
         console.log(this.state);
       })
-      .catch(error => console.log("Error", error));
+      .catch((error) => console.log("Error", error));
   }
   getConglomeradoData = () => {
     fetch(CONGLOMERADO_SELECTED)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          conglomerado_selected: data
+          conglomerado_selected: data,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
   getEmpresaData = () => {
     fetch(EMPRESA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          empresa_selected: data
+          empresa_selected: data,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   getSedeData = () => {
     fetch(SEDE_SELECTED)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          sede_selected: data
+          sede_selected: data,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   render() {
@@ -120,7 +120,7 @@ class EditPlantilla extends React.Component {
       sede: this.state.sede,
       recibida: this.state.recibida,
       despachada: this.state.despachad,
-      interna: this.state.interna
+      interna: this.state.interna,
     };
     const auxSelectedConglomerado = this.state.conglomerado_selected.map(
       (aux, id) => {
@@ -187,16 +187,20 @@ class EditPlantilla extends React.Component {
             sede: Yup.string()
               .ensure()
               .required(" Por favor seleccione una sede."),
-            recibida: Yup.bool().test("Activado", "", value => value === true),
+            recibida: Yup.bool().test(
+              "Activado",
+              "",
+              (value) => value === true
+            ),
             despachada: Yup.bool().test(
               "Activado",
               "",
-              value => value === true
+              (value) => value === true
             ),
-            interna: Yup.bool().test("Activado", "", value => value === true)
+            interna: Yup.bool().test("Activado", "", (value) => value === true),
           })}
         >
-          {props => {
+          {(props) => {
             const {
               values,
               touched,
@@ -206,7 +210,7 @@ class EditPlantilla extends React.Component {
               handleChange,
               handleBlur,
               handleSubmit,
-              handleReset
+              handleReset,
             } = props;
             return (
               <Fragment>
@@ -288,9 +292,11 @@ class EditPlantilla extends React.Component {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.nombre &&
+                                        className={`form-control form-control-sm ${
+                                          errors.nombre &&
                                           touched.nombre &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                         value={values.nombre}
                                       />
                                       <div style={{ color: "#D54B4B" }}>
@@ -333,9 +339,11 @@ class EditPlantilla extends React.Component {
                                         name="conglomerado"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        className={`form-control form-control-sm ${errors.conglomerado &&
+                                        className={`form-control form-control-sm ${
+                                          errors.conglomerado &&
                                           touched.conglomerado &&
-                                          "is-invalid"}`}
+                                          "is-invalid"
+                                        }`}
                                         value={values.conglomerado}
                                       >
                                         {auxSelectedConglomerado}
@@ -404,7 +412,7 @@ class EditPlantilla extends React.Component {
                                           type="text"
                                           className="form-control form-control-sm"
                                           placeholder="Buscar dependencia"
-                                          onChange={e =>
+                                          onChange={(e) =>
                                             this.handleSearchInput(e)
                                           }
                                         />
@@ -438,7 +446,7 @@ class EditPlantilla extends React.Component {
                       <button
                         type="button"
                         className="btn btn-outline-success btn-sm float-right"
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
                         }}

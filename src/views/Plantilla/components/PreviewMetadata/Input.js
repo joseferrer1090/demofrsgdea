@@ -68,9 +68,16 @@ const Input = (props) => {
       break;
     case "text":
       formElement = (
-        <div>
-          <input type="text" className="form-control form-control-sm" />
-        </div>
+        <React.Fragment>
+          <input
+            type="text"
+            className="form-control form-control-sm"
+            name={props.name}
+            onChange={props.onChange}
+            value={props.value}
+            defaultValue={props.defaultValue}
+          />
+        </React.Fragment>
       );
       break;
     case "textarea":

@@ -13,6 +13,7 @@ class ModalEditIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       modal: this.props.modaleditindexes,
       auth: this.props.authorization,
       template: this.props.templateid,
@@ -37,6 +38,7 @@ class ModalEditIndex extends Component {
         auth: props.authorization,
         metadata: props.metadataid,
         template: props.templateid,
+        id: props.id,
       };
     } else return null;
   }
@@ -125,30 +127,43 @@ class ModalEditIndex extends Component {
       },
       body: JSON.stringify({
         id: this.state.dataMetadata.id,
-        metadataBagId: this.state.metadata,
-        templateId: this.state.template,
+        metadataBagId: "fe1fa7e4-3e05-4648-bd50-0f9bfe5937a6",
+        templateId: "0b7485fe-34a0-43f9-b8dd-9edb33427df9",
         defaultValue: this.state.objMetadata.defaultvalue,
         formula: this.state.objMetadata.formula,
         required: this.state.objMetadata.required,
         userName: username.user_name,
       }),
-    }).then((response) =>
-      response
-        .json()
-        .then((data) => {
+    })
+      .then((response) =>
+        response.json().then((data) => {
           if (response.status === 200) {
             console.log(response);
-          } else if (response.status === 400) {
-            console.log(`${response}`);
+          } else if (response.status === 404) {
+            console.log(response);
           } else if (response.status === 500) {
-            console.log(`Error => ${response}`);
+            console.log(response);
           }
         })
-        .catch((err) => {
-          console.log(`Error => ${err}`);
-        })
-    );
-    // console.log(JSON.stringify(this.state.objMetadata, null, 2));
+      )
+      .catch((err) => {
+        console.log(`${err}`);
+      });
+    // console.log(
+    //   JSON.stringify(
+    //     {
+    //       id: this.state.dataMetadata.id,
+    //       metadataBagId: this.props.id,
+    //       templateId: this.state.template,
+    //       defaultValue: this.state.objMetadata.defaultvalue,
+    //       formula: this.state.objMetadata.formula,
+    //       required: this.state.objMetadata.required,
+    //       userName: username.user_name,
+    //     },
+    //     2,
+    //     null
+    //   )
+    // );
   };
 
   render() {

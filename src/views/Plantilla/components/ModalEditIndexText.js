@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
 import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
@@ -79,18 +79,29 @@ class ModalEditIndexText extends Component {
     const schema = Yup.object().shape({
       formula: Yup.bool().required(),
       requerido: Yup.bool().required(),
+      defaultValue: Yup.string().required(),
     });
 
     schema
       .validate({
         formula: this.state.objMetada.formula,
         requerido: this.state.objMetada.required,
+        defaultValue: this.state.objMetada.defaultValue,
       })
       .then(() => {
         this.updateMetadataText();
       })
       .catch((err) => {
-        console.log(`Error => ${err.message}`);
+        this.setState({
+          alertMessage: err.message,
+          alertError: true,
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false,
+          });
+        }, 1200);
+        // console.log(`Error => ${err.message}`);
       });
   };
 
@@ -118,6 +129,10 @@ class ModalEditIndexText extends Component {
             ingresen en el siguiente formulario solo afecta al valor por defecto
             que tendra el metadato en la plantilla asociada.
           </p>
+          <Alert color="danger" isOpen={this.state.alertError}>
+            <i className="fa fa-exclamation-triangle" />{" "}
+            {this.state.alertMessage}
+          </Alert>
           <form className="form">
             <div className="row">
               <div className="col-md-6">

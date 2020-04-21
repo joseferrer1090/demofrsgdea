@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
 import PropTypes from "prop-types";
-import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
+import {
+  TEMPLATE_METADATA_BAG_VIEW,
+  TEMPLATE_METADATA_BAG_UPDATE,
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
 
@@ -112,7 +115,40 @@ class ModalEditIndex extends Component {
   };
 
   putMetadata = () => {
-    console.log(JSON.stringify(this.state.objMetadata, null, 2));
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TEMPLATE_METADATA_BAG_UPDATE}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        id: this.state.dataMetadata.id,
+        metadataBagId: this.state.metadata,
+        templateId: this.state.template,
+        defaultValue: this.state.objMetadata.defaultvalue,
+        formula: this.state.objMetadata.formula,
+        required: this.state.objMetadata.required,
+        userName: username.user_name,
+      }),
+    }).then((response) =>
+      response
+        .json()
+        .then((data) => {
+          if (response.status === 200) {
+            console.log(response);
+          } else if (response.status === 400) {
+            console.log(`${response}`);
+          } else if (response.status === 500) {
+            console.log(`Error => ${response}`);
+          }
+        })
+        .catch((err) => {
+          console.log(`Error => ${err}`);
+        })
+    );
+    // console.log(JSON.stringify(this.state.objMetadata, null, 2));
   };
 
   render() {

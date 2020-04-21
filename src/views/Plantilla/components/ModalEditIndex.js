@@ -81,26 +81,33 @@ class ModalEditIndex extends Component {
 
   updateMetadata = (e) => {
     e.preventDefault();
-    Yup.setLocale({
-      mixed: {
-        required: "my required message",
-      },
-    });
+    Yup.setLocale({});
     const schema = Yup.object().shape({
       formula: Yup.bool().required(),
       requerido: Yup.bool().required(),
+      defaultvalue: Yup.string().ensure().required(),
     });
     schema
       .validate({
         formula: this.state.objMetadata.formula,
         requerido: this.state.objMetadata.required,
+        defaultvalue: this.state.objMetadata.defaultvalue,
       })
       .then(() => {
         this.putMetadata();
         // console.log("los datos correctos");
       })
       .catch((err) => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.errors,
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false,
+          });
+        }, 1200);
+        // console.log(err.errors);
       });
   };
 
@@ -127,6 +134,10 @@ class ModalEditIndex extends Component {
                     se ingresen en el siguiente formulario solo afecta al valor
                     por defecto que tendra el metadato en la plantilla asociada.
                   </p>
+                  <Alert color="danger" isOpen={this.state.alertError}>
+                    <i className="fa fa-exclamation-triangle" />{" "}
+                    {this.state.alertErrorMessage}
+                  </Alert>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">

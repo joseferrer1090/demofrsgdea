@@ -30,6 +30,8 @@ class ModalEditIndex extends Component {
       },
       alertError: false,
       alertErrorMessage: "",
+      alertSuccess: false,
+      alertSuccessMessage: "",
     };
   }
 
@@ -139,16 +141,43 @@ class ModalEditIndex extends Component {
       .then((response) =>
         response.json().then((data) => {
           if (response.status === 200) {
-            console.log(response);
+            this.setState({
+              alertSuccess: true,
+              alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
+            });
+            setTimeout(() => {
+              this.setState({
+                alertSuccessMessage: false,
+                modal: false,
+              });
+            }, 1300);
+            // console.log(response);
           } else if (response.status === 404) {
-            console.log(response);
+            this.setState({
+              alertError: true,
+              alertErrorMessage: `Error no se puede modificar el metadato intentelo mas tarde`,
+            });
+            setTimeout(() => {
+              this.setState({
+                alertError: false,
+              });
+            }, 1200);
           } else if (response.status === 500) {
             console.log(response);
           }
         })
       )
       .catch((err) => {
-        console.log(`${err}`);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message,
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false,
+          });
+        }, 1200);
+        // console.log(`${err}`);
       });
     // console.log(
     //   JSON.stringify(
@@ -189,6 +218,10 @@ class ModalEditIndex extends Component {
                   <Alert color="danger" isOpen={this.state.alertError}>
                     <i className="fa fa-exclamation-triangle" />{" "}
                     {this.state.alertErrorMessage}
+                  </Alert>
+                  <Alert color={"success"} isOpen={this.state.alertSuccess}>
+                    <i className="fa fa-exclamation-triangle" />{" "}
+                    {this.state.alertSuccessMessage}
                   </Alert>
                 </div>
                 <div className="col-md-6">

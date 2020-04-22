@@ -119,6 +119,7 @@ class AddIndexPlantilla extends Component {
             this.openModalEditText();
             this.setState({
               idSelectedTable: id,
+              idSelectedMetadata: idmetadata,
             });
           }}
         >
@@ -272,6 +273,7 @@ class AddIndexPlantilla extends Component {
           ref={(el) => (this.modalDel = el)}
         />
         <ModalEditText
+          id={this.state.idSelectedMetadata}
           authorization={this.state.auth}
           templateid={this.props.match.params.id}
           metadataid={this.state.idSelectedTable}

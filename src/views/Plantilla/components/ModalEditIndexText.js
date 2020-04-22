@@ -10,6 +10,7 @@ class ModalEditIndexText extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       modal: this.props.modaledittext,
       template: this.props.templateid,
       auth: this.props.authorization,
@@ -39,7 +40,7 @@ class ModalEditIndexText extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.metadataid !== prevProps.metadataid) {
-      this.setState({ metadata: this.props.metadataid });
+      this.setState({ metadata: this.props.metadataid, id: this.props.id });
       this.getDataMetadata(this.props.metadataid);
     }
   }
@@ -106,6 +107,7 @@ class ModalEditIndexText extends Component {
   };
 
   updateMetadataText = () => {
+    console.log(this.state.id);
     console.log(JSON.stringify(this.state.objMetada, null, 2));
   };
 

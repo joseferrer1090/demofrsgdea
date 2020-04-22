@@ -21,6 +21,7 @@ class AddIndexPlantilla extends Component {
       id: this.props.match.params.id,
       dataTemplate: [],
       idSelectedTable: "",
+      idSelectedMetadata: "",
     };
   }
 
@@ -62,7 +63,12 @@ class AddIndexPlantilla extends Component {
         this.setState({
           dataTemplate: data,
         });
-        console.log(this.state.dataTemplate);
+        // console.log(this.state.dataTemplate);
+        // console.log(
+        //   this.state.dataTemplate.map((aux, id) => {
+        //     console.log(aux.metadataBag.id);
+        //   })
+        // );
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -86,7 +92,7 @@ class AddIndexPlantilla extends Component {
     this.modalEditText.toggle();
   }
 
-  renderModal = (data, id) => {
+  renderModal = (data, id, idmetadata) => {
     let aux;
     if (data === "checkbox" || data === "select" || data === "radio") {
       aux = (
@@ -97,6 +103,7 @@ class AddIndexPlantilla extends Component {
             this.openModalEdit();
             this.setState({
               idSelectedTable: id,
+              idSelectedMetadata: idmetadata,
             });
           }}
         >
@@ -148,6 +155,7 @@ class AddIndexPlantilla extends Component {
                   <table className="table table-bordered table-sm table-hover">
                     <thead className="thead-light">
                       <tr className="text-center">
+                        <th>id</th>
                         <th scope="col">Nombre del metadato</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Acciones</th>
@@ -156,13 +164,15 @@ class AddIndexPlantilla extends Component {
                     <tbody className="text-center">
                       {this.state.dataTemplate.map((aux, id) => {
                         return (
-                          <tr key={id}>
+                          <tr key={aux.metadataBag.id}>
+                            <td>{aux.metadataBag.id}</td>
                             <td>{aux.metadataBag.name}</td>
                             <td>{aux.metadataBag.inputType}</td>
                             <td>
                               {this.renderModal(
                                 aux.metadataBag.inputType,
-                                aux.id
+                                aux.id,
+                                aux.metadataBag.id
                               )}
                               {/* <button
                                 className="btn btn-secondary btn-sm mr-1"
@@ -245,6 +255,7 @@ class AddIndexPlantilla extends Component {
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
+          id={this.state.idSelectedMetadata}
           authorization={this.state.auth}
           templateid={this.props.match.params.id}
           metadataid={this.state.idSelectedTable}

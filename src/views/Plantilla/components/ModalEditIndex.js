@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {
   TEMPLATE_METADATA_BAG_VIEW,
   TEMPLATE_METADATA_BAG_UPDATE,
+  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
@@ -46,7 +47,7 @@ class ModalEditIndex extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.metadataid !== prevProps.metadataid) {
       //Perform some operation here
-      this.setState({ metadata: this.props.metadataid });
+      this.setState({ metadata: this.props.metadataid, id: this.props.id });
       this.getDataMetadata(this.props.metadataid);
     }
   }
@@ -127,8 +128,8 @@ class ModalEditIndex extends Component {
       },
       body: JSON.stringify({
         id: this.state.dataMetadata.id,
-        metadataBagId: "fe1fa7e4-3e05-4648-bd50-0f9bfe5937a6",
-        templateId: "0b7485fe-34a0-43f9-b8dd-9edb33427df9",
+        metadataBagId: this.state.id,
+        templateId: this.state.template,
         defaultValue: this.state.objMetadata.defaultvalue,
         formula: this.state.objMetadata.formula,
         required: this.state.objMetadata.required,
@@ -152,13 +153,13 @@ class ModalEditIndex extends Component {
     // console.log(
     //   JSON.stringify(
     //     {
-    //       id: this.state.dataMetadata.id,
-    //       metadataBagId: this.props.id,
-    //       templateId: this.state.template,
-    //       defaultValue: this.state.objMetadata.defaultvalue,
-    //       formula: this.state.objMetadata.formula,
-    //       required: this.state.objMetadata.required,
-    //       userName: username.user_name,
+    //       id: this.state.id,
+    //       // metadataBagId: this.props.id,
+    //       // templateId: this.state.template,
+    //       // defaultValue: this.state.objMetadata.defaultvalue,
+    //       // formula: this.state.objMetadata.formula,
+    //       // required: this.state.objMetadata.required,
+    //       // userName: username.user_name,
     //     },
     //     2,
     //     null

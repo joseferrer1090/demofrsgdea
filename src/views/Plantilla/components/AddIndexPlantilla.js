@@ -156,7 +156,6 @@ class AddIndexPlantilla extends Component {
                   <table className="table table-bordered table-sm table-hover">
                     <thead className="thead-light">
                       <tr className="text-center">
-                        <th>id</th>
                         <th scope="col">Nombre del metadato</th>
                         <th scope="col">Tipo</th>
                         <th scope="col">Acciones</th>
@@ -166,7 +165,7 @@ class AddIndexPlantilla extends Component {
                       {this.state.dataTemplate.map((aux, id) => {
                         return (
                           <tr key={aux.metadataBag.id}>
-                            <td>{aux.metadataBag.id}</td>
+                            {/* <td>{aux.metadataBag.id}</td> */}
                             <td>{aux.metadataBag.name}</td>
                             <td>{aux.metadataBag.inputType}</td>
                             <td>

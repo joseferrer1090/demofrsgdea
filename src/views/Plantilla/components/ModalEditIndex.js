@@ -301,7 +301,6 @@ class ModalEditIndex extends Component {
                               },
                             });
                           }}
-                          value={this.state.objMetadata.defaultValue}
                         />
                       </div>
                     </div>

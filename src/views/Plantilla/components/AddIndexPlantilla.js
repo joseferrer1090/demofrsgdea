@@ -424,6 +424,9 @@ class AddIndexPlantilla extends Component {
           metadataid={this.state.idSelectedTable}
           modaledittext={this.state.modeledittext}
           ref={(el) => (this.modalEditText = el)}
+          refresh={() => {
+            this.getDataTemplateID(this.state.id, this.props.authorization);
+          }}
         />
       </div>
     );

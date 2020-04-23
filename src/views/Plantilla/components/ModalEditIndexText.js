@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import Input from "./PreviewMetadata/Input";
-import { TEMPLATE_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
+import {
+  TEMPLATE_METADATA_BAG_VIEW,
+  TEMPLATE_METADATA_BAG_UPDATE,
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
 
@@ -25,6 +28,8 @@ class ModalEditIndexText extends Component {
       },
       alertError: false,
       alertMessage: "",
+      alertSuccess: false,
+      alertSuccessMessage: "",
     };
   }
 
@@ -48,14 +53,13 @@ class ModalEditIndexText extends Component {
   getDataMetadata = (id) => {
     const auth = this.state.auth;
     const username = decode(auth);
-    console.log(id);
     fetch(
       `${TEMPLATE_METADATA_BAG_VIEW}/${id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       }
     )
@@ -64,9 +68,14 @@ class ModalEditIndexText extends Component {
         this.setState({
           dataMetadata: data,
           nameMetadata: data.metadata.elementConfig.name,
+          optionsMetadata: data.metadata.elementConfig.options,
           typeMetadata: data.metadata.elementConfig.type,
+          objMetada: {
+            defaultValue: data.defaultValue,
+            formula: data.formula,
+            required: data.required,
+          },
         });
-        // console.log(this.state.dataMetadata);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -107,8 +116,83 @@ class ModalEditIndexText extends Component {
   };
 
   updateMetadataText = () => {
-    console.log(this.state.id);
-    console.log(JSON.stringify(this.state.objMetada, null, 2));
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TEMPLATE_METADATA_BAG_UPDATE}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        id: this.state.dataMetadata.id,
+        metadataBagId: this.state.id,
+        templateId: this.state.template,
+        defaultValue: this.state.objMetada.defaultvalue,
+        formula: this.state.objMetada.formula,
+        required: this.state.objMetada.required,
+        userName: username.user_name,
+      }),
+    })
+      .then((response) =>
+        response.json().then((data) => {
+          if (response.status === 200) {
+            this.setState(
+              {
+                alertSuccess: true,
+                alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
+              },
+              () => this.props.refresh()
+            );
+            setTimeout(() => {
+              this.setState({
+                alertSuccess: false,
+                modal: false,
+              });
+            }, 1300);
+            // console.log(response);
+          } else if (response.status === 404) {
+            this.setState({
+              alertError: true,
+              alertErrorMessage: `Error no se puede modificar el metadato intentelo mas tarde`,
+            });
+            setTimeout(() => {
+              this.setState({
+                alertError: false,
+              });
+            }, 1200);
+          } else if (response.status === 500) {
+            console.log(response);
+          }
+        })
+      )
+      .catch((err) => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message,
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false,
+          });
+        }, 1200);
+        // console.log(`${err}`);
+      });
+    // console.log(
+    //   JSON.stringify(
+    //     {
+    //       id: this.state.id,
+    //       // metadataBagId: this.props.id,
+    //       // templateId: this.state.template,
+    //       // defaultValue: this.state.objMetadata.defaultvalue,
+    //       // formula: this.state.objMetadata.formula,
+    //       // required: this.state.objMetadata.required,
+    //       // userName: username.user_name,
+    //     },
+    //     2,
+    //     null
+    //   )
+    // );
   };
 
   toggle = () => {
@@ -134,6 +218,10 @@ class ModalEditIndexText extends Component {
           <Alert color="danger" isOpen={this.state.alertError}>
             <i className="fa fa-exclamation-triangle" />{" "}
             {this.state.alertMessage}
+          </Alert>
+          <Alert color={"success"} isOpen={this.state.alertSuccess}>
+            <i className="fa fa-exclamation-triangle" />{" "}
+            {this.state.alertSuccessMessage}
           </Alert>
           <form className="form">
             <div className="row">
@@ -220,6 +308,7 @@ class ModalEditIndexText extends Component {
             <button
               type="button"
               onClick={(e) => {
+                e.preventDefault();
                 this.updatedMetadata(e);
               }}
               className="btn btn-outline-success btn-sm"

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
-import { TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID } from "./../../../services/EndPoints";
+import {
+  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
+  TEMPLATE_SHOW,
+} from "./../../../services/EndPoints";
 import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
@@ -22,6 +25,14 @@ class AddIndexPlantilla extends Component {
       dataTemplate: [],
       idSelectedTable: "",
       idSelectedMetadata: "",
+      dataTemplateInfo: {
+        name: "",
+        createdAt: "",
+        updatedAt: "",
+        code: "",
+        description: "",
+        status: "",
+      },
     };
   }
 
@@ -44,9 +55,37 @@ class AddIndexPlantilla extends Component {
 
   componentDidMount() {
     this.getDataTemplateID(this.state.id, this.state.auth);
+    this.getTemplateInformation(this.state.id, this.state.auth);
     // console.log(this.parentRef.current.toggle());
     console.log(this.props.match);
   }
+
+  getTemplateInformation = (id, auth) => {
+    const username = decode(auth);
+    fetch(`${TEMPLATE_SHOW}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          dataTemplateInfo: {
+            name: data.name,
+            code: data.code,
+            description: data.description,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
+            status: data.status,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
 
   getDataTemplateID = (id, auth) => {
     const token = auth;
@@ -62,8 +101,8 @@ class AddIndexPlantilla extends Component {
       .then((data) => {
         this.setState({
           dataTemplate: data,
+          // dataTemplateInfo: data.template,
         });
-        // console.log(this.state.dataTemplate);
         // console.log(
         //   this.state.dataTemplate.map((aux, id) => {
         //     console.log(aux.metadataBag.id);
@@ -142,6 +181,110 @@ class AddIndexPlantilla extends Component {
                   plantilla
                 </div>
                 <CardBody>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="card">
+                        <div className="card-header">
+                          <i className="fa fa-puzzle-piece" /> Datos de la
+                          plantilla
+                        </div>
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Nombre</label>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  value={this.state.dataTemplateInfo.name}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Codigo</label>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  value={this.state.dataTemplateInfo.code}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>Descripcion</label>
+                                <textarea
+                                  className="form-control form-control-sm"
+                                  value={
+                                    this.state.dataTemplateInfo.description
+                                  }
+                                  disabled
+                                ></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="card">
+                        <div className="card-header">
+                          <i className="fa fa-info" />
+                          Informacion de la plantilla
+                        </div>
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Fecha de creacion</label>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  value={this.state.dataTemplateInfo.createdAt}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Fecha de modificacion</label>
+                                <input
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  value={this.state.dataTemplateInfo.updatedAt}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>Estado</label>
+                                {this.state.dataTemplateInfo.status === 1 ? (
+                                  <input
+                                    type="text"
+                                    className="form-control form-contol-sm"
+                                    value={"Activo"}
+                                    style={{ color: "green" }}
+                                    disabled
+                                  />
+                                ) : (
+                                  <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    value="Inactivo"
+                                    style={{ color: "red" }}
+                                    disabled
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="btn-toolbar mb-1">
                     <button
                       className="btn btn-success btn-sm mr-1"

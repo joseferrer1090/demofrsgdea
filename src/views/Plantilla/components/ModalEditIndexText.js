@@ -128,7 +128,7 @@ class ModalEditIndexText extends Component {
         id: this.state.dataMetadata.id,
         metadataBagId: this.state.id,
         templateId: this.state.template,
-        defaultValue: this.state.objMetada.defaultvalue,
+        defaultValue: this.state.objMetada.defaultValue,
         formula: this.state.objMetada.formula,
         required: this.state.objMetada.required,
         userName: username.user_name,
@@ -202,6 +202,7 @@ class ModalEditIndexText extends Component {
   };
 
   render() {
+    console.log(this.state.dataMetadata);
     // console.log(this.state.dataMetadata);
     // console.log(this.state.typeMetadata);
     return (
@@ -288,6 +289,7 @@ class ModalEditIndexText extends Component {
                           },
                         });
                       }}
+                      value={this.state.objMetada.defaultValue}
                     />
                   </div>
                 </div>

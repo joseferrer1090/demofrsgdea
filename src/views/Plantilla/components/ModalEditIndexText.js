@@ -280,7 +280,6 @@ class ModalEditIndexText extends Component {
                   <div className="card-body">
                     <Input
                       formType={this.state.typeMetadata}
-                      value={this.state.objMetada.defaultValue}
                       onChange={(e) => {
                         this.setState({
                           objMetada: {

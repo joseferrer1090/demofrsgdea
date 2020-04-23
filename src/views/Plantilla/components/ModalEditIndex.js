@@ -24,7 +24,7 @@ class ModalEditIndex extends Component {
       optionsMetadata: [],
       typeMetadata: "",
       objMetadata: {
-        defaultvalue: "",
+        defaultValue: "",
         formula: {},
         required: "",
       },
@@ -98,13 +98,13 @@ class ModalEditIndex extends Component {
     const schema = Yup.object().shape({
       formula: Yup.bool().required(),
       requerido: Yup.bool().required(),
-      defaultvalue: Yup.string().ensure().required(),
+      defaultValue: Yup.string().ensure().required(),
     });
     schema
       .validate({
         formula: this.state.objMetadata.formula,
         requerido: this.state.objMetadata.required,
-        defaultvalue: this.state.objMetadata.defaultvalue,
+        defaultValue: this.state.objMetadata.defaultValue,
       })
       .then(() => {
         this.putMetadata();
@@ -137,7 +137,7 @@ class ModalEditIndex extends Component {
         id: this.state.dataMetadata.id,
         metadataBagId: this.state.id,
         templateId: this.state.template,
-        defaultValue: this.state.objMetadata.defaultvalue,
+        defaultValue: this.state.objMetadata.defaultValue,
         formula: this.state.objMetadata.formula,
         required: this.state.objMetadata.required,
         userName: username.user_name,
@@ -297,10 +297,11 @@ class ModalEditIndex extends Component {
                             this.setState({
                               objMetadata: {
                                 ...this.state.objMetadata,
-                                defaultvalue: e.currentTarget.value,
+                                defaultValue: e.currentTarget.value,
                               },
                             });
                           }}
+                          value={this.state.objMetadata.defaultValue}
                         />
                       </div>
                     </div>

@@ -31,17 +31,19 @@ const Input = (props) => {
     case "radio":
       formElement = (
         <React.Fragment>
-          {props.options.map((option, id) => (
-            <label>
-              <input
-                type="radio"
-                value={option.value}
-                name={option.name}
-                onChange={props.onChange}
-              />
-              {option.displayValue}
-            </label>
-          ))}
+          {props.options.map((opt, id) => {
+            return (
+              <label>
+                <input
+                  type="radio"
+                  value={opt.value}
+                  name={opt.name}
+                  onChange={props.onChange}
+                />
+                {opt.displayValue}
+              </label>
+            );
+          })}
         </React.Fragment>
       );
       break;
@@ -102,11 +104,7 @@ const Input = (props) => {
       break;
 
     default:
-      formElement = (
-        <div>
-          <input />
-        </div>
-      );
+      formElement = <input />;
   }
   return <React.Fragment>{formElement}</React.Fragment>;
 };

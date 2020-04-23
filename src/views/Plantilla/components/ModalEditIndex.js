@@ -74,6 +74,11 @@ class ModalEditIndex extends Component {
           nameMetadata: data.metadata.elementConfig.name,
           optionsMetadata: data.metadata.elementConfig.options,
           typeMetadata: data.metadata.elementConfig.type,
+          objMetadata: {
+            defaultValue: data.defaultValue,
+            formula: data.formula,
+            required: data.required,
+          },
         });
       })
       .catch((err) => {
@@ -141,13 +146,16 @@ class ModalEditIndex extends Component {
       .then((response) =>
         response.json().then((data) => {
           if (response.status === 200) {
-            this.setState({
-              alertSuccess: true,
-              alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
-            });
+            this.setState(
+              {
+                alertSuccess: true,
+                alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
+              },
+              () => this.props.refresh()
+            );
             setTimeout(() => {
               this.setState({
-                alertSuccessMessage: false,
+                alertSuccess: false,
                 modal: false,
               });
             }, 1300);
@@ -197,7 +205,9 @@ class ModalEditIndex extends Component {
   };
 
   render() {
-    //console.log(this.state.dataMetadata);
+    // console.log(this.state.dataMetadata.defaultValue);
+    // console.log(this.state.dataMetadata.formula);
+    // console.log(this.state.dataMetadata.required);
     // console.log(this.state.typeMetadata);
     // console.log(this.state.objMetadata);
     return (
@@ -291,6 +301,7 @@ class ModalEditIndex extends Component {
                               },
                             });
                           }}
+                          value={this.state.objMetadata.defaultValue}
                         />
                       </div>
                     </div>

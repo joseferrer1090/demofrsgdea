@@ -118,8 +118,8 @@ class ModalEditIndexText extends Component {
   };
 
   render() {
-    console.log(this.state.dataMetadata);
-    console.log(this.state.typeMetadata);
+    // console.log(this.state.dataMetadata);
+    // console.log(this.state.typeMetadata);
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>

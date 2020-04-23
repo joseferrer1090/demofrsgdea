@@ -256,6 +256,9 @@ class AddIndexPlantilla extends Component {
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
+          refresh={() => {
+            this.getDataTemplateID(this.state.id, this.props.authorization);
+          }}
           id={this.state.idSelectedMetadata}
           authorization={this.state.auth}
           templateid={this.props.match.params.id}

@@ -11,9 +11,10 @@ const Input = (props) => {
             name={props.name}
             onChange={props.onChange}
             className="form-control form-control-sm"
+            {...props}
           >
             <option>Seleccione...</option>
-            {props.options.length ? (
+            {props.options ? (
               props.options.map((opt, id) => {
                 return (
                   <option key={id} value={opt.value}>
@@ -31,19 +32,24 @@ const Input = (props) => {
     case "radio":
       formElement = (
         <React.Fragment>
-          {props.options.map((opt, id) => {
-            return (
-              <label>
-                <input
-                  type="radio"
-                  value={opt.value}
-                  name={opt.name}
-                  onChange={props.onChange}
-                />
-                {opt.displayValue}
-              </label>
-            );
-          })}
+          {props.options ? (
+            props.options.map((opt, id) => {
+              return (
+                <label>
+                  <input
+                    type="radio"
+                    value={opt.value}
+                    name={opt.name}
+                    onChange={props.onChange}
+                    {...props}
+                  />
+                  {opt.displayValue}
+                </label>
+              );
+            })
+          ) : (
+            <p>No hay datos disponibles para mostrar</p>
+          )}
         </React.Fragment>
       );
       break;
@@ -59,6 +65,7 @@ const Input = (props) => {
                 value={check.value}
                 onChange={props.onChange}
                 data-id={`${check.value} selected `}
+                {...props}
               />
               <label className="form-check-label" htmlFor={check.id}>
                 {check.displayValue}
@@ -78,6 +85,7 @@ const Input = (props) => {
             onChange={props.onChange}
             value={props.value}
             defaultValue={props.defaultValue}
+            {...props}
           />
         </React.Fragment>
       );
@@ -85,7 +93,13 @@ const Input = (props) => {
     case "textarea":
       formElement = (
         <div>
-          <textarea className="form-control form-control-sm"></textarea>
+          <textarea
+            {...props}
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+            className="form-control form-control-sm"
+          ></textarea>
         </div>
       );
       break;

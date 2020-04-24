@@ -22,14 +22,14 @@ class TableContentTramite extends Component {
       modalexport2: false,
       auth: this.props.authorization,
       data: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -39,7 +39,7 @@ class TableContentTramite extends Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         this.getData()
       );
@@ -51,16 +51,16 @@ class TableContentTramite extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          data: data
+          data: data,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   accionesTramite = (cell, row) => {
@@ -70,6 +70,7 @@ class TableContentTramite extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
+          title="Ver tipo documental de radicacion"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -79,6 +80,7 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tipo documental de radicacion"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.routeChange(row.id);
@@ -88,6 +90,7 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tipo documental de radicacion"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);
@@ -125,7 +128,7 @@ class TableContentTramite extends Component {
     this.ModalViewRef.toggle(id);
   }
 
-  routeChange = id => {
+  routeChange = (id) => {
     let path = `#/configuracion/tipodocumentalradication/edit/${id}`;
     window.location.replace(path);
   };
@@ -149,7 +152,7 @@ class TableContentTramite extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <div>
@@ -179,7 +182,7 @@ class TableContentTramite extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     const { t } = this.props;
     return (
@@ -281,26 +284,26 @@ class TableContentTramite extends Component {
           t={this.props.t}
           authorization={auth}
           modalviewtramit={this.state.modalview}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalDeleteTipoDocumentalRadication
           t={this.props.t}
           authorization={auth}
           modaldelete={this.state.modaldel}
           updateTable={this.getData}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           t={this.props.t}
           authorization={auth}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           modalexport={this.state.modalexport}
         />
         <ModalExportUsers
           t={this.props.t}
           modal={this.state.modalexport2}
           authorization={auth}
-          ref={meu => (this.ModalExportUserRef = meu)}
+          ref={(meu) => (this.ModalExportUserRef = meu)}
         />
       </div>
     );
@@ -309,7 +312,7 @@ class TableContentTramite extends Component {
 
 TableContentTramite.propTypes = {
   authorization: PropTypes.string.isRequired,
-  t: PropTypes.any.isRequired
+  t: PropTypes.any.isRequired,
 };
 
 export default withTranslation("translations")(TableContentTramite);

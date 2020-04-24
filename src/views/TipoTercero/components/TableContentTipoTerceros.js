@@ -22,14 +22,14 @@ class TableContentTipoTerceros extends Component {
       modalexport: false,
       dataTipoTercero: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentTipoTerceros extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataTipoTercero();
     }
@@ -48,16 +48,16 @@ class TableContentTipoTerceros extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataTipoTercero: data
+          dataTipoTercero: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   estadoTipoTercero = (cell, row) => {
@@ -88,6 +88,7 @@ class TableContentTipoTerceros extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "37px" }}
       >
         <button
+          title="Ver tipo de tercero"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -97,6 +98,7 @@ class TableContentTipoTerceros extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tipo de tercero"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -106,6 +108,7 @@ class TableContentTipoTerceros extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tipo de tercero"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);
@@ -139,7 +142,7 @@ class TableContentTipoTerceros extends Component {
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -155,7 +158,7 @@ class TableContentTipoTerceros extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -250,27 +253,27 @@ class TableContentTipoTerceros extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalUpdateTipoTercero
           authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modaluptate}
           updateTable={this.getDataTipoTercero}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDeleteTipoTercero
           authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataTipoTercero}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -279,7 +282,7 @@ class TableContentTipoTerceros extends Component {
 
 TableContentTipoTerceros.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentTipoTerceros);

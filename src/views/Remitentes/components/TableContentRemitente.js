@@ -21,14 +21,14 @@ class TableContentRemitente extends Component {
       modalDeleteRemitente: false,
       dataTercero: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableContentRemitente extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataTerceros();
     }
@@ -47,17 +47,17 @@ class TableContentRemitente extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         this.setState({
-          dataTercero: data
+          dataTercero: data,
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch((Error) => console.log("", Error));
   };
 
   FechaCreacionTercero(cell, row) {
@@ -73,6 +73,7 @@ class TableContentRemitente extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
       >
         <button
+          title="Ver Remitente"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -82,6 +83,7 @@ class TableContentRemitente extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar Remitente"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -91,6 +93,7 @@ class TableContentRemitente extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar Remitente"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDel(row.id);
@@ -140,10 +143,10 @@ class TableContentRemitente extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  typeThirdParty = typeThirdParty => {
+  typeThirdParty = (typeThirdParty) => {
     return !typeThirdParty ? null : `<div>${typeThirdParty.name}</div>`;
   };
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -159,7 +162,7 @@ class TableContentRemitente extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const dataTerceros = this.state.dataTercero;
     const { t } = this.props;
@@ -262,27 +265,27 @@ class TableContentRemitente extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalViewRemitente}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalDel
           authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modaldel={this.state.modalDeleteRemitente}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalUpdate
           authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -291,7 +294,7 @@ class TableContentRemitente extends Component {
 
 TableContentRemitente.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentRemitente);

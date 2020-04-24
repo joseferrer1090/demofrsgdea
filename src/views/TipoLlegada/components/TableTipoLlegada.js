@@ -22,13 +22,13 @@ class TableTipoLlegada extends Component {
       modalexport: false,
       dataTipoLlegada: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -36,7 +36,7 @@ class TableTipoLlegada extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataTipoLlegada();
     }
@@ -47,16 +47,16 @@ class TableTipoLlegada extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataTipoLlegada: data
+          dataTipoLlegada: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesTipoLlegada = (cell, row) => {
@@ -66,6 +66,7 @@ class TableTipoLlegada extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
+          title="Vet tipo de llegada"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -75,6 +76,7 @@ class TableTipoLlegada extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar tipo de llegada"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -84,6 +86,7 @@ class TableTipoLlegada extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar tipo de llegada"
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);
@@ -140,7 +143,7 @@ class TableTipoLlegada extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -156,7 +159,7 @@ class TableTipoLlegada extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -251,27 +254,27 @@ class TableTipoLlegada extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewtipollegada}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modaledittipollegada}
           updateTable={this.getDataTipoLlegada}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
           updateTable={this.getDataTipoLlegada}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -280,7 +283,7 @@ class TableTipoLlegada extends Component {
 
 TableTipoLlegada.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableTipoLlegada);

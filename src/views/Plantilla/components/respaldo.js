@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 import {
   TEMPLATE_METADATA_BAG_VIEW,
   TEMPLATE_METADATA_BAG_UPDATE,
-  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
-} from "./../../../services/EndPoints";
+} from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
 
@@ -24,14 +23,12 @@ class ModalEditIndex extends Component {
       optionsMetadata: [],
       typeMetadata: "",
       objMetadata: {
-        defaultValue: "",
+        defaultvalue: "",
         formula: {},
         required: "",
       },
       alertError: false,
       alertErrorMessage: "",
-      alertSuccess: false,
-      alertSuccessMessage: "",
     };
   }
 
@@ -49,7 +46,7 @@ class ModalEditIndex extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.metadataid !== prevProps.metadataid) {
       //Perform some operation here
-      this.setState({ metadata: this.props.metadataid, id: this.props.id });
+      this.setState({ metadata: this.props.metadataid });
       this.getDataMetadata(this.props.metadataid);
     }
   }
@@ -74,11 +71,6 @@ class ModalEditIndex extends Component {
           nameMetadata: data.metadata.elementConfig.name,
           optionsMetadata: data.metadata.elementConfig.options,
           typeMetadata: data.metadata.elementConfig.type,
-          objMetadata: {
-            defaultValue: data.defaultValue,
-            formula: data.formula,
-            required: data.required,
-          },
         });
       })
       .catch((err) => {
@@ -98,13 +90,13 @@ class ModalEditIndex extends Component {
     const schema = Yup.object().shape({
       formula: Yup.bool().required(),
       requerido: Yup.bool().required(),
-      defaultValue: Yup.string().ensure().required(),
+      defaultvalue: Yup.string().ensure().required(),
     });
     schema
       .validate({
         formula: this.state.objMetadata.formula,
         requerido: this.state.objMetadata.required,
-        defaultValue: this.state.objMetadata.defaultValue,
+        defaultvalue: this.state.objMetadata.defaultvalue,
       })
       .then(() => {
         this.putMetadata();
@@ -135,9 +127,9 @@ class ModalEditIndex extends Component {
       },
       body: JSON.stringify({
         id: this.state.dataMetadata.id,
-        metadataBagId: this.state.id,
-        templateId: this.state.template,
-        defaultValue: this.state.objMetadata.defaultValue,
+        metadataBagId: "fe1fa7e4-3e05-4648-bd50-0f9bfe5937a6",
+        templateId: "0b7485fe-34a0-43f9-b8dd-9edb33427df9",
+        defaultValue: this.state.objMetadata.defaultvalue,
         formula: this.state.objMetadata.formula,
         required: this.state.objMetadata.required,
         userName: username.user_name,
@@ -146,57 +138,27 @@ class ModalEditIndex extends Component {
       .then((response) =>
         response.json().then((data) => {
           if (response.status === 200) {
-            this.setState(
-              {
-                alertSuccess: true,
-                alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
-              },
-              () => this.props.refresh()
-            );
-            setTimeout(() => {
-              this.setState({
-                alertSuccess: false,
-                modal: false,
-              });
-            }, 1300);
-            // console.log(response);
+            console.log(response);
           } else if (response.status === 404) {
-            this.setState({
-              alertError: true,
-              alertErrorMessage: `Error no se puede modificar el metadato intentelo mas tarde`,
-            });
-            setTimeout(() => {
-              this.setState({
-                alertError: false,
-              });
-            }, 1200);
+            console.log(response);
           } else if (response.status === 500) {
             console.log(response);
           }
         })
       )
       .catch((err) => {
-        this.setState({
-          alertError: true,
-          alertErrorMessage: err.message,
-        });
-        setTimeout(() => {
-          this.setState({
-            alertError: false,
-          });
-        }, 1200);
-        // console.log(`${err}`);
+        console.log(`${err}`);
       });
     // console.log(
     //   JSON.stringify(
     //     {
-    //       id: this.state.id,
-    //       // metadataBagId: this.props.id,
-    //       // templateId: this.state.template,
-    //       // defaultValue: this.state.objMetadata.defaultvalue,
-    //       // formula: this.state.objMetadata.formula,
-    //       // required: this.state.objMetadata.required,
-    //       // userName: username.user_name,
+    //       id: this.state.dataMetadata.id,
+    //       metadataBagId: this.props.id,
+    //       templateId: this.state.template,
+    //       defaultValue: this.state.objMetadata.defaultvalue,
+    //       formula: this.state.objMetadata.formula,
+    //       required: this.state.objMetadata.required,
+    //       userName: username.user_name,
     //     },
     //     2,
     //     null
@@ -205,9 +167,7 @@ class ModalEditIndex extends Component {
   };
 
   render() {
-    // console.log(this.state.dataMetadata.defaultValue);
-    // console.log(this.state.dataMetadata.formula);
-    // console.log(this.state.dataMetadata.required);
+    //console.log(this.state.dataMetadata);
     // console.log(this.state.typeMetadata);
     // console.log(this.state.objMetadata);
     return (
@@ -228,10 +188,6 @@ class ModalEditIndex extends Component {
                   <Alert color="danger" isOpen={this.state.alertError}>
                     <i className="fa fa-exclamation-triangle" />{" "}
                     {this.state.alertErrorMessage}
-                  </Alert>
-                  <Alert color={"success"} isOpen={this.state.alertSuccess}>
-                    <i className="fa fa-exclamation-triangle" />{" "}
-                    {this.state.alertSuccessMessage}
                   </Alert>
                 </div>
                 <div className="col-md-6">
@@ -297,11 +253,10 @@ class ModalEditIndex extends Component {
                             this.setState({
                               objMetadata: {
                                 ...this.state.objMetadata,
-                                defaultValue: e.currentTarget.value,
+                                defaultvalue: e.currentTarget.value,
                               },
                             });
                           }}
-                          value={this.state.objMetadata.defaultValue}
                         />
                       </div>
                     </div>

@@ -20,14 +20,14 @@ class TableContentPlantillaEmail extends Component {
       templatePreview: "",
       hiddenColumnID: true,
       auth: this.props.authorization,
-      t: this.props.t
+      t: this.props.t,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -35,7 +35,7 @@ class TableContentPlantillaEmail extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataPlantillasEmail();
     }
@@ -46,16 +46,16 @@ class TableContentPlantillaEmail extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataPlantillas: data
+          dataPlantillas: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   FechaCreacionPlantillasEmail(cell, row) {
@@ -71,6 +71,7 @@ class TableContentPlantillaEmail extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
+          title="Ver informacion"
           className="btn btn-dark btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -82,6 +83,7 @@ class TableContentPlantillaEmail extends Component {
         </button>
         &nbsp;
         <button
+          title="Ver plantilla de correo"
           className="btn btn-warning btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -93,6 +95,7 @@ class TableContentPlantillaEmail extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar plantilla de correo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -105,7 +108,7 @@ class TableContentPlantillaEmail extends Component {
     );
   }
 
-  openModalViewInfo = id => {
+  openModalViewInfo = (id) => {
     // this.refs.child2.toggle(id);
     this.ModalViewRef.toggle(id);
   };
@@ -115,7 +118,7 @@ class TableContentPlantillaEmail extends Component {
     this.ModalPreviewRef.toggle(id);
   }
 
-  openModalEdit = id => {
+  openModalEdit = (id) => {
     let path = `#/configuracion/plantillaemail/edit/${id}`;
     window.location.replace(path);
   };
@@ -193,13 +196,13 @@ class TableContentPlantillaEmail extends Component {
           </BootstrapTable>
         </div>
         <ShowTemplate
-          ref={mp => (this.ModalPreviewRef = mp)}
+          ref={(mp) => (this.ModalPreviewRef = mp)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}
         />
         <ModalViewInfoTemplateEmail
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}
@@ -210,7 +213,7 @@ class TableContentPlantillaEmail extends Component {
 }
 TableContentPlantillaEmail.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentPlantillaEmail);

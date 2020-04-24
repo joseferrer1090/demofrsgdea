@@ -22,14 +22,14 @@ class TableContentConglomerado extends Component {
       modalexport: false,
       dataConglomerates: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentConglomerado extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataConglomerates();
     }
@@ -48,25 +48,26 @@ class TableContentConglomerado extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataConglomerates: data
+          dataConglomerates: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesConglomerado(cell, row) {
     return (
       <div
         className="table-actionMenuConglo"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "10%" }}
       >
         <button
+          title="Ver conglomerado"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -78,6 +79,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar conglomerado"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -88,6 +90,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar conglomerado"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -138,7 +141,7 @@ class TableContentConglomerado extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -156,11 +159,11 @@ class TableContentConglomerado extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     const { t } = this.props;
 
-    const placeholder = t => {
+    const placeholder = (t) => {
       return t("app_conglomrado_administrar_table_placeholder");
     };
 
@@ -258,27 +261,27 @@ class TableContentConglomerado extends Component {
         <ModalView
           t={t}
           modalviewstate={this.state.modalView}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={t}
           modaldeletestate={this.state.modalDelete}
           updateTable={this.getDataConglomerates}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={t}
           modaleditstate={this.state.modalEdit}
-          ref={me => (this.ModalEditRef = me)}
-          updateTable={this.getDataConglomerates}
+          ref={(me) => (this.ModalEditRef = me)}
+          updateTable={() => this.getDataConglomerates()}
         />
         <ModalExport
           t={t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -288,7 +291,7 @@ class TableContentConglomerado extends Component {
 
 TableContentConglomerado.propTypes = {
   t: PropTypes.any.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentConglomerado);

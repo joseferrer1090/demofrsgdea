@@ -20,14 +20,14 @@ class TableContentPlantilla extends Component {
       modalexport: false,
       token: this.props.authorization,
       dataTemplate: [],
-      id: ""
+      id: "",
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.token) {
       return {
-        token: props.authorization
+        token: props.authorization,
       };
     }
     return null;
@@ -36,7 +36,7 @@ class TableContentPlantilla extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        token: this.props.authorization
+        token: this.props.authorization,
       });
       this.getDataTemplates();
     }
@@ -49,16 +49,16 @@ class TableContentPlantilla extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataTemplate: data
+          dataTemplate: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
@@ -70,11 +70,12 @@ class TableContentPlantilla extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
+          title="Ver plantilla"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
             this.setState({
-              id: row.id
+              id: row.id,
             });
             this.openModalView(row.id);
           }}
@@ -84,11 +85,12 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar plantilla"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
             this.setState({
-              id: row.id
+              id: row.id,
             });
             this.openModalEdit();
           }}
@@ -97,6 +99,7 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
+          title="agregar metadatos a plantilla"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -107,11 +110,12 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar plantilla"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
             this.setState({
-              id: row.id
+              id: row.id,
             });
             this.openModalDelete();
           }}
@@ -166,7 +170,7 @@ class TableContentPlantilla extends Component {
     return moment(createdAt).format("DD-MM-YYYY");
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     return (
       <button
         type="button"
@@ -182,7 +186,7 @@ class TableContentPlantilla extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     return (
       <div className="animated fadeIn">
@@ -269,20 +273,20 @@ class TableContentPlantilla extends Component {
           authorization={this.state.token}
           modaledit={this.state.modaledit}
           id={this.state.id}
-          ref={modal => (this.modalEditRef = modal)}
+          ref={(modal) => (this.modalEditRef = modal)}
           updateTable={this.getDataTemplates}
         />
         <ModalDelete
           authorization={this.state.token}
           modaldelete={this.state.modaldelete}
-          ref={mdelete => (this.modalDeleteRef = mdelete)}
+          ref={(mdelete) => (this.modalDeleteRef = mdelete)}
           id={this.state.id}
           updateTable={this.getDataTemplates}
         />
         <ModalExport
           authorization={this.state.token}
           modalexport={this.state.modalexport}
-          ref={mexport => (this.modalExport = mexport)}
+          ref={(mexport) => (this.modalExport = mexport)}
         />
       </div>
     );

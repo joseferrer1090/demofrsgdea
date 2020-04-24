@@ -750,4 +750,4 @@ export const TEMPLATE_METADATA_BAG_DELETE = `${config.IP}:${config.PORT}/api/sgd
 export const TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/find/template/`;
 
 /* GET params => IdMetadata */
-export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/`;
+export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;

@@ -5,53 +5,120 @@ const Input = (props) => {
   switch (props.formType) {
     case "select":
       formElement = (
-        <div>
-          <select className="form-control form-control-sm"></select>
-        </div>
+        <React.Fragment>
+          <select
+            value={props.value}
+            name={props.name}
+            onChange={props.onChange}
+            className="form-control form-control-sm"
+            {...props}
+          >
+            <option>Seleccione...</option>
+            {props.options ? (
+              props.options.map((opt, id) => {
+                return (
+                  <option key={id} value={opt.value}>
+                    {opt.displayValue}
+                  </option>
+                );
+              })
+            ) : (
+              <option>Seleccione...</option>
+            )}
+          </select>
+        </React.Fragment>
       );
       break;
     case "radio":
       formElement = (
-        <div>
-          <input type="radio" />
-        </div>
+        <React.Fragment>
+          {props.options ? (
+            props.options.map((opt, id) => {
+              return (
+                <label>
+                  <input
+                    type="radio"
+                    value={opt.value}
+                    name={opt.name}
+                    onChange={props.onChange}
+                    {...props}
+                  />
+                  {opt.displayValue}
+                </label>
+              );
+            })
+          ) : (
+            <p>No hay datos disponibles para mostrar</p>
+          )}
+        </React.Fragment>
       );
       break;
     case "checkbox":
       formElement = (
-        <div>
-          <input type="checkbox" />
-        </div>
+        <React.Fragment>
+          {props.options.map((check, id) => (
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={check.id}
+                value={check.value}
+                onChange={props.onChange}
+                data-id={`${check.value} selected `}
+                {...props}
+              />
+              <label className="form-check-label" htmlFor={check.id}>
+                {check.displayValue}
+              </label>
+            </div>
+          ))}
+        </React.Fragment>
       );
       break;
     case "text":
       formElement = (
-        <div>
-          <input type="text" className="form-control form-control-sm" />
-        </div>
+        <React.Fragment>
+          <input
+            type="text"
+            className="form-control form-control-sm"
+            name={props.name}
+            onChange={props.onChange}
+            value={props.value}
+            defaultValue={props.defaultValue}
+            {...props}
+          />
+        </React.Fragment>
       );
       break;
     case "textarea":
       formElement = (
         <div>
-          <textarea className="form-control form-control-sm"></textarea>
+          <textarea
+            {...props}
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+            className="form-control form-control-sm"
+          ></textarea>
         </div>
       );
       break;
     case "date":
       formElement = (
-        <div>
-          <input type="date" />
-        </div>
+        <React.Fragment>
+          <input
+            type="date"
+            className="form-control form-control-sm"
+            name={props.name}
+            value={props.value}
+            onChange={props.onChange}
+          />
+        </React.Fragment>
       );
       break;
 
     default:
-      formElement = (
-        <div>
-          <input />
-        </div>
-      );
+      formElement = <input />;
   }
   return <React.Fragment>{formElement}</React.Fragment>;
 };

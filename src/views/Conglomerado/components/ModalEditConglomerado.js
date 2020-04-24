@@ -179,11 +179,12 @@ class ModalEditConglomerado extends React.Component {
               const tipoEstado = (data) => {
                 let tipo;
                 if (data === true || data === 1) {
-                  return (tipo = 1);
+                  tipo = 1;
+                  return tipo;
                 } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return 0;
+                return tipo;
               };
               setTimeout(() => {
                 const auth = this.state.auth;
@@ -206,7 +207,7 @@ class ModalEditConglomerado extends React.Component {
                   }),
                 })
                   .then((response) => {
-                    console.log(this.state.alertSuccess);
+                    // console.log(this.state.alertSuccess);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true,
@@ -216,11 +217,11 @@ class ModalEditConglomerado extends React.Component {
                         this.setState(
                           {
                             alertSuccess: false,
-                            // modal: false,
+                            modal: false,
                           },
                           this.props.updateTable()
                         );
-                      }, 3000);
+                      }, 1200);
                     } else if (response.status === 400) {
                       this.setState({
                         alertError400: true,

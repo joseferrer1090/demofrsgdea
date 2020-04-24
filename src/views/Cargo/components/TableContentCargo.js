@@ -22,14 +22,14 @@ class TableContentCargo extends Component {
       modalexport: false,
       dataCharge: [],
       HiddenColumn: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TableContentCargo extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataCharge();
     }
@@ -48,16 +48,16 @@ class TableContentCargo extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + this.props.authorization,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCharge: data
+          dataCharge: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   CargoStatus = (cell, row) => {
@@ -84,6 +84,7 @@ class TableContentCargo extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
+          title="Ver cargo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -95,6 +96,7 @@ class TableContentCargo extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar cargo"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -105,6 +107,7 @@ class TableContentCargo extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar cargo"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -142,7 +145,7 @@ class TableContentCargo extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -158,7 +161,7 @@ class TableContentCargo extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     return (
@@ -246,27 +249,27 @@ class TableContentCargo extends Component {
           t={t}
           modalviewcargo={this.state.modalview}
           authorization={this.state.auth}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           t={this.props.t}
           modaleditcargo={this.state.modaledit}
           updateTable={this.getDataCharge}
           authorization={this.state.auth}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalDel
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataCharge}
           authorization={this.state.auth}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         />
       </div>
     );
@@ -274,6 +277,6 @@ class TableContentCargo extends Component {
 }
 TableContentCargo.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TableContentCargo);

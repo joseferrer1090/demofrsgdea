@@ -22,14 +22,14 @@ class TableContentEmpresa extends Component {
       modalexport: false,
       dataCompanys: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -38,7 +38,7 @@ class TableContentEmpresa extends Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         () => this.getDataCompany()
       );
@@ -50,16 +50,16 @@ class TableContentEmpresa extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCompanys: data
+          dataCompanys: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesEmpresa = (cel, row) => {
@@ -67,6 +67,7 @@ class TableContentEmpresa extends Component {
       return (
         <div className="table-actionMenuEmpre" style={{ marginRight: "55px" }}>
           <button
+            title="Ver Empresa"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -78,6 +79,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar Empresa"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -93,6 +95,7 @@ class TableContentEmpresa extends Component {
       return (
         <div className="table-actionMenuEmpre" style={{ marginRight: "35px" }}>
           <button
+            title="Ver Empresa"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -104,6 +107,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
+            title="Editar Empresa"
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -114,6 +118,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
+            title="Eliminar Empresa"
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -145,17 +150,17 @@ class TableContentEmpresa extends Component {
     return status;
   }
 
-  openModalView = id => {
+  openModalView = (id) => {
     // this.refs.child.toggle(id);
     this.ModalViewRef.toggle(id);
   };
 
-  openModalEdit = id => {
+  openModalEdit = (id) => {
     // this.refs.child2.toggle(id);
     this.ModalEditRef.toggle(id);
   };
 
-  openModalDelete = id => {
+  openModalDelete = (id) => {
     // this.refs.child3.toggle(id);
     this.ModalDeleteRef.toggle(id);
   };
@@ -169,7 +174,7 @@ class TableContentEmpresa extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -183,12 +188,12 @@ class TableContentEmpresa extends Component {
     );
   };
 
-  ConglomerateInfo = conglomerate => {
+  ConglomerateInfo = (conglomerate) => {
     return !conglomerate ? null : `<div>${conglomerate.name}</div>`;
   };
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
     };
     const { t } = this.props;
     const data = this.state.dataCompanys;
@@ -290,13 +295,13 @@ class TableContentEmpresa extends Component {
         <ModalView
           t={this.props.t}
           modalviewempesa={this.state.modalview}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaleditempresa={this.state.modaledit}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
           updateTable={this.getDataCompany}
           authorization={this.state.auth}
         />
@@ -304,13 +309,13 @@ class TableContentEmpresa extends Component {
           t={this.props.t}
           modaldelempresa={this.state.modaldel}
           updateTable={this.getDataCompany}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>
@@ -319,7 +324,7 @@ class TableContentEmpresa extends Component {
 }
 
 TableContentEmpresa.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentEmpresa);

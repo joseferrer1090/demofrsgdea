@@ -26,14 +26,14 @@ class TableContentUser extends Component {
       dataUsersDependence: [],
       dataUsersCharge: [],
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -41,7 +41,7 @@ class TableContentUser extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataUsers();
     }
@@ -52,22 +52,23 @@ class TableContentUser extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataUsers: data
+          dataUsers: data,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionesUsuario(cell, row) {
     return (
       <div className="table-actionMenuUsu" style={{ marginRight: "30px" }}>
         <button
+          title="Ver usuario"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -79,6 +80,7 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
+          title="Editar usuario"
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -89,6 +91,7 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
+          title="Eliminar usuario"
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -100,6 +103,7 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
+          title="Cambiar contraseña de usuario"
           className="btn btn-warning btn-sm"
           data-hover="hover"
           onClick={() => {
@@ -157,7 +161,7 @@ class TableContentUser extends Component {
     this.ModalExportRef.toggle();
   };
 
-  createCustomButtonGroup = props => {
+  createCustomButtonGroup = (props) => {
     const { t } = this.props;
     return (
       <button
@@ -181,17 +185,17 @@ class TableContentUser extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true,
     };
     function indexN(cell, row, enumObject, index) {
       return <div>{index + 1}</div>;
     }
 
-    const dependenceFormatter = data => {
+    const dependenceFormatter = (data) => {
       return !data ? null : `<div>${data.name}</div>`;
     };
 
-    const chargeFormatter = data => {
+    const chargeFormatter = (data) => {
       return !data ? null : `<div>${data.name}</div>`;
     };
     const t = this.props.t;
@@ -295,33 +299,33 @@ class TableContentUser extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewuserstate}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldel={this.state.modaldeluserstate}
           updateTable={this.getDataUsers}
-          ref={md => (this.ModalDeleteRef = md)}
+          ref={(md) => (this.ModalDeleteRef = md)}
         />
         <ModalUpdate
           authorization={this.state.auth}
           t={this.props.t}
           updateTable={this.getDataUsers}
           modaledit={this.state.modaledituserstate}
-          ref={me => (this.ModalEditRef = me)}
+          ref={(me) => (this.ModalEditRef = me)}
         />
         <ModalChangePassword
           authorization={this.state.auth}
           t={this.props.t}
           modalpassword={this.state.modalchangepassword}
-          ref={mcp => (this.ModalPasswordRef = mcp)}
+          ref={(mcp) => (this.ModalPasswordRef = mcp)}
         />
         <ModalExportCSV
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={mexp => (this.ModalExportRef = mexp)}
+          ref={(mexp) => (this.ModalExportRef = mexp)}
         ></ModalExportCSV>
       </div>
     );
@@ -330,7 +334,7 @@ class TableContentUser extends Component {
 
 TableContentUser.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentUser);

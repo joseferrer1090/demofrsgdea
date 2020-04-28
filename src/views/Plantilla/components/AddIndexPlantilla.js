@@ -136,6 +136,7 @@ class AddIndexPlantilla extends Component {
     if (data === "checkbox" || data === "select" || data === "radio") {
       aux = (
         <button
+          title="Editar valores del metadato"
           type="button"
           className="btn btn-secondary btn-sm"
           onClick={() => {
@@ -152,6 +153,7 @@ class AddIndexPlantilla extends Component {
     } else if (data === "text" || data === "date" || data === "textarea") {
       aux = (
         <button
+          title="Editar valores del metadato"
           type="button"
           className="btn btn-secondary btn-sm"
           onClick={() => {
@@ -330,6 +332,7 @@ class AddIndexPlantilla extends Component {
                               </button> */}
                               &nbsp;
                               <button
+                                title="Eliminar metadato de la plantilla"
                                 className="btn btn-danger btn-sm mr-1"
                                 onClick={() => {
                                   this.openModalDelete();

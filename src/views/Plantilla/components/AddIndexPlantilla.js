@@ -146,7 +146,7 @@ class AddIndexPlantilla extends Component {
             });
           }}
         >
-          <i className="fa fa-list" />
+          <i className="fa fa-pencil" />
         </button>
       );
     } else if (data === "text" || data === "date" || data === "textarea") {

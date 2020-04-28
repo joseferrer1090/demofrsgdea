@@ -29,6 +29,7 @@ import MODULOARCHIVO from "./../../../assets/img/archive.svg";
 import MODULOWORKFLOW from "./../../../assets/img/workflow2.svg";
 import url from "./../../../services/deploymentdata";
 import { decode } from "jsonwebtoken";
+import logo from "./../../../assets/img/svnt.png";
 
 const asyncLocalStorage = {
   setItem: async function (key, value) {
@@ -94,7 +95,12 @@ class ViewMiddleware extends Component {
     return (
       <div className="animated fadeIn">
         <Navbar color="light" light expand="md">
-          <NavbarBrand>Lexco S.A SGDEA</NavbarBrand>
+          <NavbarBrand>
+            <a href className="navbar-brand">
+              <img src={logo} width="45" height="45" alt="" />
+            </a>
+            Lexco S.A - Sevenet
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

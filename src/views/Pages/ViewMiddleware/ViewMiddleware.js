@@ -97,7 +97,13 @@ class ViewMiddleware extends Component {
         <Navbar color="light" light expand="md">
           <NavbarBrand>
             <a href className="navbar-brand">
-              <img src={logo} width="45" height="45" alt="" />
+              <img
+                src={logo}
+                width="40"
+                height="40"
+                alt=""
+                className="d-inline-block"
+              />
             </a>
             Lexco S.A - Sevenet
           </NavbarBrand>

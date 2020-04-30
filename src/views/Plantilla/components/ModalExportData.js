@@ -12,14 +12,15 @@ class ModalExportData extends Component {
     this.state = {
       modal: this.props.modalexport,
       auth: this.props.authorization,
-      dataExport: []
+      dataExport: [],
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -28,7 +29,7 @@ class ModalExportData extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
     return null;
@@ -41,23 +42,23 @@ class ModalExportData extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataExport: data
+          dataExport: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     this.getDataExport();
   };
@@ -66,37 +67,41 @@ class ModalExportData extends Component {
     const fields = [
       {
         label: "code",
-        value: "code"
+        value: "code",
       },
       {
         label: "name",
-        value: "name"
+        value: "name",
       },
       {
         label: "description",
-        value: "description"
+        value: "description",
       },
       {
         label: "status",
-        value: "status"
-      }
+        value: "status",
+      },
     ];
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
+    const { t } = this.state;
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
         <ModalHeader>
           {" "}
-          <i className="fa fa-download" /> Exportar datos de la tabla
+          <i className="fa fa-download" />
+          {t("app_plantilla_administrar_modal_exportar_title")}
         </ModalHeader>
         <ModalBody>
           <table className="table  table-bordered table-hover table-striped">
             <thead>
               <tr>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Estado</th>
+                <th>{t("app_plantilla_administrar_modal_exportar_codigo")}</th>
+                <th>{t("app_plantilla_administrar_modal_exportar_nombre")}</th>
+                <th>
+                  {t("app_plantilla_administrar_modal_exportar_descripcion")}
+                </th>
+                <th>{t("app_plantilla_administrar_modal_exportar_estado")}</th>
               </tr>
             </thead>
             <tbody className="text-justify">
@@ -116,7 +121,8 @@ class ModalExportData extends Component {
         <ModalFooter>
           <div className="pull-right">
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar informaciòn
+              <i className="fa fa-download" />{" "}
+              {t("app_plantilla_administrar_modal_exportar_btn_exportar")}
             </CSVLink>
             &nbsp;
             <button
@@ -124,11 +130,12 @@ class ModalExportData extends Component {
               className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
-                  modal: false
+                  modal: false,
                 });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t("app_plantilla_administrar_modal_exportar_btn_cerrar")}
             </button>
           </div>
         </ModalFooter>
@@ -138,7 +145,7 @@ class ModalExportData extends Component {
 }
 
 ModalExportData.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalExportData;

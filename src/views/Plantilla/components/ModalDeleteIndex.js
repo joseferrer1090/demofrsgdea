@@ -17,6 +17,8 @@ class ModalDeletePlantilla extends Component {
       alert200: false,
       alert400: false,
       alert500: false,
+      spinner: false,
+      t: this.props.t,
     };
   }
 
@@ -44,6 +46,9 @@ class ModalDeletePlantilla extends Component {
   }
 
   deleteMetadata = () => {
+    this.setState({
+      spinner: true,
+    });
     const auth = this.props.authorization;
     const username = decode(auth);
     fetch(
@@ -60,6 +65,7 @@ class ModalDeletePlantilla extends Component {
         if (response.status === 204) {
           this.setState({
             alert200: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState(
@@ -73,6 +79,7 @@ class ModalDeletePlantilla extends Component {
         } else if (response.status === 500) {
           this.setState({
             alert500: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
@@ -83,6 +90,7 @@ class ModalDeletePlantilla extends Component {
         } else if (response.status === 400) {
           this.setState({
             alert400: true,
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
@@ -93,55 +101,63 @@ class ModalDeletePlantilla extends Component {
         }
       })
       .catch((err) => {
+        this.setState({
+          spinner: false,
+        });
         console.log(`Error => ${err.message}`);
       });
   };
 
   render() {
+    const { t } = this.state;
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader>Eliminar metadato de la plantilla</ModalHeader>
+        <ModalHeader>
+          {t(
+            "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_title"
+          )}
+        </ModalHeader>
         <ModalBody>
           <Alert color={"success"} isOpen={this.state.alert200}>
-            El metadato se elimino con exito de la plantilla
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_200"
+            )}
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert400}>
-            Error => no se puede eliminar el metadato de la plantilla
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_400"
+            )}
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert500}>
-            Error => el metadato no se puede eliminar porque existen registro
-            con la plantilla
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_500"
+            )}
           </Alert>
-          <p className="text-center">
-            ¿ Desesa Eliminar el metadato de la plantilla junto con su valores ?
+          <p className="text-center text-danger">
+            <i className="fa fa-exclamation-triangle" />
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_info"
+            )}
           </p>
-          {/* <form className="form">
-            <p className="text-center">
-              {" "}
-              Confirmar el <code> Nombre </code> para el índice de la planitilla{" "}
-            </p>
-
-            <input
-              className="form-control col-sm-6 offset-sm-3 form-control-sm"
-              type="text"
-              placeholder=""
-              style={{ textAlign: "center" }}
-            />
-            <br />
-            <p className="text-center text-danger">
-              {" "}
-              El índice quedara eliminado de manera permanente.{" "}
-            </p>
-          </form> */}
         </ModalBody>
         <ModalFooter>
           <button
             type="button"
             className="btn btn-outline-danger btn-sm"
             onClick={() => this.deleteMetadata()}
+            disabled={this.state.spinner}
           >
-            {" "}
-            <i className="fa fa-trash" /> Eliminar{" "}
+            {this.state.spinner ? (
+              <i className=" fa fa-spinner fa-refresh" />
+            ) : (
+              <div>
+                {" "}
+                <i className="fa fa-trash" />{" "}
+                {t(
+                  "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_btn_eliminar"
+                )}{" "}
+              </div>
+            )}
           </button>
           <button
             className="btn btn-secondary btn-sm"
@@ -150,7 +166,10 @@ class ModalDeletePlantilla extends Component {
             }}
           >
             {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
+            <i className="fa fa-times" />{" "}
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_btn_cerrar"
+            )}{" "}
           </button>
         </ModalFooter>
       </Modal>

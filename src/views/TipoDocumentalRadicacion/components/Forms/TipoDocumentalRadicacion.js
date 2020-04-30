@@ -12,20 +12,20 @@ import FieldHeadquarter from "./components/SelectHeadquarter";
 import FieldDependence from "./components/SelectDependence";
 import {
   TYPEDOCUMENTARY_POST,
-  USERS_BY_DEPENDENCE
+  USERS_BY_DEPENDENCE,
 } from "./../../../../services/EndPoints";
 import {
   agregarUsuarioDisponible,
   borrarUsuarioDiponible,
-  agregarUsuarioOriginal
+  agregarUsuarioOriginal,
 } from "./../../../../actions/documentaryTypeAction";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
-const TipoDocumentalRadicacion = props => {
+const TipoDocumentalRadicacion = (props) => {
   const { t } = props;
-  const userData = useSelector(state => state.documentaryTypeReducer);
+  const userData = useSelector((state) => state.documentaryTypeReducer);
   const users = userData.users;
 
   const [StateChangeAlert, setAux] = useState("");
@@ -49,7 +49,7 @@ const TipoDocumentalRadicacion = props => {
         empresa: "",
         sede: "",
         dependencia: "",
-        estado: false
+        estado: false,
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -72,12 +72,12 @@ const TipoDocumentalRadicacion = props => {
           .test(
             "Activo",
             "Es necesario activar el tipo de trámite",
-            value => value === true
+            (value) => value === true
           )
-          .required(" Es necesario activar el tipo de trámite.")
+          .required(" Es necesario activar el tipo de trámite."),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        const tipoEstado = data => {
+        const tipoEstado = (data) => {
           let tipo = null;
           if (data === true) {
             return (tipo = 1);
@@ -86,7 +86,7 @@ const TipoDocumentalRadicacion = props => {
           }
           return null;
         };
-        const tipoCorrespondencia = data => {
+        const tipoCorrespondencia = (data) => {
           let tipo = null;
           if (data === "1") {
             return (tipo = 1);
@@ -104,7 +104,7 @@ const TipoDocumentalRadicacion = props => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + auth
+              Authorization: "Bearer " + auth,
             },
             body: JSON.stringify({
               code: values.codigo,
@@ -119,20 +119,20 @@ const TipoDocumentalRadicacion = props => {
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
               users: userData.users,
-              original: userData.original
-            })
-          }).then(response =>
+              original: userData.original,
+            }),
+          }).then((response) =>
             response
               .json()
-              .then(data => {
+              .then((data) => {
                 if (response.status === 201) {
                   toast.success(
                     "Se registro el tipo documental de radicación con éxito.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 } else if (response.status === 400) {
@@ -141,25 +141,25 @@ const TipoDocumentalRadicacion = props => {
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     }
                   );
                 } else if (response.status === 500) {
                   toast.error("Error, el tipo documental ya existe.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   });
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 toast.error(`Error ${error} `, {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               })
           );
@@ -176,7 +176,7 @@ const TipoDocumentalRadicacion = props => {
             empresa: "",
             sede: "",
             dependencia: "",
-            asunto: ""
+            asunto: "",
           });
         }, 1000);
       }}
@@ -191,7 +191,7 @@ const TipoDocumentalRadicacion = props => {
         handleSubmit,
         handleReset,
         setFieldTouched,
-        setFieldValue
+        setFieldValue,
       }) => (
         <div className="col-md-12">
           <form className="form">
@@ -219,9 +219,11 @@ const TipoDocumentalRadicacion = props => {
                                 value={values.tipocorrespondencia}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                className={`form-control form-control-sm ${
+                                  errors.tipocorrespondencia &&
                                   touched.tipocorrespondencia &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               >
                                 <option value={""}>
                                   {" "}
@@ -269,7 +271,7 @@ const TipoDocumentalRadicacion = props => {
                               </label>
                               <input
                                 name="codigo"
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "codigo",
                                     e.target.value.toUpperCase()
@@ -278,9 +280,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.codigo}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.codigo &&
+                                className={`form-control form-control-sm ${
+                                  errors.codigo &&
                                   touched.codigo &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.codigo && touched.codigo ? (
@@ -300,7 +304,7 @@ const TipoDocumentalRadicacion = props => {
                               </label>
                               <input
                                 name={"nombre"}
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "nombre",
                                     e.target.value.toUpperCase()
@@ -309,9 +313,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.nombre}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.nombre &&
+                                className={`form-control form-control-sm ${
+                                  errors.nombre &&
                                   touched.nombre &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.nombre && touched.nombre ? (
@@ -335,9 +341,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.d_maximos}
                                 type="number"
-                                className={`form-control form-control-sm ${errors.d_maximos &&
+                                className={`form-control form-control-sm ${
+                                  errors.d_maximos &&
                                   touched.d_maximos &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                                 min={0}
                               />
                               <div style={{ color: "#D54B4B" }}>
@@ -362,9 +370,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.descripcion}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
+                                className={`form-control form-control-sm ${
+                                  errors.descripcion &&
                                   touched.descripcion &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.descripcion && touched.descripcion ? (
@@ -429,7 +439,7 @@ const TipoDocumentalRadicacion = props => {
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue(
                                       "conglomerado",
                                       e.target.value
@@ -683,21 +693,21 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUsuario = user => dispatch(agregarUsuarioDisponible(user));
+  const AgregarUsuario = (user) => dispatch(agregarUsuarioDisponible(user));
 
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setdata(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setdata([]);
       });
@@ -724,7 +734,7 @@ function UserList(props) {
           overflowX: "hidden",
           border: "1px solid #e3e3e3",
           background: "#e3e3e3",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         {data.length > 0 ? (
@@ -767,8 +777,8 @@ function UserList(props) {
   );
 }
 
-const UserListEnabled = props => {
-  const aux = useSelector(state => state.documentaryTypeReducer.assigned);
+const UserListEnabled = (props) => {
+  const aux = useSelector((state) => state.documentaryTypeReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
@@ -892,7 +902,7 @@ const UserListEnabled = props => {
 
 TipoDocumentalRadicacion.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TipoDocumentalRadicacion);

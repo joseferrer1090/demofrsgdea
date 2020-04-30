@@ -10,7 +10,7 @@ import {
   Card,
   CardHeader,
   Collapse,
-  CardBody
+  CardBody,
 } from "reactstrap";
 import IMGPLANTILLA from "./../../../assets/img/puzzle-pieces.svg";
 import { TEMPLATE_SHOW } from "./../../../services/EndPoints";
@@ -25,7 +25,8 @@ class ModalViewPlantilla extends Component {
       collapse: false,
       id: this.props.idPlantilla,
       auth: this.props.authorization,
-      dataTemplate: {}
+      dataTemplate: {},
+      t: this.props.t,
     };
   }
 
@@ -33,7 +34,7 @@ class ModalViewPlantilla extends Component {
     if (props.authorization !== state.auth) {
       return {
         auth: props.authorization,
-        id: props.idPlantilla
+        id: props.idPlantilla,
       };
     }
     return null;
@@ -43,57 +44,68 @@ class ModalViewPlantilla extends Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
         auth: this.props.authorization,
-        id: this.props.idPlantilla
+        id: this.props.idPlantilla,
       });
     }
   }
 
-  getDataTemplate = (id, auth) => {
+  getDataTemplate = (id) => {
+    const { auth } = this.state;
     const username = decode(auth);
     fetch(`${TEMPLATE_SHOW}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
         this.setState({
-          dataTemplate: data
+          dataTemplate: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
     // console.log({ id: id, auth: this.state.auth });
   };
 
-  toggle = id => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+  toggle = (id) => {
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
-    this.getDataTemplate(id, this.state.auth);
+    this.getDataTemplate(id);
   };
 
   toggleCollapse = () => {
     this.setState({
-      collapse: !this.state.collapse
+      collapse: !this.state.collapse,
     });
   };
 
   render() {
+    const { t } = this.state;
     const data = this.state.dataTemplate;
-    const statusPlantilla = data => {
+    const statusPlantilla = (data) => {
       let status;
       if (data === 1) {
-        status = <p className="text-success">Plantilla activada</p>;
+        status = (
+          <p className="text-success">
+            <b>{t("app_plantilla_administrar_modal_ver_estado_1")}</b>
+          </p>
+        );
       } else if (data === 0) {
-        status = <p className="text-danger"> Plantilla inactiva</p>;
+        status = (
+          <p className="text-danger">
+            <b>{t("app_plantilla_administrar_modal_ver_estado_0")}</b>
+          </p>
+        );
       }
       return status;
     };
-    const fecha = data => {
+    const fecha = (data) => {
       let date;
       date = new Date(data);
       return moment(date).format("DD-MM-YYYY, h:mm:ss a");
@@ -101,7 +113,9 @@ class ModalViewPlantilla extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver plantilla {data.name} </ModalHeader>
+          <ModalHeader>
+            {t("app_plantilla_administrar_modal_ver_title")} {data.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -112,7 +126,7 @@ class ModalViewPlantilla extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos plantilla{" "}
+                    {t("app_plantilla_administrar_modal_ver_subtile")}{" "}
                   </h5>{" "}
                 </div>
 
@@ -120,7 +134,9 @@ class ModalViewPlantilla extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        <dt>
+                          {t("app_plantilla_administrar_modal_ver_codigo")}{" "}
+                        </dt>
                         <dd> {data.code} </dd>
                       </dl>
                     </div>
@@ -128,7 +144,9 @@ class ModalViewPlantilla extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>
+                          {t("app_plantilla_administrar_modal_ver_nombre")}{" "}
+                        </dt>
                         <dd>{data.name}</dd>
                       </dl>
                     </div>
@@ -136,7 +154,9 @@ class ModalViewPlantilla extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>
+                          {t("app_plantilla_administrar_modal_ver_descripcion")}{" "}
+                        </dt>
                         <dd>{data.description}</dd>
                       </dl>
                     </div>
@@ -144,30 +164,45 @@ class ModalViewPlantilla extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Unidad de correspondencia </dt>
-                        <dd> unidad de correspondencia </dd>
+                        <dt>
+                          {t("app_plantilla_administrar_modal_ver_estado")}{" "}
+                        </dt>
+                        <dd> {statusPlantilla(data.status)} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Conglomerado </dt>
-                        <dd> conglomerado</dd>
+                        <dt>
+                          {t(
+                            "app_plantilla_administrar_modal_ver_fecha_creacion"
+                          )}
+                        </dt>
+                        <dd> {fecha(data.createdAt)} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Empresa </dt>
-                        <dd> empresa </dd>
+                        <dt>
+                          {t(
+                            "app_plantilla_administrar_modal_ver_fecha_modificacion"
+                          )}
+                        </dt>
+                        <dd>{fecha(data.updatedAt)}</dd>
                       </dl>
                     </div>
                   </div>
                 </div>
               </Col>
               <br />
+
+              {/* 
+
+              Collapse más información.
+              
               <Col sm="12">
                 <Card>
                   <CardHeader>
@@ -185,79 +220,24 @@ class ModalViewPlantilla extends Component {
                   <Collapse isOpen={this.state.collapse}>
                     <CardBody>
                       <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Sede </dt>
-                              <dd>sede </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Dependencias asociadas </dt>
-                              <dd> dependencias asociadas </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>platilla </dt>
-                              <dd> plantilla </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>índices de la plantialla </dt>
-                              <dd> índices de la plantilla </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Estado </dt>
-                              <dd> {statusPlantilla(data.status)} </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Fecha de creación </dt>
-                              <dd> {fecha(data.createdAt)} </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Fecha de modificación </dt>
-                              <dd>{fecha(data.updatedAt)}</dd>
-                            </dl>
-                          </div>
-                        </div>
                       </div>
                     </CardBody>
                   </Collapse>
                 </Card>
-              </Col>
+              </Col> */}
             </Row>
           </ModalBody>
           <ModalFooter>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-sm btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_plantilla_administrar_modal_ver_btn_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>
@@ -267,7 +247,7 @@ class ModalViewPlantilla extends Component {
 }
 
 ModalViewPlantilla.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
 };
 
 export default ModalViewPlantilla;

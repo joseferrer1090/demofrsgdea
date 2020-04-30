@@ -5,14 +5,14 @@ import {
   CardHeader,
   CardBody,
   CustomInput,
-  CardFooter
+  CardFooter,
 } from "reactstrap";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
   METADATA_ACTIVE,
   METADATA_ALL,
-  TEMPLATE_CREATE
+  TEMPLATE_CREATE,
 } from "./../../../../services/EndPoints";
 import AssignedMetadata from "./AssignedMetadata";
 import { decode } from "jsonwebtoken";
@@ -20,23 +20,27 @@ import { resetMetadatoAction } from "./../../../../actions/templateMetadataActio
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
+import { withTranslation } from "react-i18next";
 
 const TableListMetadata = React.lazy(() => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => resolve(import("./TableMatadataList")), 1200);
   });
 });
 
-const CreatePlantillaForm = props => {
+const CreatePlantillaForm = (props) => {
+  const { t } = props;
+  const [spinner, setSpinner] = useState(false);
   const [metadata, setMetadata] = useState([]);
   const [auth, setAuth] = useState("");
-  const arrayMetadata = useSelector(state => state.templateMetadata.metadata);
+  const arrayMetadata = useSelector((state) => state.templateMetadata.metadata);
   const dispatch = useDispatch();
   const reset = () => {
     dispatch(resetMetadatoAction());
   };
 
   useEffect(() => {
+    console.log(props);
     setAuth(props.authorization);
     if (props.authorization !== "" || props.authorization !== auth) {
       getData();
@@ -48,14 +52,14 @@ const CreatePlantillaForm = props => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         setMetadata(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
@@ -65,7 +69,8 @@ const CreatePlantillaForm = props => {
       <ToastContainer />
       <Formik
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          const tipoEstato = data => {
+          setSpinner(true);
+          const tipoEstato = (data) => {
             let tipo = null;
             if (data === true) {
               return (tipo = 1);
@@ -81,7 +86,7 @@ const CreatePlantillaForm = props => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                authorization: "Bearer " + auth
+                authorization: "Bearer " + auth,
               },
               body: JSON.stringify({
                 code: values.codigo,
@@ -89,45 +94,49 @@ const CreatePlantillaForm = props => {
                 description: values.descripcion,
                 status: tipoEstato(values.estado),
                 userName: username.user_name,
-                metadata: arrayMetadata
-              })
-            }).then(response =>
+                metadata: arrayMetadata,
+              }),
+            }).then((response) =>
               response
                 .json()
-                .then(data => {
+                .then((data) => {
                   if (response.status === 201) {
                     toast.success("Se registro la plantilla con exito", {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     });
+                    setSpinner(false);
                   } else if (response.status === 400) {
                     toast.error(
                       "Error al registrar la plantilla, intentalo nuevamente",
                       {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
-                          marginTop: "60px"
-                        })
+                          marginTop: "60px",
+                        }),
                       }
                     );
+                    setSpinner(false);
                   } else if (response.status === 500) {
                     toast.error("Error, la plantilla ya existe.", {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
-                        marginTop: "60px"
-                      })
+                        marginTop: "60px",
+                      }),
                     });
+                    setSpinner(false);
                   }
                 })
-                .catch(err => {
+                .catch((err) => {
                   toast.error(`Error ${err.message}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   });
+                  setSpinner(false);
                 })
             );
             setSubmitting(false);
@@ -137,7 +146,7 @@ const CreatePlantillaForm = props => {
               descripcion: "",
               arrayMetadata: [],
               estado: null,
-              metadata: reset()
+              metadata: reset(),
             });
             // alert(JSON.stringify(values, null, 2));
           }, 1000);
@@ -145,14 +154,20 @@ const CreatePlantillaForm = props => {
         validationSchema={Yup.object().shape({
           codigo: Yup.string()
             .trim()
-            .required("Codigo requerido para el registro"),
+            .required(" Por favor introduzca un código."),
           nombre: Yup.string()
             .trim()
-            .required("Nombre requqerido para el registro"),
+            .required(" Por favor introduzca un nombre."),
           descripcion: Yup.string().required(
-            "Descripcion es necesaria para el registro"
+            " Por favor introduzca una descripción."
           ),
-          estado: Yup.bool().test("Activo", value => value === true)
+          estado: Yup.bool()
+            .test(
+              "Activo",
+              "Es necesario activar la plantilla",
+              (value) => value === true
+            )
+            .required(" Es necesario activar la plantilla"),
         })}
         render={({
           values,
@@ -164,7 +179,7 @@ const CreatePlantillaForm = props => {
           dirty,
           isSubmitting,
           handleReset,
-          errors
+          errors,
         }) => (
           <Card>
             <CardBody>
@@ -172,7 +187,10 @@ const CreatePlantillaForm = props => {
                 <div className="col-md-6">
                   <Card>
                     <CardHeader>
-                      <i className="fa fa-wpforms" /> datos de plantilla
+                      <i className="fa fa-wpforms" />{" "}
+                      {t(
+                        "app_plantilla_form_registrar_title_card_datos_plantilla"
+                      )}
                     </CardHeader>
                     <CardBody>
                       <div className="row">
@@ -180,16 +198,17 @@ const CreatePlantillaForm = props => {
                           <div className="form-group">
                             <label>
                               {" "}
-                              Codigo <span className="text-danger">*</span>{" "}
+                              {t("app_plantilla_form_registrar_codigo")}{" "}
+                              <span className="text-danger">*</span>{" "}
                             </label>
                             <input
                               name="codigo"
                               value={values.codigo}
                               type="text"
-                              className={`form-control form-control-sm ${errors.codigo &&
-                                touched.codigo &&
-                                "is-invalid"}`}
-                              onChange={e => {
+                              className={`form-control form-control-sm ${
+                                errors.codigo && touched.codigo && "is-invalid"
+                              }`}
+                              onChange={(e) => {
                                 setFieldValue(
                                   "codigo",
                                   e.target.value.toUpperCase()
@@ -208,15 +227,16 @@ const CreatePlantillaForm = props => {
                         <div className="col-md-6">
                           <div className="form-group">
                             <label>
-                              Nombre <span className="text-danger">*</span>
+                              {t("app_plantilla_form_registrar_nombre")}{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <input
                               value={values.nombre}
                               name="nombre"
                               type="text"
-                              className={`form-control form-control-sm ${errors.nombre &&
-                                touched.nombre &&
-                                "is-invalid"}`}
+                              className={`form-control form-control-sm ${
+                                errors.nombre && touched.nombre && "is-invalid"
+                              }`}
                               onChange={handleChange}
                               onBlur={handleBlur}
                             />
@@ -231,14 +251,17 @@ const CreatePlantillaForm = props => {
                         <div className="col-md-12">
                           <div className="form-group">
                             <label>
-                              Descripcion <span className="text-danger">*</span>{" "}
+                              {t("app_plantilla_form_registrar_descripcion")}{" "}
+                              <span className="text-danger">*</span>{" "}
                             </label>
                             <textarea
                               value={values.descripcion}
                               name="descripcion"
-                              className={`form-control form-control-sm ${errors.descripcion &&
+                              className={`form-control form-control-sm ${
+                                errors.descripcion &&
                                 touched.descripcion &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                               onChange={handleChange}
                               onBlur={handleBlur}
                             ></textarea>
@@ -253,7 +276,8 @@ const CreatePlantillaForm = props => {
                         <div className="col-md-12">
                           <div className="form-group">
                             <label>
-                              Estado <span className="text-danger">*</span>
+                              {t("app_plantilla_form_registrar_estado")}{" "}
+                              <span className="text-danger">*</span>
                             </label>
                             <div className="text-justify">
                               <CustomInput
@@ -263,9 +287,9 @@ const CreatePlantillaForm = props => {
                                 name="estado"
                                 type="checkbox"
                                 id="ExampleInputCheckbox"
-                                label={
-                                  "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
-                                }
+                                label={t(
+                                  "app_plantilla_form_registrar_estado_descripcion"
+                                )}
                                 className={
                                   errors.estado &&
                                   touched.estado &&
@@ -282,14 +306,20 @@ const CreatePlantillaForm = props => {
                 <div className="col-md-6">
                   <Card>
                     <CardHeader>
-                      <i className="fa fa-table" /> Metadatos
+                      <i className="fa fa-table" />{" "}
+                      {t("app_plantilla_form_registrar_title_card_metadatos")}
                     </CardHeader>
                     <CardBody>
                       <Suspense
                         fallback={
                           <div className="text-center">
                             <i className="fa fa-cog fa-spin fa-2x fa-fw" />
-                            <p className="text-center">Loading...</p>
+                            <p className="text-center">
+                              {t(
+                                "app_plantilla_form_registrar_title_card_metadatos_suspense"
+                              )}
+                              ...
+                            </p>
                           </div>
                         }
                       >
@@ -307,19 +337,24 @@ const CreatePlantillaForm = props => {
             </CardBody>
             <CardFooter>
               <div className="pull-right">
-                <button className="btn btn-secondary btn-sm">
-                  <i className="fa fa-times" /> Cancelar
-                </button>
-                &nbsp;
                 <button
                   type="button"
                   className="btn btn-secondary btn-sm"
                   onClick={() => {
                     handleSubmit();
                   }}
+                  disabled={spinner}
                 >
                   {" "}
-                  <i className="fa fa-save" /> Guardar plantilla{" "}
+                  {spinner ? (
+                    <i className=" fa fa-spinner fa-refresh" />
+                  ) : (
+                    <div>
+                      {" "}
+                      <i className="fa fa-save" />{" "}
+                      {t("app_plantilla_form_registrar_btn_guardar")}
+                    </div>
+                  )}
                 </button>
               </div>
             </CardFooter>
@@ -330,4 +365,4 @@ const CreatePlantillaForm = props => {
   );
 };
 
-export default CreatePlantillaForm;
+export default withTranslation("translations")(CreatePlantillaForm);

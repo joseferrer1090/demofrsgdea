@@ -726,6 +726,7 @@ class ModalEditEmpresa extends React.Component {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
                       {this.state.spinnerActualizar ? (
                         <i className=" fa fa-spinner fa-refresh" />

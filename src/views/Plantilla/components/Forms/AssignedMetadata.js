@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eliminarMetadataAction } from "./../../../../actions/templateMetadataActions";
 import { Alert } from "reactstrap";
+import { withTranslation } from "react-i18next";
 
 const AssignedMetadata = (props) => {
+  const { t } = props;
   const err = useSelector((state) => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState();
@@ -34,8 +36,8 @@ const AssignedMetadata = (props) => {
   return (
     <div className="animation fadeIn">
       <Alert color={"danger"} isOpen={error} toggle={() => setError(false)}>
-        <i className="fa fa-exclamation-triangle" /> Error no se puede agregar
-        varias veces el mismo metadato a la plantilla.
+        <i className="fa fa-exclamation-triangle" />{" "}
+        {t("app_plantilla_form_registrar_table_metadatos_alert_duplicado")}
       </Alert>
       <div className="table-responsive">
         {Object.keys(data).length ? (
@@ -44,8 +46,12 @@ const AssignedMetadata = (props) => {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Nombre metadado</th>
-                  <th scope="col">Accion</th>
+                  <th scope="col">
+                    {t("app_plantilla_form_registrar_table_metadatos_nombre")}
+                  </th>
+                  <th scope="col">
+                    {t("app_plantilla_form_registrar_table_metadatos_accion")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -74,8 +80,10 @@ const AssignedMetadata = (props) => {
           <div className="animated fadeIn">
             <div className="text-center">
               <p className="alert alert-danger">
-                <i className="fa fa-exclamation-triangle" /> No hay datos para
-                la asociacion
+                <i className="fa fa-exclamation-triangle" />{" "}
+                {t(
+                  "app_plantilla_form_registrar_table_metadatos_alert_no_data"
+                )}
               </p>
             </div>
           </div>
@@ -85,4 +93,4 @@ const AssignedMetadata = (props) => {
   );
 };
 
-export default AssignedMetadata;
+export default withTranslation("translations")(AssignedMetadata);

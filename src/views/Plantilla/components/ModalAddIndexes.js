@@ -17,6 +17,7 @@ class ModalAddIndexes extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       modal: this.props.modalindexes,
       auth: this.props.authorization,
       dataMetadataActive: [],
@@ -27,6 +28,7 @@ class ModalAddIndexes extends Component {
       alert500: false,
       alertCatch: false,
       alertmsg: "",
+      spinnerAdd: false,
     };
   }
 
@@ -69,6 +71,9 @@ class ModalAddIndexes extends Component {
   };
 
   sendMetadataList = () => {
+    this.setState({
+      spinnerAddt: true,
+    });
     console.log(this.state.templateID);
     const auth = this.state.auth;
     const username = decode(auth);
@@ -101,6 +106,7 @@ class ModalAddIndexes extends Component {
           if (response.status === 201) {
             this.setState({
               alert200: true,
+              spinnerAdd: false,
             });
             setTimeout(() => {
               this.setState(
@@ -115,6 +121,7 @@ class ModalAddIndexes extends Component {
           } else if (response.status === 400) {
             this.setState({
               alert400: true,
+              spinnerAdd: false,
             });
             setTimeout(() => {
               this.setState({
@@ -124,6 +131,7 @@ class ModalAddIndexes extends Component {
           } else if (response.status === 500) {
             this.setState({
               alert500: true,
+              spinnerAdd: false,
             });
             setTimeout(() => {
               this.setState({
@@ -136,6 +144,7 @@ class ModalAddIndexes extends Component {
           this.setState({
             alertCatch: true,
             alertmsg: err.message,
+            spinnerAdd: false,
           });
           setTimeout(() => {
             this.setState({
@@ -159,6 +168,7 @@ class ModalAddIndexes extends Component {
   };
 
   render() {
+    const { t } = this.state;
     const searchMetada = (term) => {
       return function (x) {
         return x.name.toUpperCase().includes(term);
@@ -185,25 +195,56 @@ class ModalAddIndexes extends Component {
     return (
       <Modal isOpen={this.state.modal} className="modal-xl">
         <ModalHeader>
-          <i className="fa fa-puzzle-piece" /> Agregar metadato a la plantilla
+          <i className="fa fa-puzzle-piece" />{" "}
+          {t(
+            "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_title"
+          )}
         </ModalHeader>
         <ModalBody>
           <p className="alert alert-secondary">
-            <i className="fa fa-exclamation-triangle" /> En esta seccion se solo
-            se puede asociar nuevo metadatos a la plantilla, sus valores se
-            podran editar en la tabla siguiente despues del modal.
+            <i className="fa fa-info-circle" />{" "}
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_info"
+            )}
           </p>
-          <Alert color="success" isOpen={this.state.alert200}>
-            Se Agregaron metadatos a la plantilla
+          <Alert
+            color="success"
+            isOpen={this.state.alert200}
+            className={"text-center"}
+          >
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_200"
+            )}
           </Alert>
-          <Alert color="danger" isOpen={this.state.alert400}>
-            Error al enviar los datos al servidor.
+          <Alert
+            color="danger"
+            isOpen={this.state.alert400}
+            className={"text-center"}
+          >
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_400"
+            )}
           </Alert>
-          <Alert color="danger" isOpen={this.state.alert500}>
-            Error, hay metadatos repetidos en la plantilla
+          <Alert
+            color="danger"
+            isOpen={this.state.alert500}
+            className={"text-center"}
+          >
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_500"
+            )}
           </Alert>
-          <Alert color="danger" isOpen={this.state.alertCatch}>
-            <p>Error => {this.state.alertmsg}</p>
+          <Alert
+            color="danger"
+            isOpen={this.state.alertCatch}
+            className={"text-center"}
+          >
+            <p>
+              {t(
+                "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_catch"
+              )}{" "}
+              => {this.state.alertmsg}
+            </p>
           </Alert>
           <div className="row">
             <div className="col-md-6">
@@ -218,7 +259,9 @@ class ModalAddIndexes extends Component {
                         term: e.target.value,
                       });
                     }}
-                    placeholder={`Buscar metadato`}
+                    placeholder={t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_placeholder_search"
+                    )}
                   />
                 </div>
                 <br />
@@ -227,9 +270,21 @@ class ModalAddIndexes extends Component {
                     <table className="table table-hover table-striped">
                       <thead className="thead-light">
                         <tr>
-                          <th className="text-center">id</th>
-                          <th className="text-center">Nombre</th>
-                          <th className="text-center">Accion</th>
+                          <th className="text-center">
+                            {t(
+                              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_table_id"
+                            )}
+                          </th>
+                          <th className="text-center">
+                            {t(
+                              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_nombre"
+                            )}
+                          </th>
+                          <th className="text-center">
+                            {t(
+                              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_accion"
+                            )}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>{aux}</tbody>
@@ -238,15 +293,17 @@ class ModalAddIndexes extends Component {
                 ) : (
                   <div className="animated fadeIn">
                     <p className="alert alert-danger text-center">
-                      <i className="fa fa-exclamation-triangle" /> No hay datos
-                      disponibles
+                      <i className="fa fa-exclamation-triangle" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_no_data"
+                      )}
                     </p>
                   </div>
                 )}
               </div>
             </div>
             <div className="col-md-6">
-              <TableIndexes data={this.props.newData} />
+              <TableIndexes data={this.props.newData} t={t} />
               {/* <p>apenas viendo como va la cosa </p> */}
             </div>
           </div>
@@ -254,10 +311,20 @@ class ModalAddIndexes extends Component {
         <ModalFooter>
           <button
             type="button"
-            className="btn btn-outline-success btn-sm"
+            className="btn btn-success btn-sm"
             onClick={() => this.sendMetadataList()}
+            disabled={this.state.spinnerAdd}
           >
-            <i className="fa fa-save" /> Agregar nuevos metadatos
+            {this.state.spinnerAdd ? (
+              <i className=" fa fa-spinner fa-refresh" />
+            ) : (
+              <div>
+                <i className="fa fa-save" />{" "}
+                {t(
+                  "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_btn_agregar"
+                )}
+              </div>
+            )}
           </button>
           <button
             className="btn btn-secondary btn-sm"
@@ -268,7 +335,10 @@ class ModalAddIndexes extends Component {
             }}
           >
             {" "}
-            <i className="fa fa-times" /> Cerrar
+            <i className="fa fa-times" />{" "}
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_btn_cerrar"
+            )}
           </button>
         </ModalFooter>
       </Modal>
@@ -277,6 +347,7 @@ class ModalAddIndexes extends Component {
 }
 
 const TableIndexes = (props) => {
+  const { t } = props;
   const data = props.data;
   console.log(props);
   const dispatch = useDispatch();
@@ -289,8 +360,16 @@ const TableIndexes = (props) => {
               <thead>
                 <tr className="text-center">
                   <th>#</th>
-                  <th>Nombre del metadato</th>
-                  <th>Accion</th>
+                  <th>
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_table_asignacion_nombre"
+                    )}
+                  </th>
+                  <th>
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_table_asignacion_accion"
+                    )}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -321,8 +400,10 @@ const TableIndexes = (props) => {
       ) : (
         <div>
           <p className="alert alert-secondary">
-            <i className=" fa fa-exclamation-triangle" /> No se han asigando
-            nuevos metadatos a esta plantilla
+            <i className=" fa fa-exclamation-triangle" />{" "}
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_agregar_metadato_alert_info_asiganacion"
+            )}
           </p>
         </div>
       )}
@@ -343,7 +424,9 @@ const mapDispatchToProps = (dispatch) => {
     ),
   };
 };
-
+ModalAddIndexes.propTypes = {
+  t: PropTypes.string.isRequired,
+};
 // modifico el connect para que HOC de redux permita accede a la referencia y conecta al modal a Redux
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   forwardRef: true,

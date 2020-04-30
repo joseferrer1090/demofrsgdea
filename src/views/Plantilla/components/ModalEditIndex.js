@@ -14,6 +14,7 @@ class ModalEditIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       id: this.props.id,
       modal: this.props.modaleditindexes,
       auth: this.props.authorization,
@@ -29,9 +30,10 @@ class ModalEditIndex extends Component {
         required: "",
       },
       alertError: false,
-      alertErrorMessage: "",
+      alertError404: false,
       alertSuccess: false,
       alertSuccessMessage: "",
+      spinnerEdit: false,
     };
   }
 
@@ -125,6 +127,9 @@ class ModalEditIndex extends Component {
   };
 
   putMetadata = () => {
+    this.setState({
+      spinnerEdit: true,
+    });
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TEMPLATE_METADATA_BAG_UPDATE}`, {
@@ -149,7 +154,7 @@ class ModalEditIndex extends Component {
             this.setState(
               {
                 alertSuccess: true,
-                alertSuccessMessage: `Se actualizo los valores del metadato ${response.status}`,
+                spinnerEdit: false,
               },
               () => this.props.refresh()
             );
@@ -159,19 +164,26 @@ class ModalEditIndex extends Component {
                 modal: false,
               });
             }, 1300);
-            // console.log(response);
           } else if (response.status === 404) {
             this.setState({
+              alertError404: true,
+              spinnerEdit: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                alertError404: false,
+              });
+            }, 1200);
+          } else if (response.status === 500) {
+            this.setState({
               alertError: true,
-              alertErrorMessage: `Error no se puede modificar el metadato intentelo mas tarde`,
+              spinnerEdit: false,
             });
             setTimeout(() => {
               this.setState({
                 alertError: false,
               });
             }, 1200);
-          } else if (response.status === 500) {
-            console.log(response);
           }
         })
       )
@@ -179,66 +191,74 @@ class ModalEditIndex extends Component {
         this.setState({
           alertError: true,
           alertErrorMessage: err.message,
+          spinnerEdit: false,
         });
         setTimeout(() => {
           this.setState({
             alertError: false,
           });
         }, 1200);
-        // console.log(`${err}`);
       });
-    // console.log(
-    //   JSON.stringify(
-    //     {
-    //       id: this.state.id,
-    //       // metadataBagId: this.props.id,
-    //       // templateId: this.state.template,
-    //       // defaultValue: this.state.objMetadata.defaultvalue,
-    //       // formula: this.state.objMetadata.formula,
-    //       // required: this.state.objMetadata.required,
-    //       // userName: username.user_name,
-    //     },
-    //     2,
-    //     null
-    //   )
-    // );
   };
 
   render() {
-    // console.log(this.state.dataMetadata.defaultValue);
-    // console.log(this.state.dataMetadata.formula);
-    // console.log(this.state.dataMetadata.required);
-    // console.log(this.state.typeMetadata);
-    // console.log(this.state.objMetadata);
+    const { t } = this.state;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Editar valores del Metadato {this.state.nameMetadata}{" "}
+            {t(
+              "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_title"
+            )}{" "}
+            {this.state.nameMetadata}{" "}
           </ModalHeader>
           <form>
             <ModalBody>
               <div className="row">
                 <div className="col-md-12">
                   <p className=" alert alert-secondary">
-                    <i className="fa fa-exclamation-triangle" /> Los valores que
-                    se ingresen en el siguiente formulario solo afecta al valor
-                    por defecto que tendra el metadato en la plantilla asociada.
+                    <i className="fa fa-exclamation-triangle" />{" "}
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_info"
+                    )}
                   </p>
-                  <Alert color="danger" isOpen={this.state.alertError}>
+                  <Alert
+                    color="danger"
+                    isOpen={this.state.alertError}
+                    className={"text-center"}
+                  >
                     <i className="fa fa-exclamation-triangle" />{" "}
-                    {this.state.alertErrorMessage}
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_500"
+                    )}
                   </Alert>
-                  <Alert color={"success"} isOpen={this.state.alertSuccess}>
-                    <i className="fa fa-exclamation-triangle" />{" "}
-                    {this.state.alertSuccessMessage}
+                  <Alert
+                    color={"danger"}
+                    isOpen={this.state.alertError404}
+                    className={"text-center"}
+                  >
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_400"
+                    )}
+                  </Alert>
+                  <Alert
+                    color={"success"}
+                    isOpen={this.state.alertSuccess}
+                    className={"text-center"}
+                  >
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_200"
+                    )}
                   </Alert>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="formula">
                       {" "}
-                      Formula <span className="text-danger">*</span>{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_formula"
+                      )}{" "}
+                      <span className="text-danger">*</span>{" "}
                     </label>
                     <select
                       value={this.state.objMetadata.formula}
@@ -252,9 +272,23 @@ class ModalEditIndex extends Component {
                         });
                       }}
                     >
-                      <option value="">Seleccione...</option>
-                      <option value="true">Si</option>
-                      <option value="false">No</option>
+                      <option value="" disabled>
+                        --{" "}
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_formula_placeholder"
+                        )}{" "}
+                        --
+                      </option>
+                      <option value="true">
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_formula_valor_1"
+                        )}
+                      </option>
+                      <option value="false">
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_formula_valor_2"
+                        )}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -262,7 +296,10 @@ class ModalEditIndex extends Component {
                   <div className="form-group">
                     <label>
                       {" "}
-                      Requerido <span className="text-danger">*</span>{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_requerido"
+                      )}{" "}
+                      <span className="text-danger">*</span>{" "}
                     </label>
                     <select
                       id="required"
@@ -277,9 +314,23 @@ class ModalEditIndex extends Component {
                         });
                       }}
                     >
-                      <option value="">Seleccione...</option>
-                      <option value="true">Si</option>
-                      <option value="false">No</option>
+                      <option value="" disabled>
+                        --{" "}
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_requerido_placeholder"
+                        )}{" "}
+                        --
+                      </option>
+                      <option value="true">
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_requerido_valor_1"
+                        )}
+                      </option>
+                      <option value="false">
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_requerido_valor_2"
+                        )}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -287,7 +338,10 @@ class ModalEditIndex extends Component {
                   <div className="form-group">
                     <div className="card">
                       <div className="card-header">
-                        Metadato {this.state.nameMetadata}
+                        {t(
+                          "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_title_card"
+                        )}{" "}
+                        {this.state.nameMetadata}
                       </div>
                       <div className="card-body">
                         <Input
@@ -307,22 +361,19 @@ class ModalEditIndex extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="col-md-12">
-                  <p className="text-helper">
-                    <span className="text-danger">*</span> El valor que se
-                    seleccione, sera definido como valor por defecto en la
-                    plantilla donde se asocio el metadato.
-                  </p>
-                </div>
               </div>
             </ModalBody>
             <ModalFooter>
               <button
                 type="button"
                 onClick={(e) => this.updateMetadata(e)}
-                className="btn btn-outline-success btn-sm"
+                className="btn btn-success btn-sm"
+                disabled={this.state.spinnerEdit}
               >
-                <i className="fa fa-pencil" /> Editar metadato
+                <i className="fa fa-pencil" />{" "}
+                {t(
+                  "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_btn_editar"
+                )}
               </button>
               <button
                 type="button"
@@ -332,7 +383,10 @@ class ModalEditIndex extends Component {
                 }}
               >
                 {" "}
-                <i className="fa fa-times" /> Cerrar{" "}
+                <i className="fa fa-times" />{" "}
+                {t(
+                  "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_btn_cerrar"
+                )}{" "}
               </button>
             </ModalFooter>
           </form>

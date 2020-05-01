@@ -11,7 +11,46 @@ class SelectPlantilla extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    } else {
+      return null;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+    this.getDateTemplate(this.state.auth);
+  }
+
+  getDateTemplate = (auth) => {
+    fetch(`${TEMPLATE_ACTIVE}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          data: data,
+        });
+      })
+      .catch((err) => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
   render() {
+    const data = this.state.data;
     return (
       <div className="form-group">
         <label>
@@ -24,10 +63,18 @@ class SelectPlantilla extends Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option>-- Seleccione --</option>
-          <option>Plantilla 1</option>
-          <option>Plantilla 2</option>
-          <option>Plantilla 3</option>
+          <option value="">-- Seleccione --</option>
+          {Object.keys(data) ? (
+            data.map((aux, id) => {
+              return (
+                <option key={id} value={aux.id}>
+                  {aux.name}
+                </option>
+              );
+            })
+          ) : (
+            <option value="">No hay plantillas diponibles</option>
+          )}
         </select>
       </div>
     );

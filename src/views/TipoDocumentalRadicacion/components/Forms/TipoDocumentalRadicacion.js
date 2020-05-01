@@ -11,6 +11,7 @@ import FieldCompany from "./components/SelectCompany";
 import FieldHeadquarter from "./components/SelectHeadquarter";
 import FieldDependence from "./components/SelectDependence";
 import SelectPlantilla from "./components/SelectPlantilla";
+import PreviewTemplate from "./components/PreviewTemplate";
 import {
   TYPEDOCUMENTARY_POST,
   USERS_BY_DEPENDENCE,
@@ -681,6 +682,11 @@ const TipoDocumentalRadicacion = (props) => {
                       </div>
                     </div>
                   </div> */}
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <PreviewTemplate />
+                  </div>
                 </div>
               </div>
               <div className="card-footer">

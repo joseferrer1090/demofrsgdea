@@ -10,6 +10,7 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import FieldCompany from "./components/SelectCompany";
 import FieldHeadquarter from "./components/SelectHeadquarter";
 import FieldDependence from "./components/SelectDependence";
+import SelectPlantilla from "./components/SelectPlantilla";
 import {
   TYPEDOCUMENTARY_POST,
   USERS_BY_DEPENDENCE,
@@ -585,29 +586,10 @@ const TipoDocumentalRadicacion = (props) => {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_plantilla"
-                                  )}
-                                </label>
-                                {/* <select
-                                  name={"plantilla"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.plantilla}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>
-                                    --
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_select_plantilla"
-                                    )}
-                                    --
-                                  </option>
-                                  <option>Plantilla 1</option>
-                                  <option>Plantilla 2</option>
-                                  <option>Plantilla 3</option>
-                                </select> */}
+                                <Field
+                                  authorization={props.authorization}
+                                  component={SelectPlantilla}
+                                ></Field>
                               </div>
                             </div>
                           </div>

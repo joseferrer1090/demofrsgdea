@@ -50,6 +50,7 @@ const TipoDocumentalRadicacion = (props) => {
         empresa: "",
         sede: "",
         dependencia: "",
+        plantilla: "",
         estado: false,
       }}
       validationSchema={Yup.object().shape({
@@ -76,6 +77,9 @@ const TipoDocumentalRadicacion = (props) => {
             (value) => value === true
           )
           .required(" Es necesario activar el tipo de trámite."),
+        plantilla: Yup.string()
+          .ensure()
+          .required("Seleccione una plantilla para el tipo documental"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const tipoEstado = (data) => {
@@ -101,69 +105,90 @@ const TipoDocumentalRadicacion = (props) => {
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          fetch(`${TYPEDOCUMENTARY_POST}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + auth,
-            },
-            body: JSON.stringify({
-              code: values.codigo,
-              name: values.nombre,
-              description: values.descripcion,
-              answerDays: values.d_maximos,
-              issue: values.asunto,
-              status: tipoEstado(values.estado),
-              typeCorrespondence: tipoCorrespondencia(
-                values.tipocorrespondencia
-              ),
-              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-              userName: username.user_name,
-              users: userData.users,
-              original: userData.original,
-            }),
-          }).then((response) =>
-            response
-              .json()
-              .then((data) => {
-                if (response.status === 201) {
-                  toast.success(
-                    "Se registro el tipo documental de radicación con éxito.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px",
-                      }),
-                    }
-                  );
-                } else if (response.status === 400) {
-                  toast.error(
-                    "Error al registrar el tipo documental. Inténtelo nuevamente.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px",
-                      }),
-                    }
-                  );
-                } else if (response.status === 500) {
-                  toast.error("Error, el tipo documental ya existe.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  });
-                }
-              })
-              .catch((error) => {
-                toast.error(`Error ${error} `, {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px",
-                  }),
-                });
-              })
+          console.log(
+            JSON.stringify(
+              {
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: tipoEstado(values.estado),
+                typeCorrespondence: tipoCorrespondencia(
+                  values.tipocorrespondencia
+                ),
+                templateId: values.plantilla,
+                userName: username.user_name,
+                users: userData.users,
+                original: userData.original,
+              },
+              2,
+              null
+            )
           );
+          // fetch(`${TYPEDOCUMENTARY_POST}`, {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + auth,
+          //   },
+          //   body: JSON.stringify({
+          //     code: values.codigo,
+          //     name: values.nombre,
+          //     description: values.descripcion,
+          //     answerDays: values.d_maximos,
+          //     issue: values.asunto,
+          //     status: tipoEstado(values.estado),
+          //     typeCorrespondence: tipoCorrespondencia(
+          //       values.tipocorrespondencia
+          //     ),
+          //     templateId: values.plantilla,
+          //     userName: username.user_name,
+          //     users: userData.users,
+          //     original: userData.original,
+          //   }),
+          // }).then((response) =>
+          //   response
+          //     .json()
+          //     .then((data) => {
+          //       if (response.status === 201) {
+          //         toast.success(
+          //           "Se registro el tipo documental de radicación con éxito.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 400) {
+          //         toast.error(
+          //           "Error al registrar el tipo documental. Inténtelo nuevamente.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 500) {
+          //         toast.error("Error, el tipo documental ya existe.", {
+          //           position: toast.POSITION.TOP_RIGHT,
+          //           className: css({
+          //             marginTop: "60px",
+          //           }),
+          //         });
+          //       }
+          //     })
+          //     .catch((error) => {
+          //       toast.error(`Error ${error} `, {
+          //         position: toast.POSITION.TOP_RIGHT,
+          //         className: css({
+          //           marginTop: "60px",
+          //         }),
+          //       });
+          //     })
+          // );
           setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
@@ -588,8 +613,22 @@ const TipoDocumentalRadicacion = (props) => {
                               <div className="form-group">
                                 <Field
                                   authorization={props.authorization}
+                                  name="plantilla"
+                                  onChange={(e) => {
+                                    setFieldValue("plantilla", e.target.value);
+                                  }}
+                                  value={values.plantilla}
+                                  onBlur={() => {
+                                    setFieldTouched("plantilla", true);
+                                  }}
                                   component={SelectPlantilla}
                                 ></Field>
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.plantilla && touched.plantilla ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"plantilla"} />
+                                </div>
                               </div>
                             </div>
                           </div>

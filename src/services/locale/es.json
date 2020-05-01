@@ -2133,6 +2133,7 @@
     "app_plantilla_form_registrar_table_metadatos_alert_no_data": " No hay datos para la asociación de metadatos a la plantilla.",
     "app_plantilla_form_registrar_table_metadatos_alert_duplicado": "Error, no se puede agregar varias veces el mismo metadato a la plantilla.",
     "app_plantilla_form_registrar_btn_guardar": "Guardar plantilla",
+    "app_plantilla_form_registrar_alert_200": "Se registro la plantilla con exito",
 
     "app_plantilla_administrar_btn_exportar": "Exportar",
     "app_plantilla_administrar_placeholder_search": "Buscar",
@@ -2230,7 +2231,6 @@
     "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_400": "Error, no se pudo actualizar el metadato. Inténtelo nuevamente.",
     "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_alert_200": "Se actualizaron los valores del metadato con éxito.",
 
-
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_title": "Eliminar metadato de la plantilla",
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_info": "¿Desesa eliminar el metadato de la plantilla junto con su valores?",
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_btn_eliminar": "Eliminar",
@@ -2239,12 +2239,16 @@
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_400": "Error, no es posible eliminar el metadato. Intente nuevamente.",
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_500": "Error, el metadato esta asociado a la plantilla.",
 
-    "app_plantilla_administrar_modal_eliminar_title": "",
-    "app_plantilla_administrar_modal_eliminar_info": "",
-    "app_plantilla_administrar_modal_eliminar_placeholder": "",
-    "app_plantilla_administrar_modal_eliminar_info_2": "",
-    "app_plantilla_administrar_modal_eliminar_btn_eliminar": "",
-    "app_plantilla_administrar_modal_eliminar_btn_cerrar": "",
+    "app_plantilla_administrar_modal_eliminar_title": "Eliminar plantilla",
+    "app_plantilla_administrar_modal_eliminar_info": "Confimar el código para eliminar la plantilla",
+    "app_plantilla_administrar_modal_eliminar_placeholder": "Código de la plantilla a eliminar",
+    "app_plantilla_administrar_modal_eliminar_info_2": "La plantilla quedará eliminada de manera permanente",
+    "app_plantilla_administrar_modal_eliminar_btn_eliminar": "Eliminar",
+    "app_plantilla_administrar_modal_eliminar_btn_cerrar": "Cerrar",
+    "app_plantilla_administrar_modal_eliminar_alert_400": "Error, el código no es válido para eliminar. Intente nuevamente.",
+    "app_plantilla_administrar_modal_eliminar_alert_204": "La plantilla ha sido eliminada con éxito.",
+    "app_plantilla_administrar_modal_eliminar_alert_500": "Error, la plantilla esta asociada a otros registros.",
+    "app_plantilla_administrar_modal_eliminar_validacion": " Por favor introduzca el código de la plantilla",
 
     "app_parametros_generales_title": "Parámetros generales del sistema",
     "app_parametros_generales_modulo_correspondencia": "Módulo de correspondencia",

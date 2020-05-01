@@ -2128,6 +2128,7 @@
     "app_plantilla_form_registrar_table_metadatos_alert_no_data": " There is no data for the association of metadata to the template.",
     "app_plantilla_form_registrar_table_metadatos_alert_duplicado": "Error, the same metadata cannot be added several times to the template.",
     "app_plantilla_form_registrar_btn_guardar": "Save template",
+    "app_plantilla_form_registrar_alert_200": "Template successfully registered",
 
     "app_plantilla_administrar_btn_exportar": "Export",
     "app_plantilla_administrar_placeholder_search": "Search",
@@ -2232,6 +2233,17 @@
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_200": "The metadata has been successfully removed.",
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_400": "Error, cannot remove the metadata. Try again.",
     "app_plantilla_administrar_view_metadatos_asociados_modal_eliminar_metadato_alert_500": "Error, the metadata is associated with the template.",
+
+    "app_plantilla_administrar_modal_eliminar_title": "Remove template",
+    "app_plantilla_administrar_modal_eliminar_info": "Confirm the code to remove the template",
+    "app_plantilla_administrar_modal_eliminar_placeholder": "Template code to be deleted",
+    "app_plantilla_administrar_modal_eliminar_info_2": "The template will be permanently removed",
+    "app_plantilla_administrar_modal_eliminar_btn_eliminar": "Delete",
+    "app_plantilla_administrar_modal_eliminar_btn_cerrar": "Close",
+    "app_plantilla_administrar_modal_eliminar_alert_400": "Error, the code is not valid for deletion. Try again.",
+    "app_plantilla_administrar_modal_eliminar_alert_204": "The template has been successfully removed.",
+    "app_plantilla_administrar_modal_eliminar_alert_500": "Error, the template is associated with other records.",
+    "app_plantilla_administrar_modal_eliminar_validacion": " Please enter the template code",
 
     "app_parametros_generales_title": "General system parameters",
     "app_parametros_generales_modulo_correspondencia": "Correspondence module",

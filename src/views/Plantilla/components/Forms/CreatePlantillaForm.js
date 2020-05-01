@@ -101,7 +101,7 @@ const CreatePlantillaForm = (props) => {
                 .json()
                 .then((data) => {
                   if (response.status === 201) {
-                    toast.success("Se registro la plantilla con exito", {
+                    toast.success(t("app_plantilla_form_registrar_alert_200"), {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
                         marginTop: "60px",

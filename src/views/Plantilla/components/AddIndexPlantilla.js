@@ -510,6 +510,7 @@ class AddIndexPlantilla extends Component {
           ref={(el) => (this.modalDel = el)}
         />
         <ModalEditText
+          t={t}
           id={this.state.idSelectedMetadata}
           authorization={this.state.auth}
           templateid={this.props.match.params.id}

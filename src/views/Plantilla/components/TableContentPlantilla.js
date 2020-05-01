@@ -299,6 +299,7 @@ class TableContentPlantilla extends Component {
           t={t}
         />
         <ModalDelete
+          t={t}
           authorization={this.state.token}
           modaldelete={this.state.modaldelete}
           ref={(mdelete) => (this.modalDeleteRef = mdelete)}

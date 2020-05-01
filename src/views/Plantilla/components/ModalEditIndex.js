@@ -98,9 +98,15 @@ class ModalEditIndex extends Component {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      formula: Yup.bool().required(),
-      requerido: Yup.bool().required(),
-      defaultValue: Yup.string().ensure().required(),
+      formula: Yup.string()
+        .ensure()
+        .required(" Por favor seleccione una opción."),
+      requerido: Yup.string()
+        .ensure()
+        .required(" Por favor seleccione una opción"),
+      defaultValue: Yup.string()
+        .ensure()
+        .required(" Por favor introduzca el valor."),
     });
     schema
       .validate({
@@ -110,9 +116,10 @@ class ModalEditIndex extends Component {
       })
       .then(() => {
         this.putMetadata();
-        // console.log("los datos correctos");
+        console.log("data bien");
       })
       .catch((err) => {
+        console.log(err);
         this.setState({
           alertError: true,
           alertErrorMessage: err.errors,
@@ -122,7 +129,6 @@ class ModalEditIndex extends Component {
             alertError: false,
           });
         }, 1200);
-        // console.log(err.errors);
       });
   };
 
@@ -188,6 +194,7 @@ class ModalEditIndex extends Component {
         })
       )
       .catch((err) => {
+        console.log(err);
         this.setState({
           alertError: true,
           alertErrorMessage: err.message,
@@ -370,9 +377,16 @@ class ModalEditIndex extends Component {
                 className="btn btn-success btn-sm"
                 disabled={this.state.spinnerEdit}
               >
-                <i className="fa fa-pencil" />{" "}
-                {t(
-                  "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_btn_editar"
+                {this.state.spinnerEdit ? (
+                  <i className="fa fa-spinner fa-refresh"></i>
+                ) : (
+                  <div>
+                    {" "}
+                    <i className="fa fa-pencil" />{" "}
+                    {t(
+                      "app_plantilla_administrar_view_metadatos_asociados_modal_editar_metadato_btn_editar"
+                    )}
+                  </div>
                 )}
               </button>
               <button

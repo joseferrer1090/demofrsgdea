@@ -59,7 +59,7 @@ class SelectPlantilla extends Component {
         <select
           value={this.props.value}
           name={this.props.name}
-          className="form-control form-control-sm"
+          className={this.props.className}
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >

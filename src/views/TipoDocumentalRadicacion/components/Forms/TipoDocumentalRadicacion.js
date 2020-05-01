@@ -622,6 +622,11 @@ const TipoDocumentalRadicacion = (props) => {
                                     setFieldTouched("plantilla", true);
                                   }}
                                   component={SelectPlantilla}
+                                  className={`form-control form-control-sm ${
+                                    errors.plantilla &&
+                                    touched.plantilla &&
+                                    "is-invalid"
+                                  }`}
                                 ></Field>
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.plantilla && touched.plantilla ? (

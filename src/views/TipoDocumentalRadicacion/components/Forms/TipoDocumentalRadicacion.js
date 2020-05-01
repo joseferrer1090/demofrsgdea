@@ -547,7 +547,7 @@ const TipoDocumentalRadicacion = (props) => {
                   />
                 </div>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_4")}
@@ -576,7 +576,7 @@ const TipoDocumentalRadicacion = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_5")}
@@ -597,7 +597,7 @@ const TipoDocumentalRadicacion = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_6")}
@@ -636,7 +636,7 @@ const TipoDocumentalRadicacion = (props) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="card-footer">

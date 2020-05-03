@@ -2,7 +2,8 @@ import React from "react";
 import Inputs from "./Inputs";
 import { Card, CardBody, CardHeader, CardFooter } from "reactstrap";
 
-export const PreviewTemplate = () => {
+export const PreviewTemplate = (props) => {
+  console.log(props);
   return (
     <React.Fragment>
       <div className="row">

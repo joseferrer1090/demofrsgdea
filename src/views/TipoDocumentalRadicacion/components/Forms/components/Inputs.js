@@ -38,8 +38,33 @@ const Inputs = (props) => {
     case "checkbox":
       break;
     case "date":
+      inputElement = (
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor={""}></label>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              onChange={props.onChange}
+              value={props.value}
+            />
+          </div>
+        </div>
+      );
       break;
     case "textarea":
+      inputElement = (
+        <div className="col-md-6">
+          <div className="form-group">
+            <label htmlFor=""></label>
+            <textarea
+              className="form-control form-control-sm"
+              onChange={props.onChange}
+              value={props.value}
+            ></textarea>
+          </div>
+        </div>
+      );
       break;
 
     default:

@@ -10,22 +10,24 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import FieldCompany from "./components/SelectCompany";
 import FieldHeadquarter from "./components/SelectHeadquarter";
 import FieldDependence from "./components/SelectDependence";
+import SelectPlantilla from "./components/SelectPlantilla";
+import PreviewTemplate from "./components/PreviewTemplate";
 import {
   TYPEDOCUMENTARY_POST,
-  USERS_BY_DEPENDENCE
+  USERS_BY_DEPENDENCE,
 } from "./../../../../services/EndPoints";
 import {
   agregarUsuarioDisponible,
   borrarUsuarioDiponible,
-  agregarUsuarioOriginal
+  agregarUsuarioOriginal,
 } from "./../../../../actions/documentaryTypeAction";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
-const TipoDocumentalRadicacion = props => {
+const TipoDocumentalRadicacion = (props) => {
   const { t } = props;
-  const userData = useSelector(state => state.documentaryTypeReducer);
+  const userData = useSelector((state) => state.documentaryTypeReducer);
   const users = userData.users;
 
   const [StateChangeAlert, setAux] = useState("");
@@ -49,7 +51,8 @@ const TipoDocumentalRadicacion = props => {
         empresa: "",
         sede: "",
         dependencia: "",
-        estado: false
+        plantilla: "",
+        estado: false,
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -72,12 +75,15 @@ const TipoDocumentalRadicacion = props => {
           .test(
             "Activo",
             "Es necesario activar el tipo de trámite",
-            value => value === true
+            (value) => value === true
           )
-          .required(" Es necesario activar el tipo de trámite.")
+          .required(" Es necesario activar el tipo de trámite."),
+        plantilla: Yup.string()
+          .ensure()
+          .required("Seleccione una plantilla para el tipo documental"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        const tipoEstado = data => {
+        const tipoEstado = (data) => {
           let tipo = null;
           if (data === true) {
             return (tipo = 1);
@@ -86,7 +92,7 @@ const TipoDocumentalRadicacion = props => {
           }
           return null;
         };
-        const tipoCorrespondencia = data => {
+        const tipoCorrespondencia = (data) => {
           let tipo = null;
           if (data === "1") {
             return (tipo = 1);
@@ -100,69 +106,90 @@ const TipoDocumentalRadicacion = props => {
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          fetch(`${TYPEDOCUMENTARY_POST}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + auth
-            },
-            body: JSON.stringify({
-              code: values.codigo,
-              name: values.nombre,
-              description: values.descripcion,
-              answerDays: values.d_maximos,
-              issue: values.asunto,
-              status: tipoEstado(values.estado),
-              typeCorrespondence: tipoCorrespondencia(
-                values.tipocorrespondencia
-              ),
-              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-              userName: username.user_name,
-              users: userData.users,
-              original: userData.original
-            })
-          }).then(response =>
-            response
-              .json()
-              .then(data => {
-                if (response.status === 201) {
-                  toast.success(
-                    "Se registro el tipo documental de radicación con éxito.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px"
-                      })
-                    }
-                  );
-                } else if (response.status === 400) {
-                  toast.error(
-                    "Error al registrar el tipo documental. Inténtelo nuevamente.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px"
-                      })
-                    }
-                  );
-                } else if (response.status === 500) {
-                  toast.error("Error, el tipo documental ya existe.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  });
-                }
-              })
-              .catch(error => {
-                toast.error(`Error ${error} `, {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              })
+          console.log(
+            JSON.stringify(
+              {
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: tipoEstado(values.estado),
+                typeCorrespondence: tipoCorrespondencia(
+                  values.tipocorrespondencia
+                ),
+                templateId: values.plantilla,
+                userName: username.user_name,
+                users: userData.users,
+                original: userData.original,
+              },
+              2,
+              null
+            )
           );
+          // fetch(`${TYPEDOCUMENTARY_POST}`, {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + auth,
+          //   },
+          //   body: JSON.stringify({
+          //     code: values.codigo,
+          //     name: values.nombre,
+          //     description: values.descripcion,
+          //     answerDays: values.d_maximos,
+          //     issue: values.asunto,
+          //     status: tipoEstado(values.estado),
+          //     typeCorrespondence: tipoCorrespondencia(
+          //       values.tipocorrespondencia
+          //     ),
+          //     templateId: values.plantilla,
+          //     userName: username.user_name,
+          //     users: userData.users,
+          //     original: userData.original,
+          //   }),
+          // }).then((response) =>
+          //   response
+          //     .json()
+          //     .then((data) => {
+          //       if (response.status === 201) {
+          //         toast.success(
+          //           "Se registro el tipo documental de radicación con éxito.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 400) {
+          //         toast.error(
+          //           "Error al registrar el tipo documental. Inténtelo nuevamente.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 500) {
+          //         toast.error("Error, el tipo documental ya existe.", {
+          //           position: toast.POSITION.TOP_RIGHT,
+          //           className: css({
+          //             marginTop: "60px",
+          //           }),
+          //         });
+          //       }
+          //     })
+          //     .catch((error) => {
+          //       toast.error(`Error ${error} `, {
+          //         position: toast.POSITION.TOP_RIGHT,
+          //         className: css({
+          //           marginTop: "60px",
+          //         }),
+          //       });
+          //     })
+          // );
           setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
@@ -176,7 +203,7 @@ const TipoDocumentalRadicacion = props => {
             empresa: "",
             sede: "",
             dependencia: "",
-            asunto: ""
+            asunto: "",
           });
         }, 1000);
       }}
@@ -191,7 +218,7 @@ const TipoDocumentalRadicacion = props => {
         handleSubmit,
         handleReset,
         setFieldTouched,
-        setFieldValue
+        setFieldValue,
       }) => (
         <div className="col-md-12">
           <form className="form">
@@ -219,9 +246,11 @@ const TipoDocumentalRadicacion = props => {
                                 value={values.tipocorrespondencia}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                className={`form-control form-control-sm ${
+                                  errors.tipocorrespondencia &&
                                   touched.tipocorrespondencia &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               >
                                 <option value={""}>
                                   {" "}
@@ -269,7 +298,7 @@ const TipoDocumentalRadicacion = props => {
                               </label>
                               <input
                                 name="codigo"
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "codigo",
                                     e.target.value.toUpperCase()
@@ -278,9 +307,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.codigo}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.codigo &&
+                                className={`form-control form-control-sm ${
+                                  errors.codigo &&
                                   touched.codigo &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.codigo && touched.codigo ? (
@@ -300,7 +331,7 @@ const TipoDocumentalRadicacion = props => {
                               </label>
                               <input
                                 name={"nombre"}
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "nombre",
                                     e.target.value.toUpperCase()
@@ -309,9 +340,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.nombre}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.nombre &&
+                                className={`form-control form-control-sm ${
+                                  errors.nombre &&
                                   touched.nombre &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.nombre && touched.nombre ? (
@@ -335,9 +368,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.d_maximos}
                                 type="number"
-                                className={`form-control form-control-sm ${errors.d_maximos &&
+                                className={`form-control form-control-sm ${
+                                  errors.d_maximos &&
                                   touched.d_maximos &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                                 min={0}
                               />
                               <div style={{ color: "#D54B4B" }}>
@@ -362,9 +397,11 @@ const TipoDocumentalRadicacion = props => {
                                 onBlur={handleBlur}
                                 value={values.descripcion}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
+                                className={`form-control form-control-sm ${
+                                  errors.descripcion &&
                                   touched.descripcion &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.descripcion && touched.descripcion ? (
@@ -429,7 +466,7 @@ const TipoDocumentalRadicacion = props => {
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue(
                                       "conglomerado",
                                       e.target.value
@@ -536,7 +573,7 @@ const TipoDocumentalRadicacion = props => {
                   />
                 </div>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_4")}
@@ -565,7 +602,7 @@ const TipoDocumentalRadicacion = props => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_5")}
@@ -575,29 +612,29 @@ const TipoDocumentalRadicacion = props => {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_plantilla"
-                                  )}
-                                </label>
-                                <select
-                                  name={"plantilla"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
+                                <Field
+                                  authorization={props.authorization}
+                                  name="plantilla"
+                                  onChange={(e) => {
+                                    setFieldValue("plantilla", e.target.value);
+                                  }}
                                   value={values.plantilla}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>
-                                    --
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_select_plantilla"
-                                    )}
-                                    --
-                                  </option>
-                                  <option>Plantilla 1</option>
-                                  <option>Plantilla 2</option>
-                                  <option>Plantilla 3</option>
-                                </select>
+                                  onBlur={() => {
+                                    setFieldTouched("plantilla", true);
+                                  }}
+                                  component={SelectPlantilla}
+                                  className={`form-control form-control-sm ${
+                                    errors.plantilla &&
+                                    touched.plantilla &&
+                                    "is-invalid"
+                                  }`}
+                                ></Field>
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.plantilla && touched.plantilla ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"plantilla"} />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -605,7 +642,7 @@ const TipoDocumentalRadicacion = props => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_6")}
@@ -644,6 +681,11 @@ const TipoDocumentalRadicacion = props => {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <PreviewTemplate authorization={props.authorization} />
                   </div>
                 </div>
               </div>
@@ -683,21 +725,21 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUsuario = user => dispatch(agregarUsuarioDisponible(user));
+  const AgregarUsuario = (user) => dispatch(agregarUsuarioDisponible(user));
 
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setdata(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setdata([]);
       });
@@ -724,7 +766,7 @@ function UserList(props) {
           overflowX: "hidden",
           border: "1px solid #e3e3e3",
           background: "#e3e3e3",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         {data.length > 0 ? (
@@ -767,8 +809,8 @@ function UserList(props) {
   );
 }
 
-const UserListEnabled = props => {
-  const aux = useSelector(state => state.documentaryTypeReducer.assigned);
+const UserListEnabled = (props) => {
+  const aux = useSelector((state) => state.documentaryTypeReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
@@ -892,7 +934,7 @@ const UserListEnabled = props => {
 
 TipoDocumentalRadicacion.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TipoDocumentalRadicacion);

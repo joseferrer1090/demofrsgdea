@@ -751,3 +751,17 @@ export const TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID = `${config.IP}:${config.
 
 /* GET params => IdMetadata */
 export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
+
+//--------------------------------------------- TYPE_DOCUMENTARIES_METADATA_BAG  -----------------------------------------------------//
+
+/* GET params => idtemplate */
+export const TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/get/template/`;
+
+/* GET params => idtemplate */
+export const TYPE_DOCUMENTARIES_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/`;
+
+/* GET => params => idtemplate  */
+export const FIND_BY_TYPE_DOCUMENTARY_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/find/type/documentary/`;
+
+/* GET  params => idtemplate */
+export const GET_METADATA_FOR_TEMPLATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/get/template/`;

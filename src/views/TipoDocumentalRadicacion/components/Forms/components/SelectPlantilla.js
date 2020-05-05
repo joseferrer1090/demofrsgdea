@@ -26,8 +26,8 @@ class SelectPlantilla extends Component {
       this.setState({
         auth: this.props.authorization,
       });
+      this.getDateTemplate(this.state.auth);
     }
-    this.getDateTemplate(this.state.auth);
   }
 
   getDateTemplate = (auth) => {

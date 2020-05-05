@@ -685,7 +685,10 @@ const TipoDocumentalRadicacion = (props) => {
                 </div>
                 <div className="row">
                   <div className="col-md-12">
-                    <PreviewTemplate authorization={props.authorization} />
+                    <PreviewTemplate
+                      authorization={props.authorization}
+                      id={values.plantilla}
+                    />
                   </div>
                 </div>
               </div>

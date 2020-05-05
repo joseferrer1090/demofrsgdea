@@ -23,19 +23,40 @@ const Inputs = (props) => {
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
-            <label></label>
+            <label htmlFor={""}></label>
             <select
               className="form-control form-control-sm"
               onChange={props.onChange}
               value={props.value}
-            ></select>
+            >
+              <option> -- Seleccione -- </option>
+              {props.elementConfig.options.length ? (
+                props.elementConfig.options.map((aux, id) => (
+                  <option key={id} value={aux.value}>
+                    {aux.name}
+                  </option>
+                ))
+              ) : (
+                <option> -- No hay datos -- </option>
+              )}
+            </select>
           </div>
         </div>
       );
       break;
     case "radio":
+      inputElement = (
+        <div>
+          <p>Apenas maquetando</p>
+        </div>
+      );
       break;
     case "checkbox":
+      inputElement = (
+        <div>
+          <p>Apenas maquetando</p>
+        </div>
+      );
       break;
     case "date":
       inputElement = (

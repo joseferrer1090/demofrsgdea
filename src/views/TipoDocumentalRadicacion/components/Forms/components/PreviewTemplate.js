@@ -66,7 +66,7 @@ class PreviewTemplate extends Component {
             <i className="fa fa-wpforms" /> Preview de la plantilla
           </CardHeader>
           <CardBody>
-            {Object.keys(this.state.template).length ? (
+            {this.state.template.length ? (
               <p>Hay datos desde la api</p>
             ) : (
               <p> No hay dato verificar o seleccionar otra plantilla</p>

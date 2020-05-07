@@ -11,7 +11,7 @@ import {
 import classnames from "classnames";
 import FormCreatePlantilla from "./components/FormCreatePlantilla";
 import TableContent from "./components/TableContentPlantilla";
-import FormImport from "./components/FormImportPlantilla";
+import FormImport from "./components/Forms/UploadFormPlantilla";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
@@ -116,7 +116,7 @@ class Plantilla extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <FormImport />
+                <FormImport authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

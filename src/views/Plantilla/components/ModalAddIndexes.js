@@ -77,6 +77,7 @@ class ModalAddIndexes extends Component {
     console.log(this.state.templateID);
     const auth = this.state.auth;
     const username = decode(auth);
+    
     const newMetadataEdit = (data) => {
       let array = [];
       data.map((aux, id) => {
@@ -85,6 +86,7 @@ class ModalAddIndexes extends Component {
       // console.log(array);
       return array;
     };
+
     fetch(`${TEMPLATE_METADATA_BAG_CREATE}`, {
       method: "POST",
       headers: {

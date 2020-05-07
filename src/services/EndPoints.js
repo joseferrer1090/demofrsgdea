@@ -751,3 +751,6 @@ export const TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID = `${config.IP}:${config.
 
 /* GET params => IdMetadata */
 export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
+
+/* POST IMPORT  */
+export const TEMPLATE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/templates/`;

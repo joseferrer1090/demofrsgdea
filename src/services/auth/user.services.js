@@ -4,33 +4,34 @@ import qs from "qs";
 
 export const userService = {
   login,
-  logout
+  logout,
 };
 
 //const url = `http://192.168.10.180:8090`;
 // const url = `http://192.168.0.19:8090`;
-const url = `http://181.57.182.193:8090`;
+const url = "http://localhost:8090";
+// const url = `http://181.57.182.193:8090`;
 
 function login(username, password, grant_type) {
   //console.log(`voy por este lado =>`, username, password, grant_type);
   const data = {
     username,
     password,
-    grant_type
+    grant_type,
   };
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: "Basic " + window.btoa("frontendapp:12345")
+      Authorization: "Basic " + window.btoa("frontendapp:12345"),
     },
     data: qs.stringify({ username, password, grant_type }),
-    url: `${url}/api/security/oauth/token`
+    url: `${url}/api/security/oauth/token`,
   };
 
   return axios(requestOptions)
     .then()
-    .then(user => {
+    .then((user) => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(user));
 
@@ -46,7 +47,7 @@ function logout() {
 }
 
 function handleResponse(response) {
-  return response.json().then(text => {
+  return response.json().then((text) => {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {

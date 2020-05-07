@@ -71,17 +71,65 @@ class ModalEditIndex extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
+        const formula = (data) => {
+          let formula = data;
+          if (formula === null) {
+            formula = false;
+          }
+          return formula;
+        };
+        const defaultValue = (data) => {
+          let value;
+          data.map((idx, aux) => {
+            if (idx.value === "true") {
+              value = true;
+            } else if (idx.value === "false") {
+              value = false;
+            }
+          });
+          return value;
+        };
+        const optionsChangeValue = (data) => {
+          // let options = [
+          //   {
+          //     displayValue: "",
+          //     id: "",
+          //     value: "",
+          //   },
+          // ];
+          // data.map((aux, idx) => {
+          //   if (this.state.objMetadata.defaultValue === true) {
+          //     options = {
+          //       displayValue: aux.displayValue,
+          //       id: aux.id,
+          //       value: true,
+          //     };
+          //   } else if (this.state.objMetadata.defaultValue === false) {
+          //     options = {
+          //       displayValue: aux.displayValue,
+          //       id: aux.id,
+          //       value: false,
+          //     };
+          //   }
+          // });
+          // return options;
+          console.log(data);
+        };
         this.setState({
           dataMetadata: data,
           nameMetadata: data.metadata.elementConfig.name,
+          // optionsMetadata: optionsChangeValue(
+          //   data.metadata.elementConfig.options
+          // ),
           optionsMetadata: data.metadata.elementConfig.options,
           typeMetadata: data.metadata.elementConfig.type,
           objMetadata: {
-            defaultValue: data.defaultValue,
-            formula: data.formula,
+            defaultValue: defaultValue(data.metadata.elementConfig.options),
+            formula: formula(data.formula),
             required: data.required,
           },
         });
+        console.log(data);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -354,15 +402,18 @@ class ModalEditIndex extends Component {
                         <Input
                           formType={this.state.typeMetadata}
                           options={this.state.optionsMetadata}
+                          /**/
                           onChange={(e) => {
                             this.setState({
                               objMetadata: {
                                 ...this.state.objMetadata,
-                                defaultValue: e.currentTarget.value,
+                                defaultValue: !this.state.objMetadata
+                                  .defaultValue,
                               },
                             });
                           }}
                           value={this.state.objMetadata.defaultValue}
+                          defaultValue={this.state.objMetadata.defaultValue}
                         />
                       </div>
                     </div>

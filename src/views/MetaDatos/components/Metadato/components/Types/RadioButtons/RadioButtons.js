@@ -624,7 +624,7 @@ class RadioButtons extends Component {
                           {this.state.radios.map((checkbox, index) => {
                             return (
                               <tr key={index}>
-                                {this.state.multiple ? (
+                                {/* {this.state.multiple ? (
                                   <td style={{ verticalAlign: "middle" }}>
                                     <div className="checkbox">
                                       {
@@ -646,7 +646,7 @@ class RadioButtons extends Component {
                                   </td>
                                 ) : (
                                   <td hidden={true}></td>
-                                )}
+                                )} */}
                                 <td>
                                   <input
                                     autoFocus={true}
@@ -683,7 +683,7 @@ class RadioButtons extends Component {
                                     className="form-control form-control-sm"
                                   />
                                 </td>
-                                {!this.state.multiple ? (
+                                {/* {!this.state.multiple ? (
                                   <td style={{ verticalAlign: "middle" }}>
                                     <input
                                       name="default"
@@ -701,7 +701,7 @@ class RadioButtons extends Component {
                                   </td>
                                 ) : (
                                   <td hidden={true}></td>
-                                )}
+                                )} */}
                                 <td style={{ verticalAlign: "middle" }}>
                                   <span
                                     onClick={() => this.removeOption(index)}

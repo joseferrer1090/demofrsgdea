@@ -148,7 +148,7 @@ const CreatePlantillaForm = (props) => {
               estado: null,
               metadata: reset(),
             });
-            // alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 2));
           }, 1000);
         }}
         validationSchema={Yup.object().shape({

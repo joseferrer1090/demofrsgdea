@@ -65,12 +65,13 @@ class TableContentDependencia extends Component {
   }
 
   accionesDependencias(cell, row) {
+    const {t} = this.props;
     console.log(row);
     if (row.headquarter.status !== 1)
       return (
         <div className="table-actionMenuDep" style={{ marginRight: "55px" }}>
           <button
-            title="Ver dependencia"
+            title={t("app_dependencia_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -82,7 +83,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar dependencia"
+          title={t("app_dependencia_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -98,7 +99,7 @@ class TableContentDependencia extends Component {
       return (
         <div className="table-actionMenuDep" style={{ marginRight: "40px" }}>
           <button
-            title="Ver dependencia"
+            title={t("app_dependencia_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -110,7 +111,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
-            title="Editar dependencia"
+            title={t("app_dependencia_administrar_table_acciones_btn_editar")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -121,7 +122,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar dependencia"
+            title={t("app_dependencia_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {

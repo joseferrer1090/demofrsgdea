@@ -71,11 +71,12 @@ class TableContentSedes extends Component {
   };
 
   AccionesSedeStatus = (cell, row) => {
+    const { t } = this.props;
     if (row.company.status !== 1)
       return (
         <div className="table-actionMenuSedes" style={{ marginRight: "55px" }}>
           <button
-            title="Ver Sede"
+            title={t("app_sedes_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -87,7 +88,7 @@ class TableContentSedes extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar Sede"
+            title={t("app_sedes_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -103,7 +104,7 @@ class TableContentSedes extends Component {
       return (
         <div className="table-actionMenuSedes" style={{ marginRight: "40px" }}>
           <button
-            title="Ver Sede"
+            title={t("app_sedes_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -115,7 +116,7 @@ class TableContentSedes extends Component {
           </button>
           &nbsp;
           <button
-            title="Editar Sede"
+            title={t("app_sedes_administrar_table_acciones_btn_editar")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -126,7 +127,7 @@ class TableContentSedes extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar Sede"
+            title={t("app_sedes_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {

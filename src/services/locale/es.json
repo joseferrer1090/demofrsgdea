@@ -139,6 +139,9 @@
     "app_conglomerado_administrar_table_estado": "Estado",
     "app_conglomerado_administrar_table_fecha_creacion": "Fecha creación",
     "app_conglomerado_administrar_table_acciones": "Acciones",
+    "app_conglomerado_administrar_table_acciones_btn_ver": "Ver conglomerado",
+    "app_conglomerado_administrar_table_acciones_btn_editar": "Editar conglomerado",
+    "app_conglomerado_administrar_table_acciones_btn_eliminar": "Eliminar conglomerado",
 
     "app_conglomerado_modal_ver_titulo": "Conglomerado",
     "app_conglomerado_modal_ver_titulo_2": "Datos",
@@ -240,6 +243,9 @@
     "app_empresa_administrar_table_fecha_creacion": "Fecha de creación",
     "app_empresa_administrar_table_estado": "Estado",
     "app_empresa_administrar_table_acciones": "Acciones",
+    "app_empresa_administrar_table_acciones_btn_ver": "Ver empresa",
+    "app_empresa_administrar_table_acciones_btn_editar": "Editar empresa ",
+    "app_empresa_administrar_table_acciones_btn_eliminar": "Eliminar empresa ",
 
     "app_empresa_modal_exportar_titulo": "Exportar tabla de empresa",
     "app_empresa_modal_exportar_codigo": "Código",
@@ -357,6 +363,9 @@
     "app_sedes_administrar_table_fecha_creacion": "Fecha de creación",
     "app_sedes_administrar_table_estado": "Estado",
     "app_sedes_administrar_table_acciones": "Acciones",
+    "app_sedes_administrar_table_acciones_btn_ver": "Ver sede",
+    "app_sedes_administrar_table_acciones_btn_editar": "Editar sede",
+    "app_sedes_administrar_table_acciones_btn_eliminar": "Eliminar sede",
 
     "app_sedes_modal_export_titulo": "Exportar tabla de sedes",
     "app_sedes_modal_export_codigo": "Código",
@@ -476,6 +485,9 @@
     "app_dependencia_administrar_table_fecha_creacion": "Fecha de creación",
     "app_dependencia_administrar_table_estado": "Estado",
     "app_dependencia_administrar_table_acciones": "Acciones",
+    "app_dependencia_administrar_table_acciones_btn_ver": "Ver dependencia",
+    "app_dependencia_administrar_table_acciones_btn_editar": "Editar dependencia",
+    "app_dependencia_administrar_table_acciones_btn_eliminar": "Eliminar dependencia",
 
     "app_dependencia_modal_export_titulo": "Exportar tabla de dependencia",
     "app_dependencia_modal_export_codigo": "Código",
@@ -566,6 +578,9 @@
     "app_cargo_administrar_table_fecha_creacion": "Fecha de creación",
     "app_cargo_administrar_table_estado": "Estado",
     "app_cargo_administrar_table_acciones": "Acciones",
+    "app_cargo_administrar_table_acciones_btn_ver": "Ver cargo",
+    "app_cargo_administrar_table_acciones_btn_editar": "Editar cargo",
+    "app_cargo_administrar_table_acciones_btn_eliminar": "Eliminar cargo",
 
     "app_cargo_modal_export_titulo": "Exportar tabla de cargo",
     "app_cargo_modal_export_table_codigo": "Código",
@@ -641,6 +656,9 @@
     "app_mensajero_administrar_table_fecha_creacion": "Fecha de creación",
     "app_mensajero_administrar_table_estado": "Estado",
     "app_mensajero_administrar_table_acciones": "Acciones",
+    "app_mensajero_administrar_table_acciones_btn_ver": "Ver mensajero",
+    "app_mensajero_administrar_table_acciones_btn_editar": "Editar mensajero",
+    "app_mensajero_administrar_table_acciones_btn_eliminar": "Eliminar mensajero",
 
     "app_mensajero_modal_export_titulo": "Exportar tabla de mensajeros",
     "app_mensajero_modal_export_table_identificacion": "Identificación",
@@ -716,6 +734,9 @@
     "app_tipoLlegada_administrar_table_fecha_creacion": "Fecha de creación",
     "app_tipoLlegada_administrar_table_estado": "Estado",
     "app_tipoLlegada_administrar_table_acciones": "Acciones",
+    "app_tipoLlegada_administrar_table_acciones_btn_ver": "Ver tipo de envío/llegada",
+    "app_tipoLlegada_administrar_table_acciones_btn_editar": "Editar tipo de envío/llegada",
+    "app_tipoLlegada_administrar_table_acciones_btn_eliminar": "Eliminar tipo de envío/llegada",
 
     "app_tipoLlegada_modal_export_titulo": "Exportar tabla de tipo envío / llegada",
     "app_tipoLlegada_modal_export_table_codigo": "Código",
@@ -819,6 +840,9 @@
     "app_tipoTramite_table_administrar_fecha_creacion": "Fecha de creación",
     "app_tipoTramite_table_administrar_estado": "Estado",
     "app_tipoTramite_table_administrar_acciones": "Acciones",
+    "app_tipoTramite_administrar_table_acciones_btn_ver": "Ver tipo de trámite",
+    "app_tipoTramite_administrar_table_acciones_btn_editar": "Editar tipo de trámite",
+    "app_tipoTramite_administrar_table_acciones_btn_eliminar": "Eliminar tipo de trámite",
 
     "app_tipoTramite_ver_titulo": "Trámite",
     "app_tipoTramite_ver_titulo_2": "Informacion básica",
@@ -985,6 +1009,10 @@
     "app_usuarios_administrar_table_fecha_creacion": "Fecha de creación",
     "app_usuarios_administrar_table_estado": "Estado",
     "app_usuarios_administrar_table_acciones": "Acciones",
+    "app_usuarios_administrar_table_acciones_btn_ver": "Ver usuarios",
+    "app_usuarios_administrar_table_acciones_btn_editar": "Editar usuarios",
+    "app_usuarios_administrar_table_acciones_btn_eliminar": "Eliminar usuarios",
+    "app_usuarios_administrar_table_acciones_btn_cambiar_contraseña": "Cambiar contraseña de usuario",
 
     "app_usuarios_modal_exportar_titulo": "Exportar tabla de usuarios",
     "app_usuarios_modal_exportar_identificacion": "Identificación",
@@ -1113,6 +1141,9 @@
     "app_tipoTerecero_administrar_table_fecha_creacion": "Fecha de creación",
     "app_tipoTerecero_administrar_table_estado": "Estado",
     "app_tipoTerecero_administrar_table_acciones": "Acciones",
+    "app_tipoTercero_administrar_table_acciones_btn_ver": "Ver tipo de tercero",
+    "app_tipoTercero_administrar_table_acciones_btn_editar": "Editar tipo de tercero",
+    "app_tipoTercero_administrar_table_acciones_btn_eliminar": "Eliminar tipo de tercero",
 
     "app_tipoTerecero_modal_export_titulo": "Exportar tabla de tipo de teceros",
     "app_tipoTerecero_modal_export_table_codigo": "Código",
@@ -1196,6 +1227,10 @@
     "app_roles_table_administrar_estado": "Estado",
     "app_roles_table_administrar_fecha_creacion": "Fecha de creación",
     "app_roles_table_administrar_acciones": "Acciones",
+    "app_roles_administrar_table_acciones_btn_ver": "Ver rol",
+    "app_roles_administrar_table_acciones_btn_editar": "Editar rol",
+    "app_roles_administrar_table_acciones_btn_editar_permisos": "Editar permisos del rol",
+    "app_roles_administrar_table_acciones_btn_eliminar": "Eliminar rol",
 
     "app_roles_modal_export_titulo": "Exportar tabla de roles",
     "app_roles_modal_export_codigo": "Código",
@@ -1297,6 +1332,10 @@
     "app_grupoUsuarios_table_administrar_estado": "Estado",
     "app_grupoUsuarios_table_administrar_fecha_creacion": "Fecha de creación",
     "app_grupoUsuarios_table_administrar_acciones": "Acciones",
+    "app_grupoUsuarios_administrar_table_acciones_btn_ver": "Ver grupo de usuarios",
+    "app_grupoUsuarios_administrar_table_acciones_btn_editar": "Editar grupo de usuarios",
+    "app_grupoUsuarios_administrar_table_acciones_btn_eliminar": "Eliminar grupo de usuarios",
+    "app_grupoUsuarios_administrar_table_acciones_btn_expotar": "Exportar grupo de usuarios",
 
     "app_grupoUsuarios_modal_ver_titulo": "Grupo de usuarios",
     "app_grupoUsuarios_modal_ver_titulo_2": "Datos",
@@ -1405,6 +1444,9 @@
     "app_tercero_adminstrar_tabla_fecha_creacion": "Fecha de creación",
     "app_tercero_adminstrar_tabla_estado": "Estado",
     "app_tercero_adminstrar_tabla_acciones": "Acciones",
+    "app_tercero_administrar_table_acciones_btn_ver": "Ver tercero",
+    "app_tercero_administrar_table_acciones_btn_editar": "Editar tercero",
+    "app_tercero_administrar_table_acciones_btn_eliminar": "Eliminar tercero",
 
     "app_tercero_modal_export_titulo": "Exportar tabla de terceros",
     "app_tercero_modal_export_table_identification": "Identificación",
@@ -1549,6 +1591,9 @@
     "app_documentalRadicacion_table_administrar_fecha_creacion": "Fecha de creación",
     "app_documentalRadicacion_table_administrar_estado": "Estado",
     "app_documentalRadicacion_table_administrar_acciones": "Acciones",
+    "app_documentalRadicacion_administrar_table_acciones_btn_ver": "Ver tipo documental de radicación",
+    "app_documentalRadicacion_administrar_table_acciones_btn_editar": "Editar tipo documental de radicación",
+    "app_documentalRadicacion_administrar_table_acciones_btn_eliminar": "Eliminar tipo documental de radicación",
 
     "app_documentalRadicacion_ver_titulo": "Tipo documental de radicacion",
     "app_documentalRadicacion_ver_titulo_2": "Informacion básica",
@@ -1682,6 +1727,8 @@
     "app_emailRequest_administrar_table_estado_completa": "Completa",
     "app_emailRequest_administrar_table_estado_pendiente": "Pendiente",
     "app_emailRequest_administrar_table_acciones": "Acciones",
+    "app_emailRequest_administrar_table_acciones_btn_ver_info": "",
+    "app_emailRequest_administrar_table_acciones_btn_ver_adjuntos": "",
 
     "app_emailRequest_modal_ver_titulo": "Ver",
     "app_emailRequest_modal_ver_datos": "Datos",
@@ -1721,6 +1768,9 @@
     "app_pais_administrar_table_fecha_creacion": "Fecha de creación",
     "app_pais_administrar_table_estado": "Estado",
     "app_pais_administrar_table_acciones": "Acciones",
+    "app_pais_administrar_table_acciones_btn_ver": "Ver país",
+    "app_pais_administrar_table_acciones_btn_editar": "Editar país",
+    "app_pais_administrar_table_acciones_btn_eliminar": "Eliminar país",
 
     "app_pais_modal_export_titulo": "Exportar tabla de países",
     "app_pais_modal_export_table_codigo": "Código",
@@ -1794,6 +1844,9 @@
     "app_departamento_administrar_table_fecha_creacion": "Fecha de creación",
     "app_departamento_administrar_table_estado": "Estado",
     "app_departamento_administrar_table_acciones": "Acciones",
+    "app_departamento_administrar_table_acciones_btn_ver": "Ver departamento",
+    "app_departamento_administrar_table_acciones_btn_editar": "Editar departamento",
+    "app_departamento_administrar_table_acciones_btn_eliminar": "Eliminar departamento",
 
     "app_departamento_import_step_1": "1. Paso",
     "app_departamento_import_step_2": "2. Paso",
@@ -1874,6 +1927,9 @@
     "app_ciudad_administrar_table_fecha_creacion": "Fecha de creación",
     "app_ciudad_administrar_table_estado": "Estado",
     "app_ciudad_administrar_table_acciones": "Acciones",
+    "app_ciudad_administrar_table_acciones_btn_ver": "Ver ciudad",
+    "app_ciudad_administrar_table_acciones_btn_editar": "Editar ciudad",
+    "app_ciudad_administrar_table_acciones_btn_eliminar": "Eliminar ciudad",
 
     "app_ciudad_import_step_1": "1. Paso",
     "app_ciudad_import_step_2": "2. Paso",
@@ -2003,6 +2059,9 @@
     "app_radicacion_email_administrar_table_fecha_creacion": "Fecha de creación",
     "app_radicacion_email_administrar_table_estado": "Estado",
     "app_radicacion_email_administrar_table_acciones": "Acciones",
+    "app_radicacion_email_administrar_table_acciones_btn_ver": "Ver correo electrónico",
+    "app_radicacion_email_administrar_table_acciones_btn_editar": "Editar correo electrónico",
+    "app_radicacion_email_administrar_table_acciones_btn_eliminar": "Eliminar correo electrónico",
 
     "app_radicacion_email_modal_export_titulo": "Exportar tabla de correos electrónicos para radicación",
     "app_radicacion_email_modal_export_table_protocol": "Protocolo",
@@ -2250,7 +2309,6 @@
     "app_plantilla_administrar_modal_eliminar_alert_500": "Error, la plantilla esta asociada a otros registros.",
     "app_plantilla_administrar_modal_eliminar_validacion": " Por favor introduzca el código de la plantilla",
 
-    
     "app_plantilla_import_step_1": "1. Paso",
     "app_plantilla_import_step_2": "2. Paso",
     "app_plantilla_import_step_3": "3. Paso",

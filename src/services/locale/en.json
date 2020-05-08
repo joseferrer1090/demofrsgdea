@@ -141,6 +141,9 @@
     "app_conglomerado_administrar_table_fecha_creacion": "Creation date",
     "app_conglomerado_administrar_table_estado": "State",
     "app_conglomerado_administrar_table_acciones": "Actions",
+    "app_conglomerado_administrar_table_acciones_btn_ver": "See conglomerate",
+    "app_conglomerado_administrar_table_acciones_btn_editar": "Edit conglomerate",
+    "app_conglomerado_administrar_table_acciones_btn_eliminar": "Delete conglomerate",
 
     "app_conglomerado_modal_ver_titulo": "Conglomerate",
     "app_conglomerado_modal_ver_titulo_2": "Information",
@@ -242,6 +245,9 @@
     "app_empresa_administrar_table_fecha_creacion": "Creation date",
     "app_empresa_administrar_table_estado": "State",
     "app_empresa_administrar_table_acciones": "Actions",
+    "app_empresa_administrar_table_acciones_btn_ver": "See company",
+    "app_empresa_administrar_table_acciones_btn_editar": "Edit company ",
+    "app_empresa_administrar_table_acciones_btn_eliminar": "Delete company ",
 
     "app_empresa_modal_exportar_titulo": "Export company table",
     "app_empresa_modal_exportar_codigo": "Code",
@@ -359,6 +365,9 @@
     "app_sedes_administrar_table_fecha_creacion": "Creation date",
     "app_sedes_administrar_table_estado": "State",
     "app_sedes_administrar_table_acciones": "Actions",
+    "app_sedes_administrar_table_acciones_btn_ver": "See headquarter",
+    "app_sedes_administrar_table_acciones_btn_editar": "Edit headquarter",
+    "app_sedes_administrar_table_acciones_btn_eliminar": "Delete headquarter",
 
     "app_sedes_modal_export_titulo": "Export headquarters table",
     "app_sedes_modal_export_codigo": "Code",
@@ -478,6 +487,9 @@
     "app_dependencia_administrar_table_fecha_creacion": "Creation date",
     "app_dependencia_administrar_table_estado": "State",
     "app_dependencia_administrar_table_acciones": "Actions",
+    "app_dependencia_administrar_table_acciones_btn_ver": "See dependence",
+    "app_dependencia_administrar_table_acciones_btn_editar": "Edit dependence",
+    "app_dependencia_administrar_table_acciones_btn_eliminar": "Delete dependence",
 
     "app_dependencia_modal_export_titulo": "Export dependency table",
     "app_dependencia_modal_export_codigo": "Code",
@@ -568,6 +580,9 @@
     "app_cargo_administrar_table_fecha_creacion": "Creation date",
     "app_cargo_administrar_table_estado": "State",
     "app_cargo_administrar_table_acciones": "Actions",
+    "app_cargo_administrar_table_acciones_btn_ver": "See charge",
+    "app_cargo_administrar_table_acciones_btn_editar": "Edit charge",
+    "app_cargo_administrar_table_acciones_btn_eliminar": "Delete charge",
 
     "app_cargo_modal_export_titulo": "Export charge table",
     "app_cargo_modal_export_table_codigo": "Code",
@@ -643,6 +658,9 @@
     "app_mensajero_administrar_table_fecha_creacion": "Creation date",
     "app_mensajero_administrar_table_estado": "State",
     "app_mensajero_administrar_table_acciones": "Actions",
+    "app_mensajero_administrar_table_acciones_btn_ver": "See messenger",
+    "app_mensajero_administrar_table_acciones_btn_editar": "Edit messenger",
+    "app_mensajero_administrar_table_acciones_btn_eliminar": "Delete messenger",
 
     "app_mensajero_modal_export_titulo": "Export messenger table",
     "app_mensajero_modal_export_table_identificacion": "Identification",
@@ -718,6 +736,9 @@
     "app_tipoLlegada_administrar_table_fecha_creacion": "Creation date",
     "app_tipoLlegada_administrar_table_estado": "State",
     "app_tipoLlegada_administrar_table_acciones": "Actions",
+    "app_tipoLlegada_administrar_table_acciones_btn_ver": "See type of shipment/arrival",
+    "app_tipoLlegada_administrar_table_acciones_btn_editar": "Edit type of shipment/arrival",
+    "app_tipoLlegada_administrar_table_acciones_btn_eliminar": "Delete type of shipment/arrival",
 
     "app_tipoLlegada_modal_export_titulo": "Export shipping / arrival type table",
     "app_tipoLlegada_modal_export_table_codigo": "Code",
@@ -821,6 +842,9 @@
     "app_tipoTramite_table_administrar_fecha_creacion": "Creation date",
     "app_tipoTramite_table_administrar_estado": "State",
     "app_tipoTramite_table_administrar_acciones": "Actions",
+    "app_tipoTramite_administrar_table_acciones_btn_ver": "See type of procedure",
+    "app_tipoTramite_administrar_table_acciones_btn_editar": "Edit type of procedure",
+    "app_tipoTramite_administrar_table_acciones_btn_eliminar": "Delete type of procedure",
 
     "app_tipoTramite_ver_titulo": "Procedure",
     "app_tipoTramite_ver_titulo_2": "Basic information",
@@ -982,6 +1006,10 @@
     "app_usuarios_administrar_table_fecha_creacion": "Creation date",
     "app_usuarios_administrar_table_estado": "State",
     "app_usuarios_administrar_table_acciones": "Actions",
+    "app_usuarios_administrar_table_acciones_btn_ver": "See users",
+    "app_usuarios_administrar_table_acciones_btn_editar": "Edit users",
+    "app_usuarios_administrar_table_acciones_btn_eliminar": "Delete users",
+    "app_usuarios_administrar_table_acciones_btn_cambiar_contraseña": "Change user password",
 
     "app_usuarios_modal_exportar_titulo": "Export users table",
     "app_usuarios_modal_exportar_identificacion": "Identification",
@@ -1110,6 +1138,9 @@
     "app_tipoTerecero_administrar_table_fecha_creacion": "Creation date",
     "app_tipoTerecero_administrar_table_estado": "State",
     "app_tipoTerecero_administrar_table_acciones": "Actions",
+    "app_tipoTercero_administrar_table_acciones_btn_ver": "See type of third party",
+    "app_tipoTercero_administrar_table_acciones_btn_editar": "Edit type of third party",
+    "app_tipoTercero_administrar_table_acciones_btn_eliminar": "Delete type of third party",
 
     "app_tipoTerecero_modal_export_titulo": "Export table of third-party type",
     "app_tipoTerecero_modal_export_table_codigo": "Code",
@@ -1193,6 +1224,10 @@
     "app_roles_table_administrar_estado": "State",
     "app_roles_table_administrar_fecha_creacion": "Creation date",
     "app_roles_table_administrar_acciones": "Actions",
+    "app_roles_administrar_table_acciones_btn_ver": "See role",
+    "app_roles_administrar_table_acciones_btn_editar": "Edit role",
+    "app_roles_administrar_table_acciones_btn_editar_permisos": "Edit role Permissions",
+    "app_roles_administrar_table_acciones_btn_eliminar": "Delete role",
 
     "app_roles_modal_export_titulo": "Export role table",
     "app_roles_modal_export_codigo": "Code",
@@ -1294,6 +1329,10 @@
     "app_grupoUsuarios_table_administrar_estado": "State",
     "app_grupoUsuarios_table_administrar_fecha_creacion": "Creation date",
     "app_grupoUsuarios_table_administrar_acciones": "Actions",
+    "app_grupoUsuarios_administrar_table_acciones_btn_ver": "See user group",
+    "app_grupoUsuarios_administrar_table_acciones_btn_editar": "Edit user group",
+    "app_grupoUsuarios_administrar_table_acciones_btn_eliminar": "Delete user group",
+    "app_grupoUsuarios_administrar_table_acciones_btn_expotar": "Export grupo de usuarios",
 
     "app_grupoUsuarios_modal_ver_titulo": "User group",
     "app_grupoUsuarios_modal_ver_titulo_2": "Information",
@@ -1402,6 +1441,9 @@
     "app_tercero_adminstrar_tabla_fecha_creacion": "Creation date",
     "app_tercero_adminstrar_tabla_estado": "State",
     "app_tercero_adminstrar_tabla_acciones": "Actions",
+    "app_tercero_administrar_table_acciones_btn_ver": "See third party",
+    "app_tercero_administrar_table_acciones_btn_editar": "Edit third party",
+    "app_tercero_administrar_table_acciones_btn_eliminar": "Delete third party",
 
     "app_tercero_modal_export_titulo": "Export third-party table",
     "app_tercero_modal_export_table_identification": "Identification",
@@ -1547,6 +1589,9 @@
     "app_documentalRadicacion_table_administrar_fecha_creacion": "Creation date",
     "app_documentalRadicacion_table_administrar_estado": "State",
     "app_documentalRadicacion_table_administrar_acciones": "Actions",
+    "app_documentalRadicacion_administrar_table_acciones_btn_ver": "See type of settlement document",
+    "app_documentalRadicacion_administrar_table_acciones_btn_editar": "Edit type of settlement document",
+    "app_documentalRadicacion_administrar_table_acciones_btn_eliminar": "Delete type of settlement document",
 
     "app_documentalRadicacion_ver_titulo": "Documentary type of establishment",
     "app_documentalRadicacion_ver_titulo_2": "Basic information",
@@ -1679,6 +1724,8 @@
     "app_emailRequest_administrar_table_estado_completa": "Complete",
     "app_emailRequest_administrar_table_estado_pendiente": "Pending",
     "app_emailRequest_administrar_table_acciones": "Actions",
+    "app_emailRequest_administrar_table_acciones_btn_ver_info": "",
+    "app_emailRequest_administrar_table_acciones_btn_ver_adjuntos": "",
 
     "app_emailRequest_modal_ver_titulo": "View",
     "app_emailRequest_modal_ver_datos": "Information",
@@ -1718,6 +1765,9 @@
     "app_pais_administrar_table_fecha_creacion": "Creation date",
     "app_pais_administrar_table_estado": "State",
     "app_pais_administrar_table_acciones": "Actions",
+    "app_pais_administrar_table_acciones_btn_ver": "See country",
+    "app_pais_administrar_table_acciones_btn_editar": "Edit country",
+    "app_pais_administrar_table_acciones_btn_eliminar": "Delete country",
 
     "app_pais_modal_export_titulo": "Export country table",
     "app_pais_modal_export_table_codigo": "Code",
@@ -1791,6 +1841,9 @@
     "app_departamento_administrar_table_fecha_creacion": "Creation date",
     "app_departamento_administrar_table_estado": "State",
     "app_departamento_administrar_table_acciones": "Actions",
+    "app_departamento_administrar_table_acciones_btn_ver": "See department",
+    "app_departamento_administrar_table_acciones_btn_editar": "Edit department",
+    "app_departamento_administrar_table_acciones_btn_eliminar": "Delete department",
 
     "app_departamento_import_step_1": "1. Step",
     "app_departamento_import_step_2": "2. Step",
@@ -1871,6 +1924,9 @@
     "app_ciudad_administrar_table_fecha_creacion": "Creation date",
     "app_ciudad_administrar_table_estado": "State",
     "app_ciudad_administrar_table_acciones": "Actions",
+    "app_ciudad_administrar_table_acciones_btn_ver": "See city",
+    "app_ciudad_administrar_table_acciones_btn_editar": "Edit city",
+    "app_ciudad_administrar_table_acciones_btn_eliminar": "Delte city",
 
     "app_ciudad_import_step_1": "1. Step",
     "app_ciudad_import_step_2": "2. Step",
@@ -2000,6 +2056,9 @@
     "app_radicacion_email_administrar_table_fecha_creacion": "Creation date",
     "app_radicacion_email_administrar_table_estado": "State",
     "app_radicacion_email_administrar_table_acciones": "Actions",
+    "app_radicacion_email_administrar_table_acciones_btn_ver": "See e-mail",
+    "app_radicacion_email_administrar_table_acciones_btn_editar": "Edit e-mail",
+    "app_radicacion_email_administrar_table_acciones_btn_eliminar": "Delete e-mail",
 
     "app_radicacion_email_modal_export_titulo": "Export email table for archiving",
     "app_radicacion_email_modal_export_table_protocol": "Protocol",

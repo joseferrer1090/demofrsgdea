@@ -82,13 +82,14 @@ class TableContentTipoTerceros extends Component {
   }
 
   accionesTipoTercer = (cell, row) => {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuTTercero"
         style={{ textAlign: "center", padding: "0", marginRight: "37px" }}
       >
         <button
-          title="Ver tipo de tercero"
+          title={t("app_tipoTercero_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -98,7 +99,7 @@ class TableContentTipoTerceros extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar tipo de tercero"
+          title={t("app_tipoTercero_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -108,7 +109,7 @@ class TableContentTipoTerceros extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar tipo de tercero"
+          title={t("app_tipoTercero_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);

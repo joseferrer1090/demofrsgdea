@@ -359,7 +359,9 @@ class TableContentMetada extends Component {
       button = (
         <button
           type="button"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalDetails(row.id);
@@ -377,7 +379,9 @@ class TableContentMetada extends Component {
       button = (
         <button
           type="button"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalDetails(row.id);
@@ -396,7 +400,9 @@ class TableContentMetada extends Component {
         <button
           type="button"
           className="btn btn-secondary btn-sm"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({
@@ -423,7 +429,9 @@ class TableContentMetada extends Component {
             this.openModal(row.id);
             this.setState({ id: row.id });
           }}
-          title={"Actualizar valores de control"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_controles_title"
+          )}
         >
           <i className="fa fa-pencil" />
           &nbsp;{" "}
@@ -436,12 +444,15 @@ class TableContentMetada extends Component {
   }
 
   accionesDetalles(cell, row) {
+    const { t } = this.state;
     let button;
     if (row.inputType === "select" || row.inputType === "SELECT") {
       button = (
         <button
           type="button"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalDetails(row.id);
@@ -458,7 +469,9 @@ class TableContentMetada extends Component {
       button = (
         <button
           type="button"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalDetails(row.id);
@@ -476,7 +489,9 @@ class TableContentMetada extends Component {
         <button
           type="button"
           className="btn btn-secondary btn-sm"
-          title={"Actulizar detalles"}
+          title={t(
+            "app_metadatos_actualizar_metadatos_table_acciones_detalles_title"
+          )}
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({

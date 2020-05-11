@@ -6,21 +6,21 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
 import TableContentPlantillaEmail from "./components/TableContentPlantillaEmail";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class PlantillaEmail extends Component {
@@ -29,7 +29,7 @@ class PlantillaEmail extends Component {
     this.state = {
       activeTab: "1",
       authToken: "",
-      userToken: ""
+      userToken: "",
     };
   }
   componentDidMount() {
@@ -38,20 +38,20 @@ class PlantillaEmail extends Component {
   getDataLocal = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== "tab") {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -72,7 +72,7 @@ class PlantillaEmail extends Component {
               <i className="fa fa-plus " /> {t("app_plantilla_email_tab_2")}
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
@@ -81,7 +81,7 @@ class PlantillaEmail extends Component {
             >
               <i className={"fa fa-gear"} /> {t("app_plantilla_email_tab_3")}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
@@ -91,13 +91,13 @@ class PlantillaEmail extends Component {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tabId="2">
+          {/* <TabPane tabId="2">
             <Row>
               <Col sm="12">
                 <Col sm="12">Importar</Col>
               </Col>
             </Row>
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </div>
     );

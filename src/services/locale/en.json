@@ -132,9 +132,9 @@
     "app_conglomerado_form_registrar_cargo_responsable": "Responsible charge",
     "app_conglomerado_form_select_cargo_responsable": "Choose",
     "app_conglomerado_from_button_guardar": "Save",
-    "app_conglomerado_alert_toast_201": " The conglomerate was successfully registered.",
-    "app_conglomerado_alert_toast_400": " Error in registering the conglomerate. Try again.",
-    "app_conglomerado_alert_toast_500": " Wrong, the conglomerate already exists.",
+    "app_conglomerado_alert_toast_201": "The conglomerate was successfully registered.",
+    "app_conglomerado_alert_toast_400": "Error in registering the conglomerate. Try again.",
+    "app_conglomerado_alert_toast_500": "Wrong, the conglomerate already exists.",
 
     "app_conglomerado_administrar_button_exportar": "Export",
     "app_conglomrado_administrar_table_placeholder": "Search",

@@ -236,6 +236,9 @@
     "app_empresa_form_registrar_estado": "Estado",
     "app_empresa_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que la empresa es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la empresa no se elimina del sistema solo quedará inactiva y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_empresa_form_registrar_boton_guardar": "Guardar",
+    "app_empresa_alert_toast_201": "Se registro la empresa con éxito.",
+    "app_empresa_alert_toast_400": "Error al registrar la empresa. Inténtelo nuevamente.",
+    "app_empresa_alert_toast_500": "Error, la empresa ya existe.",
 
     "app_empresa_administrar_table_boton_exportar": "Exportar",
     "app_empresa_administrar_table_placeholder": "Buscar",
@@ -357,6 +360,9 @@
     "app_sedes_form_registrar_estado": "Estado",
     "app_sedes_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que la sede es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la sede no se elimina del sistema solo quedará inactiva y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_sedes_form_registrar_boton_guardar": "Guardar",
+    "app_sedes_alert_toast_201": "Se registro la sede con éxito.",
+    "app_sedes_alert_toast_400": "Error al registrar la sede. Inténtelo nuevamente.",
+    "app_sedes_alert_toast_500": "Error, la sede ya existe.",
 
     "app_sedes_administrar_table_button_exportar": "Exportar",
     "app_sedes_administrar_table_placeholder": "Buscar",
@@ -478,6 +484,9 @@
     "app_dependencia_form_registrar_estado": "Estado",
     "app_dependencia_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que la dependencia es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la dependencia no se elimina del sistema solo quedará inactiva y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_dependencia_form_registrar_boton_guardar": "Guardar",
+    "app_dependencia_alert_toast_201": "Se registro la dependencia con éxito.",
+    "app_dependencia_alert_toast_400": "Error al registrar la dependencia. Inténtelo nuevamente.",
+    "app_dependencia_alert_toast_500": "Error, la dependencia ya existe.",
 
     "app_dependencia_administrar_table_button_exportar": "Exportar",
     "app_dependencia_administrar_table_placeholder": "Buscar",
@@ -572,6 +581,9 @@
     "app_cargo_form_registrar_estado": "Estado",
     "app_cargo_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el cargo es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el cargo no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_cargo_form_registrar_button_guardar": "Guardar",
+    "app_cargo_alert_toast_201": "Se registro el cargo con éxito.",
+    "app_cargo_alert_toast_400": "Error al registrar el cargo. Inténtelo nuevamente.",
+    "app_cargo_alert_toast_500": "Error, el cargo ya existe.",
 
     "app_cargo_administrar_table_button_exportar": "Exportar",
     "app_cargo_administrar_table_placeholder": "Buscar",
@@ -650,6 +662,9 @@
     "app_mensajero_form_registrar_estado": "Estado",
     "app_mensajero_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el mensajero es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el mensajero no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_mensajero_form_registrar_boton_guardar": "Guardar",
+    "app_mensajero_alert_toast_201": "Se registro el mensajero con éxito.",
+    "app_mensajero_alert_toast_400": "Error al registrar el mensajero. Inténtelo nuevamente.",
+    "app_mensajero_alert_toast_500": "Error, el mensajero ya existe.",
 
     "app_mensajero_administrar_table_boton_exportar": "Exportar",
     "app_mensajero_administrar_table_placeholder": "Buscar",
@@ -728,6 +743,9 @@
     "app_tipoLlegada_form_registrar_estado": "Estado",
     "app_tipoLlegada_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el tipo de envío / llegada es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el tipo de envío / llegada no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_tipoLlegada_form_registrar_button_guardar": "Guardar",
+    "app_tipoLlegada_alert_toast_201": "Se registro el tipo de envío / llegada con éxito.",
+    "app_tipoLlegada_alert_toast_400": "Error al registrar el tipo de envío / llegada. Inténtelo nuevamente.",
+    "app_tipoLlegada_alert_toast_500": "Error, el tipo de envío / llegada ya existe.",
 
     "app_tipoLlegada_administrar_table_button_exportar": "Exportar",
     "app_tipoLlegada_administrar_table_placeholder": "Buscar",
@@ -832,6 +850,9 @@
     "app_tipoTramite_form_registrar_workflow": "Workflow",
     "app_tipoTramite_form_registrar_select_workflow": "Seleccione",
     "app_tipoTramite_form_registrar_boton_guardar": "Guardar",
+    "app_tipoTramite_alert_toast_201": "Se registro el tipo de trámite con éxito.",
+    "app_tipoTramite_alert_toast_400": "Error al registrar el tipo de trámite. Inténtelo nuevamente.",
+    "app_tipoTramite_alert_toast_500": "Error, el tipo de trámite ya existe.",
 
     "app_tipoTramite_table_administrar_exportar": "Exportar",
     "app_tipoTramite_table_administrar_exportar_usuarios": "Exportar usuarios por trámite",
@@ -898,7 +919,6 @@
     "app_tipoTramite_actualizar_placeholder_textarea_usuarios": "Seleccione los usuarios a asignar",
     "app_tipoTramite_actualizar_user_list_enable_alert_success": "Usuario asignado para recibir la información original",
     "app_tipoTramite_actualizar_user_list_enable_alert_danger": "Se deshabilito el usuario para recibir original",
-
     "app_tipoTramite_actualizar_titulo_3": "Tabla de usuarios asignados",
     "app_tipoTramite_actualizar_user_list_titulo": "Usuarios asignados",
     "app_tipoTramite_actualizar_table_usuario": "Usuario",
@@ -918,6 +938,9 @@
     "app_tipoTramite_actualizar_alert_success": "Se actualizo el tipo de trámite con éxito.",
     "app_tipoTramite_actualizar_alert_error_400": "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
     "app_tipoTramite_actualizar_alert_error_500": "Error, el tipo de trámite ya esta asignado.",
+    "app_tipoTramite_actualizar_alert_toast_200": "Se actualizo el tipo de trámite con éxito.",
+    "app_tipoTramite_actualizar_alert_toast_400": "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
+    "app_tipoTramite_actualizar_alert_toast_500": "Error, el tipo de trámite ya esta asignado.",
 
     "app_tipoTramite_modal_eliminar_titulo": "Eliminar",
     "app_tipoTramite_modal_eliminar_titulo_2": "Confirmar el Código para eliminar el tipo de trámite",
@@ -1001,6 +1024,9 @@
     "app_usuarios_form_registrar_estado": "Estado",
     "app_usuarios_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el usuario es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el usuario no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_usuarios_form_registrar_boton_guardar": "Guardar",
+    "app_usuaios_alert_toast_201": "Se registro el usuario con éxito.",
+    "app_usuarios_alert_toast_400": "Error al registrar el usuario. Inténtelo nuevamente.",
+    "app_usuarios_alert_toast_500": "Error, el usuarios ya existe.",
 
     "app_usuarios_administrar_table_boton_exportar": "Exportar",
     "app_usuarios_administrar_table_placeholder": "Buscar",
@@ -1135,6 +1161,9 @@
     "app_tipoTerecero_form_registrar_estado": "Estado",
     "app_tipoTerecero_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el tipo de tercero es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el tipo de tecero no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_tipoTerecero_form_registrar_button_guardar": "Guardar",
+    "app_tipoTerecero_alert_toast_201": "Se registro el tipo de tercero con éxito.",
+    "app_tipoTerecero_alert_toast_400": "Error al registrar el tipo de tercero. Inténtelo nuevamente.",
+    "app_tipoTerecero_alert_toast_500": "Error, el tipo de tercero ya existe.",
 
     "app_tipoTerecero_administrar_table_button_exportar": "Exportar",
     "app_tipoTerecero_administrar_table_placeholder": "Buscar",
@@ -1221,6 +1250,9 @@
     "app_roles_form_registrar_estado": "Estado",
     "app_roles_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el rol es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el rol no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_roles_form_registrar_boton_guardar": "Guardar",
+    "app_roles_alert_toast_201": "Se registro el rol con éxito.",
+    "app_roles_alert_toast_400": "Error al registrar el rol. Inténtelo nuevamente.",
+    "app_roles_alert_toast_500": "Error, el rol ya existe.",
 
     "app_roles_table_administrar_boton_exportar": "Exportar",
     "app_roles_table_administrar_placeholder": "Buscar",
@@ -1327,6 +1359,9 @@
     "app_grupoUsuarios_form_registrar_estado": "Estado",
     "app_grupoUsuarios_form_registrar_descripcion_estado": "Si esta opción se encuentra activada, representa que el grupo de usuarios es visible en el sistema y se podrán realizr operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el grupo de usuarios no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_grupoUsuarios_form_registrar_boton_guardar": "Guardar",
+    "app_grupoUsuarios_alert_toast_201": "Se registro el grupo de usuarios con éxito.",
+    "app_grupoUsuarios_alert_toast_400": "Error al registrar el grupo de usuarios. Inténtelo nuevamente.",
+    "app_grupoUsuarios_alert_toast_500": "Error, el grupo de usuarios ya existe.",
 
     "app_grupoUsuarios_table_administrar_exportar": "Exportar",
     "app_grupoUsuarios_table_administrar_placeholder": "Buscar",
@@ -1437,6 +1472,9 @@
     "app_tercero_form_registrar_estado": "Estado",
     "app_tercero_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el tercero es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el tercero no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_tercero_form_registrar_boton_guardar": " Guardar",
+    "app_tercero_alert_toast_201": "Se registro el tercero con éxito.",
+    "app_tercero_alert_toast_400": "Error al registrar el tercero. Inténtelo nuevamente.",
+    "app_terceroalert_toast_500": "Error, el tercero ya existe.",
 
     "app_tercero_administrar_tabla_boton_exportar": "Exportar",
     "app_tercero_adminstrar_tabla_placeholder": "Buscar",
@@ -1553,7 +1591,7 @@
     "app_documentalRadicacion_form_registrar_descripcion": "Descripción",
     "app_documentalRadicacion_form_registrar_dias_respuesta": "Días máximos de respuesta",
     "app_documentalRadicacion_form_registrar_estado": "Estado",
-    "app_documentalRadicacion_form_registrar_descripcion_estado": "Si esta opción se encuentra activada, representa que el tipo documental de radicacion es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el tipo documental de radicación no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
+    "app_documentalRadicacion_form_registrar_descripcion_estado": "Si esta opción se encuentra activada, representa que el tipo documental de radicación es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el tipo documental de radicación no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_documentalRadicacion_form_registrar_titulo_2": "Usuarios disponibles",
     "app_documentalRadicacion_form_registrar_conglomerado": "Conglomerado",
     "app_documentalRadicacion_form_registrar_select_conglomerado": "Seleccione",
@@ -1583,6 +1621,9 @@
     "app_documentalRadicacion_form_registrar_workflow": "Workflow",
     "app_documentalRadicacion_form_registrar_select_workflow": "Seleccione",
     "app_documentalRadicacion_form_registrar_boton_guardar": "Guardar",
+    "app_documentalRadicacion_alert_toast_201": "Se registro el tipo documental de radicación con éxito.",
+    "app_documentalRadicacion_alert_toast_400": "Error al registrar el tipo documental de radicación. Inténtelo nuevamente.",
+    "app_documentalRadicacion_alert_toast_500": "Error, el tipo documental de radicación ya existe.",
 
     "app_documentalRadicacion_table_administrar_exportar": "Exportar",
     "app_documentalRadicacion_table_administrar_exportar_usuarios": "Exportar usuarios por tipo documental de radicacion",
@@ -1763,6 +1804,9 @@
     "app_pais_form_registrar_estado": "Estado",
     "app_pais_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el país es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el país no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_pais_form_button_guardar": "Guardar",
+    "app_pais_alert_toast_201": "Se registro el país con éxito.",
+    "app_pais_alert_toast_400": "Error al registrar el país. Inténtelo nuevamente.",
+    "app_pais_alert_toast_500": "Error, el país ya existe.",
 
     "app_pais_administrar_table_button_exportar": "Exportar",
     "app_pais_administrar_table_placeholder": "Buscar",
@@ -1838,6 +1882,9 @@
     "app_departamento_form_registrar_estado": "Estado",
     "app_departamento_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa el departamento que es visible en el sistema y puede realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario, el departamento no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_departamento_form_button_guardar": "Guardar",
+    "app_departamento_alert_toast_201": "Se registro el departamento con éxito.",
+    "app_departamento_alert_toast_400": "Error al registrar el departamento. Inténtelo nuevamente.",
+    "app_departamento_alert_toast_500": "Error, el departamento ya existe.",
 
     "app_departamento_administrar_table_button_exportar": "Exportar",
     "app_departamento_administrar_table_placeholder": "Buscar",
@@ -1920,6 +1967,9 @@
     "app_ciudad_form_registrar_estado": "Estado",
     "app_ciudad_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que la ciudad es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la ciudad no se elimina del sistema solo quedará inactiva y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_ciudad_form_button_guardar": "Guardar",
+    "app_ciudad_alert_toast_201": "Se registro la ciudad con éxito.",
+    "app_ciudad_alert_toast_400": "Error al registrar la ciudad. Inténtelo nuevamente.",
+    "app_ciudad_alert_toast_500": "Error, la ciudad ya existe.",
 
     "app_ciudad_administrar_table_button_exportar": "Exportar",
     "app_ciudad_administrar_table_placeholder": "Buscar",
@@ -2054,6 +2104,9 @@
     "app_radicacion_email_form_registrar_estado": "Estado",
     "app_radicacion_email_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el correo electrónico es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el correo electrónico no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema.",
     "app_radicacion_email_form_registrar_boton_guardar": "Guardar",
+    "app_radicacion_email_actualizar_alert_success": "Se registro el correo electrónico con éxito.",
+    "app_radicacion_email_actualizar_alert_error_400": "Error al registrar el correo electrónico. Inténtelo nuevamente.",
+    "app_radicacion_email_actualizar_alert_error_500": "Error, el correo electrónico ya existe.",
 
     "app_radicacion_email_administrar_table_boton_exportar": "Exportar",
     "app_radicacion_email_administrar_table_placeholder": "Buscar",
@@ -2178,6 +2231,8 @@
     "app_plantilla_email_modal_editar_btn_vista_previa": "Vista previa",
     "app_plantilla_email_modal_editar_btn_actualizar": "Actualizar",
     "app_plantilla_email_modal_editar_btn_cerrar": "Cerrar",
+    "app_plantilla_email_modal_editar_alert_toast_200": "Se edito la plantilla de correo electrónico con éxito.",
+    "app_plantilla_email_modal_editar_alert_toast_400": "Error, la plantilla de correo electrónico ya existe.",
 
     "app_plantilla_tab": "Registrar",
     "app_plantilla_tab_2": "Administrar",
@@ -2201,6 +2256,8 @@
     "app_plantilla_form_registrar_table_metadatos_alert_duplicado": "Error, no se puede agregar varias veces el mismo metadato a la plantilla.",
     "app_plantilla_form_registrar_btn_guardar": "Guardar plantilla",
     "app_plantilla_form_registrar_alert_200": "Se registro la plantilla con exito",
+    "app_plantilla_form_registrar_alert_toast_400": "Error al registrar la plantilla. Inténtelo nuevamente.",
+    "app_plantilla_form_registrar_alert_toast_500": "Error, la plantilla ya existe.",
 
     "app_plantilla_administrar_btn_exportar": "Exportar",
     "app_plantilla_administrar_placeholder_search": "Buscar",

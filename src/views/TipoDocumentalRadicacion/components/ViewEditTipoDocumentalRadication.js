@@ -94,6 +94,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
         estado: Yup.bool().test("Activado", "", (value) => value === true),
       })}
       onSubmit={(values, { setSubmitting, props, resetForm }) => {
+        // const { t } = props;
         setSpinnerActualizar(true);
         const token = auth;
         const userName = decode(auth);
@@ -135,7 +136,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                 if (response.status === 200) {
                   setSpinnerActualizar(false);
                   toast.success(
-                    "Se actualizo el tipo documental de radicación con éxito.",
+                    t("app_documentalRadicacion_actualizar_alert_success"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -150,7 +151,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                 } else if (response.status === 400) {
                   setSpinnerActualizar(false);
                   toast.error(
-                    "Error al actualizar el tipo documental de radicación. Inténtelo nuevamente.",
+                    t("app_documentalRadicacion_actualizar_alert_error_400"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -161,7 +162,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                 } else if (response.status === 500) {
                   setSpinnerActualizar(false);
                   toast.error(
-                    "Error, el tipo documental de radicación ya esta asignado.",
+                    t("app_documentalRadicacion_actualizar_alert_error_500"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({

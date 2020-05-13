@@ -238,6 +238,9 @@
     "app_empresa_form_registrar_estado": "State",
     "app_empresa_form_registrar_estado_descripcion": "If this option is activated, it represents that the company is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the company is not removed from the system, it will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_empresa_form_registrar_boton_guardar": "Save",
+    "app_empresa_alert_toast_201": "The company was successfully registered.",
+    "app_empresa_alert_toast_400": "Error when registering the company. Try again.",
+    "app_empresa_alert_toast_500": "Wrong, the company already exists.",
 
     "app_empresa_administrar_table_boton_exportar": "Export",
     "app_empresa_administrar_table_placeholder": "Search",
@@ -359,6 +362,9 @@
     "app_sedes_form_registrar_estado": "State",
     "app_sedes_form_registrar_estado_descripcion": "If this option is activated, it represents that the headquarters is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the headquarters is not removed from the system, it will only remain inactive and not visible for each of the corresponding modules of the system.",
     "app_sedes_form_registrar_boton_guardar": "Save",
+    "app_sedes_alert_toast_201": "The headquarter was successfully registered.",
+    "app_sedes_alert_toast_400": "Error in registering the headquarter. Try again.",
+    "app_sedes_alert_toast_500": "Wrong, the headquarters already exists.",
 
     "app_sedes_administrar_table_button_exportar": "Export",
     "app_sedes_administrar_table_placeholder": "Search",
@@ -480,6 +486,9 @@
     "app_dependencia_form_registrar_estado": "State",
     "app_dependencia_form_registrar_estado_descripcion": "If this option is activated, it represents that the dependency is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the dependency is not removed from the system and will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_dependencia_form_registrar_boton_guardar": "Save",
+    "app_dependencia_alert_toast_201": "The dependency was successfully registered.",
+    "app_dependencia_alert_toast_400": "Error in registering the dependency. Try again.",
+    "app_dependencia_alert_toast_500": "Wrong, the dependency already exists.",
 
     "app_dependencia_administrar_table_button_exportar": "Export",
     "app_dependencia_administrar_table_placeholder": "Search",
@@ -574,6 +583,9 @@
     "app_cargo_form_registrar_estado": "State",
     "app_cargo_form_registrar_estado_descripcion": "If this option is activated, it represents that the charge is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the charge is not removed from the system and will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_cargo_form_registrar_button_guardar": "Save",
+    "app_cargo_alert_toast_201": "The charge was successfully registered.",
+    "app_cargo_alert_toast_400": "Error in registering the charge. Try again.",
+    "app_cargo_alert_toast_500": "Wrong, the charge already exists.",
 
     "app_cargo_administrar_table_button_exportar": "Export",
     "app_cargo_administrar_table_placeholder": "Search",
@@ -652,6 +664,9 @@
     "app_mensajero_form_registrar_estado": "State",
     "app_mensajero_form_registrar_estado_descripcion": "If this option is enabled, it represents that the messenger is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the messenger is not removed from the system, it will only be inactive and not visible for each of the corresponding modules of the system.",
     "app_mensajero_form_registrar_boton_guardar": "Save",
+    "app_mensajero_alert_toast_201": "The messenger was successfully registered.",
+    "app_mensajero_alert_toast_400": "Error in registering the messenger. Try again.",
+    "app_mensajero_alert_toast_500": "Wrong, the messenger already exists.",
 
     "app_mensajero_administrar_table_boton_exportar": "Export",
     "app_mensajero_administrar_table_placeholder": "Search",
@@ -730,6 +745,9 @@
     "app_tipoLlegada_form_registrar_estado": "State",
     "app_tipoLlegada_form_registrar_estado_descripcion": "If this option is activated, it represents that the type of shipment / arrival is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the type of dispatch / arrival is not eliminated from the system and will only remain inactive and not visible for each of the corresponding modules of the system.",
     "app_tipoLlegada_form_registrar_button_guardar": "Save",
+    "app_tipoLlegada_alert_toast_201": "The type of shipment / arrival was successfully registered.",
+    "app_tipoLlegada_alert_toast_400": "Error when recording the type of shipment / arrival. Please try again.",
+    "app_tipoLlegada_alert_toast_500": "Error, the type of shipment / arrival already exists.",
 
     "app_tipoLlegada_administrar_table_button_exportar": "Export",
     "app_tipoLlegada_administrar_table_placeholder": "Search",
@@ -834,6 +852,9 @@
     "app_tipoTramite_form_registrar_workflow": "Workflow",
     "app_tipoTramite_form_registrar_select_workflow": "Choose",
     "app_tipoTramite_form_registrar_boton_guardar": "Save",
+    "app_tipoTramite_alert_toast_201": "The type ofprocedure was successfully registered.",
+    "app_tipoTramite_alert_toast_400": "Error when recording the type of procedure. Please try again.",
+    "app_tipoTramite_alert_toast_500": "Error, the type of procedure already exists.",
 
     "app_tipoTramite_table_administrar_exportar": "Export",
     "app_tipoTramite_table_administrar_exportar_usuarios": "Export users by procedure",
@@ -915,6 +936,9 @@
     "app_tipoTramite_actualizar_alert_success": "The type of procedure was updated successfully.",
     "app_tipoTramite_actualizar_alert_error_400": "Error when updating the type of procedure. Try again.",
     "app_tipoTramite_actualizar_alert_error_500": "Error, the type of procedure is already assigned.",
+    "app_tipoTramite_actualizar_alert_toast_200": "The type of procedure was updated successfully.",
+    "app_tipoTramite_actualizar_alert_toast_400": "Error when updating the type of procedure. Try again.",
+    "app_tipoTramite_actualizar_alert_toast_500": "Error, the type of procedure is already assigned.",
 
     "app_tipoTramite_modal_eliminar_titulo": "Delete",
     "app_tipoTramite_modal_eliminar_titulo_2": "Confirm the Code to eliminate type of procedure",
@@ -998,6 +1022,9 @@
     "app_usuarios_form_registrar_estado": "State",
     "app_usuarios_form_registrar_estado_descripcion": "If this option is activated, it represents that the user is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the user will not be deleted from the system and will only remain inactive and not visible for each of the corresponding modules of the system.",
     "app_usuarios_form_registrar_boton_guardar": "Save",
+    "app_usuaios_alert_toast_201": "The user was successfully registered.",
+    "app_usuarios_alert_toast_400": "User registration error. Try again.",
+    "app_usuarios_alert_toast_500": "Error, the user already exists.",
 
     "app_usuarios_administrar_table_boton_exportar": "Export",
     "app_usuarios_administrar_table_placeholder": "Search",
@@ -1132,6 +1159,9 @@
     "app_tipoTerecero_form_registrar_estado": "State",
     "app_tipoTerecero_form_registrar_estado_descripcion": "If this option is activated, it represents that the type of third party is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the third party type is not removed from the system, it will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_tipoTerecero_form_registrar_button_guardar": "Save",
+    "app_tipoTerecero_alert_toast_201": "The type of third party was successfully registered.",
+    "app_tipoTerecero_alert_toast_400": "Error in registering the type of third party. Try again.",
+    "app_tipoTerecero_alert_toast_500": "Wrong, the kind of third party already exists.",
 
     "app_tipoTerecero_administrar_table_button_exportar": "Export",
     "app_tipoTerecero_administrar_table_placeholder": "Search",
@@ -1218,6 +1248,9 @@
     "app_roles_form_registrar_estado": "State",
     "app_roles_form_registrar_estado_descripcion": "If this option is activated, it represents that the role is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the role is not removed from the system and will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_roles_form_registrar_boton_guardar": "Save",
+    "app_roles_alert_toast_201": "The role was successfully registered.",
+    "app_roles_alert_toast_400": "Error when registering the role. Try again.",
+    "app_roles_alert_toast_500": "Wrong, the role already exists.",
 
     "app_roles_table_administrar_boton_exportar": "Export",
     "app_roles_table_administrar_placeholder": "Search",
@@ -1324,6 +1357,9 @@
     "app_grupoUsuarios_form_registrar_estado": "State",
     "app_grupoUsuarios_form_registrar_descripcion_estado": "If this option is activated, it represents that the user group is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the user group will not be deleted from the system, it will only be inactive and not visible for each of the corresponding modules of the system.",
     "app_grupoUsuarios_form_registrar_boton_guardar": "Save",
+    "app_grupoUsuarios_alert_toast_201": "The user group was successfully registered.",
+    "app_grupoUsuarios_alert_toast_400": "Error when registering the user group. Please try again.",
+    "app_grupoUsuarios_alert_toast_500": "Error, the user group already exists.",
 
     "app_grupoUsuarios_table_administrar_exportar": "Export",
     "app_grupoUsuarios_table_administrar_placeholder": "Search",
@@ -1434,6 +1470,9 @@
     "app_tercero_form_registrar_estado": "State",
     "app_tercero_form_registrar_estado_descripcion": "If this option is activated, it represents that the third party is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the third party is not removed from the system and will only remain inactive and not visible for each of the corresponding modules of the system.",
     "app_tercero_form_registrar_boton_guardar": "Save",
+    "app_tercero_alert_toast_201": "The third party was successfully registered.",
+    "app_tercero_alert_toast_400": "Error in registering the third party. Try again.",
+    "app_terceroalert_toast_500": "Wrong, the third party already exists.",
 
     "app_tercero_administrar_tabla_boton_exportar": "Export",
     "app_tercero_adminstrar_tabla_placeholder": "Search",
@@ -1571,7 +1610,7 @@
     "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_dependencia": "Dependence",
     "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_original": "Original",
     "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_eliminar": "Delete",
-    "app_documentalRadicacion_form_registrar_usuarios_disponibles": "There are no users assigned to this type of settlement document. ",
+    "app_documentalRadicacion_form_registrar_usuarios_disponibles": "There are no users assigned to this type of filing document. ",
     "app_documentalRadicacion_form_registrar_titulo_4": "Affair",
     "app_documentalRadicacion_form_registrar_asunto": "Affair",
     "app_documentalRadicacion_form_registrar_titulo_5": "Template",
@@ -1581,6 +1620,9 @@
     "app_documentalRadicacion_form_registrar_workflow": "Workflow",
     "app_documentalRadicacion_form_registrar_select_workflow": "Choose",
     "app_documentalRadicacion_form_registrar_boton_guardar": "Save",
+    "app_documentalRadicacion_alert_toast_201": "The documentary type of successful filing was registered.",
+    "app_documentalRadicacion_alert_toast_400": "Error in recording the type of filing document. Try again.",
+    "app_documentalRadicacion_alert_toast_500": "Wrong, the documentary type of filing already exists.",
 
     "app_documentalRadicacion_table_administrar_exportar": "Export",
     "app_documentalRadicacion_table_administrar_exportar_usuarios": "Export users by document type",
@@ -1760,6 +1802,9 @@
     "app_pais_form_registrar_estado": "State",
     "app_pais_form_registrar_estado_descripcion": "If this option is activated, it represents that the country is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the country is not removed from the system, it will only be inactive and not visible for each of the corresponding modules in the system.",
     "app_pais_form_button_guardar": "Save",
+    "app_pais_alert_toast_201": "The country was successfully registered.",
+    "app_pais_alert_toast_400": "Error in registering the country. Try again.",
+    "app_pais_alert_toast_500": "Wrong, the country already exists.",
 
     "app_pais_administrar_table_button_exportar": "Export",
     "app_pais_administrar_table_placeholder": "Search",
@@ -1835,6 +1880,9 @@
     "app_departamento_form_registrar_estado": "State",
     "app_departamento_form_registrar_estado_descripcion": "If this option is activated, it represents the department that is visible in the system and can perform operations between each of the corresponding modules of the application. Otherwise, the department is not removed from the system, it will only be inactive and not visible for each of the corresponding modules in the system.",
     "app_departamento_form_button_guardar": "Save",
+    "app_departamento_alert_toast_201": "The department was successfully registered.",
+    "app_departamento_alert_toast_400": "Error in registering the department. Try again.",
+    "app_departamento_alert_toast_500": "Wrong, the department already exists.",
 
     "app_departamento_administrar_table_button_exportar": "Export",
     "app_departamento_administrar_table_placeholder": "Search",
@@ -1917,6 +1965,9 @@
     "app_ciudad_form_registrar_estado": "State",
     "app_ciudad_form_registrar_estado_descripcion": "If this option is activated, it represents that the city is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the city is not removed from the system, it will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_ciudad_form_button_guardar": "Save",
+    "app_ciudad_alert_toast_201": "The city was successfully registered.",
+    "app_ciudad_alert_toast_400": "Error in registering the city. Try again.",
+    "app_ciudad_alert_toast_500": "Wrong, the city already exists.",
 
     "app_ciudad_administrar_table_button_exportar": "Export",
     "app_ciudad_administrar_table_placeholder": "Search",
@@ -2051,6 +2102,9 @@
     "app_radicacion_email_form_registrar_estado": "State",
     "app_radicacion_email_form_registrar_estado_descripcion": "If this option is activated, it represents that the e-mail is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise the e-mail is not deleted from the system and will only remain inactive and not visible for each of the corresponding modules in the system.",
     "app_radicacion_email_form_registrar_boton_guardar": "Save",
+    "app_radicacion_email_actualizar_alert_success": "The email was successfully registered.",
+    "app_radicacion_email_actualizar_alert_error_400": "Error when registering the email. Please try again.",
+    "app_radicacion_email_actualizar_alert_error_500": "Wrong, the email already exists.",
 
     "app_radicacion_email_administrar_table_boton_exportar": "Export",
     "app_radicacion_email_administrar_table_placeholder": "Search",
@@ -2173,6 +2227,8 @@
     "app_plantilla_email_modal_editar_btn_vista_previa": "Preview",
     "app_plantilla_email_modal_editar_btn_actualizar": "Upgrade",
     "app_plantilla_email_modal_editar_btn_cerrar": "Close",
+    "app_plantilla_email_modal_editar_alert_toast_200": "The email template was successfully edited.",
+    "app_plantilla_email_modal_editar_alert_toast_400": "Error, the email template already exists.",
 
     "app_plantilla_tab": "Register",
     "app_plantilla_tab_2": "Manage",
@@ -2196,6 +2252,8 @@
     "app_plantilla_form_registrar_table_metadatos_alert_duplicado": "Error, the same metadata cannot be added several times to the template.",
     "app_plantilla_form_registrar_btn_guardar": "Save template",
     "app_plantilla_form_registrar_alert_200": "Template successfully registered",
+    "app_plantilla_form_registrar_alert_toast_400": "Error when registering the template. Try again.",
+    "app_plantilla_form_registrar_alert_toast_500": "Wrong, the template already exists.",
 
     "app_plantilla_administrar_btn_exportar": "Export",
     "app_plantilla_administrar_placeholder_search": "Search",

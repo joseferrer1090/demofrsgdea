@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import * as Yup from "yup";
 import { CHARGES } from "./../../../../services/EndPoints";
@@ -18,7 +18,7 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const CargoForm = props => {
+const CargoForm = (props) => {
   const {
     values,
     touched,
@@ -28,7 +28,7 @@ const CargoForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
-    t
+    t,
   } = props;
   return (
     <Row>
@@ -50,14 +50,14 @@ const CargoForm = props => {
                       name={"code"}
                       type="text"
                       placeholder=""
-                      onChange={e => {
+                      onChange={(e) => {
                         setFieldValue("code", e.target.value.toUpperCase());
                       }}
                       onBlur={handleBlur}
                       value={values.code}
-                      className={`form-control form-control-sm ${errors.code &&
-                        touched.code &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.code && touched.code && "is-invalid"
+                      }`}
                     />
                     <div style={{ color: "#D54B4B" }}>
                       {errors.code && touched.code ? (
@@ -78,14 +78,14 @@ const CargoForm = props => {
                       name={"name"}
                       type="text"
                       placeholder=""
-                      onChange={e => {
+                      onChange={(e) => {
                         setFieldValue("name", e.target.value.toUpperCase());
                       }}
                       onBlur={handleBlur}
                       value={values.name}
-                      className={`form-control form-control-sm ${errors.name &&
-                        touched.name &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.name && touched.name && "is-invalid"
+                      }`}
                     />
                     <div style={{ color: "#D54B4B" }}>
                       {errors.name && touched.name ? (
@@ -163,15 +163,15 @@ const CargoForm = props => {
 };
 CargoForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       code: props.cargo.code,
       name: props.cargo.name,
       description: props.cargo.description,
-      status: props.cargo.status
+      status: props.cargo.status,
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
@@ -185,12 +185,12 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           " Necesario activar el cargo. ",
-          value => value === true
+          (value) => value === true
         )
-        .required(" Se debe activar el cargo.")
+        .required(" Se debe activar el cargo."),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -201,63 +201,61 @@ export default withTranslation("translations")(
       };
 
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(`${CHARGES}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             description: values.description,
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               console.log(response);
               if (response.status === 201) {
-                toast.success("Se registro el cargo con éxito.", {
+                toast.success(t("app_cargo_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el cargo. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el cargo ya existe.", {
+                toast.error(t("app_cargo_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_cargo_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(CargoForm)
 );

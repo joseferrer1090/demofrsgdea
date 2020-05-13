@@ -98,6 +98,7 @@ const TipoDocumentalRadicacion = (props) => {
           return null;
         };
         setTimeout(() => {
+          const { t } = props;
           const auth = props.authorization;
           const username = decode(auth);
           fetch(`${TYPEDOCUMENTARY_POST}`, {
@@ -126,27 +127,21 @@ const TipoDocumentalRadicacion = (props) => {
               .json()
               .then((data) => {
                 if (response.status === 201) {
-                  toast.success(
-                    "Se registro el tipo documental de radicación con éxito.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px",
-                      }),
-                    }
-                  );
+                  toast.success(t("app_documentalRadicacion_alert_toast_201"), {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
+                  });
                 } else if (response.status === 400) {
-                  toast.error(
-                    "Error al registrar el tipo documental. Inténtelo nuevamente.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px",
-                      }),
-                    }
-                  );
+                  toast.error(t("app_documentalRadicacion_alert_toast_400"), {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
+                  });
                 } else if (response.status === 500) {
-                  toast.error("Error, el tipo documental ya existe.", {
+                  toast.error(t("app_documentalRadicacion_alert_toast_500"), {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px",

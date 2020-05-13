@@ -123,20 +123,8 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
               response.json().then((data) => {
                 if (response.status === 200) {
                   setSpinner(false);
-                  toast.success("Se actualizo el tipo de trámite con éxito.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  });
-                  setTimeout(() => {
-                    let path = `#/configuracion/tipotramite`;
-                    window.location.replace(path);
-                  }, 5000);
-                } else if (response.status === 400) {
-                  setSpinner(false);
-                  toast.error(
-                    "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
+                  toast.success(
+                    t("app_tipoTramite_actualizar_alert_toast_200"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -144,9 +132,21 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                       }),
                     }
                   );
+                  setTimeout(() => {
+                    let path = `#/configuracion/tipotramite`;
+                    window.location.replace(path);
+                  }, 5000);
+                } else if (response.status === 400) {
+                  setSpinner(false);
+                  toast.error(t("app_tipoTramite_actualizar_alert_toast_400"), {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
+                  });
                 } else if (response.status === 500) {
                   setSpinner(false);
-                  toast.error("Error, el tipo de trámite ya esta asignado.", {
+                  toast.error(t("app_tipoTramite_actualizar_alert_toast_500"), {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px",

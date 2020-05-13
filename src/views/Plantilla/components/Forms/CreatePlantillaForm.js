@@ -110,7 +110,7 @@ const CreatePlantillaForm = (props) => {
                     setSpinner(false);
                   } else if (response.status === 400) {
                     toast.error(
-                      "Error al registrar la plantilla, intentalo nuevamente",
+                      t("app_plantilla_form_registrar_alert_toast_400"),
                       {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
@@ -120,12 +120,15 @@ const CreatePlantillaForm = (props) => {
                     );
                     setSpinner(false);
                   } else if (response.status === 500) {
-                    toast.error("Error, la plantilla ya existe.", {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px",
-                      }),
-                    });
+                    toast.error(
+                      t("app_plantilla_form_registrar_alert_toast_500"),
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: css({
+                          marginTop: "60px",
+                        }),
+                      }
+                    );
                     setSpinner(false);
                   }
                 })

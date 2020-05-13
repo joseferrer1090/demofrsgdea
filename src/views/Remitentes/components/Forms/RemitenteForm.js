@@ -7,7 +7,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { THIRDPARTYS } from "../../../../services/EndPoints";
 import { withFormik, ErrorMessage, Field } from "formik";
@@ -24,7 +24,7 @@ import { decode } from "jsonwebtoken";
 import IntlTelInput from "react-intl-tel-input";
 import "react-intl-tel-input/dist/main.css";
 
-const RemitenteForm = props => {
+const RemitenteForm = (props) => {
   const {
     values,
     errors,
@@ -35,7 +35,7 @@ const RemitenteForm = props => {
     isSubmitting,
     setFieldTouched,
     setFieldValue,
-    t
+    t,
   } = props;
 
   const [oldValue, setOldValue] = useState();
@@ -68,14 +68,16 @@ const RemitenteForm = props => {
                           authorization={props.authorization}
                           t={props.t}
                           name={"tipoTercero"}
-                          onChange={e =>
+                          onChange={(e) =>
                             setFieldValue("tipoTercero", e.target.value)
                           }
                           onBlur={() => setFieldTouched("tipoTercero", true)}
                           value={values.tipoTercero}
-                          className={`form-control form-control-sm ${errors.tipoTercero &&
+                          className={`form-control form-control-sm ${
+                            errors.tipoTercero &&
                             touched.tipoTercero &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.tipoTercero && touched.tipoTercero ? (
@@ -99,9 +101,11 @@ const RemitenteForm = props => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.elementoComunicacion}
-                          className={`form-control form-control-sm ${errors.elementoComunicacion &&
+                          className={`form-control form-control-sm ${
+                            errors.elementoComunicacion &&
                             touched.elementoComunicacion &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         >
                           <option disabled value={""}>
                             --{" "}
@@ -144,9 +148,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           value={values.identificacion}
                           type="text"
-                          className={`form-control form-control-sm ${errors.identificacion &&
+                          className={`form-control form-control-sm ${
+                            errors.identificacion &&
                             touched.identificacion &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.identificacion && touched.identificacion ? (
@@ -169,9 +175,9 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           value={values.nombre}
                           type="text"
-                          className={`form-control form-control-sm ${errors.nombre &&
-                            touched.nombre &&
-                            "is-invalid"}`}
+                          className={`form-control form-control-sm ${
+                            errors.nombre && touched.nombre && "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.nombre && touched.nombre ? (
@@ -196,9 +202,9 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           value={values.email}
                           type="email"
-                          className={`form-control form-control-sm ${errors.email &&
-                            touched.email &&
-                            "is-invalid"}`}
+                          className={`form-control form-control-sm ${
+                            errors.email && touched.email && "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.email && touched.email ? (
@@ -220,9 +226,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           type="text"
                           value={values.telefonoFijo}
-                          className={`form-control form-control-sm ${errors.telefonoFijo &&
+                          className={`form-control form-control-sm ${
+                            errors.telefonoFijo &&
                             touched.telefonoFijo &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.telefonoFijo && touched.telefonoFijo ? (
@@ -245,9 +253,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           value={values.telefonoCelular}
                           type="text"
-                          className={`form-control form-control-sm ${errors.telefonoCelular &&
+                          className={`form-control form-control-sm ${
+                            errors.telefonoCelular &&
                             touched.telefonoCelular &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.telefonoCelular && touched.telefonoCelular ? (
@@ -269,9 +279,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur}
                           value={values.direccion}
                           type="text"
-                          className={`form-control form-control-sm ${errors.direccion &&
+                          className={`form-control form-control-sm ${
+                            errors.direccion &&
                             touched.direccion &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.direccion && touched.direccion ? (
@@ -294,15 +306,15 @@ const RemitenteForm = props => {
                           authorization={props.authorization}
                           t={props.t}
                           name={"pais"}
-                          onChange={e => {
+                          onChange={(e) => {
                             setFieldValue("pais", e.target.value);
                             changeInValue(values.pais, e.target.value);
                           }}
                           value={values.pais}
                           onBlur={() => setFieldTouched("pais", true)}
-                          className={`form-control form-control-sm ${errors.pais &&
-                            touched.pais &&
-                            "is-invalid"}`}
+                          className={`form-control form-control-sm ${
+                            errors.pais && touched.pais && "is-invalid"
+                          }`}
                         />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.pais && touched.pais ? (
@@ -374,9 +386,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur.referencia}
                           value={values.referencia}
                           type="text"
-                          className={`form-control form-control-sm ${errors.referencia &&
+                          className={`form-control form-control-sm ${
+                            errors.referencia &&
                             touched.referencia &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <ErrorMessage name="referencia" />
                       </div>
@@ -393,9 +407,11 @@ const RemitenteForm = props => {
                           onBlur={handleBlur.observacion}
                           type="text"
                           value={values.observacion}
-                          className={`form-control form-control-sm ${errors.observacion &&
+                          className={`form-control form-control-sm ${
+                            errors.observacion &&
                             touched.observacion &&
-                            "is-invalid"}`}
+                            "is-invalid"
+                          }`}
                         />
                         <ErrorMessage name="observacion" />
                       </div>
@@ -460,7 +476,7 @@ const RemitenteForm = props => {
 };
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       tipoTercero: props.remitenteForm.tipoTercero,
       elementoComunicacion: props.remitenteForm.elementoComunicacion,
       pais: props.remitenteForm.pais,
@@ -474,7 +490,7 @@ export default withTranslation("translations")(
       telefonoCelular: props.remitenteForm.telefonoCelular,
       referencia: props.remitenteForm.referencia,
       observacion: props.remitenteForm.observacion,
-      estado: props.remitenteForm.estado
+      estado: props.remitenteForm.estado,
     }),
     validationSchema: Yup.object().shape({
       tipoTercero: Yup.string()
@@ -483,9 +499,7 @@ export default withTranslation("translations")(
       elementoComunicacion: Yup.string()
         .ensure()
         .required(" Por favor seleccione un elemento de comunicación."),
-      pais: Yup.string()
-        .ensure()
-        .required(" Por favor seleccione un país."),
+      pais: Yup.string().ensure().required(" Por favor seleccione un país."),
       departamento: Yup.string()
         .ensure()
         .required(" Por favor seleccione un departamento."),
@@ -524,11 +538,11 @@ export default withTranslation("translations")(
       estado: Yup.bool().test(
         "Activo",
         "se requiere la activacion el usuario",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -538,13 +552,14 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(THIRDPARTYS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             address: values.direccion,
@@ -559,53 +574,50 @@ export default withTranslation("translations")(
             status: tipoEstado(values.estado),
             typeThirdPartyId: values.tipoTercero,
             cityId: values.ciudad,
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el tercero con éxito.", {
+                toast.success(t("app_tercero_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el tercero. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear el tercero.", {
+                toast.error(t("app_tercero_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_terceroalert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(RemitenteForm)
 );
 RemitenteForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };

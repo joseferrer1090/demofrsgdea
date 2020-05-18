@@ -44,6 +44,7 @@ class SelectPlantilla extends Component {
           data: data,
         });
       })
+
       .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
@@ -51,6 +52,7 @@ class SelectPlantilla extends Component {
 
   render() {
     const data = this.state.data;
+    console.log(this.state.data);
     return (
       <div className="form-group">
         <label>

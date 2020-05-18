@@ -67,9 +67,17 @@ class PreviewTemplate extends Component {
           </CardHeader>
           <CardBody>
             {this.state.template.length ? (
-              <p>Hay datos desde la api</p>
+              <p className="text-success text-center">
+                <strong>Hay datos para mostrar la plantilla</strong>
+              </p>
             ) : (
-              <p> No hay dato verificar o seleccionar otra plantilla</p>
+              <p className="text-center">
+                {" "}
+                <strong>
+                  {" "}
+                  No hay dato verificar o seleccionar otra plantilla
+                </strong>
+              </p>
             )}
           </CardBody>
         </Card>

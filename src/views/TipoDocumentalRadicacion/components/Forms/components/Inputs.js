@@ -48,25 +48,40 @@ const Inputs = (props) => {
       break;
     case "radio":
       inputElement = (
-        <div>
-          <p>Apenas maquetando</p>
+        <div className="col-md-6">
+          {props.elementConfig.options.length ? (
+            props.elementConfig.options.map((aux, id) => {
+              return (
+                <div className="form-check">
+                  <input className="form-check-input" type="radio" />
+                  <label className="form-check-label" htmlFor>
+                    {aux.displayValue}
+                  </label>
+                </div>
+              );
+            })
+          ) : (
+            <div>No hay datos asociando al input de tipo radio</div>
+          )}
         </div>
       );
       break;
     case "checkbox":
       inputElement = (
-        <div>
+        <div className="col-md-6">
           {props.elementConfig.options.length ? (
             props.elementConfig.options.map((aux, id) => {
               return (
-                <div>
-                  <label>{aux.displayValue}</label>
+                <div className="form-group form-check">
                   <input
+                    className="form-check-input"
                     type="checkbox"
                     id={aux.id}
-                    checked={aux.value}
                     {...props.elementConfig}
                   />
+                  <label className="form-check-label" htmlFor={aux.id}>
+                    {aux.displayValue}
+                  </label>
                 </div>
               );
             })

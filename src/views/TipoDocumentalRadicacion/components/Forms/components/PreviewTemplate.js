@@ -72,26 +72,28 @@ class PreviewTemplate extends Component {
             <i className="fa fa-wpforms" /> Preview de la plantilla
           </CardHeader>
           <CardBody>
-            {this.state.template.length ? (
-              // <p className="text-success text-center">
-              //   <strong>Hay datos para mostrar la plantilla</strong>
-              // </p>
-              this.state.template.map((aux, id) => (
-                <Inputs
-                  key={id}
-                  formType={aux.metadata.elementConfig.type}
-                  elementConfig={aux.metadata.elementConfig}
-                />
-              ))
-            ) : (
-              <p className="text-center">
-                {" "}
-                <strong>
+            <Card body>
+              {this.state.template.length ? (
+                // <p className="text-success text-center">
+                //   <strong>Hay datos para mostrar la plantilla</strong>
+                // </p>
+                this.state.template.map((aux, id) => (
+                  <Inputs
+                    key={id}
+                    formType={aux.metadata.elementConfig.type}
+                    elementConfig={aux.metadata.elementConfig}
+                  />
+                ))
+              ) : (
+                <p className="text-center">
                   {" "}
-                  No hay dato verificar o seleccionar otra plantilla
-                </strong>
-              </p>
-            )}
+                  <strong>
+                    {" "}
+                    No hay dato verificar o seleccionar otra plantilla
+                  </strong>
+                </p>
+              )}
+            </Card>
           </CardBody>
         </Card>
       </div>

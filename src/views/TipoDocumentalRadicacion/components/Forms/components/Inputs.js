@@ -4,7 +4,7 @@ const Inputs = (props) => {
   console.log(props);
   let inputElement = null;
   switch (props.formType) {
-    case "input":
+    case "text":
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
@@ -35,7 +35,7 @@ const Inputs = (props) => {
               {props.elementConfig.options.length ? (
                 props.elementConfig.options.map((aux, id) => (
                   <option key={id} value={aux.value}>
-                    {aux.name}
+                    {aux.displayValue}
                   </option>
                 ))
               ) : (
@@ -56,7 +56,23 @@ const Inputs = (props) => {
     case "checkbox":
       inputElement = (
         <div>
-          <p>Apenas maquetando</p>
+          {props.elementConfig.options.length ? (
+            props.elementConfig.options.map((aux, id) => {
+              return (
+                <div>
+                  <label>{aux.displayValue}</label>
+                  <input
+                    type="checkbox"
+                    id={aux.id}
+                    checked={aux.value}
+                    {...props.elementConfig}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div>No hay dato asociados al checkbox</div>
+          )}
         </div>
       );
       break;
@@ -94,14 +110,16 @@ const Inputs = (props) => {
 
     default:
       inputElement = (
-        <div className="form-group">
-          <label>Etiqueta de metadato no asociada</label>
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            disabled
-            defaultValue={`El metadato no esta asociado`}
-          />
+        <div className="col-md-6">
+          <div className="form-group">
+            <label>Etiqueta de metadato no asociada</label>
+            <input
+              type="text"
+              className="form-control form-control-sm"
+              disabled
+              defaultValue={`El metadato no esta asociado`}
+            />
+          </div>
         </div>
       );
   }

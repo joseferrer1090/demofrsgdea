@@ -59,7 +59,11 @@ class PreviewTemplate extends Component {
 
   render() {
     console.log(this.state.id);
-    // console.log(this.state.template);
+    console.log(
+      this.state.template.map((aux, id) => {
+        console.log(aux.metadata.elementConfig);
+      })
+    );
     return (
       <div>
         <Card>
@@ -72,10 +76,11 @@ class PreviewTemplate extends Component {
               // <p className="text-success text-center">
               //   <strong>Hay datos para mostrar la plantilla</strong>
               // </p>
-              this.state.template.map((element) => (
+              this.state.template.map((aux, id) => (
                 <Inputs
-                  key={element.id}
-                  elementConfig={element.elementConfig}
+                  key={id}
+                  formType={aux.metadata.elementConfig.type}
+                  elementConfig={aux.metadata.elementConfig}
                 />
               ))
             ) : (

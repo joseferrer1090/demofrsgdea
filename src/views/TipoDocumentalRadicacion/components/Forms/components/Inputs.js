@@ -3,7 +3,7 @@ import React from "react";
 const Inputs = (props) => {
   console.log(props);
   let inputElement = null;
-  switch (props.fromType) {
+  switch (props.formType) {
     case "input":
       inputElement = (
         <div className="col-md-6">

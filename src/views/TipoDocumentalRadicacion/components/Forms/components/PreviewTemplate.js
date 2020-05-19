@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
 import { GET_METADATA_FOR_TEMPLATE } from "./../../../../../services/EndPoints";
+import Inputs from "./Inputs";
 
 class PreviewTemplate extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class PreviewTemplate extends Component {
 
   render() {
     console.log(this.state.id);
+    // console.log(this.state.template);
     return (
       <div>
         <Card>
@@ -67,9 +69,15 @@ class PreviewTemplate extends Component {
           </CardHeader>
           <CardBody>
             {this.state.template.length ? (
-              <p className="text-success text-center">
-                <strong>Hay datos para mostrar la plantilla</strong>
-              </p>
+              // <p className="text-success text-center">
+              //   <strong>Hay datos para mostrar la plantilla</strong>
+              // </p>
+              this.state.template.map((element) => (
+                <Inputs
+                  key={element.id}
+                  elementConfig={element.elementConfig}
+                />
+              ))
             ) : (
               <p className="text-center">
                 {" "}

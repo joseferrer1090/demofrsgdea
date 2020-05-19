@@ -14,6 +14,7 @@ const Inputs = (props) => {
               className="form-control form-control-sm"
               onChange={props.onChange}
               value={props.value}
+              {...props.elementConfig}
             />
           </div>
         </div>
@@ -28,6 +29,7 @@ const Inputs = (props) => {
               className="form-control form-control-sm"
               onChange={props.onChange}
               value={props.value}
+              {...props.elementConfig}
             >
               <option> -- Seleccione -- </option>
               {props.elementConfig.options.length ? (
@@ -68,6 +70,7 @@ const Inputs = (props) => {
               className="form-control form-control-sm"
               onChange={props.onChange}
               value={props.value}
+              {...props.elementConfig}
             />
           </div>
         </div>
@@ -82,6 +85,7 @@ const Inputs = (props) => {
               className="form-control form-control-sm"
               onChange={props.onChange}
               value={props.value}
+              {...props.elementConfig}
             ></textarea>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Inputs = (props) => {
-  console.log(props);
+  // console.log(props);
   let inputElement = null;
   switch (props.formType) {
     case "text":

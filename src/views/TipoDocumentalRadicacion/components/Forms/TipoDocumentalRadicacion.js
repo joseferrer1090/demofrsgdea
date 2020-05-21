@@ -33,11 +33,14 @@ const TipoDocumentalRadicacion = (props) => {
   const [StateChangeAlert, setAux] = useState("");
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
+  const [preview, setDataPreview] = useState({});
 
   const changeInValueConglomerate = (Old, New) => {
     setOldValueConglomerate(Old);
     setNewValueConglomerate(New);
   };
+
+  console.log(preview);
 
   return (
     <Formik
@@ -688,6 +691,7 @@ const TipoDocumentalRadicacion = (props) => {
                     <PreviewTemplate
                       authorization={props.authorization}
                       id={values.plantilla}
+                      onDataFetch={(preview) => setDataPreview(preview)}
                     />
                   </div>
                 </div>

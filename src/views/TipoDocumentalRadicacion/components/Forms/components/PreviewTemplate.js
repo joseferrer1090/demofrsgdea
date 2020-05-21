@@ -11,6 +11,7 @@ class PreviewTemplate extends Component {
       auth: this.props.authorization,
       id: this.props.id,
       template: [],
+      idMetadata: [],
     };
   }
 
@@ -47,10 +48,8 @@ class PreviewTemplate extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        this.setState({
-          template: data,
-        });
-        // console.log(data);
+        this.setState({ template: data });
+        this.props.onDataFetch(data);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -58,12 +57,18 @@ class PreviewTemplate extends Component {
   };
 
   render() {
-    console.log(this.state.id);
-    console.log(
-      this.state.template.map((aux, id) => {
-        console.log(aux.metadata.elementConfig);
-      })
-    );
+    // console.log(this.state.id);
+    // console.log(
+    //   this.state.template.map((aux, id) => {
+    //     console.log(aux.metadata.elementConfig);
+    //   })
+    // );
+    // console.log(
+    //   this.state.template.map((aux, id) => {
+    //     return { id: aux.id, defaultValue: aux.defaultValue };
+    //   })
+    // );
+
     return (
       <div>
         <Card>
@@ -74,9 +79,6 @@ class PreviewTemplate extends Component {
           <CardBody>
             <Card body>
               {this.state.template.length ? (
-                // <p className="text-success text-center">
-                //   <strong>Hay datos para mostrar la plantilla</strong>
-                // </p>
                 this.state.template.map((aux, id) => (
                   <Inputs
                     key={id}

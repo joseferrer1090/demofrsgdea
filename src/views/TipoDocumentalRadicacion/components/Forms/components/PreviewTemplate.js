@@ -65,6 +65,9 @@ class PreviewTemplate extends Component {
     const formElement = { ...formCopy[id] };
     formElement.value = event.target.value;
     formCopy[id] = formElement;
+    this.setState({
+      defaults: formCopy
+    })
   };
 
   render() {

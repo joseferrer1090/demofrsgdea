@@ -99,7 +99,7 @@ const Inputs = (props) => {
             <input
               type="date"
               className="form-control form-control-sm"
-              onChange={props.onChange}
+              onChange={props.changed}
               value={props.value}
               {...props.elementConfig}
             />

@@ -33,7 +33,7 @@ const TipoDocumentalRadicacion = (props) => {
   const [StateChangeAlert, setAux] = useState("");
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
-  const [preview, setDataPreview] = useState({});
+  const [preview, setDataPreview] = useState([]);
 
   const changeInValueConglomerate = (Old, New) => {
     setOldValueConglomerate(Old);
@@ -41,6 +41,12 @@ const TipoDocumentalRadicacion = (props) => {
   };
 
   console.log(preview);
+
+  const newArrayPost = preview.map((aux, id) => {
+    return { id: aux.id, defaultValue: aux.defaultValue };
+  });
+
+  console.log(newArrayPost);
 
   return (
     <Formik
@@ -150,6 +156,7 @@ const TipoDocumentalRadicacion = (props) => {
           //     userName: username.user_name,
           //     users: userData.users,
           //     original: userData.original,
+          //     metadata: newArrayPost
           //   }),
           // }).then((response) =>
           //   response

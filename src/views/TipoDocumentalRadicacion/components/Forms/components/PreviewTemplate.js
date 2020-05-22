@@ -12,6 +12,10 @@ class PreviewTemplate extends Component {
       id: this.props.id,
       template: [],
       idMetadata: [],
+      defaults: {
+        id: "",
+        value: "",
+      },
     };
   }
 
@@ -56,7 +60,15 @@ class PreviewTemplate extends Component {
       });
   };
 
+  handleChange = (event, id) => {
+    const formCopy = { ...this.state.defaults };
+    const formElement = { ...formCopy[id] };
+    formElement.value = event.target.value;
+    formCopy[id] = formElement;
+  };
+
   render() {
+    console.log(this.state.defaults);
     // console.log(this.state.id);
     // console.log(
     //   this.state.template.map((aux, id) => {
@@ -68,7 +80,6 @@ class PreviewTemplate extends Component {
     //     return { id: aux.id, defaultValue: aux.defaultValue };
     //   })
     // );
-
     return (
       <div>
         <Card>
@@ -82,8 +93,11 @@ class PreviewTemplate extends Component {
                 this.state.template.map((aux, id) => (
                   <Inputs
                     key={id}
+                    id={aux.id}
+                    value={aux.}
                     formType={aux.metadata.elementConfig.type}
                     elementConfig={aux.metadata.elementConfig}
+                    onChange={(event) => this.handleChange(aux.id, event)}
                   />
                 ))
               ) : (

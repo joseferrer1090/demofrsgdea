@@ -10,12 +10,9 @@ class PreviewTemplate extends Component {
     this.state = {
       auth: this.props.authorization,
       id: this.props.id,
-      template: [],
+      template: {},
       idMetadata: [],
-      defaults: {
-        id: "",
-        value: "",
-      },
+      defaults: [],
     };
   }
 
@@ -60,16 +57,6 @@ class PreviewTemplate extends Component {
       });
   };
 
-  handleChange = (event, id) => {
-    const formCopy = { ...this.state.defaults };
-    const formElement = { ...formCopy[id] };
-    formElement.value = event.target.value;
-    formCopy[id] = formElement;
-    this.setState({
-      defaults: formCopy
-    })
-  };
-
   render() {
     console.log(this.state.defaults);
     // console.log(this.state.id);
@@ -97,10 +84,17 @@ class PreviewTemplate extends Component {
                   <Inputs
                     key={id}
                     id={aux.id}
-                    value={aux.}
+                    value={aux.value}
                     formType={aux.metadata.elementConfig.type}
                     elementConfig={aux.metadata.elementConfig}
-                    onChange={(event) => this.handleChange(aux.id, event)}
+                    onChange={(event) => {
+                      this.setState({
+                        ...this.state.defaults.push({
+                          id: aux.id,
+                          defaultvalue: event.target.value,
+                        }),
+                      });
+                    }}
                   />
                 ))
               ) : (

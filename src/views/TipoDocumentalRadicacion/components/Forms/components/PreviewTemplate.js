@@ -12,7 +12,7 @@ class PreviewTemplate extends Component {
       id: this.props.id,
       template: {},
       idMetadata: [],
-      defaults: [],
+      values: [],
     };
   }
 
@@ -58,7 +58,7 @@ class PreviewTemplate extends Component {
   };
 
   render() {
-    console.log(this.state.defaults);
+    console.log(this.state.values);
     // console.log(this.state.id);
     // console.log(
     //   this.state.template.map((aux, id) => {
@@ -88,12 +88,15 @@ class PreviewTemplate extends Component {
                     formType={aux.metadata.elementConfig.type}
                     elementConfig={aux.metadata.elementConfig}
                     onChange={(event) => {
-                      this.setState({
-                        ...this.state.defaults.push({
-                          id: aux.id,
-                          defaultvalue: event.target.value,
-                        }),
-                      });
+                      this.setState(
+                        {
+                          values: [
+                            ...this.state.values,
+                            { id: aux.id, defaultValue: event.target.value },
+                          ],
+                        },
+                        () => this.props.onDataOnChange(this.state.values)
+                      );
                     }}
                   />
                 ))

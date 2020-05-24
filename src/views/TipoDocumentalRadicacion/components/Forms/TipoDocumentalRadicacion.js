@@ -34,6 +34,7 @@ const TipoDocumentalRadicacion = (props) => {
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
   const [preview, setDataPreview] = useState([]);
+  const [datainputs, setDataInputs] = useState([]);
 
   const changeInValueConglomerate = (Old, New) => {
     setOldValueConglomerate(Old);
@@ -47,6 +48,7 @@ const TipoDocumentalRadicacion = (props) => {
   });
 
   console.log(newArrayPost);
+  console.log(datainputs);
 
   return (
     <Formik
@@ -136,70 +138,70 @@ const TipoDocumentalRadicacion = (props) => {
               null
             )
           );
-          // fetch(`${TYPEDOCUMENTARY_POST}`, {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     Authorization: "Bearer " + auth,
-          //   },
-          //   body: JSON.stringify({
-          //     code: values.codigo,
-          //     name: values.nombre,
-          //     description: values.descripcion,
-          //     answerDays: values.d_maximos,
-          //     issue: values.asunto,
-          //     status: tipoEstado(values.estado),
-          //     typeCorrespondence: tipoCorrespondencia(
-          //       values.tipocorrespondencia
-          //     ),
-          //     templateId: values.plantilla,
-          //     userName: username.user_name,
-          //     users: userData.users,
-          //     original: userData.original,
-          //     metadata: newArrayPost
-          //   }),
-          // }).then((response) =>
-          //   response
-          //     .json()
-          //     .then((data) => {
-          //       if (response.status === 201) {
-          //         toast.success(
-          //           "Se registro el tipo documental de radicación con éxito.",
-          //           {
-          //             position: toast.POSITION.TOP_RIGHT,
-          //             className: css({
-          //               marginTop: "60px",
-          //             }),
-          //           }
-          //         );
-          //       } else if (response.status === 400) {
-          //         toast.error(
-          //           "Error al registrar el tipo documental. Inténtelo nuevamente.",
-          //           {
-          //             position: toast.POSITION.TOP_RIGHT,
-          //             className: css({
-          //               marginTop: "60px",
-          //             }),
-          //           }
-          //         );
-          //       } else if (response.status === 500) {
-          //         toast.error("Error, el tipo documental ya existe.", {
-          //           position: toast.POSITION.TOP_RIGHT,
-          //           className: css({
-          //             marginTop: "60px",
-          //           }),
-          //         });
-          //       }
-          //     })
-          //     .catch((error) => {
-          //       toast.error(`Error ${error} `, {
-          //         position: toast.POSITION.TOP_RIGHT,
-          //         className: css({
-          //           marginTop: "60px",
-          //         }),
-          //       });
-          //     })
-          // );
+          fetch(`${TYPEDOCUMENTARY_POST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth,
+            },
+            body: JSON.stringify({
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: tipoEstado(values.estado),
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
+              templateId: values.plantilla,
+              userName: username.user_name,
+              users: userData.users,
+              original: userData.original,
+              metadata: datainputs,
+            }),
+          }).then((response) =>
+            response
+              .json()
+              .then((data) => {
+                if (response.status === 201) {
+                  toast.success(
+                    "Se registro el tipo documental de radicación con éxito.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px",
+                      }),
+                    }
+                  );
+                } else if (response.status === 400) {
+                  toast.error(
+                    "Error al registrar el tipo documental. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px",
+                      }),
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("Error, el tipo documental ya existe.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
+                  });
+                }
+              })
+              .catch((error) => {
+                toast.error(`Error ${error} `, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
+                });
+              })
+          );
           setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
@@ -699,6 +701,7 @@ const TipoDocumentalRadicacion = (props) => {
                       authorization={props.authorization}
                       id={values.plantilla}
                       onDataFetch={(preview) => setDataPreview(preview)}
+                      onDataOnChange={(datainputs) => setDataInputs(datainputs)}
                     />
                   </div>
                 </div>

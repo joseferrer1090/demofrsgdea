@@ -701,7 +701,9 @@ const TipoDocumentalRadicacion = (props) => {
                       authorization={props.authorization}
                       id={values.plantilla}
                       onDataFetch={(preview) => setDataPreview(preview)}
-                      onDataOnChange={(datainputs) => setDataInputs(datainputs)}
+                      onDataOnChange={(datainputs) =>
+                        setDataInputs([datainputs])
+                      }
                     />
                   </div>
                 </div>

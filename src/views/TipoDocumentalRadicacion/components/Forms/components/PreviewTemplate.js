@@ -12,7 +12,7 @@ class PreviewTemplate extends Component {
       id: this.props.id,
       template: {},
       idMetadata: [],
-      values: {},
+      values: [],
     };
   }
 
@@ -90,11 +90,10 @@ class PreviewTemplate extends Component {
                     onChange={(event) => {
                       this.setState(
                         {
-                          values: {
+                          values: [
                             ...this.state.values,
-                            id: aux.idMetadata,
-                            defaultValue: event.target.value,
-                          },
+                            { id: aux.id, defaultValue: event.target.value },
+                          ],
                         },
                         () => this.props.onDataOnChange(this.state.values)
                       );

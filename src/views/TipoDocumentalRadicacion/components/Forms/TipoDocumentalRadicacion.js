@@ -52,6 +52,13 @@ const TipoDocumentalRadicacion = (props) => {
     return { id: aux.id, defaultValue: aux.defaultValue };
   });
 
+  // const newDataInputs = datainputs.reduce((acc, item) => {
+  //   if (!acc[item.id]) {
+  //     acc[item.id] = item;
+  //   }
+  //   return acc;
+  // }, {});
+
   console.log(newArrayPost);
   console.log(datainputs);
 
@@ -138,10 +145,7 @@ const TipoDocumentalRadicacion = (props) => {
                 userName: username.user_name,
                 users: userData.users,
                 original: userData.original,
-                metadata: _.uniqBy(datainputs, (v) => [
-                  v.id,
-                  v.defaultValue.trim(),
-                ]),
+                metadata: datainputs,
               },
               2,
               null

@@ -10,6 +10,8 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import FieldCompany from "./components/SelectCompany";
 import FieldHeadquarter from "./components/SelectHeadquarter";
 import FieldDependence from "./components/SelectDependence";
+import SelectPlantilla from "./components/SelectPlantilla";
+import PreviewTemplate from "./components/PreviewTemplate";
 import {
   TYPEDOCUMENTARY_POST,
   USERS_BY_DEPENDENCE,
@@ -49,6 +51,7 @@ const TipoDocumentalRadicacion = (props) => {
         empresa: "",
         sede: "",
         dependencia: "",
+        plantilla: "",
         estado: false,
       }}
       validationSchema={Yup.object().shape({
@@ -75,6 +78,9 @@ const TipoDocumentalRadicacion = (props) => {
             (value) => value === true
           )
           .required(" Es necesario activar el tipo de trámite."),
+        plantilla: Yup.string()
+          .ensure()
+          .required("Seleccione una plantilla para el tipo documental"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const tipoEstado = (data) => {
@@ -101,63 +107,90 @@ const TipoDocumentalRadicacion = (props) => {
           const { t } = props;
           const auth = props.authorization;
           const username = decode(auth);
-          fetch(`${TYPEDOCUMENTARY_POST}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + auth,
-            },
-            body: JSON.stringify({
-              code: values.codigo,
-              name: values.nombre,
-              description: values.descripcion,
-              answerDays: values.d_maximos,
-              issue: values.asunto,
-              status: tipoEstado(values.estado),
-              typeCorrespondence: tipoCorrespondencia(
-                values.tipocorrespondencia
-              ),
-              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-              userName: username.user_name,
-              users: userData.users,
-              original: userData.original,
-            }),
-          }).then((response) =>
-            response
-              .json()
-              .then((data) => {
-                if (response.status === 201) {
-                  toast.success(t("app_documentalRadicacion_alert_toast_201"), {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  });
-                } else if (response.status === 400) {
-                  toast.error(t("app_documentalRadicacion_alert_toast_400"), {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  });
-                } else if (response.status === 500) {
-                  toast.error(t("app_documentalRadicacion_alert_toast_500"), {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  });
-                }
-              })
-              .catch((error) => {
-                toast.error(`Error ${error} `, {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px",
-                  }),
-                });
-              })
+          console.log(
+            JSON.stringify(
+              {
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: tipoEstado(values.estado),
+                typeCorrespondence: tipoCorrespondencia(
+                  values.tipocorrespondencia
+                ),
+                templateId: values.plantilla,
+                userName: username.user_name,
+                users: userData.users,
+                original: userData.original,
+              },
+              2,
+              null
+            )
           );
+          // fetch(`${TYPEDOCUMENTARY_POST}`, {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: "Bearer " + auth,
+          //   },
+          //   body: JSON.stringify({
+          //     code: values.codigo,
+          //     name: values.nombre,
+          //     description: values.descripcion,
+          //     answerDays: values.d_maximos,
+          //     issue: values.asunto,
+          //     status: tipoEstado(values.estado),
+          //     typeCorrespondence: tipoCorrespondencia(
+          //       values.tipocorrespondencia
+          //     ),
+          //     templateId: values.plantilla,
+          //     userName: username.user_name,
+          //     users: userData.users,
+          //     original: userData.original,
+          //   }),
+          // }).then((response) =>
+          //   response
+          //     .json()
+          //     .then((data) => {
+          //       if (response.status === 201) {
+          //         toast.success(
+          //           "Se registro el tipo documental de radicación con éxito.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 400) {
+          //         toast.error(
+          //           "Error al registrar el tipo documental. Inténtelo nuevamente.",
+          //           {
+          //             position: toast.POSITION.TOP_RIGHT,
+          //             className: css({
+          //               marginTop: "60px",
+          //             }),
+          //           }
+          //         );
+          //       } else if (response.status === 500) {
+          //         toast.error("Error, el tipo documental ya existe.", {
+          //           position: toast.POSITION.TOP_RIGHT,
+          //           className: css({
+          //             marginTop: "60px",
+          //           }),
+          //         });
+          //       }
+          //     })
+          //     .catch((error) => {
+          //       toast.error(`Error ${error} `, {
+          //         position: toast.POSITION.TOP_RIGHT,
+          //         className: css({
+          //           marginTop: "60px",
+          //         }),
+          //       });
+          //     })
+          // );
           setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
@@ -541,7 +574,7 @@ const TipoDocumentalRadicacion = (props) => {
                   />
                 </div>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_4")}
@@ -570,7 +603,7 @@ const TipoDocumentalRadicacion = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_5")}
@@ -580,29 +613,29 @@ const TipoDocumentalRadicacion = (props) => {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_plantilla"
-                                  )}
-                                </label>
-                                <select
-                                  name={"plantilla"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
+                                <Field
+                                  authorization={props.authorization}
+                                  name="plantilla"
+                                  onChange={(e) => {
+                                    setFieldValue("plantilla", e.target.value);
+                                  }}
                                   value={values.plantilla}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>
-                                    --
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_select_plantilla"
-                                    )}
-                                    --
-                                  </option>
-                                  <option>Plantilla 1</option>
-                                  <option>Plantilla 2</option>
-                                  <option>Plantilla 3</option>
-                                </select>
+                                  onBlur={() => {
+                                    setFieldTouched("plantilla", true);
+                                  }}
+                                  component={SelectPlantilla}
+                                  className={`form-control form-control-sm ${
+                                    errors.plantilla &&
+                                    touched.plantilla &&
+                                    "is-invalid"
+                                  }`}
+                                ></Field>
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.plantilla && touched.plantilla ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"plantilla"} />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -610,7 +643,7 @@ const TipoDocumentalRadicacion = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
+                  {/* <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_documentalRadicacion_form_registrar_titulo_6")}
@@ -649,6 +682,11 @@ const TipoDocumentalRadicacion = (props) => {
                         </div>
                       </div>
                     </div>
+                  </div> */}
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <PreviewTemplate authorization={props.authorization} />
                   </div>
                 </div>
               </div>

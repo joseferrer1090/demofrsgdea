@@ -7,7 +7,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { TYPESHIPMENTARRIVAL } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +18,7 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const TipoLlegadaForm = props => {
+const TipoLlegadaForm = (props) => {
   const {
     values,
     errors,
@@ -28,7 +28,7 @@ const TipoLlegadaForm = props => {
     handleSubmit,
     isSubmitting,
     setFieldValue,
-    t
+    t,
   } = props;
   return (
     <div>
@@ -49,15 +49,15 @@ const TipoLlegadaForm = props => {
                       </label>
                       <input
                         name={"code"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("code", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.code}
                         type="text"
-                        className={`form-control form-control-sm ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -76,15 +76,15 @@ const TipoLlegadaForm = props => {
                       </label>
                       <input
                         name={"name"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("name", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.name &&
-                          touched.name &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.name && touched.name && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.name && touched.name ? (
@@ -166,15 +166,15 @@ const TipoLlegadaForm = props => {
 };
 TipoLlegadaForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       code: props.tipollegada.code,
       name: props.tipollegada.name,
       description: props.tipollegada.description,
-      status: props.tipollegada.status
+      status: props.tipollegada.status,
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
@@ -187,11 +187,11 @@ export default withTranslation("translations")(
       status: Yup.bool().test(
         "Activo",
         " Es necesario activar el estado para el tipo de llegada",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -201,65 +201,60 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(TYPESHIPMENTARRIVAL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             code: values.code,
             name: values.name,
             description: values.description,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success(
-                  "Se registro el tipo de envío / llegada con éxito.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el tipo de envío / llegada. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el tipo de envío / llegada ya existe.", {
+                toast.success(t("app_tipoLlegada_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 400) {
+                toast.error(t("app_tipoLlegada_alert_toast_400"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_tipoLlegada_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(TipoLlegadaForm)
 );

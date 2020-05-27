@@ -59,10 +59,11 @@ class TableContentRadicacionEmail extends Component {
   };
 
   accionesRadicacionEmail(cell, row) {
+    const { t } = this.props;
     return (
       <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
-          title="Ver cuenta"
+          title={t("app_radicacion_email_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -74,7 +75,9 @@ class TableContentRadicacionEmail extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar cuenta"
+          title={t(
+            "app_radicacion_email_administrar_table_acciones_btn_editar"
+          )}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -85,7 +88,9 @@ class TableContentRadicacionEmail extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar cuenta"
+          title={t(
+            "app_radicacion_email_administrar_table_acciones_btn_eliminar"
+          )}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {

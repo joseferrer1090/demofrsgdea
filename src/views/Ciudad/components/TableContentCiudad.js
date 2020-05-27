@@ -66,6 +66,7 @@ class TableContentCiudad extends Component {
   }
 
   accionesCiudad(cell, row) {
+    const { t } = this.props;
     if (row.department.status !== 1) {
       return (
         <div
@@ -73,7 +74,7 @@ class TableContentCiudad extends Component {
           style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
         >
           <button
-            title="Ver ciudad"
+            title={t("app_ciudad_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -85,7 +86,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar ciudad"
+            title={t("app_ciudad_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -104,7 +105,7 @@ class TableContentCiudad extends Component {
           style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
         >
           <button
-            title="Ver ciudad"
+            title={t("app_ciudad_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -116,7 +117,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
-            title="Editar ciudad"
+            title={t("app_ciudad_administrar_table_acciones_btn_editar")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -127,7 +128,7 @@ class TableContentCiudad extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar ciudad"
+            title={t("app_ciudad_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {

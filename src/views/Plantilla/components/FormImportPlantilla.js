@@ -1,13 +1,13 @@
-import React  from "react";
+import React from "react";
 import UploadFormPlantilla from "./Forms/UploadFormPlantilla";
 
 const data = {
   separador: "",
   archivo: [],
-  cabeza_titulos: ""
+  cabeza_titulos: "",
 };
 
-const FormImportPlantilla = props => {
+const FormImportPlantilla = (props) => {
   return (
     <div className="animated fadeIn">
       <UploadFormPlantilla importarmasivo={data} />

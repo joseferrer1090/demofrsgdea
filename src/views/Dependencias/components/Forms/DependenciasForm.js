@@ -9,7 +9,7 @@ import {
   CardHeader,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { DEPENDENCIES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,7 +22,7 @@ import FieldHeadquarter from "./components/SelectHeadquarter";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
-const DependenciaForm = props => {
+const DependenciaForm = (props) => {
   const {
     values,
     touched,
@@ -33,7 +33,7 @@ const DependenciaForm = props => {
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    t
+    t,
   } = props;
 
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
@@ -65,7 +65,7 @@ const DependenciaForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"conglomerateId"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("conglomerateId", e.target.value);
                           changeInValueConglomerate(
                             values.conglomerateId,
@@ -74,9 +74,11 @@ const DependenciaForm = props => {
                         }}
                         onBlur={() => setFieldTouched("conglomerateId", true)}
                         value={values.conglomerateId}
-                        className={`form-control form-control-sm ${errors.conglomerateId &&
+                        className={`form-control form-control-sm ${
+                          errors.conglomerateId &&
                           touched.conglomerateId &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
 
                       <div style={{ color: "#D54B4B" }}>
@@ -145,14 +147,14 @@ const DependenciaForm = props => {
                         name={"code"}
                         type="text"
                         placeholder=""
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("code", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.code}
-                        className={`form-control form-control-sm ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -171,16 +173,16 @@ const DependenciaForm = props => {
                       </label>
                       <input
                         name={"name"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("name", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
                         placeholder=""
-                        className={`form-control form-control-sm ${errors.name &&
-                          touched.name &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.name && touched.name && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.name && touched.name ? (
@@ -228,16 +230,16 @@ const DependenciaForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"chargeId"}
-                        onChange={e =>
+                        onChange={(e) =>
                           setFieldValue("chargeId", e.target.value)
                         }
                         onBlur={() => {
                           setFieldTouched("chargeId", true);
                         }}
                         value={values.chargeId}
-                        className={`form-control form-control-sm ${errors.chargeId &&
-                          touched.chargeId &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.chargeId && touched.chargeId && "is-invalid"
+                        }`}
                       />
 
                       <div style={{ color: "#D54B4B" }}>
@@ -306,12 +308,12 @@ const DependenciaForm = props => {
 
 DependenciaForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       conglomerateId: props.dependencia.conglomerateId,
       companyId: props.dependencia.companyId,
       headquarterId: props.dependencia.headquarterId,
@@ -319,7 +321,7 @@ export default withTranslation("translations")(
       name: props.dependencia.name,
       description: props.dependencia.description,
       chargeId: props.dependencia.chargeId,
-      status: props.dependencia.status
+      status: props.dependencia.status,
     }),
     validationSchema: Yup.object().shape({
       conglomerateId: Yup.string()
@@ -344,11 +346,11 @@ export default withTranslation("translations")(
       status: Yup.bool().test(
         "Activo",
         "Es necesario activar el conglomerado.",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -358,13 +360,14 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(DEPENDENCIES, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             description: values.description,
@@ -373,49 +376,46 @@ export default withTranslation("translations")(
             headquarterId: values.headquarterId,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro la dependencia con éxito.", {
+                toast.success(t("app_dependencia_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar la dependencia. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, la dependencia ya existe.", {
+                toast.error(t("app_dependencia_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_dependencia_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(DependenciaForm)
 );

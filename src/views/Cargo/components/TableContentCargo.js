@@ -78,13 +78,14 @@ class TableContentCargo extends Component {
   }
 
   accionesCargo(cell, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuCargo"
         style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
-          title="Ver cargo"
+          title={t("app_cargo_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -96,7 +97,7 @@ class TableContentCargo extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar cargo"
+          title={t("app_cargo_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -107,7 +108,7 @@ class TableContentCargo extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar cargo"
+          title={t("app_cargo_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {

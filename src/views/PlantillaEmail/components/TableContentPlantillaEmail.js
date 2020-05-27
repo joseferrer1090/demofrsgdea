@@ -65,13 +65,14 @@ class TableContentPlantillaEmail extends Component {
   }
 
   accionesPlantillasEmail(cell, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuPlantillaEmail"
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
-          title="Ver informacion"
+          title={t("app_plantilla_email_table_acciones_btn_info")}
           className="btn btn-dark btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -83,7 +84,7 @@ class TableContentPlantillaEmail extends Component {
         </button>
         &nbsp;
         <button
-          title="Ver plantilla de correo"
+          title={t("app_plantilla_email_table_acciones_btn_ver")}
           className="btn btn-warning btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -95,7 +96,7 @@ class TableContentPlantillaEmail extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar plantilla de correo"
+          title={t("app_plantilla_email_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {

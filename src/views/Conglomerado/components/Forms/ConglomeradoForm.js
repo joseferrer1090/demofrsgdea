@@ -307,7 +307,7 @@ export default withTranslation("translations")(
         .max(15, " Máximo 15 caracteres."),
       nombre: Yup.string()
         .required(" Por favor introduzca un nombre.")
-        .max(100),
+        .max(100, "Máximo 100 caracteres."),
       descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
       estado: Yup.bool()
         .test(
@@ -340,6 +340,7 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(CONGLOMERATES, {
@@ -361,24 +362,21 @@ export default withTranslation("translations")(
           .then((response) =>
             response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el conglomerado con éxito.", {
+                toast.success(t("app_conglomerado_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px",
                   }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el conglomerado. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px",
-                    }),
-                  }
-                );
+                toast.error(t("app_conglomerado_alert_toast_400"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
+                });
               } else if (response.status === 500) {
-                toast.error("Error, el conglomerado ya existe.", {
+                toast.error(t("app_conglomerado_alert_toast_500"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px",

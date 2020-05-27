@@ -556,6 +556,7 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const {t} = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(HEADQUARTERS, {
@@ -582,7 +583,7 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se registro la sede con éxito.", {
+                toast.success(t("app_sedes_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -590,7 +591,7 @@ export default withTranslation("translations")(
                 });
               } else if (response.status === 400) {
                 toast.error(
-                  "Error al registrar la sede. Inténtelo nuevamente.",
+                  t("app_sedes_alert_toast_400"),
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
@@ -599,7 +600,7 @@ export default withTranslation("translations")(
                   }
                 );
               } else if (response.status === 500) {
-                toast.error("Error, la sede ya existe.", {
+                toast.error(t("app_sedes_alert_toast_500"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

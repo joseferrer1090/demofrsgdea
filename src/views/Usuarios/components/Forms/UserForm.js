@@ -10,7 +10,7 @@ import {
   Col,
   Row,
   CustomInput,
-  CardFooter
+  CardFooter,
 } from "reactstrap";
 import CustonImageInput from "./CustonImageInput";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,7 +26,7 @@ import SelectCharge from "./components/SelectCharge";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const UserForm = props => {
+const UserForm = (props) => {
   const {
     values,
     touched,
@@ -37,7 +37,7 @@ const UserForm = props => {
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    t
+    t,
   } = props;
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
@@ -90,9 +90,11 @@ const UserForm = props => {
                         onBlur={handleBlur}
                         value={values.identificacion}
                         type="text"
-                        className={`form-control form-control-sm ${errors.identificacion &&
+                        className={`form-control form-control-sm ${
+                          errors.identificacion &&
                           touched.identificacion &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.identificacion && touched.identificacion ? (
@@ -115,9 +117,9 @@ const UserForm = props => {
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.nombre && touched.nombre && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.nombre && touched.nombre ? (
@@ -142,9 +144,9 @@ const UserForm = props => {
                         onBlur={handleBlur}
                         value={values.email}
                         type="text"
-                        className={`form-control form-control-sm ${errors.email &&
-                          touched.email &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.email && touched.email && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.email && touched.email ? (
@@ -167,9 +169,9 @@ const UserForm = props => {
                         onBlur={handleBlur}
                         value={values.telefono}
                         type="text"
-                        className={`form-control form-control-sm ${errors.telefono &&
-                          touched.telefono &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.telefono && touched.telefono && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.telefono && touched.telefono ? (
@@ -228,7 +230,7 @@ const UserForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"conglomeradoID"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("conglomeradoID", e.target.value);
                           changeInValueConglomerate(
                             values.conglomeradoID,
@@ -236,9 +238,11 @@ const UserForm = props => {
                           );
                         }}
                         value={values.conglomeradoID}
-                        className={`form-control form-control-sm ${errors.conglomeradoID &&
+                        className={`form-control form-control-sm ${
+                          errors.conglomeradoID &&
                           touched.conglomeradoID &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       ></SelectConglomerado>
                       {touched ? (
                         <div style={{ color: "red" }}>
@@ -335,14 +339,16 @@ const UserForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"cargoID"}
-                        onChange={e => setFieldValue("cargoID", e.target.value)}
+                        onChange={(e) =>
+                          setFieldValue("cargoID", e.target.value)
+                        }
                         onBlur={() => {
                           setFieldTouched("cargoID", true);
                         }}
                         value={values.cargoID}
-                        className={`form-control form-control-sm ${errors.cargoID &&
-                          touched.cargoID &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.cargoID && touched.cargoID && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.cargoID && touched.cargoID ? (
@@ -371,9 +377,9 @@ const UserForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.username}
-                        className={`form-control form-control-sm ${errors.username &&
-                          touched.username &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.username && touched.username && "is-invalid"
+                        }`}
                         type="text"
                       />
                       <div style={{ color: "#D54B4B" }}>
@@ -398,9 +404,9 @@ const UserForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.password}
-                        className={`form-control form-control-sm ${errors.password &&
-                          touched.password &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.password && touched.password && "is-invalid"
+                        }`}
                         type="password"
                       />
                       <div style={{ color: "#D54B4B" }}>
@@ -426,9 +432,11 @@ const UserForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.confirm_password}
-                        className={`form-control form-control-sm ${errors.confirm_password &&
+                        className={`form-control form-control-sm ${
+                          errors.confirm_password &&
                           touched.confirm_password &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.confirm_password && touched.confirm_password ? (
@@ -526,12 +534,12 @@ const UserForm = props => {
 };
 UserForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       identificacion: props.user.identificacion,
       nombre: props.user.nombre,
       email: props.user.email,
@@ -548,7 +556,7 @@ export default withTranslation("translations")(
       confirm_password: props.user.confirm_password,
       rolesID: props.user.rolesID,
       estado: props.user.estado,
-      foto: props.user.foto
+      foto: props.user.foto,
     }),
     validationSchema: Yup.object().shape({
       identificacion: Yup.string().required(
@@ -566,24 +574,18 @@ export default withTranslation("translations")(
         .length(10, " Mínimo 10 digitos")
         .required(" Por favor introduzca un número."),
       direccion: Yup.string(),
-      f_d_nacimiento: Yup.date()
-        .nullable()
-        .notRequired(),
+      f_d_nacimiento: Yup.date().nullable().notRequired(),
       conglomeradoID: Yup.string()
         .ensure()
         .required(" Por favor seleccione un conglomerado."),
       empresaID: Yup.string()
         .ensure()
         .required(" Por favor seleccione una empresa."),
-      sedeID: Yup.string()
-        .ensure()
-        .required(" Por favor seleccione una sede"),
+      sedeID: Yup.string().ensure().required(" Por favor seleccione una sede"),
       dependenciaID: Yup.string()
         .ensure()
         .required(" Por favor seleccione una dependencia"),
-      cargoID: Yup.string()
-        .ensure()
-        .required(" Por favor selccione un cargo"),
+      cargoID: Yup.string().ensure().required(" Por favor selccione un cargo"),
       username: Yup.string().required(" Por favor introduzca un username"),
       password: Yup.string()
         .matches(
@@ -601,17 +603,18 @@ export default withTranslation("translations")(
       rolesID: Yup.array().of(
         Yup.object().shape({
           label: Yup.string().required(),
-          value: Yup.string().required()
+          value: Yup.string().required(),
         })
       ),
       estado: Yup.bool().test(
         "Activo",
         "Se requiere la activacion del usuario",
-        value => value === true
+        (value) => value === true
       ),
-      foto: Yup.mixed()
+      foto: Yup.mixed(),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
+      const { t } = props;
       const formData = new FormData();
       const auth = props.authorization;
       const username = decode(auth);
@@ -633,11 +636,11 @@ export default withTranslation("translations")(
               chargeId: values.cargoID,
               userRoleRequests: values.rolesID,
               enabled: values.estado,
-              userNameAuthenticate: username.user_name
-            })
+              userNameAuthenticate: username.user_name,
+            }),
           ],
           {
-            type: "application/json"
+            type: "application/json",
           }
         )
       );
@@ -645,42 +648,39 @@ export default withTranslation("translations")(
         axios
           .post(`${USERS}`, formData, {
             headers: {
-              Authorization: "Bearer " + props.authorization
-            }
+              Authorization: "Bearer " + props.authorization,
+            },
           })
-          .then(response => {
+          .then((response) => {
             if (response.status === 201) {
-              toast.success("Se registro el usuario con éxito.", {
+              toast.success(t("app_usuaios_alert_toast_201"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             } else if (response.status === 400) {
-              toast.error(
-                "Error al registrar el usuario. Inténtelo nuevamente.",
-                {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                }
-              );
-            } else if (response.status === 500) {
-              toast.error("Error, el usuario ya existe.", {
+              toast.error(t("app_usuarios_alert_toast_400"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
+              });
+            } else if (response.status === 500) {
+              toast.error(t("app_usuarios_alert_toast_500"), {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px",
+                }),
               });
             }
           })
-          .catch(error => {
+          .catch((error) => {
             toast.error(`${error}.`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         console.log(formData);
@@ -703,8 +703,8 @@ export default withTranslation("translations")(
         confirm_password: "",
         rolesID: "",
         estado: "",
-        foto: ""
+        foto: "",
       });
-    }
+    },
   })(UserForm)
 );

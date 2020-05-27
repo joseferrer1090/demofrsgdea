@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import { Card, CardBody, Row, Col, CardFooter } from "reactstrap";
 import {
   TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
   TEMPLATE_SHOW,
@@ -10,12 +10,14 @@ import ModalDeleteIndex from "./ModalDeleteIndex";
 import ModalEditText from "./ModalEditIndexText";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
+import { withTranslation } from "react-i18next";
 
 class AddIndexPlantilla extends Component {
   parentRef = React.createRef(); // Esta referencia se crea de esta manera porque se esta implementando redux como su fuera un HOC
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       modaladd: false,
       modaledit: false,
       modaldel: false,
@@ -101,13 +103,7 @@ class AddIndexPlantilla extends Component {
       .then((data) => {
         this.setState({
           dataTemplate: data,
-          // dataTemplateInfo: data.template,
         });
-        // console.log(
-        //   this.state.dataTemplate.map((aux, id) => {
-        //     console.log(aux.metadataBag.id);
-        //   })
-        // );
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -129,6 +125,11 @@ class AddIndexPlantilla extends Component {
 
   openModalEditText() {
     this.modalEditText.toggle();
+  }
+
+  backTable() {
+    let path = "/#/configuracion/plantilla";
+    window.location.replace(path);
   }
 
   renderModal = (data, id, idmetadata) => {
@@ -172,6 +173,7 @@ class AddIndexPlantilla extends Component {
   };
 
   render() {
+    const { t } = this.state;
     return (
       <div className="animated fadeIn">
         {this.state.dataTemplate.length ? (
@@ -179,22 +181,30 @@ class AddIndexPlantilla extends Component {
             <Col sm={{ size: 10, offset: 1 }}>
               <Card>
                 <div className="p-2 mb-2 bg-secondary text-black">
-                  <i className="fa fa-puzzle-piece" /> Metadatos asociados en la
-                  plantilla
+                  <i className="fa fa-puzzle-piece" />{" "}
+                  {t(
+                    "app_plantilla_administrar_view_metadatos_asociados_title"
+                  )}
                 </div>
                 <CardBody>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="card">
                         <div className="card-header">
-                          <i className="fa fa-puzzle-piece" /> Datos de la
-                          plantilla
+                          <i className="fa fa-puzzle-piece" />{" "}
+                          {t(
+                            "app_plantilla_administrar_view_metadatos_asociados_tile_card_datos_plantilla"
+                          )}
                         </div>
                         <div className="card-body">
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label>Nombre</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_nombre"
+                                  )}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control form-control-sm"
@@ -205,7 +215,11 @@ class AddIndexPlantilla extends Component {
                             </div>
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label>Codigo</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_codigo"
+                                  )}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control form-control-sm"
@@ -216,7 +230,11 @@ class AddIndexPlantilla extends Component {
                             </div>
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>Descripcion</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_descripcion"
+                                  )}
+                                </label>
                                 <textarea
                                   className="form-control form-control-sm"
                                   value={
@@ -234,13 +252,19 @@ class AddIndexPlantilla extends Component {
                       <div className="card">
                         <div className="card-header">
                           <i className="fa fa-info" />
-                          Informacion de la plantilla
+                          {t(
+                            "app_plantilla_administrar_view_metadatos_asociados_title_card_info_plantilla"
+                          )}
                         </div>
                         <div className="card-body">
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label>Fecha de creacion</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_fecha_creacion"
+                                  )}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control form-control-sm"
@@ -251,7 +275,11 @@ class AddIndexPlantilla extends Component {
                             </div>
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label>Fecha de modificacion</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_fecha_modificacion"
+                                  )}
+                                </label>
                                 <input
                                   type="text"
                                   className="form-control form-control-sm"
@@ -262,20 +290,27 @@ class AddIndexPlantilla extends Component {
                             </div>
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>Estado</label>
+                                <label>
+                                  {t(
+                                    "app_plantilla_administrar_view_metadatos_asociados_estado"
+                                  )}
+                                </label>
                                 {this.state.dataTemplateInfo.status === 1 ? (
                                   <input
                                     type="text"
                                     className="form-control form-contol-sm"
-                                    value={"Activo"}
-                                    style={{ color: "green" }}
+                                    value={t("app_tablas_estado_activo")}
+                                    style={{
+                                      color: "green",
+                                      fontWeight: "bold",
+                                    }}
                                     disabled
                                   />
                                 ) : (
                                   <input
                                     type="text"
                                     className="form-control form-control-sm"
-                                    value="Inactivo"
+                                    value={t("app_tablas_estado_inactivo")}
                                     style={{ color: "red" }}
                                     disabled
                                   />
@@ -292,7 +327,10 @@ class AddIndexPlantilla extends Component {
                       className="btn btn-success btn-sm mr-1"
                       onClick={() => this.openModalAdd()}
                     >
-                      <i className="fa fa-plus" /> Nuevo índice
+                      <i className="fa fa-plus" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_btn_nuevo_indice"
+                      )}
                     </button>
                     {/* <button className="btn btn-secondary btn-sm mr-1">
                       <i className="fa fa-globe" /> Vista previa
@@ -301,9 +339,21 @@ class AddIndexPlantilla extends Component {
                   <table className="table table-bordered table-sm table-hover">
                     <thead className="thead-light">
                       <tr className="text-center">
-                        <th scope="col">Nombre del metadato</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">
+                          {t(
+                            "app_plantilla_administrar_view_metadatos_asociados_table_nombre_metadato"
+                          )}
+                        </th>
+                        <th scope="col">
+                          {t(
+                            "app_plantilla_administrar_view_metadatos_asociados_table_tipo"
+                          )}
+                        </th>
+                        <th scope="col">
+                          {t(
+                            "app_plantilla_administrar_view_metadatos_asociados_table_acciones"
+                          )}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-center">
@@ -350,6 +400,22 @@ class AddIndexPlantilla extends Component {
                     </tbody>
                   </table>
                 </CardBody>
+                <CardFooter>
+                  <div className="pull-right">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.backTable();
+                      }}
+                    >
+                      <i className="fa fa-times" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_btn_cerrar"
+                      )}
+                    </button>
+                  </div>
+                </CardFooter>
               </Card>
             </Col>
           </Row>
@@ -358,8 +424,10 @@ class AddIndexPlantilla extends Component {
             <Col sm={{ size: 10, offset: 1 }}>
               <Card>
                 <div className="p-2 mb-2 bg-secondary text-black">
-                  <i className="fa fa-puzzle-piece" /> Metadatos asociados en la
-                  plantilla
+                  <i className="fa fa-puzzle-piece" />{" "}
+                  {t(
+                    "app_plantilla_administrar_view_metadatos_asociados_title"
+                  )}
                 </div>
                 <CardBody>
                   <div className="btn-toolbar mb-1">
@@ -367,7 +435,10 @@ class AddIndexPlantilla extends Component {
                       className="btn btn-success btn-sm mr-1"
                       onClick={() => this.openModalAdd()}
                     >
-                      <i className="fa fa-plus" /> Nuevo índice
+                      <i className="fa fa-plus" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_btn_nuevo_indice"
+                      )}
                     </button>
                     {/* <button
                       className="btn btn-danger btn-sm mr-1"
@@ -382,16 +453,35 @@ class AddIndexPlantilla extends Component {
                   <br />
                   <div className="text-center">
                     <p className="alert alert-danger">
-                      <i className="fa fa-exclamation-triangle" /> No hay
-                      metadatos asociados a esta plantilla
+                      <i className="fa fa-exclamation-triangle" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_alert_no_data"
+                      )}
                     </p>
                   </div>
                 </CardBody>
+                <CardFooter>
+                  <div className="pull-right">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.backTable();
+                      }}
+                    >
+                      <i className="fa fa-times" />{" "}
+                      {t(
+                        "app_plantilla_administrar_view_metadatos_asociados_btn_cerrar"
+                      )}
+                    </button>
+                  </div>
+                </CardFooter>
               </Card>
             </Col>
           </Row>
         )}
         <ModalAddIndexes
+          t={t}
           authorization={this.state.auth}
           modaladdindexes={this.state.modaladd}
           template={this.props.match.params.id}
@@ -401,6 +491,7 @@ class AddIndexPlantilla extends Component {
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
+          t={t}
           refresh={() => {
             this.getDataTemplateID(this.state.id, this.props.authorization);
           }}
@@ -412,6 +503,7 @@ class AddIndexPlantilla extends Component {
           ref={(el) => (this.modalEdit = el)}
         />
         <ModalDeleteIndex
+          t={t}
           authorization={this.state.auth}
           id={this.state.idSelectedTable}
           modaldeleteindex={this.state.modaldel}
@@ -421,6 +513,7 @@ class AddIndexPlantilla extends Component {
           ref={(el) => (this.modalDel = el)}
         />
         <ModalEditText
+          t={t}
           id={this.state.idSelectedMetadata}
           authorization={this.state.auth}
           templateid={this.props.match.params.id}
@@ -439,5 +532,4 @@ class AddIndexPlantilla extends Component {
 AddIndexPlantilla.propTypes = {
   authorization: PropTypes.string.isRequired,
 };
-
-export default AddIndexPlantilla;
+export default withTranslation("translations")(AddIndexPlantilla);

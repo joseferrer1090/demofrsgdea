@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ import MySelect from "./components/SelectRoles";
 import { decode } from "jsonwebtoken";
 import { GROUPUSERS } from "./../../../services/EndPoints";
 
-const GrupoUsuariosForm = props => {
+const GrupoUsuariosForm = (props) => {
   const {
     values,
     touched,
@@ -34,7 +34,7 @@ const GrupoUsuariosForm = props => {
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    t
+    t,
   } = props;
 
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
@@ -63,14 +63,14 @@ const GrupoUsuariosForm = props => {
                     </label>
                     <input
                       name="codigo"
-                      onChange={e => {
+                      onChange={(e) => {
                         setFieldValue("codigo", e.target.value.toUpperCase());
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.codigo &&
-                        touched.codigo &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.codigo && touched.codigo && "is-invalid"
+                      }`}
                       value={values.codigo}
                     />
                     <div style={{ color: "#D54B4B" }}>
@@ -90,14 +90,14 @@ const GrupoUsuariosForm = props => {
                     </label>
                     <input
                       name="nombre"
-                      onChange={e => {
+                      onChange={(e) => {
                         setFieldValue("nombre", e.target.value.toUpperCase());
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.nombre &&
-                        touched.nombre &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.nombre && touched.nombre && "is-invalid"
+                      }`}
                       value={values.nombre}
                     />
                     <div style={{ color: "#D54B4B" }}>
@@ -156,7 +156,7 @@ const GrupoUsuariosForm = props => {
                               authorization={props.authorization}
                               t={props.t}
                               name="conglomerado"
-                              onChange={e => {
+                              onChange={(e) => {
                                 setFieldValue("conglomerado", e.target.value);
                                 changeInValueConglomerate(
                                   values.conglomerado,
@@ -167,9 +167,11 @@ const GrupoUsuariosForm = props => {
                                 setFieldTouched("conglomerado", true);
                               }}
                               value={values.conglomerado}
-                              className={`form-control form-control-sm ${errors.conglomerado &&
+                              className={`form-control form-control-sm ${
+                                errors.conglomerado &&
                                 touched.conglomerado &&
-                                "is-invalid"}`}
+                                "is-invalid"
+                              }`}
                             />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.conglomerado && touched.conglomerado ? (
@@ -399,7 +401,7 @@ const GrupoUsuariosForm = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       codigo: props.grupoUsuarios.codigo,
       nombre: props.grupoUsuarios.nombre,
       descripcion: props.grupoUsuarios.descripcion,
@@ -408,7 +410,7 @@ export default withTranslation("translations")(
       sede: props.grupoUsuarios.sede,
       dependencia: props.grupoUsuarios.dependencia,
       estado: props.grupoUsuarios.estado,
-      roles: props.grupoUsuarios.roles
+      roles: props.grupoUsuarios.roles,
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
@@ -428,9 +430,7 @@ export default withTranslation("translations")(
       empresa: Yup.string()
         .ensure()
         .required(" Por favor seleccione una empresa."),
-      sede: Yup.string()
-        .ensure()
-        .required(" Por favor seleccione una sede."),
+      sede: Yup.string().ensure().required(" Por favor seleccione una sede."),
       dependencia: Yup.string()
         .ensure()
         .required(" Por favor seleccione una dependencia."),
@@ -438,21 +438,21 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           "Es necesario activar el grupo de usuarios.",
-          value => value === true
+          (value) => value === true
         )
         .required(" Se debe aceptar la activacion de la empresa."),
       roles: Yup.array()
         .of(
           Yup.object().shape({
             label: Yup.string().required(),
-            value: Yup.string().required()
+            value: Yup.string().required(),
           })
         )
-        .required(" Por favor seleccione al menos un rol.")
+        .required(" Por favor seleccione al menos un rol."),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const userName = decode(props.authorization);
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -463,11 +463,12 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         //alert(JSON.stringify(values, null, 2));
+        const { t } = props;
         fetch(GROUPUSERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + props.authorization,
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -475,51 +476,48 @@ export default withTranslation("translations")(
             description: values.descripcion,
             users: values.roles,
             status: tipoEstado(values.estado),
-            userName: userName.user_name
-          })
+            userName: userName.user_name,
+          }),
         })
-          .then(response => {
+          .then((response) => {
             if (response.status === 201) {
-              toast.success("Se registro el grupo de usuarios con éxito.", {
+              toast.success(t("app_grupoUsuarios_alert_toast_201"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             } else if (response.status === 400) {
-              toast.error(
-                "Error al registrar el grupo de usuarios. Inténtelo nuevamente.",
-                {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                }
-              );
-            } else if (response.status === 500) {
-              toast.error("Error, el grupo de usuarios ya existe.", {
+              toast.error(t("app_grupoUsuarios_alert_toast_400"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
+              });
+            } else if (response.status === 500) {
+              toast.error(t("app_grupoUsuarios_alert_toast_500"), {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px",
+                }),
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             toast.error(`Error, ${err}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(GrupoUsuariosForm)
 );
 
 GrupoUsuariosForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 };

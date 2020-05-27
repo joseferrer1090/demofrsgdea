@@ -63,11 +63,12 @@ class TableContentEmpresa extends Component {
   };
 
   accionesEmpresa = (cel, row) => {
+    const { t } = this.props;
     if (row.conglomerate.status !== 1)
       return (
         <div className="table-actionMenuEmpre" style={{ marginRight: "55px" }}>
           <button
-            title="Ver Empresa"
+            title={t("app_empresa_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -79,7 +80,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar Empresa"
+            title={t("app_empresa_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -95,7 +96,7 @@ class TableContentEmpresa extends Component {
       return (
         <div className="table-actionMenuEmpre" style={{ marginRight: "35px" }}>
           <button
-            title="Ver Empresa"
+            title={t("app_empresa_administrar_table_acciones_btn_ver")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -107,7 +108,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
-            title="Editar Empresa"
+            title={t("app_empresa_administrar_table_acciones_btn_editar")}
             className="btn btn-secondary btn-sm"
             data-trigger="hover"
             onClick={() => {
@@ -118,7 +119,7 @@ class TableContentEmpresa extends Component {
           </button>
           &nbsp;
           <button
-            title="Eliminar Empresa"
+            title={t("app_empresa_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {

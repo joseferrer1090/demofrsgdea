@@ -66,13 +66,14 @@ class TableContent extends Component {
   };
 
   accionesGrupo = (cel, row) => {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuGUsu"
         style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
-          title="Ver grupo"
+          title={t("app_grupoUsuarios_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -84,7 +85,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar grupo"
+          title={t("app_grupoUsuarios_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -95,7 +96,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar grupo"
+          title={t("app_grupoUsuarios_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -107,7 +108,7 @@ class TableContent extends Component {
         </button>
         &nbsp;
         <button
-          title="Exportar"
+          title={t("app_grupoUsuarios_administrar_table_acciones_btn_expotar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {

@@ -331,7 +331,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                 if (response.status === 200) {
                   setSpinner(false);
                   toast.success(
-                    "Se edito la plantilla de correo electrónico con éxito.",
+                    t("app_plantilla_email_modal_editar_alert_toast_200"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -346,7 +346,7 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                 } else if (response.status === 400) {
                   setSpinner(false);
                   toast.error(
-                    "Error, la plantilla de correo electrónico ya existe.",
+                    t("app_plantilla_email_modal_editar_alert_toast_400"),
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({

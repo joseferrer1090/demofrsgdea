@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { agregarMetadataAction } from "./../../../../actions/templateMetadataActions";
 import { METADATA_ACTIVE } from "./../../../../services/EndPoints";
 import "./../css/fixedTable.css";
+import { withTranslation } from "react-i18next";
 
-const TableMetadata = props => {
+const TableMetadata = (props) => {
+  const { t } = props;
   const [data, setData] = useState([]);
   const [auth, setAuth] = useState("");
   const [term, setTerm] = useState("");
@@ -21,30 +23,30 @@ const TableMetadata = props => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         setData(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     setTerm(e.target.value);
   };
 
-  const searchMetadata = term => {
-    return function(x) {
+  const searchMetadata = (term) => {
+    return function (x) {
       return x.name.toLowerCase().includes(term);
     };
   };
 
   const dispatch = useDispatch();
-  const AgregarMetadatoPlantilla = metadato =>
+  const AgregarMetadatoPlantilla = (metadato) =>
     dispatch(agregarMetadataAction(metadato));
 
   const aux = data.filter(searchMetadata(term)).map((aux, id) => {
@@ -62,7 +64,7 @@ const TableMetadata = props => {
                 defaultValue: "",
                 formula: false,
                 required: false,
-                name: aux.name
+                name: aux.name,
               })
             }
           >
@@ -73,38 +75,17 @@ const TableMetadata = props => {
       </tr>
     );
   });
-  //   const [aux, setAux] = useState([]);
-  //   const [datatable, setDataTable] = useState([]);
-  //   useEffect(() => {
-  //     if (props.data !== "" || props.data !== null) {
-  //       setAux(props.data);
-  //     }
-  //     buildData(aux);
-  //   }, [props, aux]);
 
-  //   const buildData = () => {
-  //     const data = aux.map((aux, id) => {
-  //       return {
-  //         id: aux.id,
-  //         name: aux.name,
-  //         value: "",
-  //         formula: aux.formula,
-  //         required: aux.status
-  //       };
-  //     });
-  //     setDataTable(data);
-  //   };
   return (
     <div>
       {Object.keys(data) ? (
         <div className="animated fadeIn">
-          {/* <p className="text-center"> Hay datos para mostrar </p> */}
           <input
             type="search"
             className="form-control form-control-sm"
-            placeholder={"Buscar metadato"}
+            placeholder={t("app_plantilla_form_registrar_placeholder_search")}
             value={term}
-            onChange={e => {
+            onChange={(e) => {
               handleSearchInput(e);
             }}
           />
@@ -115,8 +96,16 @@ const TableMetadata = props => {
                 <thead className="thead-light">
                   <tr>
                     <th>#</th>
-                    <th>Nombre del metadato</th>
-                    <th>Asignar a plantilla</th>
+                    <th>
+                      {t(
+                        "app_plantilla_form_registrar_card_table_metadatos_nombre"
+                      )}
+                    </th>
+                    <th>
+                      {t(
+                        "app_plantilla_form_registrar_card_table_metadatos_asignar_plantilla"
+                      )}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>{aux}</tbody>
@@ -126,11 +115,14 @@ const TableMetadata = props => {
         </div>
       ) : (
         <div className="animated fadeIn">
-          <p className="text-center text-danger"> No hay datos para mostrar</p>
+          <p className="text-center text-danger">
+            {" "}
+            {t("app_plantilla_form_registrar_alert_no_data")}
+          </p>
         </div>
       )}
     </div>
   );
 };
 
-export default TableMetadata;
+export default withTranslation("translations")(TableMetadata);

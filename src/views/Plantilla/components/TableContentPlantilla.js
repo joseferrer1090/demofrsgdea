@@ -9,6 +9,7 @@ import ModalViewPlantilla from "./ModalViewPlantilla";
 import ModalExport from "./ModalExportData";
 import { TEMPLATE_ALL } from "./../../../services/EndPoints";
 import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentPlantilla extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class TableContentPlantilla extends Component {
       token: this.props.authorization,
       dataTemplate: [],
       id: "",
+      t: this.props.t,
     };
   }
 
@@ -64,13 +66,14 @@ class TableContentPlantilla extends Component {
   };
 
   accionesPlnatilla = (cel, row) => {
+    const { t } = this.state;
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
       >
         <button
-          title="Ver plantilla"
+          title={t("app_plantilla_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -85,7 +88,7 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar plantilla"
+          title={t("app_plantilla_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -99,7 +102,7 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
-          title="agregar metadatos a plantilla"
+          title={t("app_plantilla_administrar_table_acciones_btn_metadatos")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -110,7 +113,7 @@ class TableContentPlantilla extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar plantilla"
+          title={t("app_plantilla_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -129,10 +132,21 @@ class TableContentPlantilla extends Component {
 
   estadoPlantilla(cell, row) {
     let status;
+    const { t } = this.state;
     if (row.status === 1) {
-      status = <p className="text-success"> Activo </p>;
+      status = (
+        <p className="text-success">
+          {" "}
+          <b>{t("app_tablas_estado_activo")}</b>{" "}
+        </p>
+      );
     } else if (row.status === 0) {
-      status = <p className="text-danger"> Inactivo </p>;
+      status = (
+        <p className="text-danger">
+          {" "}
+          <b>{t("app_tablas_estado_inactivo")}</b>{" "}
+        </p>
+      );
     }
     return status;
   }
@@ -171,13 +185,15 @@ class TableContentPlantilla extends Component {
   }
 
   createCustomButtonGroup = (props) => {
+    const { t } = this.state;
     return (
       <button
         type="button"
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> exportar
+        <i className="fa fa-download" />{" "}
+        {t("app_plantilla_administrar_btn_exportar")}
       </button>
     );
   };
@@ -188,6 +204,7 @@ class TableContentPlantilla extends Component {
       pagination: true,
       exportCSV: true,
     };
+    const { t } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -198,7 +215,9 @@ class TableContentPlantilla extends Component {
               hover
               striped
               search
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                "app_plantilla_administrar_placeholder_search"
+              )}
               pagination
               className=""
               options={options}
@@ -208,7 +227,7 @@ class TableContentPlantilla extends Component {
                 dataField="id"
                 dataAlign="center"
                 dataFormat={this.indexN}
-                width={"100"}
+                width={"50"}
               >
                 {" "}
                 #{" "}
@@ -216,49 +235,50 @@ class TableContentPlantilla extends Component {
               <TableHeaderColumn
                 dataField="code"
                 dataAlign="center"
-                width={"200"}
+                width={"100"}
               >
                 {" "}
-                Codigo{" "}
+                {t("app_plantilla_administrar_table_codigo")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
-                width={"250"}
+                width={"300"}
               >
                 {" "}
-                Nombre{" "}
+                {t("app_plantilla_administrar_table_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"200"}
+                width={"100"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadoPlantilla(cell, row)}
               >
                 {" "}
-                Estado{" "}
+                {t("app_plantilla_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataAlign="center"
                 dataField="createdAt"
                 dataFormat={(cell, row) => this.FechaPlantilla(cell, row)}
               >
-                Fecha creaciòn
+                {t("app_plantilla_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataAlign="center"
                 dataField="updatedAt"
                 dataFormat={(cell, row) => this.FechaPlantilla(cell, row)}
               >
-                Fecha de modificaciòn
+                {t("app_plantilla_administrar_table_fecha_modificacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesPlnatilla(cell, row)}
+                width={"150"}
               >
                 {" "}
-                Acciones{" "}
+                {t("app_plantilla_administrar_table_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
@@ -268,6 +288,7 @@ class TableContentPlantilla extends Component {
           ref={"child1"}
           authorization={this.state.token}
           idPlantilla={this.state.id}
+          t={t}
         />
         <ModalEdit
           authorization={this.state.token}
@@ -275,8 +296,10 @@ class TableContentPlantilla extends Component {
           id={this.state.id}
           ref={(modal) => (this.modalEditRef = modal)}
           updateTable={this.getDataTemplates}
+          t={t}
         />
         <ModalDelete
+          t={t}
           authorization={this.state.token}
           modaldelete={this.state.modaldelete}
           ref={(mdelete) => (this.modalDeleteRef = mdelete)}
@@ -287,12 +310,15 @@ class TableContentPlantilla extends Component {
           authorization={this.state.token}
           modalexport={this.state.modalexport}
           ref={(mexport) => (this.modalExport = mexport)}
+          t={t}
         />
       </div>
     );
   }
 }
 
-TableContentPlantilla.propTypes = {};
+TableContentPlantilla.propTypes = {
+  t: PropTypes.string.isRequired,
+};
 
-export default TableContentPlantilla;
+export default withTranslation("translations")(TableContentPlantilla);

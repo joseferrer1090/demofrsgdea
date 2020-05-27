@@ -104,6 +104,7 @@ const TipoDocumentalRadicacion = (props) => {
           return null;
         };
         setTimeout(() => {
+          const { t } = props;
           const auth = props.authorization;
           const username = decode(auth);
           console.log(

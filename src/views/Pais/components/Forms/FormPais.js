@@ -8,7 +8,7 @@ import {
   CardHeader,
   Card,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import { COUNTRIES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +18,7 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const FormPais = props => {
+const FormPais = (props) => {
   const {
     values,
     touched,
@@ -27,7 +27,7 @@ const FormPais = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    t
+    t,
   } = props;
 
   return (
@@ -51,9 +51,9 @@ const FormPais = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.code &&
-                        touched.code &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.code && touched.code && "is-invalid"
+                      }`}
                       placeholder=""
                       value={values.code}
                     />
@@ -77,9 +77,9 @@ const FormPais = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.name &&
-                        touched.name &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.name && touched.name && "is-invalid"
+                      }`}
                       value={values.name}
                       placeholder=""
                     />
@@ -146,10 +146,10 @@ const FormPais = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       code: props.pais.code,
       name: props.pais.name,
-      status: props.pais.status
+      status: props.pais.status,
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
@@ -161,11 +161,15 @@ export default withTranslation("translations")(
         .required(" Por favor introduzca un nombre.")
         .max(100, "Máximo 100 caracteres."),
       status: Yup.bool()
-        .test("Activo", "Es necesario activar el país", value => value === true)
-        .required("Es necesario activar el país")
+        .test(
+          "Activo",
+          "Es necesario activar el país",
+          (value) => value === true
+        )
+        .required("Es necesario activar el país"),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -175,66 +179,64 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(COUNTRIES, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el país con éxito.", {
+                toast.success(t("app_pais_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el país. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el país ya existe.", {
+                toast.error(t("app_pais_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_pais_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(FormPais)
 );
 
 FormPais.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };

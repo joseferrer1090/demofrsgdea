@@ -59,6 +59,7 @@ class PreviewTemplate extends Component {
 
   render() {
     console.log(this.state.values);
+    console.log(this.state.template);
     // console.log(this.state.id);
     // console.log(
     //   this.state.template.map((aux, id) => {
@@ -92,8 +93,8 @@ class PreviewTemplate extends Component {
                         {
                           values: {
                             ...this.state.values,
-                            [aux.id]: {
-                              id: aux.id,
+                            [id]: {
+                              id: aux.idMetadata,
                               defaultValue: event.target.value,
                             },
                           },

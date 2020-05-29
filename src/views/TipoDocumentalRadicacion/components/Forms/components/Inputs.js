@@ -28,7 +28,6 @@ const Inputs = (props) => {
             <select
               className="form-control form-control-sm"
               onChange={props.onChange}
-              value={props.value}
               {...props.elementConfig}
             >
               <option> -- Seleccione -- </option>
@@ -53,7 +52,14 @@ const Inputs = (props) => {
             props.elementConfig.options.map((aux, id) => {
               return (
                 <div className="form-check">
-                  <input className="form-check-input" type="radio" />
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    onChange={props.onChange}
+                    id={aux.id}
+                    {...props.elementConfig}
+                    value={aux.value}
+                  />
                   <label className="form-check-label" htmlFor>
                     {aux.displayValue}
                   </label>
@@ -77,6 +83,8 @@ const Inputs = (props) => {
                     className="form-check-input"
                     type="checkbox"
                     id={aux.id}
+                    value={aux.displayValue}
+                    onChange={props.onChange}
                     {...props.elementConfig}
                   />
                   <label className="form-check-label" htmlFor={aux.id}>

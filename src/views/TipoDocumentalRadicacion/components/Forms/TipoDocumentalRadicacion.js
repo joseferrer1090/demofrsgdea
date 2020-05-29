@@ -24,7 +24,6 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
-import * as _ from "lodash";
 
 const TipoDocumentalRadicacion = (props) => {
   const { t } = props;
@@ -36,6 +35,7 @@ const TipoDocumentalRadicacion = (props) => {
   const [newValueConglomerate, setNewValueConglomerate] = useState();
   const [preview, setDataPreview] = useState([]);
   const [datainputs, setDataInputs] = useState();
+  const [dataidMetadata, setDataidMetadata] = useState([]);
 
   const changeInValueConglomerate = (Old, New) => {
     setOldValueConglomerate(Old);
@@ -52,6 +52,7 @@ const TipoDocumentalRadicacion = (props) => {
   // }, {});
 
   console.log(datainputs);
+  console.log(dataidMetadata);
 
   return (
     <Formik
@@ -724,6 +725,9 @@ const TipoDocumentalRadicacion = (props) => {
                       id={values.plantilla}
                       onDataFetch={(preview) => setDataPreview(preview)}
                       onDataOnChange={(datainputs) => setDataInputs(datainputs)}
+                      onDataFetchidMetadata={(dataidMetadata) =>
+                        setDataidMetadata(dataidMetadata)
+                      }
                     />
                   </div>
                 </div>

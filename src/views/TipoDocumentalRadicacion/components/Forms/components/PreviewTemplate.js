@@ -49,8 +49,16 @@ class PreviewTemplate extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        this.setState({ template: data });
+        this.setState({
+          template: data,
+          idMetadata: data.map((aux, id) => {
+            return {
+              id: aux.id,
+            };
+          }),
+        });
         this.props.onDataFetch(data);
+        this.props.onDataFetchidMetadata(this.state.idMetadata);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -60,6 +68,7 @@ class PreviewTemplate extends Component {
   render() {
     console.log(this.state.values);
     console.log(this.state.template);
+    console.log(this.state.idMetadata);
     // console.log(this.state.id);
     // console.log(
     //   this.state.template.map((aux, id) => {

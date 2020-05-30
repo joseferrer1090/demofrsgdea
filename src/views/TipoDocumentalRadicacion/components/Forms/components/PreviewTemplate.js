@@ -53,7 +53,8 @@ class PreviewTemplate extends Component {
           template: data,
           idMetadata: data.map((aux, id) => {
             return {
-              id: aux.id,
+              id: aux.idMetadata,
+              defaultValue: aux.defaultValue,
             };
           }),
         });
@@ -66,9 +67,9 @@ class PreviewTemplate extends Component {
   };
 
   render() {
-    console.log(this.state.values);
+    // console.log(this.state.values);
     console.log(this.state.template);
-    console.log(this.state.idMetadata);
+    // console.log(this.state.idMetadata);
     // console.log(this.state.id);
     // console.log(
     //   this.state.template.map((aux, id) => {

@@ -67,7 +67,7 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTDocRadicacion"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "7%" }}
       >
         <button
           title="Ver tipo documental de radicacion"
@@ -87,6 +87,13 @@ class TableContentTramite extends Component {
           }}
         >
           <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          title="Editar valores de la plantilla"
+          className="btn btn-secondary btn-sm"
+        >
+          <i className="fa fa-wpforms" />
         </button>
         &nbsp;
         <button

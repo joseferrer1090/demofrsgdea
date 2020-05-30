@@ -54,7 +54,7 @@ class PreviewTemplate extends Component {
           idMetadata: data.map((aux, id) => {
             return {
               id: aux.idMetadata,
-              defaultValue: aux.defaultValue,
+              defaultValue: aux.defaultValue === null ? " " : aux.defaultValue,
             };
           }),
         });

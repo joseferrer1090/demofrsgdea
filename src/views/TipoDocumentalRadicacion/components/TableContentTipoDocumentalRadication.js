@@ -144,7 +144,7 @@ class TableContentTramite extends Component {
   };
 
   routeChangeEditPlantilla = (id) => {
-    let path = `#/configuracion/tipodocumentalradicacion/edit/template/:id`;
+    let path = `#/configuracion/tipodocumentalradicacion/edit/template/${id}`;
     window.location.replace(path);
   };
 

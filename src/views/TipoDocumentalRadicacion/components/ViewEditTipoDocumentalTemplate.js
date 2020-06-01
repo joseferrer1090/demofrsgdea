@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import TableModal from "./TableModalViewTipoDocumental";
 import PropType from "prop-types";
 import { decode } from "jsonwebtoken";
 import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class ViewEditTipoDocumentalTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
       datatypedocumentary: {},
+      users: [],
       id: this.props.match.params.id,
       auth: this.props.authorization,
     };
@@ -32,6 +35,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
       .then((data) => {
         this.setState({
           datatypedocumentary: data.typeDocumentary,
+          users: data.users,
         });
       })
       .catch((err) => {
@@ -52,6 +56,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
 
   render() {
     const { datatypedocumentary } = this.state;
+    const { users } = this.state;
     console.log(datatypedocumentary);
     const TypeCorrespondence = (data) => {
       let type;
@@ -73,6 +78,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
       }
       return status;
     };
+    console.log(this.props);
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -191,7 +197,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                 documental
               </div>
               <div className="card-body">
-                <p>Probnado</p>
+                {users ? (
+                  <TableModal data={users} t={this.props.t} />
+                ) : (
+                  <p>No hay usuarios asociados</p>
+                )}
               </div>
             </div>
           </div>
@@ -202,7 +212,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
                 <i className="fa fa-wpforms" /> Valores de la plantilla asociada
               </div>
               <div className="card-body">
-                <p>Probnado apenas</p>
+                <p>Probando</p>
               </div>
             </div>
           </div>
@@ -214,4 +224,4 @@ class ViewEditTipoDocumentalTemplate extends Component {
 
 ViewEditTipoDocumentalTemplate.propTypes = {};
 
-export default ViewEditTipoDocumentalTemplate;
+export default withTranslation("translations")(ViewEditTipoDocumentalTemplate);

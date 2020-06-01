@@ -110,14 +110,6 @@ const TipoDocumentalRadicacion = (props) => {
           return null;
         };
 
-        // const newDataInputs = Object.keys(datainputs).map(function (
-        //   key,
-        //   index
-        // ) {
-        //   return datainputs[key];
-        // });
-        // var isSame = playersOne.length === playersTwo.length && playersOne.every((o,i) => Object.keys(o).length === Object.keys(playersTwo[i]).length && Object.keys(o).every(k => o[k] === playersTwo[i][k]));
-
         const newDataInputs = (data) => {
           const newdata = data
             ? Object.keys(data).map(function (key, index) {
@@ -136,14 +128,6 @@ const TipoDocumentalRadicacion = (props) => {
               ...dataidMetadata.filter((d) => !idss.has(d.id)),
             ];
             return merged;
-            // const a = newdata.concat(ids);
-            // console.log(a);
-            // for (let i = 0; i < a.length; i++) {
-            //   for (let j = i + 1; j < a.length; j++) {
-            //     if (a[i] === a[j]) a.splice(j--, 1);
-            //   }
-            // }
-            // return a;
           } else if (newdata === null) {
             return data;
           }

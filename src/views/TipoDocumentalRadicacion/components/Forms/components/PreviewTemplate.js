@@ -54,7 +54,7 @@ class PreviewTemplate extends Component {
           idMetadata: data.map((aux, id) => {
             return {
               id: aux.idMetadata,
-              defaultValue: aux.defaultValue === null ? " " : aux.defaultValue,
+              defaultValue: aux.defaultValue !== null ? aux.defaultValue : "",
             };
           }),
         });
@@ -67,20 +67,7 @@ class PreviewTemplate extends Component {
   };
 
   render() {
-    // console.log(this.state.values);
-    console.log(this.state.template);
-    // console.log(this.state.idMetadata);
-    // console.log(this.state.id);
-    // console.log(
-    //   this.state.template.map((aux, id) => {
-    //     console.log(aux.metadata.elementConfig);
-    //   })
-    // );
-    // console.log(
-    //   this.state.template.map((aux, id) => {
-    //     return { id: aux.id, defaultValue: aux.defaultValue };
-    //   })
-    // );
+    //console.log(this.state.template);
     return (
       <div>
         <Card>

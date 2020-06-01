@@ -62,12 +62,15 @@ class ModalviewTipoDocumentoRadication extends Component {
         this.setState({
           data: data.typeDocumentary,
           users: data.users,
-          spinner: false
+          spinner: false,
         });
       })
-      .catch((err) => {console.log(err); this.setState({
-        spinner:false
-      })});
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          spinner: false,
+        });
+      });
   };
 
   toggle = (id) => {

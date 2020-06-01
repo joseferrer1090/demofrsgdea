@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
 import PropType from "prop-types";
 import { decode } from "jsonwebtoken";
+import moment from "moment";
 
 class ViewEditTipoDocumentalTemplate extends Component {
   constructor(props) {
@@ -38,9 +39,40 @@ class ViewEditTipoDocumentalTemplate extends Component {
       });
   };
 
+  FechaCreacionTipoTramite(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
+  }
+  FechaModificacionTipoTramite(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
+  }
+
   render() {
     const { datatypedocumentary } = this.state;
     console.log(datatypedocumentary);
+    const TypeCorrespondence = (data) => {
+      let type;
+      if (data === 1) {
+        type = "correspondencia recibida";
+      } else if (data === 2) {
+        type = "correspondencia despachada";
+      } else if (data === 3) {
+        type = "correspondencia interna";
+      }
+      return type;
+    };
+    const statusTipoDocumentalRadicacion = (data) => {
+      let status;
+      if (data === 1) {
+        status = "Activo";
+      } else if (data === 0) {
+        status = "Inactivo";
+      }
+      return status;
+    };
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -82,7 +114,9 @@ class ViewEditTipoDocumentalTemplate extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          value={datatypedocumentary.typeCorrespondence}
+                          value={TypeCorrespondence(
+                            datatypedocumentary.typeCorrespondence
+                          )}
                           disabled
                         />
                       </div>
@@ -100,7 +134,14 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>Estado</label>
-                        <p>{datatypedocumentary.status}</p>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={statusTipoDocumentalRadicacion(
+                            datatypedocumentary.status
+                          )}
+                          disabled
+                        />
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -120,7 +161,9 @@ class ViewEditTipoDocumentalTemplate extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          value={datatypedocumentary.createdAt}
+                          value={this.FechaCreacionTipoTramite(
+                            datatypedocumentary.createdAt
+                          )}
                           disabled
                         />
                       </div>
@@ -131,7 +174,9 @@ class ViewEditTipoDocumentalTemplate extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          value={datatypedocumentary.updatedAt}
+                          value={this.FechaModificacionTipoTramite(
+                            datatypedocumentary.updatedAt
+                          )}
                           disabled
                         />
                       </div>

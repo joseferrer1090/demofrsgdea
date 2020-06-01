@@ -130,11 +130,12 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>Descripción</label>
-                        <textarea
+                        <input
+                          type="text"
                           className="form-control form-contorl-sm"
                           value={datatypedocumentary.description}
                           disabled
-                        ></textarea>
+                        />
                       </div>
                     </div>
                     <div className="col-md-4">

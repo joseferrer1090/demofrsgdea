@@ -92,6 +92,9 @@ class TableContentTramite extends Component {
         <button
           title="Editar valores de la plantilla"
           className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.routeChangeEditPlantilla(row.id);
+          }}
         >
           <i className="fa fa-wpforms" />
         </button>
@@ -137,6 +140,11 @@ class TableContentTramite extends Component {
 
   routeChange = (id) => {
     let path = `#/configuracion/tipodocumentalradication/edit/${id}`;
+    window.location.replace(path);
+  };
+
+  routeChangeEditPlantilla = (id) => {
+    let path = `#/configuracion/tipodocumentalradicacion/edit/template/:id`;
     window.location.replace(path);
   };
 

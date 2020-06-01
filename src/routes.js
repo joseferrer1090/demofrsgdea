@@ -100,6 +100,12 @@ const EditTipoDocumentalRadication = React.lazy(() =>
   )
 );
 
+const EditTipoDocumentalRadicacionPlantilla = React.lazy(() =>
+  import(
+    "./views/TipoDocumentalRadicacion/components/ViewEditTipoDocumentalTemplate"
+  )
+);
+
 const RadicacionEmail = React.lazy(() =>
   import("./views/RadicacionEmail/RadicacionEmail")
 );
@@ -217,6 +223,18 @@ const routes = [
     name: "Configuración / Tipo documental de radicación",
     component: (props) => (
       <EditTipoDocumentalRadication
+        t={props.t}
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    ),
+  },
+  {
+    path: "/configuracion/tipodocumentalradicacion/edit/template/:id",
+    exact: true,
+    name: "Configuración / Tipo documental de radicación ",
+    component: (props) => (
+      <EditTipoDocumentalRadicacionPlantilla
         t={props.t}
         {...props}
         authorization={localStorage.getItem("auth_token")}

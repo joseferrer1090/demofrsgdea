@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
+import PreviewTemplate from "./../components/Forms/components/PreviewTemplate";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class EditTemplateValues extends Component {
     this.state = {
       id: this.props.id,
       auth: this.props.auth,
+      data: [],
     };
   }
 
@@ -25,7 +27,9 @@ class EditTemplateValues extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        this.setState({
+          data: data,
+        });
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -43,7 +47,11 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            <p>Probando</p>
+            {this.state.data ? (
+              <p className="text-success"> Hay Datos para actualizar</p>
+            ) : (
+              <p className="text-danger">No hay datos para actualizar</p>
+            )}
           </div>
         </div>
       </div>

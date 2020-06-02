@@ -5,6 +5,7 @@ import PropType from "prop-types";
 import { decode } from "jsonwebtoken";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
+import EditValues from "./EditTemplateValues";
 
 class ViewEditTipoDocumentalTemplate extends Component {
   constructor(props) {
@@ -207,15 +208,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card">
-              <div className="card-header">
-                {" "}
-                <i className="fa fa-wpforms" /> Valores de la plantilla asociada
-              </div>
-              <div className="card-body">
-                <p>Probando</p>
-              </div>
-            </div>
+            <EditValues auth={this.state.auth} id={this.state.id} />
           </div>
         </div>
       </div>

@@ -765,3 +765,6 @@ export const FIND_BY_TYPE_DOCUMENTARY_ID = `${config.IP}:${config.PORT}/api/sgde
 
 /* GET  params => idtemplate */
 export const GET_METADATA_FOR_TEMPLATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/get/template`;
+
+/* GET params => idtypedocumentary */
+export const GET_METADATA_FOR_TYPE_DOCUMENTARY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/get/type/documentary/`;

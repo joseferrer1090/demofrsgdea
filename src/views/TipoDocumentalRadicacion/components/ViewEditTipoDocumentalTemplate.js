@@ -38,6 +38,8 @@ class ViewEditTipoDocumentalTemplate extends Component {
           datatypedocumentary: data.typeDocumentary,
           users: data.users,
         });
+        console.log(this.state.datatypedocumentary);
+        console.log(this.state.users);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -79,7 +81,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
       }
       return status;
     };
-    console.log(this.props);
+
     return (
       <div className="animated fadeIn">
         <div className="row">

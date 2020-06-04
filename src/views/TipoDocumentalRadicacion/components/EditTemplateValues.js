@@ -30,6 +30,7 @@ class EditTemplateValues extends Component {
         this.setState({
           data: data,
         });
+        console.log(this.state.data);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);

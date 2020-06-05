@@ -84,9 +84,7 @@ const TipoDocumentalRadicacion = (props) => {
             (value) => value === true
           )
           .required(" Es necesario activar el tipo de trámite."),
-        plantilla: Yup.string()
-          .ensure()
-          .required("Seleccione una plantilla para el tipo documental"),
+        plantilla: Yup.string().ensure(),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const tipoEstado = (data) => {

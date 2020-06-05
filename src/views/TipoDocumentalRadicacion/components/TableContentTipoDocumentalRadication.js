@@ -6,6 +6,7 @@ import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadicati
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
 import ModalExport from "./ModalExport";
 import ModalExportUsers from "./ModalExportTDRUser";
+import ModalAssigned from "./ModalAssignedTemplate";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
@@ -20,6 +21,7 @@ class TableContentTramite extends Component {
       modaldel: false,
       modalexport: false,
       modalexport2: false,
+      modalassigned: false,
       auth: this.props.authorization,
       data: [],
       hiddenColumnID: true,
@@ -67,8 +69,17 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTDocRadicacion"
-        style={{ textAlign: "center", padding: "0", marginRight: "7%" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
+        <button
+          title="Asignar plantilla al tipo documental"
+          className="btn btn-secondary btn-sm"
+          onClick={() => this.openModalAssigned()}
+        >
+          {" "}
+          <i className="fa fa-object-group" />{" "}
+        </button>
+        &nbsp;
         <button
           title="Ver tipo documental de radicacion"
           className="btn btn-secondary btn-sm"
@@ -161,6 +172,10 @@ class TableContentTramite extends Component {
   openModalExport2() {
     // this.refs.child4.toogle();
     this.ModalExportUserRef.toggle();
+  }
+
+  openModalAssigned() {
+    this.ModalAssignedRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -319,6 +334,10 @@ class TableContentTramite extends Component {
           modal={this.state.modalexport2}
           authorization={auth}
           ref={(meu) => (this.ModalExportUserRef = meu)}
+        />
+        <ModalAssigned
+          modal={this.state.modalassigned}
+          ref={(ma) => (this.ModalAssignedRef = ma)}
         />
       </div>
     );

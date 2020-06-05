@@ -74,7 +74,7 @@ class TableContentTramite extends Component {
         <button
           title="Asignar plantilla al tipo documental"
           className="btn btn-secondary btn-sm"
-          onClick={() => this.openModalAssigned()}
+          onClick={() => this.openModalAssigned(row.id)}
         >
           {" "}
           <i className="fa fa-object-group" />{" "}
@@ -174,8 +174,8 @@ class TableContentTramite extends Component {
     this.ModalExportUserRef.toggle();
   }
 
-  openModalAssigned() {
-    this.ModalAssignedRef.toggle();
+  openModalAssigned(id) {
+    this.ModalAssignedRef.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {

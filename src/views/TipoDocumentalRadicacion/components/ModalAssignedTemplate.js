@@ -1,22 +1,55 @@
 import React, { Component } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import SelectPlantilla from "./../components/Forms/components/SelectPlantilla";
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 class ModalAssignedTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalassigned: this.props.modal,
-      auth: this.props.athorization,
+      auth: this.props.authorization,
       t: this.props.t,
+      id: this.props.id,
+      dataTypeDocumentary: {},
     };
   }
-  toggle = () => {
+
+  toggle = (id) => {
     this.setState({
       modalassigned: !this.state.modalassigned,
+      id: id,
     });
+    this.getDataTypeDocumentary(id);
   };
+
+  getDataTypeDocumentary = (id) => {
+    const auth = this.props.authorization;
+    const username = decode(auth);
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          dataTypeDocumentary: data.typeDocumentary,
+        });
+      })
+      .catch((err) => {
+        console.log(`Error, ${err}`);
+      });
+  };
+
   render() {
+    // console.log(this.state.id);
+    const { dataTypeDocumentary } = this.state;
+    console.log(this.props.authorization);
     return (
       <Modal
         className="modal-lg"
@@ -25,9 +58,28 @@ class ModalAssignedTemplate extends Component {
       >
         <ModalHeader>
           <i className="fa fa-object-group" /> Asingar plantilla al tipo
-          documental
+          documental {dataTypeDocumentary.name}
         </ModalHeader>
-        <ModalBody></ModalBody>
+        <ModalBody>
+          <div className="text-justify">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged.{" "}
+            <b>(Informacion de advertencias para la asignacion de plantilla)</b>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <br />
+              <SelectPlantilla
+                authorization={this.props.authorization}
+                className="form-control form-control-sm"
+              />
+            </div>
+          </div>
+        </ModalBody>
         <ModalFooter>
           <div>
             <button className="btn btn-secondary btn-sm">

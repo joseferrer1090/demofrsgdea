@@ -6,7 +6,7 @@ class SelectPlantilla extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: this.props.autorization,
+      auth: this.props.authorization,
       data: [],
     };
   }
@@ -16,9 +16,8 @@ class SelectPlantilla extends Component {
       return {
         auth: props.authorization,
       };
-    } else {
-      return null;
     }
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,7 +43,6 @@ class SelectPlantilla extends Component {
           data: data,
         });
       })
-
       .catch((err) => {
         console.log(`Error => ${err.message}`);
       });

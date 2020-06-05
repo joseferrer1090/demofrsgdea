@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
-import PreviewTemplate from "./../components/Forms/components/PreviewTemplate";
+import Inputs from "./../components/Forms/components/Inputs";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -49,7 +49,14 @@ class EditTemplateValues extends Component {
           </div>
           <div className="card-body">
             {this.state.data ? (
-              <p className="text-success"> Hay Datos para actualizar</p>
+              this.state.data.map((aux, id) => (
+                <Inputs
+                  key={id}
+                  value={aux.value}
+                  formType={aux.metadata.elementConfig.type}
+                  elementConfig={aux.metadata.elementConfig}
+                />
+              ))
             ) : (
               <p className="text-danger">No hay datos para actualizar</p>
             )}

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
-import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
-import SelectPlantilla from "./../components/Forms/components/SelectPlantilla";
+import {
+  TYPEDOCUMENTARY_SHOW,
+  TEMPLATE_ACTIVE,
+} from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
@@ -47,9 +49,7 @@ class ModalAssignedTemplate extends Component {
   };
 
   render() {
-    // console.log(this.state.id);
     const { dataTypeDocumentary } = this.state;
-    console.log(this.props.authorization);
     return (
       <Modal
         className="modal-lg"
@@ -70,15 +70,25 @@ class ModalAssignedTemplate extends Component {
             remaining essentially unchanged.{" "}
             <b>(Informacion de advertencias para la asignacion de plantilla)</b>
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <br />
-              <SelectPlantilla
-                authorization={this.props.authorization}
-                className="form-control form-control-sm"
-              />
+          <br />
+          <form>
+            <div className="row">
+              <div className="col-md-8">
+                <div className="form-group">
+                  <label>
+                    Plantilla Seleccionada{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <select className="form-control form-control-sm">
+                    <option>--Seleccione--</option>
+                    <option>Plantilla 1</option>
+                    <option>Plantilla 2</option>
+                    <option>Plnatilla 3</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </ModalBody>
         <ModalFooter>
           <div>

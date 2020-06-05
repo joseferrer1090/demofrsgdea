@@ -336,6 +336,8 @@ class TableContentTramite extends Component {
           ref={(meu) => (this.ModalExportUserRef = meu)}
         />
         <ModalAssigned
+          authorization={auth}
+          t={this.props.t}
           modal={this.state.modalassigned}
           ref={(ma) => (this.ModalAssignedRef = ma)}
         />

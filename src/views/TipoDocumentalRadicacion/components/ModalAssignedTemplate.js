@@ -7,16 +7,22 @@ class ModalAssignedTemplate extends Component {
     super(props);
     this.state = {
       modalassigned: this.props.modal,
+      auth: this.props.athorization,
+      t: this.props.t,
     };
   }
   toggle = () => {
     this.setState({
-      modal: !this.state.modalassigned,
+      modalassigned: !this.state.modalassigned,
     });
   };
   render() {
     return (
-      <Modal isOpen={this.state.modalassigned} toggle={this.toggle}>
+      <Modal
+        className="modal-lg"
+        isOpen={this.state.modalassigned}
+        toggle={this.toggle}
+      >
         <ModalHeader>
           <i className="fa fa-object-group" /> Asingar plantilla al tipo
           documental
@@ -25,7 +31,16 @@ class ModalAssignedTemplate extends Component {
         <ModalFooter>
           <div>
             <button className="btn btn-secondary btn-sm">
+              <i className="fa fa-check" />
               Asignar plantilla
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => this.setState({ modalassigned: false })}
+            >
+              <i className="fa fa-times" /> Cerrar
             </button>
           </div>
         </ModalFooter>
@@ -34,6 +49,9 @@ class ModalAssignedTemplate extends Component {
   }
 }
 
-ModalAssignedTemplate.propTypes = {};
+ModalAssignedTemplate.propTypes = {
+  authorization: PropTypes.string.isRequired,
+  t: PropTypes.any,
+};
 
 export default ModalAssignedTemplate;

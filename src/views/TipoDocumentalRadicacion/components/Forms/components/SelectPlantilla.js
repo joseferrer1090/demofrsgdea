@@ -6,7 +6,7 @@ class SelectPlantilla extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: this.props.autorization,
+      auth: this.props.authorization,
       data: [],
     };
   }
@@ -16,9 +16,8 @@ class SelectPlantilla extends Component {
       return {
         auth: props.authorization,
       };
-    } else {
-      return null;
     }
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -51,6 +50,7 @@ class SelectPlantilla extends Component {
 
   render() {
     const data = this.state.data;
+    console.log(this.state.data);
     return (
       <div className="form-group">
         <label>

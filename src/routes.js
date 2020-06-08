@@ -30,13 +30,13 @@ const isAuthenticated = () => {
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    render={(props) =>
       isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect
           to={{
-            pathname: "/"
+            pathname: "/",
           }}
         />
       )
@@ -100,6 +100,12 @@ const EditTipoDocumentalRadication = React.lazy(() =>
   )
 );
 
+const EditTipoDocumentalRadicacionPlantilla = React.lazy(() =>
+  import(
+    "./views/TipoDocumentalRadicacion/components/ViewEditTipoDocumentalTemplate"
+  )
+);
+
 const RadicacionEmail = React.lazy(() =>
   import("./views/RadicacionEmail/RadicacionEmail")
 );
@@ -137,7 +143,7 @@ const routes = [
     path: "/configuracion",
     exact: true,
     name: "Inicio",
-    component: Configuracion
+    component: Configuracion,
   },
   // {
   //   path: "/configuracion",
@@ -149,257 +155,269 @@ const routes = [
     path: "/configuracion/conglomerado",
     exact: true,
     name: "Configuración / Conglomerado",
-    component: Conglomerado
+    component: Conglomerado,
   },
   {
     path: "/configuracion/empresa",
     exact: true,
     name: " Configuración / Empresa ",
-    component: Empresa
+    component: Empresa,
   },
   {
     path: "/configuracion/sedes",
     exact: true,
     name: " Configuración / Sedes ",
-    component: Sedes
+    component: Sedes,
   },
   {
     path: "/configuracion/dependencia",
     exact: true,
     name: " Configuración / Dependencia ",
-    component: Dependencias
+    component: Dependencias,
   },
   {
     path: "/configuracion/cargo",
     exact: true,
     name: " Configuración / Cargo ",
-    component: Cargo
+    component: Cargo,
   },
   {
     path: "/configuracion/usuarios",
     exact: true,
     name: " Configuración / Usuarios ",
-    component: Usuarios
+    component: Usuarios,
   },
   {
     path: "/configuracion/roles",
     exact: true,
     name: " Configuración / Roles  ",
-    component: Roles
+    component: Roles,
   },
   {
     path: "/configuracion/grupos",
     exact: true,
     name: " Configuración / Grupo de usuarios ",
-    component: GruposUsuarios
+    component: GruposUsuarios,
   },
   {
     path: "/configuracion/terceros",
     exact: true,
     name: " Configuración / Terceros",
-    component: Remitentes
+    component: Remitentes,
   },
   {
     path: "/configuracion/tipodocumental",
     exact: true,
     name: " Configuración / Tipo documentales ",
-    component: TipoDocumentales
+    component: TipoDocumentales,
   },
   {
     path: "/configuracion/tipodocumentalradicacion",
     exact: true,
     name: " Configuración / Tipo documental de radicación ",
-    component: TipoDocumentalesRadicacion
+    component: TipoDocumentalesRadicacion,
   },
   {
     path: "/configuracion/tipodocumentalradication/edit/:id",
     exact: true,
     name: "Configuración / Tipo documental de radicación",
-    component: props => (
+    component: (props) => (
       <EditTipoDocumentalRadication
         t={props.t}
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
+  },
+  {
+    path: "/configuracion/tipodocumentalradicacion/edit/template/:id",
+    exact: true,
+    name: "Configuración / Tipo documental de radicación ",
+    component: (props) => (
+      <EditTipoDocumentalRadicacionPlantilla
+        t={props.t}
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    ),
   },
   {
     path: "/configuracion/pais",
     exact: true,
     name: " Configuración / País ",
-    component: Pais
+    component: Pais,
   },
   {
     path: "/configuracion/ciudad",
     exact: true,
     name: " Configuración / Ciudad",
-    component: Ciudad
+    component: Ciudad,
   },
   {
     path: "/configuracion/departamento",
     exact: true,
     name: " Configuración / Departamento",
-    component: Departamento
+    component: Departamento,
   },
   {
     path: "/configuracion/perfil",
     exact: true,
     name: " Configuración / Perfil de usuario ",
-    component: Profile
+    component: Profile,
   },
   {
     path: "/configuracion/auditoria",
     exact: true,
     name: " Configuración / Auditoria ",
-    component: props => (
+    component: (props) => (
       <Auditoria
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
   },
   {
     path: "/configuracion/auditoria/moverhistorico",
     exact: true,
     name: "Mover histórico",
-    component: MoverHistorico
+    component: MoverHistorico,
   },
   {
     path: "/configuracion/tema",
     exact: true,
     name: " Configuración / tema  ",
-    component: Tema
+    component: Tema,
   },
   {
     path: "/configuracion/mensajero",
     exact: true,
     name: " Configuración / Mensajero  ",
-    component: Mensajero
+    component: Mensajero,
   },
   {
     path: "/configuracion/tipollegada",
     exact: true,
     name: " Configuración / Tipo de envío / llegada  ",
-    component: TipoLlegada
+    component: TipoLlegada,
   },
   {
     path: "/configuracion/tipotramite",
     exact: true,
     name: "Configuración / Tipo trámite",
-    component: TipoTramite
+    component: TipoTramite,
   },
   {
     path: "/configuracion/tipotramite/edit/:id",
     exact: true,
     name: "Editar tipo de tramite",
-    component: props => (
+    component: (props) => (
       <EditTramite
         {...props}
         t={props.t}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
   },
   {
     path: "/configuracion/tipotercero",
     exact: true,
     name: "Configuración / tipo de tercero",
-    component: TipoTercero
+    component: TipoTercero,
   },
   {
     path: "/configuracion/plantilla",
     exact: true,
     name: "Configuración / Plantilla de datos",
-    component: Plantilla
+    component: Plantilla,
   },
   {
     path: "/configuracion/plantilla/edit",
     exact: true,
     name: "Editar plantilla de datos",
-    component: EditPlantilla
+    component: EditPlantilla,
   },
   {
     path: `/configuracion/plantilla/addindexes/:id`,
     exact: true,
     name: "Edicion estructura de la plantilla",
-    component: props => (
+    component: (props) => (
       <AddIndexPlantilla
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
   },
   {
     path: "/configuracion/radicacionemail",
     exact: true,
     name: "Configuración / Radicación por email",
-    component: RadicacionEmail
+    component: RadicacionEmail,
   },
   {
     path: "/Configuracion/peticionescorreoelectronico",
     exact: true,
     name: "Configuración / Peticiones vía correo electrónico",
-    component: PeticionesViaCorreoElectronico
+    component: PeticionesViaCorreoElectronico,
   },
   {
     path: "/configuracion/plantillaemail",
     exact: true,
     name: "Configuración / Plantilla de correo electrónico",
-    component: PlantillaEmail
+    component: PlantillaEmail,
   },
   {
     path: "/configuracion/plantillaemail/edit/:id",
     exact: true,
     name: "Configuración / Plantilla de correo electrónico",
-    component: props => (
+    component: (props) => (
       <EditPlantillaEmail
         {...props}
         t={props.t}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
   },
   {
     path: "/configuracion/parametrosgenerales",
     exact: true,
     name: " Configuración / Parámetros generales",
-    component: props => (
+    component: (props) => (
       <ParametrosGenerales
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />
-    )
+    ),
   },
   {
     path: "/configuracion/metadatos",
     exact: true,
     name: "Configuración / Metadatos",
-    component: MetaDatos
+    component: MetaDatos,
   },
   {
     path: "/configuracion/metadatos/new",
     exact: true,
     name: "Configuracion / Metadatos / Nuevo metadato",
-    component: MetaDato
+    component: MetaDato,
   },
   {
     path: "/configuracion/metadatos/list",
     exact: true,
     name: "Configuracion / Metadatos / Lista metadatos",
-    component: ListaMetaDatos
+    component: ListaMetaDatos,
   },
   {
     path: "/configuracion/metadatos/update",
     exact: true,
     name: "Configuracion / Metadatos / Actualizar metadato",
-    component: EditMetaDato
+    component: EditMetaDato,
   },
   {
     path: "/configuracion/metadatos/delete",
     exact: true,
     name: "Configuracion / Metadatos / Eliminar metadato",
-    component: DeleteMetadato
-  }
+    component: DeleteMetadato,
+  },
 ];
 
 // {

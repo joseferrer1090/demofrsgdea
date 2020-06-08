@@ -6,23 +6,22 @@ class SelectConglomerado extends React.Component {
   state = {
     dataConglomerado: [],
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
   }
-
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         this.getDataConglomerado()
       );
@@ -34,19 +33,19 @@ class SelectConglomerado extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataConglomerado: data
+          dataConglomerado: data,
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch((err) => console.log("Error", err));
   };
 
-  handleChange = value => {
+  handleChange = (value) => {
     this.props.onChange("conglomerado", value);
   };
 
@@ -86,7 +85,7 @@ class SelectConglomerado extends React.Component {
 
 SelectConglomerado.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default SelectConglomerado;

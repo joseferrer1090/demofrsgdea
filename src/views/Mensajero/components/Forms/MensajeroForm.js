@@ -8,7 +8,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { MESSENGERS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +18,7 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const MensajeroForm = props => {
+const MensajeroForm = (props) => {
   const {
     values,
     errors,
@@ -28,7 +28,7 @@ const MensajeroForm = props => {
     handleSubmit,
     isSubmitting,
     setFieldValue,
-    t
+    t,
   } = props;
   return (
     <div>
@@ -53,9 +53,11 @@ const MensajeroForm = props => {
                         onBlur={handleBlur}
                         value={values.identification}
                         type="text"
-                        className={`form-control form-control-sm ${errors.identification &&
+                        className={`form-control form-control-sm ${
+                          errors.identification &&
                           touched.identification &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.identification && touched.identification ? (
@@ -74,15 +76,15 @@ const MensajeroForm = props => {
                       </label>
                       <input
                         name={"name"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("name", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.name &&
-                          touched.name &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.name && touched.name && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.name && touched.name ? (
@@ -164,16 +166,16 @@ const MensajeroForm = props => {
 };
 
 MensajeroForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       identification: props.mensajero.identification,
       name: props.mensajero.name,
       description: props.mensajero.description,
-      status: props.mensajero.status
+      status: props.mensajero.status,
     }),
     validationSchema: Yup.object().shape({
       identification: Yup.string()
@@ -187,11 +189,11 @@ export default withTranslation("translations")(
       status: Yup.bool().test(
         "Activo",
         "Es necesario la activacion del mensajero",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -202,62 +204,60 @@ export default withTranslation("translations")(
       };
 
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(MESSENGERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             identification: values.identification,
             name: values.name,
             description: values.description,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el mensajero con éxito.", {
+                toast.success(t("app_mensajero_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el mensajero. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el mensajero ya existe.", {
+                toast.error(t("app_mensajero_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_mensajero_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(MensajeroForm)
 );

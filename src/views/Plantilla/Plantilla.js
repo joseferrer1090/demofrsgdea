@@ -6,22 +6,24 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreatePlantilla from "./components/FormCreatePlantilla";
 import TableContent from "./components/TableContentPlantilla";
-import FormImport from "./components/FormImportPlantilla";
+import FormImport from "./components/Forms/UploadFormPlantilla";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class Plantilla extends Component {
@@ -29,7 +31,8 @@ class Plantilla extends Component {
     super(props);
     this.state = {
       activeTab: "1",
-      authToken: ""
+      authToken: "",
+      t: this.props.t,
     };
   }
 
@@ -40,26 +43,27 @@ class Plantilla extends Component {
   getData = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== "tab") {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
 
   render() {
     const { authToken } = this.state;
+    const { t } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -70,7 +74,7 @@ class Plantilla extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus " /> Registrar
+              <i className="fa fa-plus " /> {t("app_plantilla_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -80,7 +84,7 @@ class Plantilla extends Component {
                 this.toggle("2");
               }}
             >
-              <i className={"fa fa-gear"} /> Administrar
+              <i className={"fa fa-gear"} /> {t("app_plantilla_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -90,7 +94,7 @@ class Plantilla extends Component {
                 this.toggle("3");
               }}
             >
-              <i className={"fa fa-upload"} /> Importar
+              <i className={"fa fa-upload"} /> {t("app_plantilla_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -98,7 +102,7 @@ class Plantilla extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm={12}>
-                <FormCreatePlantilla authorization={authToken} />
+                <FormCreatePlantilla t={t} authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -112,7 +116,7 @@ class Plantilla extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <FormImport />
+                <FormImport authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -121,5 +125,8 @@ class Plantilla extends Component {
     );
   }
 }
+Plantilla.propTypes = {
+  t: PropTypes.string.isRequired,
+};
 
-export default Plantilla;
+export default withTranslation("translations")(Plantilla);

@@ -6,12 +6,12 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import {
   COMPANYS,
   CONGLOMERATES_STATUS,
-  CHARGES_STATUS
+  CHARGES_STATUS,
 } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +24,7 @@ import SelectCharges from "./components/SelectCharges";
 import SelectConglomerate from "./components/SelectConglomerate";
 import { decode } from "jsonwebtoken";
 
-const EmpresaForm = props => {
+const EmpresaForm = (props) => {
   const {
     values,
     touched,
@@ -35,7 +35,7 @@ const EmpresaForm = props => {
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    t
+    t,
   } = props;
   const [oldValue, setOldValue] = useState();
   const [newValue, setNewValue] = useState();
@@ -63,16 +63,18 @@ const EmpresaForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"conglomerateId"}
-                    onChange={e =>
+                    onChange={(e) =>
                       setFieldValue("conglomerateId", e.target.value)
                     }
                     onBlur={() => {
                       setFieldTouched("conglomerateId", true);
                     }}
                     value={values.conglomerateId}
-                    className={`form-control form-control-sm ${errors.conglomerateId &&
+                    className={`form-control form-control-sm ${
+                      errors.conglomerateId &&
                       touched.conglomerateId &&
-                      "is-invalid"}`}
+                      "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
@@ -92,14 +94,14 @@ const EmpresaForm = props => {
                   <input
                     name="code"
                     onBlur={handleBlur}
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("code", e.target.value.toUpperCase());
                     }}
                     value={values.code}
                     type="text"
-                    className={`form-control form-control-sm ${errors.code &&
-                      touched.code &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.code && touched.code && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.code && touched.code ? (
@@ -121,9 +123,9 @@ const EmpresaForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.nit}
-                    className={`form-control form-control-sm ${errors.nit &&
-                      touched.nit &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.nit && touched.nit && "is-invalid"
+                    }`}
                     type="text"
                   />
                   <div style={{ color: "#D54B4B" }}>
@@ -143,15 +145,15 @@ const EmpresaForm = props => {
                   </label>
                   <input
                     name="name"
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("name", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"
-                    className={`form-control form-control-sm ${errors.name &&
-                      touched.name &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.name && touched.name && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.name && touched.name ? (
@@ -190,15 +192,15 @@ const EmpresaForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("countryId", e.target.value);
                       changeInValue(values.countryId, e.target.value);
                     }}
                     onBlur={() => setFieldTouched("countryId", true)}
                     value={values.countryId}
-                    className={`form-control form-control-sm ${errors.countryId &&
-                      touched.countryId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.countryId && touched.countryId && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.countryId && touched.countryId ? (
@@ -262,14 +264,14 @@ const EmpresaForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"chargeId"}
-                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onChange={(e) => setFieldValue("chargeId", e.target.value)}
                     onBlur={() => {
                       setFieldTouched("chargeId", true);
                     }}
                     value={values.chargeId}
-                    className={`form-control form-control-sm ${errors.chargeId &&
-                      touched.chargeId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.chargeId && touched.chargeId && "is-invalid"
+                    }`}
                   />
                 </div>
               </div>
@@ -336,7 +338,7 @@ const EmpresaForm = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       conglomerateId: props.empresa.conglomerateId,
       code: props.empresa.code,
       nit: props.empresa.nit,
@@ -346,7 +348,7 @@ export default withTranslation("translations")(
       status: props.empresa.status,
       cityId: props.empresa.cityId,
       departmentId: props.empresa.departmentId,
-      countryId: props.empresa.countryId
+      countryId: props.empresa.countryId,
     }),
     validationSchema: Yup.object().shape({
       conglomerateId: Yup.string()
@@ -383,12 +385,12 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           "Es necesario activar el conglomerado",
-          value => value === true
+          (value) => value === true
         )
-        .required("Se debe aceptar la activacion de la empresa.")
+        .required("Se debe aceptar la activacion de la empresa."),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -398,13 +400,14 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(`${COMPANYS}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             conglomerateId: values.conglomerateId,
@@ -415,49 +418,46 @@ export default withTranslation("translations")(
             description: values.description,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro la empresa con éxito.", {
+                toast.success(t("app_empresa_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar la empresa. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, la empresa ya existe.", {
+                toast.error(t("app_empresa_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_empresa_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(EmpresaForm)
 );

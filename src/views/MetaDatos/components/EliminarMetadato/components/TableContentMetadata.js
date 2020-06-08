@@ -63,6 +63,7 @@ class TableContentMetadata extends Component {
   }
 
   accionMetadataEliminer(cell, row) {
+    const { t } = this.state;
     return (
       <div>
         <button
@@ -74,7 +75,7 @@ class TableContentMetadata extends Component {
               idMetadata: row.id,
             });
           }}
-          title={"Eliminar metadata"}
+          title={t("app_metadatos_remover_metadatos_table_accion_title")}
         >
           <i className="fa fa-trash" />
         </button>
@@ -155,7 +156,9 @@ class TableContentMetadata extends Component {
                   striped
                   hover
                   search
-                  searchPlaceholder="Buscar metadato"
+                  searchPlaceholder={t(
+                    "app_metadatos_remover_metadatos_table_placeholder"
+                  )}
                   bordered
                   pagination
                 >

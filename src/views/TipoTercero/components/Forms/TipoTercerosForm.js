@@ -8,7 +8,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { TYPETHIRDPARTYS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +18,7 @@ import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
-const TipoTercerosForm = props => {
+const TipoTercerosForm = (props) => {
   const {
     values,
     errors,
@@ -28,7 +28,7 @@ const TipoTercerosForm = props => {
     handleSubmit,
     isSubmitting,
     setFieldValue,
-    t
+    t,
   } = props;
   return (
     <div className="animated fadeIn">
@@ -49,15 +49,15 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={"code"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("code", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.code}
                         type="text"
-                        className={`form-control form-control-sm ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -76,15 +76,15 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={"name"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("name", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.name &&
-                          touched.name &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.name && touched.name && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.name && touched.name ? (
@@ -106,9 +106,11 @@ const TipoTercerosForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.description}
-                        className={`form-control form-control-sm ${errors.description &&
+                        className={`form-control form-control-sm ${
+                          errors.description &&
                           touched.description &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         <ErrorMessage name="description" />
@@ -174,16 +176,16 @@ const TipoTercerosForm = props => {
 
 TipoTercerosForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       code: props.TipoTercerosForm.code,
       name: props.TipoTercerosForm.name,
       status: props.TipoTercerosForm.status,
-      description: props.TipoTercerosForm.description
+      description: props.TipoTercerosForm.description,
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
@@ -198,11 +200,12 @@ export default withTranslation("translations")(
       status: Yup.bool().test(
         "Activo",
         "Se requiere la activacion del tipo de tercero.",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const { t } = props;
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -218,56 +221,53 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             code: values.code,
             name: values.name,
             description: values.description,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el tipo de tercero con éxito.", {
+                toast.success(t("app_tipoTerecero_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el tipo de tercero. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el tipo de tercero ya existe.", {
+                toast.error(t("app_tipoTerecero_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_tipoTerecero_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(TipoTercerosForm)
 );

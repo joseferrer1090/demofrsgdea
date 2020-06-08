@@ -8,7 +8,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,7 @@ import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import decode from "jsonwebtoken";
 import { EMAIL_FILING } from "./../../../../services/EndPoints";
-const RadicacionEmailForm = props => {
+const RadicacionEmailForm = (props) => {
   const {
     values,
     errors,
@@ -27,7 +27,7 @@ const RadicacionEmailForm = props => {
     handleReset,
     isSubmitting,
     setFieldValue,
-    t
+    t,
   } = props;
   return (
     <div>
@@ -51,9 +51,9 @@ const RadicacionEmailForm = props => {
                         onBlur={handleBlur}
                         value={values.protocolo}
                         type="text"
-                        className={`form-control form-control-sm ${errors.protocolo &&
-                          touched.protocolo &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.protocolo && touched.protocolo && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.protocolo && touched.protocolo ? (
@@ -76,9 +76,9 @@ const RadicacionEmailForm = props => {
                         onBlur={handleBlur}
                         value={values.host}
                         type="text"
-                        className={`form-control form-control-sm ${errors.host &&
-                          touched.host &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.host && touched.host && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.host && touched.host ? (
@@ -101,9 +101,9 @@ const RadicacionEmailForm = props => {
                         onBlur={handleBlur}
                         value={values.puerto}
                         type="number"
-                        className={`form-control form-control-sm ${errors.puerto &&
-                          touched.puerto &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.puerto && touched.puerto && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.puerto && touched.puerto ? (
@@ -126,9 +126,9 @@ const RadicacionEmailForm = props => {
                         onBlur={handleBlur}
                         value={values.email}
                         type="email"
-                        className={`form-control form-control-sm ${errors.email &&
-                          touched.email &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.email && touched.email && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.email && touched.email ? (
@@ -153,9 +153,9 @@ const RadicacionEmailForm = props => {
                         onBlur={handleBlur}
                         value={values.password}
                         type="password"
-                        className={`form-control form-control-sm ${errors.password &&
-                          touched.password &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.password && touched.password && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.password && touched.password ? (
@@ -223,13 +223,13 @@ const RadicacionEmailForm = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       protocolo: props.radicacionemail.protocolo,
       host: props.radicacionemail.host,
       puerto: props.radicacionemail.puerto,
       email: props.radicacionemail.email,
       password: props.radicacionemail.password,
-      status: props.radicacionemail.status
+      status: props.radicacionemail.status,
     }),
     validationSchema: Yup.object().shape({
       protocolo: Yup.string()
@@ -248,11 +248,11 @@ export default withTranslation("translations")(
       status: Yup.bool().test(
         "Activo",
         "Es necesario la activacion del mensajero",
-        value => value === true
-      )
+        (value) => value === true
+      ),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -263,6 +263,7 @@ export default withTranslation("translations")(
       };
 
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
 
@@ -270,7 +271,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             protocol: values.protocolo,
@@ -279,49 +280,55 @@ export default withTranslation("translations")(
             email: values.email,
             password: values.password,
             username: username.user_name,
-            status: values.status
-          })
+            status: values.status,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el correo electrónico con éxito.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el correo electrónico. Inténtelo nuevamente.",
+                toast.success(
+                  t("app_radicacion_email_actualizar_alert_success"),
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
+                  }
+                );
+              } else if (response.status === 400) {
+                toast.error(
+                  t("app_radicacion_email_actualizar_alert_error_400"),
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
                   }
                 );
               } else if (response.status === 500) {
-                toast.error("Error, el correo electrónico ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  t("app_radicacion_email_actualizar_alert_error_500"),
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
+                  }
+                );
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(RadicacionEmailForm)
 );

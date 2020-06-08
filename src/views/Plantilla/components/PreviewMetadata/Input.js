@@ -42,6 +42,7 @@ const Input = (props) => {
                     name={opt.name}
                     onChange={props.onChange}
                     {...props}
+                    checked={props.defaultValue}
                   />
                   {opt.displayValue}
                 </label>
@@ -63,6 +64,7 @@ const Input = (props) => {
                 className="form-check-input"
                 id={check.id}
                 value={check.value}
+                checked={props.defaultValue}
                 onChange={props.onChange}
                 data-id={`${check.value} selected `}
                 {...props}

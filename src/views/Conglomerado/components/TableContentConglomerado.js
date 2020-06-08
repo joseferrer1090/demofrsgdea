@@ -61,13 +61,14 @@ class TableContentConglomerado extends Component {
   };
 
   accionesConglomerado(cell, row) {
+    const {t} = this.props;
     return (
       <div
         className="table-actionMenuConglo"
-        style={{ textAlign: "center", padding: "0", marginRight: "10%" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
-        <button
-          title="Ver conglomerado"
+        <button 
+          title={t("app_conglomerado_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -79,7 +80,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar conglomerado"
+          title={t("app_conglomerado_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -90,7 +91,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar conglomerado"
+          title={t("app_conglomerado_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {

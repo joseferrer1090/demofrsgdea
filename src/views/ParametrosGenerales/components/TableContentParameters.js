@@ -80,9 +80,10 @@ class TableContentParameter extends Component {
   }
 
   accionesParametros(cell, row) {
+    const { t } = this.props;
     return (
       <button
-        title="Editar el parametro"
+        title={t("app_parametros_generales_table_accion_btn_editar")}
         className="btn btn-secondary btn-sm"
         onClick={() => this.openModalEdit(row.parameter)}
       >

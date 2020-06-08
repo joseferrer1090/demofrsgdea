@@ -8,7 +8,7 @@ import {
   CardFooter,
   Row,
   Col,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { DEPARTMENTS, CONTRIES_STATUS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 import CountrySelect from "./components/SelectCountry";
 import { decode } from "jsonwebtoken";
 
-const DepartamentoForm = props => {
+const DepartamentoForm = (props) => {
   const {
     values,
     touched,
@@ -30,7 +30,7 @@ const DepartamentoForm = props => {
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    t
+    t,
   } = props;
 
   return (
@@ -53,14 +53,16 @@ const DepartamentoForm = props => {
                       authorization={props.authorization}
                       t={props.t}
                       name={"countryId"}
-                      onChange={e => setFieldValue("countryId", e.target.value)}
+                      onChange={(e) =>
+                        setFieldValue("countryId", e.target.value)
+                      }
                       onBlur={() => {
                         setFieldTouched("countryId", true);
                       }}
                       value={values.countryId}
-                      className={`form-control form-control-sm ${errors.countryId &&
-                        touched.countryId &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.countryId && touched.countryId && "is-invalid"
+                      }`}
                     />
                     {/* <select
                       name={"countryId"}
@@ -97,9 +99,9 @@ const DepartamentoForm = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.code &&
-                        touched.code &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.code && touched.code && "is-invalid"
+                      }`}
                       placeholder=""
                       value={values.code}
                     />
@@ -120,14 +122,14 @@ const DepartamentoForm = props => {
                     </label>
                     <input
                       name="name"
-                      onChange={e => {
+                      onChange={(e) => {
                         setFieldValue("name", e.target.value.toUpperCase());
                       }}
                       onBlur={handleBlur}
                       type="text"
-                      className={`form-control form-control-sm ${errors.name &&
-                        touched.name &&
-                        "is-invalid"}`}
+                      className={`form-control form-control-sm ${
+                        errors.name && touched.name && "is-invalid"
+                      }`}
                       value={values.name}
                       placeholder=""
                     />
@@ -195,11 +197,11 @@ const DepartamentoForm = props => {
 };
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       code: props.departamento.code,
       name: props.departamento.name,
       status: props.departamento.status,
-      countryId: props.departamento.countryId
+      countryId: props.departamento.countryId,
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
@@ -214,15 +216,15 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           "Es necesario activar el departamento",
-          value => value === true
+          (value) => value === true
         )
         .required("Es necesario activar el departamento"),
       countryId: Yup.string()
         .ensure()
-        .required(" Por favor seleccione un país.")
+        .required(" Por favor seleccione un país."),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -232,66 +234,64 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(DEPARTMENTS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             countryId: values.countryId,
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
-                toast.success("Se registro el departamento con éxito.", {
+                toast.success(t("app_departamento_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar  el departamento. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el departamento ya existe.", {
+                toast.error(t("app_departamento_alert_toast_400"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
+                });
+              } else if (response.status === 500) {
+                toast.error(t("app_departamento_alert_toast_500"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
         resetForm();
       }, 1000);
-    }
+    },
   })(DepartamentoForm)
 );
 DepartamentoForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };

@@ -61,10 +61,11 @@ class TableContentMensajero extends Component {
   };
 
   accionesMensajero(cell, row) {
+    const { t } = this.props;
     return (
       <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
-          title="Ver mensajero"
+          title={t("app_mensajero_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -76,7 +77,7 @@ class TableContentMensajero extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar mensajero"
+          title={t("app_mensajero_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -87,7 +88,7 @@ class TableContentMensajero extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar mensajero"
+          title={t("app_mensajero_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {

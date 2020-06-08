@@ -77,13 +77,14 @@ class TableContentPais extends Component {
   }
 
   accionesPais(cell, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuPais"
         style={{ textAlign: "center", padding: "0", marginRight: "75px" }}
       >
         <button
-          title="Ver pais"
+          title={t("app_pais_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -95,7 +96,7 @@ class TableContentPais extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar pais"
+          title={t("app_pais_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -106,7 +107,7 @@ class TableContentPais extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar pais"
+          title={t("app_pais_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {

@@ -26,7 +26,7 @@ class Auditoria extends Component {
       dataProps: [],
       hiddenColumnId: true,
       page: "0",
-      size: "10"
+      size: "10",
     };
   }
 
@@ -39,19 +39,20 @@ class Auditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataAuditoria: data.content
+          dataAuditoria: data.content,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   accionVerAuditoria(cel, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuAuditoria"
@@ -60,6 +61,7 @@ class Auditoria extends Component {
         <button
           className="btn btn-secondary btn-sm "
           data-trigger="hover"
+          title={t("app_auditoria_tabla_acciones_btn_ver")}
           onClick={() => {
             this.openModalView(row.id);
           }}
@@ -71,7 +73,7 @@ class Auditoria extends Component {
     );
   }
 
-  createButtonCustom = props => {
+  createButtonCustom = (props) => {
     const { t } = this.props;
     return (
       <div className="btn-group btn-group-sm">
@@ -111,27 +113,27 @@ class Auditoria extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  ModuloInfo = pageAction => {
+  ModuloInfo = (pageAction) => {
     return !pageAction
       ? null
       : `<div>${pageAction.pageEntity.pageModule.name}</div>`;
   };
-  EntidadInfo = pageAction => {
+  EntidadInfo = (pageAction) => {
     return !pageAction ? null : `<div>${pageAction.pageEntity.name}</div>`;
   };
-  AccionInfo = pageAction => {
+  AccionInfo = (pageAction) => {
     return !pageAction ? null : `<div>${pageAction.name}</div>`;
   };
 
-  onDataFetch = data => {
+  onDataFetch = (data) => {
     this.setState({
-      dataAuditoria: data
+      dataAuditoria: data,
     });
   };
 
   render() {
     const options = {
-      btnGroup: this.createButtonCustom
+      btnGroup: this.createButtonCustom,
     };
     const { t } = this.props;
     return (
@@ -146,7 +148,7 @@ class Auditoria extends Component {
                 hover
                 exportCSV
                 search
-                searchPlaceholder="Buscar"
+                searchPlaceholder={t("app_auditoria_tabla_placeholder")}
                 pagination
                 striped
                 className="tableAuditoria texto-Auditoria"
@@ -213,14 +215,14 @@ class Auditoria extends Component {
         <ModalViewAditoria
           t={this.props.t}
           modalview={this.state.modalviewauditoria}
-          ref={mv => (this.ModalViewRef = mv)}
+          ref={(mv) => (this.ModalViewRef = mv)}
           authorization={this.props.authorization}
         />
         <ModalSearch
           t={this.props.t}
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
-          ref={ms => (this.ModalSearchRef = ms)}
+          ref={(ms) => (this.ModalSearchRef = ms)}
           authorization={this.props.authorization}
         />
       </div>
@@ -228,6 +230,6 @@ class Auditoria extends Component {
   }
 }
 Auditoria.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 export default withTranslation("translations")(Auditoria);

@@ -631,7 +631,7 @@ class CheckBoxes extends Component {
                           {this.state.checkBoxes.map((checkbox, index) => {
                             return (
                               <tr key={index}>
-                                <td>
+                                {/* <td>
                                   <div>
                                     <input
                                       className="middle"
@@ -649,7 +649,7 @@ class CheckBoxes extends Component {
                                       }
                                     />
                                   </div>
-                                </td>
+                                </td> */}
                                 <td>
                                   <input
                                     id={checkbox.title}

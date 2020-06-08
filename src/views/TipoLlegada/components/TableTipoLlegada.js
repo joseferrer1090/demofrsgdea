@@ -60,13 +60,14 @@ class TableTipoLlegada extends Component {
   };
 
   accionesTipoLlegada = (cell, row) => {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuTLlegada"
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
-          title="Vet tipo de llegada"
+          title={t("app_tipoLlegada_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -76,7 +77,7 @@ class TableTipoLlegada extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar tipo de llegada"
+          title={t("app_tipoLlegada_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -86,7 +87,7 @@ class TableTipoLlegada extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar tipo de llegada"
+          title={t("app_tipoLlegada_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDelete(row.id);

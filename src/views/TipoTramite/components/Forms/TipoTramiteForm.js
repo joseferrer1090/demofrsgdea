@@ -6,7 +6,7 @@ import { Col, CustomInput, Button, Alert } from "reactstrap";
 import {
   agregarUserAction,
   borrarUserAction,
-  agregarOriginal
+  agregarOriginal,
 } from "../../../../actions/typeProcedureAction";
 import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
@@ -22,9 +22,9 @@ import { css } from "glamor";
 import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
-const TipoTramiteForm = props => {
+const TipoTramiteForm = (props) => {
   const { t } = props;
-  const usersdata = useSelector(state => state.typeProcedureReducer);
+  const usersdata = useSelector((state) => state.typeProcedureReducer);
   const [StateChangeAlert, setAux] = useState("");
 
   const users = usersdata.users;
@@ -50,7 +50,7 @@ const TipoTramiteForm = props => {
         sede: "",
         dependencia: "",
         estado: false,
-        users: ""
+        users: "",
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -73,9 +73,9 @@ const TipoTramiteForm = props => {
           .test(
             "Activo",
             "Es necesario activar el tipo de trámite",
-            value => value === true
+            (value) => value === true
           )
-          .required(" Es necesario activar el tipo de trámite.")
+          .required(" Es necesario activar el tipo de trámite."),
         // workflow: Yup.string()
         //   .ensure()
         //   .required(" Por favor seleccione el WorkFlow."),
@@ -84,7 +84,7 @@ const TipoTramiteForm = props => {
         //   .required(" Por favor seleccione la plantilla.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        const tipoEstado = data => {
+        const tipoEstado = (data) => {
           let tipo = null;
           if (data === true) {
             return (tipo = 1);
@@ -93,7 +93,7 @@ const TipoTramiteForm = props => {
           }
           return null;
         };
-        const tipoCorrespondencia = data => {
+        const tipoCorrespondencia = (data) => {
           let tipo = null;
           if (data === "1") {
             return (tipo = 1);
@@ -111,7 +111,7 @@ const TipoTramiteForm = props => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + props.authorization
+              Authorization: "Bearer " + props.authorization,
             },
             body: JSON.stringify({
               code: values.codigo,
@@ -126,44 +126,41 @@ const TipoTramiteForm = props => {
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
               users: usersdata.users,
-              original: usersdata.original
-            })
+              original: usersdata.original,
+            }),
           })
-            .then(response =>
-              response.json().then(data => {
+            .then((response) =>
+              response.json().then((data) => {
                 if (response.status === 201) {
-                  toast.success("Se registro el tipo de trámite con éxito.", {
+                  toast.success(t("app_tipoTramite_alert_toast_201"), {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
                   });
                 } else if (response.status === 400) {
-                  toast.error(
-                    "Error al registrar  el tipo de trámite. Inténtelo nuevamente.",
-                    {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px"
-                      })
-                    }
-                  );
-                } else if (response.status === 500) {
-                  toast.error("Error, el tipo de trámite ya existe", {
+                  toast.error(t("app_tipoTramite_alert_toast_400"), {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
-                      marginTop: "60px"
-                    })
+                      marginTop: "60px",
+                    }),
+                  });
+                } else if (response.status === 500) {
+                  toast.error(t("app_tipoTramite_alert_toast_500"), {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px",
+                    }),
                   });
                 }
               })
             )
-            .catch(error => {
+            .catch((error) => {
               toast.error(`Error ${error}.`, {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             });
           setAux(null);
@@ -180,7 +177,7 @@ const TipoTramiteForm = props => {
             sede: "",
             dependencia: "",
             workflow: "",
-            plantilla: ""
+            plantilla: "",
           });
         }, 1000);
       }}
@@ -195,7 +192,7 @@ const TipoTramiteForm = props => {
         handleSubmit,
         handleReset,
         setFieldTouched,
-        setFieldValue
+        setFieldValue,
       }) => (
         <div className="col-md-12">
           <form className="form">
@@ -223,9 +220,11 @@ const TipoTramiteForm = props => {
                                 value={values.tipocorrespondencia}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                className={`form-control form-control-sm ${
+                                  errors.tipocorrespondencia &&
                                   touched.tipocorrespondencia &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               >
                                 <option value={""}>
                                   {" "}
@@ -271,7 +270,7 @@ const TipoTramiteForm = props => {
                               </label>
                               <input
                                 name="codigo"
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "codigo",
                                     e.target.value.toUpperCase()
@@ -280,9 +279,11 @@ const TipoTramiteForm = props => {
                                 onBlur={handleBlur}
                                 value={values.codigo}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.codigo &&
+                                className={`form-control form-control-sm ${
+                                  errors.codigo &&
                                   touched.codigo &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.codigo && touched.codigo ? (
@@ -300,7 +301,7 @@ const TipoTramiteForm = props => {
                               </label>
                               <input
                                 name={"nombre"}
-                                onChange={e => {
+                                onChange={(e) => {
                                   setFieldValue(
                                     "nombre",
                                     e.target.value.toUpperCase()
@@ -309,9 +310,11 @@ const TipoTramiteForm = props => {
                                 onBlur={handleBlur}
                                 value={values.nombre}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.nombre &&
+                                className={`form-control form-control-sm ${
+                                  errors.nombre &&
                                   touched.nombre &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.nombre && touched.nombre ? (
@@ -335,9 +338,11 @@ const TipoTramiteForm = props => {
                                 onBlur={handleBlur}
                                 value={values.d_maximos}
                                 type="number"
-                                className={`form-control form-control-sm ${errors.d_maximos &&
+                                className={`form-control form-control-sm ${
+                                  errors.d_maximos &&
                                   touched.d_maximos &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                                 min={0}
                               />
                               <div style={{ color: "#D54B4B" }}>
@@ -362,9 +367,11 @@ const TipoTramiteForm = props => {
                                 onBlur={handleBlur}
                                 value={values.descripcion}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
+                                className={`form-control form-control-sm ${
+                                  errors.descripcion &&
                                   touched.descripcion &&
-                                  "is-invalid"}`}
+                                  "is-invalid"
+                                }`}
                               />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.descripcion && touched.descripcion ? (
@@ -429,7 +436,7 @@ const TipoTramiteForm = props => {
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue(
                                       "conglomerado",
                                       e.target.value
@@ -496,7 +503,7 @@ const TipoTramiteForm = props => {
                                   sedeId={values.sede}
                                   companyId={values.empresa}
                                   conglomerateId={values.conglomerado}
-                                ></Field>                             
+                                ></Field>
                               </div>
                             </div>
                             <div className="col-md-12">
@@ -661,21 +668,21 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUsuario = user => dispatch(agregarUserAction(user));
+  const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
 
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setdata(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setdata([]);
       });
@@ -702,7 +709,7 @@ function UserList(props) {
           overflowX: "hidden",
           border: "1px solid #e3e3e3",
           background: "#e3e3e3",
-          padding: "10px"
+          padding: "10px",
         }}
       >
         {data.length > 0 ? (
@@ -739,8 +746,8 @@ function UserList(props) {
   );
 }
 
-const UserListEnabled = props => {
-  const aux = useSelector(state => state.typeProcedureReducer.assigned);
+const UserListEnabled = (props) => {
+  const aux = useSelector((state) => state.typeProcedureReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
@@ -849,6 +856,6 @@ const UserListEnabled = props => {
 
 TipoTramiteForm.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default withTranslation("translations")(TipoTramiteForm);

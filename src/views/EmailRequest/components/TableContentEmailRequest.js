@@ -100,13 +100,14 @@ class TableContentEmailRequest extends Component {
   }
 
   accionesPlantillasEmail(cell, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuPlantillaEmail"
         style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
-          title="Ver informacion de la cuenta "
+          title={t("app_emailRequest_administrar_table_acciones_btn_ver_info")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -118,7 +119,9 @@ class TableContentEmailRequest extends Component {
         </button>
         &nbsp;
         <button
-          title="Ver archivos adjuntos"
+          title={t(
+            "app_emailRequest_administrar_table_acciones_btn_ver_adjuntos"
+          )}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {

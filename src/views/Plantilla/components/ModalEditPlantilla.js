@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   CustomInput,
-  Alert
+  Alert,
 } from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
 import { Formik, Field, ErrorMessage } from "formik";
@@ -24,19 +24,21 @@ class ModalEditPlantilla extends Component {
       dataTemplate: {},
       alert400: false,
       alert200: false,
-      alert500: false
+      alert500: false,
+      t: this.props.t,
+      spinnerActualizar: false,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        id: props.id
+        id: props.id,
       };
     }
     return null;
@@ -46,7 +48,7 @@ class ModalEditPlantilla extends Component {
     if (this.props.id !== prevProps.id) {
       this.setState({
         auth: this.props.authorization,
-        id: this.props.id
+        id: this.props.id,
       });
       this.getDataTemplate(this.state.id, this.state.auth);
     } else if (this.props.authorization === "" || this.props.id === null) {
@@ -60,36 +62,42 @@ class ModalEditPlantilla extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/jsom",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataTemplate: data
+          dataTemplate: data,
         });
-        // console.log(data);
+        console.log(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
   render() {
     const dataResult = this.state.dataTemplate;
+    const { t } = this.state;
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
-        <ModalHeader>Probando apenas</ModalHeader>
+        <ModalHeader>
+          {t("app_plantilla_administrar_modal_editar_title")} {dataResult.name}
+        </ModalHeader>
         <Formik
           enableReinitialize={true}
           initialValues={dataResult}
           onSubmit={(values, { setSubmitting }) => {
-            const tipoEstado = data => {
+            this.setState({
+              spinnerActualizar: true,
+            });
+            const tipoEstado = (data) => {
               let tipo;
               if (data === 1 || data === true) {
                 return (tipo = 1);
@@ -105,7 +113,7 @@ class ModalEditPlantilla extends Component {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
-                  authorization: "Bearer " + auth
+                  authorization: "Bearer " + auth,
                 },
                 body: JSON.stringify({
                   id: this.state.id,
@@ -113,19 +121,19 @@ class ModalEditPlantilla extends Component {
                   name: values.name,
                   description: values.description,
                   status: tipoEstado(values.status),
-                  userName: username.user_name
-                })
+                  userName: username.user_name,
+                }),
               })
-                .then(resp => {
+                .then((resp) => {
                   if (resp.status === 200) {
                     this.setState({
-                      alert200: true
+                      alert200: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState(
                         {
                           alert200: false,
-                          modal: false
                         },
                         this.props.updateTable()
                       );
@@ -133,28 +141,34 @@ class ModalEditPlantilla extends Component {
                     // console.log("Se Actualizo el registro");
                   } else if (resp.status === 400) {
                     this.setState({
-                      alert400: true
+                      alert400: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alert400: false
+                        alert400: false,
                       });
                     }, 3000);
                     // console.log("Validar los datos de envios", resp);
                   } else if (resp.status === 500) {
                     this.setState({
-                      alert500: true
+                      alert500: true,
+                      spinnerActualizar: false,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alert500: false
+                        alert500: false,
+                        modal: false,
                       });
                     }, 3000);
                     // console.log("Error al actualizar los datos en el servidor");
                   }
                 })
-                .catch(err => {
+                .catch((err) => {
                   console.log(`Error => ${err.message}`);
+                  this.setState({
+                    spinnerActualizar: false,
+                  });
                 });
             }, 500);
           }}
@@ -168,10 +182,10 @@ class ModalEditPlantilla extends Component {
             description: Yup.string().required(
               "Descripcion necesaria para la actualizacion"
             ),
-            status: Yup.bool().test("Activo", "", value => value === true)
+            status: Yup.bool().test("Activo", "", (value) => value === true),
           })}
         >
-          {props => {
+          {(props) => {
             const {
               values,
               touched,
@@ -180,24 +194,33 @@ class ModalEditPlantilla extends Component {
               handleBlur,
               handleSubmit,
               setFieldValue,
-              setFieldTouched
+              setFieldTouched,
             } = props;
             return (
               <React.Fragment>
                 <ModalBody>
-                  <Alert color={"danger"} isOpen={this.state.alert500}>
+                  <Alert
+                    color={"danger"}
+                    isOpen={this.state.alert500}
+                    className={"text-center"}
+                  >
                     <i className="fa fa-exclamation-triangle" />{" "}
-                    <p>Error, no se puede actualizar la plantilla</p>
+                    {t("app_plantilla_administrar_modal_editar_alert_500")}
                   </Alert>
-                  <Alert color={"danger"} isOpen={this.state.alert400}>
+                  <Alert
+                    color={"danger"}
+                    isOpen={this.state.alert400}
+                    className={"text-center"}
+                  >
                     <i className="fa fa-exclamation-triangle" />{" "}
-                    <p>
-                      Error, no se puede actualizar la plantilla Verificar los
-                      datos
-                    </p>
+                    {t("app_plantilla_administrar_modal_editar_alert_400")}
                   </Alert>
-                  <Alert color={"success"} isOpen={this.state.alert200}>
-                    <p>Se actualizo la plantilla de manera exitosa</p>
+                  <Alert
+                    color={"success"}
+                    isOpen={this.state.alert200}
+                    className={"text-center"}
+                  >
+                    {t("app_plantilla_administrar_modal_editar_alert_200")}
                   </Alert>
                   <div className="row">
                     <div className="col-md-3">
@@ -211,7 +234,9 @@ class ModalEditPlantilla extends Component {
                           style={{ borderBottom: "1px solid black" }}
                         >
                           {" "}
-                          Datos plantilla{" "}
+                          {t(
+                            "app_plantilla_administrar_modal_editar_subtitle"
+                          )}{" "}
                         </h5>{" "}
                       </div>
                       <form className="form">
@@ -219,7 +244,10 @@ class ModalEditPlantilla extends Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Codigo <span className="text-danger">*</span>
+                                {t(
+                                  "app_plantilla_administrar_modal_editar_codigo"
+                                )}{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 name="code"
@@ -239,7 +267,10 @@ class ModalEditPlantilla extends Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Nombre <span className="text-danger">*</span>
+                                {t(
+                                  "app_plantilla_administrar_modal_editar_nombre"
+                                )}{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 name="name"
@@ -260,7 +291,9 @@ class ModalEditPlantilla extends Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>
-                                Descripcion{" "}
+                                {t(
+                                  "app_plantilla_administrar_modal_editar_descripcion"
+                                )}{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <textarea
@@ -281,7 +314,10 @@ class ModalEditPlantilla extends Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>
-                                Estado <span className="text-danger">*</span>
+                                {t(
+                                  "app_plantilla_administrar_modal_editar_estado"
+                                )}{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <div className="text-justify">
                                 <Field
@@ -293,9 +329,9 @@ class ModalEditPlantilla extends Component {
                                         name="status"
                                         type="checkbox"
                                         id="editPlantilla"
-                                        label={
-                                          "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
-                                        }
+                                        label={t(
+                                          "app_plantilla_administrar_modal_editar_estado_descripcion"
+                                        )}
                                         {...field}
                                         checked={field.value}
                                         className={
@@ -319,13 +355,23 @@ class ModalEditPlantilla extends Component {
                   <div className="pull-right">
                     <button
                       type="button"
-                      className="btn btn-secondary btn-sm"
-                      onClick={e => {
+                      className="btn btn-success btn-sm"
+                      onClick={(e) => {
                         e.preventDefault();
                         handleSubmit();
                       }}
+                      disabled={this.state.spinnerActualizar}
                     >
-                      <i className="fa fa-pencil" /> Editar plantilla
+                      {this.state.spinnerActualizar ? (
+                        <i className=" fa fa-spinner fa-refresh" />
+                      ) : (
+                        <div>
+                          <i className="fa fa-pencil" />{" "}
+                          {t(
+                            "app_plantilla_administrar_modal_editar_btn_actualizar"
+                          )}
+                        </div>
+                      )}
                     </button>
                     &nbsp;
                     <button
@@ -336,7 +382,8 @@ class ModalEditPlantilla extends Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cancelar{" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_plantilla_administrar_modal_editar_btn_cancelar")}{" "}
                     </button>
                   </div>
                 </ModalFooter>
@@ -350,7 +397,7 @@ class ModalEditPlantilla extends Component {
 }
 
 ModalEditPlantilla.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ModalEditPlantilla;

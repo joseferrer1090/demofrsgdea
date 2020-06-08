@@ -14,7 +14,7 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from "reactstrap";
 import classnames from "classnames";
 import { toast, ToastContainer } from "react-toastify";
@@ -28,10 +28,10 @@ import PropTypes from "prop-types";
 import { ROLES_CREATE } from "./../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
-const RolesForm = props => {
+const RolesForm = (props) => {
   const [activeTab, toggleTab] = useState("1");
   const auth = props.authorization;
-  const toggle = tab => {
+  const toggle = (tab) => {
     if (activeTab !== tab) {
       toggleTab(tab);
     }
@@ -48,7 +48,7 @@ const RolesForm = props => {
     setFieldTouched,
     setFieldValue,
     t,
-    authorization
+    authorization,
   } = props;
 
   return (
@@ -70,15 +70,15 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"codigo"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("codigo", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.codigo}
                         type="text"
-                        className={`form-control form-control-sm ${errors.codigo &&
-                          touched.codigo &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.codigo && touched.codigo && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.codigo && touched.codigo ? (
@@ -97,15 +97,15 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"nombre"}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFieldValue("nombre", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm ${
+                          errors.nombre && touched.nombre && "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.nombre && touched.nombre ? (
@@ -127,9 +127,11 @@ const RolesForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.descripcion}
-                        className={`form-control form-control-sm ${errors.descripcion &&
+                        className={`form-control form-control-sm ${
+                          errors.descripcion &&
                           touched.descripcion &&
-                          "is-invalid"}`}
+                          "is-invalid"
+                        }`}
                       />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.descripcion && touched.descripcion ? (
@@ -154,7 +156,7 @@ const RolesForm = props => {
                         <NavItem>
                           <NavLink
                             className={classnames({
-                              active: activeTab === "1"
+                              active: activeTab === "1",
                             })}
                             onClick={() => {
                               toggle("1");
@@ -180,15 +182,17 @@ const RolesForm = props => {
                                   t={props.t}
                                   name={"modulos"}
                                   value={values.modulos}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue("modulos", e.target.value);
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("modulos", true);
                                   }}
-                                  className={`form-control form-control-sm ${errors.modulos &&
+                                  className={`form-control form-control-sm ${
+                                    errors.modulos &&
                                     touched.modulos &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 {touched ? (
                                   <div style={{ color: "red" }}>
@@ -216,15 +220,17 @@ const RolesForm = props => {
                                   modulo={props.values.modulos}
                                   name={"entidades"}
                                   value={values.entidades}
-                                  onChange={e => {
+                                  onChange={(e) => {
                                     setFieldValue("entidades", e.target.value);
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("entidades", true);
                                   }}
-                                  className={`form-control form-control-sm ${errors.entidades &&
+                                  className={`form-control form-control-sm ${
+                                    errors.entidades &&
                                     touched.entidades &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 {touched ? (
                                   <div style={{ color: "red" }}>
@@ -336,12 +342,12 @@ const RolesForm = props => {
 };
 
 RolesForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       codigo: props.roles.codigo,
       nombre: props.roles.nombre,
       descripcion: props.roles.descripcion,
@@ -349,7 +355,7 @@ export default withTranslation("translations")(
       entidades: props.roles.entidades,
       entidades_search: props.roles.entidades_search,
       permisos: props.roles.permisos,
-      estado: props.roles.estado
+      estado: props.roles.estado,
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
@@ -362,7 +368,7 @@ export default withTranslation("translations")(
         " Por favor introduzca una descripción."
       ),
       estado: Yup.bool()
-        .test("Activo", " Necesario activar el rol.", value => value === true)
+        .test("Activo", " Necesario activar el rol.", (value) => value === true)
         .required(" Necesario activar el rol."),
       modulos: Yup.string()
         .ensure()
@@ -374,13 +380,13 @@ export default withTranslation("translations")(
         .of(
           Yup.object().shape({
             label: Yup.string().required(),
-            value: Yup.string().required()
+            value: Yup.string().required(),
           })
         )
-        .required("Es necesario asignar permisos")
+        .required("Es necesario asignar permisos"),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -391,13 +397,14 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         //alert(JSON.stringify(values, null, 2));
+        const { t } = props;
         const token = props.authorization;
         const username = decode(token);
         fetch(`${ROLES_CREATE}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + props.authorization,
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -405,40 +412,40 @@ export default withTranslation("translations")(
             description: values.descripcion,
             permissions: values.permisos,
             status: tipoEstado(values.estado),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response => {
+          .then((response) => {
             if (response.status === 201) {
               console.log("exito");
-              toast.success("Se registro el rol con éxito.", {
+              toast.success(t("app_roles_alert_toast_201"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             } else if (response.status === 400) {
-              toast.error("Error al registrar el rol. Inténtelo nuevamente.", {
+              toast.error(t("app_roles_alert_toast_400"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             } else if (response.status === 500) {
-              toast.error("Error, el rol ya existe.", {
+              toast.error(t("app_roles_alert_toast_500"), {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
-                })
+                  marginTop: "60px",
+                }),
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             toast.error(`Error ${err}.`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
@@ -446,9 +453,9 @@ export default withTranslation("translations")(
           codigo: "",
           nombre: "",
           descripcion: "",
-          estado: false
+          estado: false,
         });
       }, 1000);
-    }
+    },
   })(RolesForm)
 );

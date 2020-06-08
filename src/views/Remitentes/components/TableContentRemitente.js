@@ -67,13 +67,14 @@ class TableContentRemitente extends Component {
   }
 
   accionesRemitente(cel, row) {
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuRemi"
         style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
       >
         <button
-          title="Ver Remitente"
+          title={t("app_tercero_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -83,7 +84,7 @@ class TableContentRemitente extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar Remitente"
+          title={t("app_tercero_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalEdit(row.id);
@@ -93,7 +94,7 @@ class TableContentRemitente extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar Remitente"
+          title={t("app_tercero_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDel(row.id);

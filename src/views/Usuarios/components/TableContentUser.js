@@ -65,10 +65,11 @@ class TableContentUser extends Component {
   };
 
   accionesUsuario(cell, row) {
+    const { t } = this.props;
     return (
       <div className="table-actionMenuUsu" style={{ marginRight: "30px" }}>
         <button
-          title="Ver usuario"
+          title={t("app_usuarios_administrar_table_acciones_btn_ver")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -80,7 +81,7 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar usuario"
+          title={t("app_usuarios_administrar_table_acciones_btn_editar")}
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -91,7 +92,7 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
-          title="Eliminar usuario"
+          title={t("app_usuarios_administrar_table_acciones_btn_eliminar")}
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -103,7 +104,9 @@ class TableContentUser extends Component {
         </button>
         &nbsp;
         <button
-          title="Cambiar contraseña de usuario"
+          title={t(
+            "app_usuarios_administrar_table_acciones_btn_cambiar_contraseña"
+          )}
           className="btn btn-warning btn-sm"
           data-hover="hover"
           onClick={() => {

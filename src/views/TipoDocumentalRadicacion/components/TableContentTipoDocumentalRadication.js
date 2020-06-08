@@ -6,6 +6,7 @@ import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadicati
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
 import ModalExport from "./ModalExport";
 import ModalExportUsers from "./ModalExportTDRUser";
+import ModalAssigned from "./ModalAssignedTemplate";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
@@ -20,6 +21,7 @@ class TableContentTramite extends Component {
       modaldel: false,
       modalexport: false,
       modalexport2: false,
+      modalassigned: false,
       auth: this.props.authorization,
       data: [],
       hiddenColumnID: true,
@@ -68,7 +70,7 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTDocRadicacion"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
           title={t(
@@ -140,6 +142,11 @@ class TableContentTramite extends Component {
     window.location.replace(path);
   };
 
+  routeChangeEditPlantilla = (id) => {
+    let path = `#/configuracion/tipodocumentalradicacion/edit/template/${id}`;
+    window.location.replace(path);
+  };
+
   openModalDelete(id) {
     // this.refs.child2.toggle(id);
     this.ModalDeleteRef.toggle(id);
@@ -153,6 +160,10 @@ class TableContentTramite extends Component {
   openModalExport2() {
     // this.refs.child4.toogle();
     this.ModalExportUserRef.toggle();
+  }
+
+  openModalAssigned(id) {
+    this.ModalAssignedRef.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {
@@ -311,6 +322,11 @@ class TableContentTramite extends Component {
           modal={this.state.modalexport2}
           authorization={auth}
           ref={(meu) => (this.ModalExportUserRef = meu)}
+        />
+        <ModalAssigned
+          authorization={auth}
+          modal={this.state.modalassigned}
+          ref={(ma) => (this.ModalAssignedRef = ma)}
         />
       </div>
     );

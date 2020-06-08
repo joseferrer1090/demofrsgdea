@@ -73,6 +73,16 @@ class TableContentTramite extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
+          title="Ver topo documental de radicacion"
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalView(row.id);
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        &nbsp;
+        <button
           title="Asignar plantilla al tipo documental"
           className="btn btn-secondary btn-sm"
           onClick={() => {

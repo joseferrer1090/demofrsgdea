@@ -73,15 +73,13 @@ class TableContentTramite extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
-          title={t(
-            "app_documentalRadicacion_administrar_table_acciones_btn_ver"
-          )}
+          title="Asignar plantilla al tipo documental"
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView(row.id);
+            this.openModalAssigned(row.id);
           }}
         >
-          <i className="fa fa-eye" />
+          <i className="fa fa-object-group" />
         </button>
         &nbsp;
         <button
@@ -94,6 +92,16 @@ class TableContentTramite extends Component {
           }}
         >
           <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          title="Editar valores de la plantilla"
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.routeChangeEditPlantilla(row.id);
+          }}
+        >
+          <i className="fa fa-wpforms" />
         </button>
         &nbsp;
         <button

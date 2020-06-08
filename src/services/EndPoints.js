@@ -670,6 +670,8 @@ export const TEMPLATES_PAGINATION = () => {
   return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/pagination?page=${page}&size=${size}`;
 };
 
+/* POST */
+export const TEMPLATE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/templates/`;
 //---------------------------------------------PERMISOS-----------------------------------------------------//
 
 /* GET params => idEntidad */

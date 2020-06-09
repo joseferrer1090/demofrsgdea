@@ -62,12 +62,7 @@ class ModalAssignedTemplate extends Component {
 
   render() {
     const { dataTypeDocumentary } = this.state;
-    // console.log(this.state.dataTypeDocumentaryTemplate);
-    const dataInit = {
-      idTemplate: this.state.dataTypeDocumentaryTemplate
-        ? this.state.dataTypeDocumentaryTemplate
-        : "",
-    };
+    const dataInitial = this.state.dataTypeDocumentaryTemplate;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modalassigned}>
@@ -76,8 +71,10 @@ class ModalAssignedTemplate extends Component {
             documental {dataTypeDocumentary.name}
           </ModalHeader>
           <Formik
-            enableReinitialize={true}
-            initialValues={{ idTemplate: dataInit }}
+            enableReinitialize="true"
+            initialValues={{
+              idTemplate: dataInitial !== null ? dataInitial.id : "",
+            }}
             validationSchema={Yup.object().shape({
               idTemplate: Yup.string()
                 .ensure()

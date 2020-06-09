@@ -12,9 +12,9 @@ import * as Yup from "yup";
 /**
  * Cosas por hacer
  * 1. Metodo para llenar el Select => ya esta parte esta !
- * 2. validar si hay alguna plantilla asociadad
- * 3. mostrar la plantilla asocidada  en el select
- * 4. realizar el put para la asignacion
+ * 2. validar si hay alguna plantilla asociadad => Ya esta parte esta !
+ * 3. mostrar la plantilla asocidada  en el select => Ya esta parte esta !
+ * 4. realizar el put para la asignacion =>
  */
 
 class ModalAssignedTemplate extends Component {

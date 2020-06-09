@@ -527,6 +527,9 @@ export const TYPEDOCUMENTARY_POST = `${config.IP}:${config.PORT}/api/sgdea/servi
 /* PUT */
 export const TYPEDOCUMENTARY_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
 
+/* PUT */
+export const TYPEDOCUMENTARY_UPDATE_CHANGE_TEMPLATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/change/template`;
+
 /* DELETE  params => id */
 export const TYPEDOCUMENTARY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 

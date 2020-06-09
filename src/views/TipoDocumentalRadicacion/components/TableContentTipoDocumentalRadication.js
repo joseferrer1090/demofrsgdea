@@ -73,7 +73,7 @@ class TableContentTramite extends Component {
         style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
-          title="Ver topo documental de radicacion"
+          title="Ver tipo documental de radicacion"
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -344,6 +344,7 @@ class TableContentTramite extends Component {
         <ModalAssigned
           authorization={auth}
           modal={this.state.modalassigned}
+          updateTable={this.getData}
           ref={(ma) => (this.ModalAssignedRef = ma)}
         />
       </div>

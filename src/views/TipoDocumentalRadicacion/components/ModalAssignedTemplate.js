@@ -1,8 +1,9 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+import { Modal, ModalBody, ModalHeader, ModalFooter, Alert } from "reactstrap";
 import {
   TYPEDOCUMENTARY_SHOW,
   TEMPLATE_ACTIVE,
+  TYPEDOCUMENTARY_UPDATE_CHANGE_TEMPLATE,
 } from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
@@ -27,6 +28,8 @@ class ModalAssignedTemplate extends Component {
       id: this.props.id,
       dataTypeDocumentary: {},
       dataTypeDocumentaryTemplate: {},
+      alert200: false,
+      alert500: false,
     };
   }
 
@@ -84,7 +87,34 @@ class ModalAssignedTemplate extends Component {
             })}
             onSubmit={(values, actions) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                const auth = this.props.authorization;
+                const username = decode(auth);
+                fetch(`${TYPEDOCUMENTARY_UPDATE_CHANGE_TEMPLATE}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + this.props.authorization,
+                  },
+                  body: JSON.stringify({
+                    typeDocumentaryId: this.state.id,
+                    templateId: values.idTemplate,
+                    userName: username.user_name,
+                  }),
+                })
+                  .then((response) => {
+                    if (response.ok) {
+                      console.log("Se hizo bien el cambio de plantilla");
+                      console.log(response);
+                    } else if (response.status === 500) {
+                      console.log(
+                        "No se puede realizar el cambio de plantilla porque existen datos registrados"
+                      );
+                      console.log(response);
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(`Error => ${err}`);
+                  });
                 actions.setSubmitting(false);
               }, 1000);
             }}

@@ -6,7 +6,7 @@ import {
 } from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 class ModalAssignedTemplate extends Component {
@@ -54,16 +54,20 @@ class ModalAssignedTemplate extends Component {
     const { dataTypeDocumentary } = this.state;
     return (
       <Fragment>
-        <Modal
-          className="modal-lg"
-          isOpen={this.state.modalassigned}
-          toggle={this.toggle}
-        >
+        <Modal className="modal-lg" isOpen={this.state.modalassigned}>
           <ModalHeader>
             <i className="fa fa-object-group" /> Asingar plantilla al tipo
             documental {dataTypeDocumentary.name}
           </ModalHeader>
           <Formik
+            initialValues={{ idTemplate: "" }}
+            validationSchema={Yup.object().shape({
+              idTemplate: Yup.string()
+                .ensure()
+                .required(
+                  "Se debe seleccionar una plantilla para el tipo documental"
+                ),
+            })}
             onSubmit={(values, actions) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
@@ -99,23 +103,46 @@ class ModalAssignedTemplate extends Component {
                         plantilla)
                       </b>
                     </div>
-                    <form>
+                    <br />
+                    <form className="form">
                       <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-8 offset-2">
                           <form className="form card card-body">
                             <div className="row">
-                              <div className="col-md-8">
+                              <div className="col-md-12">
                                 <div className="form-group">
                                   <label>
                                     Plantilla Seleccionada{" "}
                                     <span className="text-danger">*</span>
                                   </label>
-                                  <select className="form-control form-control-sm">
-                                    <option>--Seleccione--</option>
-                                    <option>Plantilla 1</option>
-                                    <option>Plantilla 2</option>
-                                    <option>Plnatilla 3</option>
+                                  <select
+                                    name="idTemplate"
+                                    onChange={props.handleChange}
+                                    onBlur={props.handleBlur}
+                                    value={values.idTemplate}
+                                    className={`form-control form-control-sm ${
+                                      errors.idTemplate &&
+                                      touched.idTemplate &&
+                                      "is-invalid"
+                                    }`}
+                                  >
+                                    <option value="">--Seleccione--</option>
+                                    <option value="template1">
+                                      Plantilla 1
+                                    </option>
+                                    <option value="template2">
+                                      Plantilla 2
+                                    </option>
+                                    <option value="template3">
+                                      Plnatilla 3
+                                    </option>
                                   </select>
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.idTemplate && touched.idTemplate ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name={"idTemplate"} />
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -132,7 +159,7 @@ class ModalAssignedTemplate extends Component {
                         onClick={() => props.handleSubmit()}
                       >
                         <i className="fa fa-check" />
-                        Asignar plantilla
+                        Asignar / Modificar plantilla seleccionada
                       </button>
                       &nbsp;
                       <button

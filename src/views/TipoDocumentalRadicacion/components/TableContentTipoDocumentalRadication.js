@@ -344,6 +344,7 @@ class TableContentTramite extends Component {
         <ModalAssigned
           authorization={auth}
           modal={this.state.modalassigned}
+          updateTable={this.getData}
           ref={(ma) => (this.ModalAssignedRef = ma)}
         />
       </div>

@@ -103,13 +103,27 @@ class ModalAssignedTemplate extends Component {
                 })
                   .then((response) => {
                     if (response.ok) {
-                      console.log("Se hizo bien el cambio de plantilla");
-                      console.log(response);
+                      this.setState({
+                        alert200: true,
+                      });
+                      setTimeout(() => {
+                        this.setState(
+                          {
+                            alert200: false,
+                            modal: false,
+                          },
+                          () => this.props.updateTable()
+                        );
+                      }, 1300);
                     } else if (response.status === 500) {
-                      console.log(
-                        "No se puede realizar el cambio de plantilla porque existen datos registrados"
-                      );
-                      console.log(response);
+                      this.setState({
+                        alert500: true,
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alert500: false,
+                        });
+                      }, 1300);
                     }
                   })
                   .catch((err) => {
@@ -134,18 +148,22 @@ class ModalAssignedTemplate extends Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color={"danger"} isOpen={this.state.alert500}>
+                      <i className="fa fa-exclamation-triangle" /> No se puede
+                      realizar el cambios de la plantilla, ya existen registros
+                      asociados.
+                    </Alert>
+                    <Alert color={"success"} isOpen={this.state.alert200}>
+                      <i className="fa fa-check-circle-o" /> Se realizo la
+                      asignacion de plantilla con exito.
+                    </Alert>
                     <div className="text-justify">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to make a
-                      type specimen book. It has survived not only five
-                      centuries, but also the leap into electronic typesetting,
-                      remaining essentially unchanged.{" "}
-                      <b>
-                        (Informacion de advertencias para la asignacion de
-                        plantilla)
-                      </b>
+                      La asignacion de plantilla sera satisfactoria siempre y
+                      cuando el tipo documental se haya creado sin ninguna
+                      plantilla de datos asocida. En caso que se quiera
+                      modificar la plantilla asociada, se debe tener en cuenta
+                      que si esta ya tiene valores registrados no sera posible
+                      realizarla.
                     </div>
                     <br />
                     <form className="form">

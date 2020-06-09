@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useState, useEffect } from "react";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 import {
   TYPEDOCUMENTARY_SHOW,
@@ -6,8 +6,16 @@ import {
 } from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+
+/**
+ * Cosas por hacer
+ * 1. Metodo para llenar el Select => ya esta parte esta !
+ * 2. validar si hay alguna plantilla asociadad
+ * 3. mostrar la plantilla asocidada  en el select
+ * 4. realizar el put para la asignacion
+ */
 
 class ModalAssignedTemplate extends Component {
   constructor(props) {
@@ -18,6 +26,7 @@ class ModalAssignedTemplate extends Component {
       t: this.props.t,
       id: this.props.id,
       dataTypeDocumentary: {},
+      dataTypeDocumentaryTemplate: {},
     };
   }
 
@@ -43,6 +52,7 @@ class ModalAssignedTemplate extends Component {
       .then((data) => {
         this.setState({
           dataTypeDocumentary: data.typeDocumentary,
+          dataTypeDocumentaryTemplate: data.typeDocumentary.template,
         });
       })
       .catch((err) => {
@@ -52,6 +62,12 @@ class ModalAssignedTemplate extends Component {
 
   render() {
     const { dataTypeDocumentary } = this.state;
+    // console.log(this.state.dataTypeDocumentaryTemplate);
+    const dataInit = {
+      idTemplate: this.state.dataTypeDocumentaryTemplate
+        ? this.state.dataTypeDocumentaryTemplate
+        : "",
+    };
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modalassigned}>
@@ -60,7 +76,8 @@ class ModalAssignedTemplate extends Component {
             documental {dataTypeDocumentary.name}
           </ModalHeader>
           <Formik
-            initialValues={{ idTemplate: "" }}
+            enableReinitialize={true}
+            initialValues={{ idTemplate: dataInit }}
             validationSchema={Yup.object().shape({
               idTemplate: Yup.string()
                 .ensure()
@@ -115,28 +132,22 @@ class ModalAssignedTemplate extends Component {
                                     Plantilla Seleccionada{" "}
                                     <span className="text-danger">*</span>
                                   </label>
-                                  <select
+                                  <Field
+                                    authorization={this.props.authorization}
+                                    class={"form-control from-control-sm"}
                                     name="idTemplate"
-                                    onChange={props.handleChange}
-                                    onBlur={props.handleBlur}
                                     value={values.idTemplate}
-                                    className={`form-control form-control-sm ${
-                                      errors.idTemplate &&
-                                      touched.idTemplate &&
-                                      "is-invalid"
-                                    }`}
-                                  >
-                                    <option value="">--Seleccione--</option>
-                                    <option value="template1">
-                                      Plantilla 1
-                                    </option>
-                                    <option value="template2">
-                                      Plantilla 2
-                                    </option>
-                                    <option value="template3">
-                                      Plnatilla 3
-                                    </option>
-                                  </select>
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        "idTemplate",
+                                        e.target.value
+                                      );
+                                    }}
+                                    onBlur={() => {
+                                      setFieldTouched("idTemplate", true);
+                                    }}
+                                    component={SelectPlantilla}
+                                  />
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.idTemplate && touched.idTemplate ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -187,3 +198,46 @@ ModalAssignedTemplate.propTypes = {
 };
 
 export default ModalAssignedTemplate;
+
+const SelectPlantilla = (props) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(`${TEMPLATE_ACTIVE}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + props.authorization,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(`Error => ${err}`);
+      });
+  }, []);
+
+  return (
+    <div>
+      <select
+        name={props.name}
+        className={props.class}
+        value={props.value}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
+      >
+        <option value="">-- Seleccione Plantilla --</option>
+        {Object.keys(data) ? (
+          data.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })
+        ) : (
+          <option value={null}>No hay datos</option>
+        )}
+      </select>
+    </div>
+  );
+};

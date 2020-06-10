@@ -6,7 +6,7 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import classnames from "classnames";
 import FormUpdateProfile from "./FormUpdateData";
@@ -22,14 +22,14 @@ class TabProfile extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: "1",
-      auth: props.authorization
+      auth: props.authorization,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -37,7 +37,7 @@ class TabProfile extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
@@ -45,7 +45,7 @@ class TabProfile extends React.Component {
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -86,7 +86,7 @@ class TabProfile extends React.Component {
               <i className="icon-lock" /> {t("user_profile_tab_3")}
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === "4" })}
               onClick={() => {
@@ -95,8 +95,8 @@ class TabProfile extends React.Component {
             >
               <i className="cui-brush" /> {t("user_profile_tab_4")}
             </NavLink>
-          </NavItem>
-          <NavItem>
+          </NavItem> */}
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === "5" })}
               onClick={() => {
@@ -105,7 +105,7 @@ class TabProfile extends React.Component {
             >
               <i className="cui-wrench" /> {t("user_profile_tab_5")}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
@@ -129,20 +129,20 @@ class TabProfile extends React.Component {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tabId="4">
+          {/* <TabPane tabId="4">
             <Row>
               <Col sm="12">
                 <ThemeSelector />
               </Col>
             </Row>
-          </TabPane>
-          <TabPane tabId="5">
+          </TabPane> */}
+          {/* <TabPane tabId="5">
             <Row>
               <Col sm="12">
                 <NewEditTheme />
               </Col>
             </Row>
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </div>
     );

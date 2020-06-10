@@ -8,7 +8,7 @@ const Inputs = (props) => {
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
-            <label htmlFor=""></label>
+            <label htmlFor="">{props.label}</label>
             <input
               type="text"
               className="form-control form-control-sm"
@@ -24,7 +24,7 @@ const Inputs = (props) => {
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
-            <label htmlFor={""}></label>
+            <label htmlFor={""}>{props.label}</label>
             <select
               className="form-control form-control-sm"
               onChange={props.onChange}
@@ -103,7 +103,7 @@ const Inputs = (props) => {
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
-            <label htmlFor={""}></label>
+            <label htmlFor={""}>{props.label}</label>
             <input
               type="date"
               className="form-control form-control-sm"
@@ -119,7 +119,7 @@ const Inputs = (props) => {
       inputElement = (
         <div className="col-md-6">
           <div className="form-group">
-            <label htmlFor=""></label>
+            <label htmlFor="">{props.label}</label>
             <textarea
               className="form-control form-control-sm"
               onChange={props.onChange}

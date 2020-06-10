@@ -110,6 +110,7 @@ class ModalViewRemitente extends Component {
   }
 
   render() {
+    console.log(this.state.dataTercero.id);
     const { t } = this.props;
     const statusTercero = (data) => {
       let status;

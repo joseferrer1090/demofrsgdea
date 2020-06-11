@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
+import {
+  GET_METADATA_FOR_TYPE_DOCUMENTARY,
+  THIRDPARTYS_STATUS,
+} from "./../../../services/EndPoints";
 import Inputs from "./../components/Forms/components/Inputs";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -10,6 +14,8 @@ class EditTemplateValues extends Component {
       id: this.props.id,
       auth: this.props.auth,
       data: [],
+      dataComplete: this.props.dataComplete,
+      dataAux: [],
     };
   }
 
@@ -29,8 +35,8 @@ class EditTemplateValues extends Component {
       .then((data) => {
         this.setState({
           data: data,
+          dataAux: data.map((aux) => aux.metadata),
         });
-        console.log(this.state.data);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -38,7 +44,8 @@ class EditTemplateValues extends Component {
   };
 
   render() {
-    //console.log(this.props);
+    console.log(this.props);
+
     return (
       <div className="animated fadeIn">
         {" "}
@@ -48,7 +55,20 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            {this.state.data ? (
+            <div className="row">
+              <div
+                className="col-md-12"
+                style={{ border: "1px solid red" }}
+              ></div>
+            </div>
+            {/* <BootstrapTable
+              data={this.state.dataAux.map((aux) => aux.elementConfig)}
+            >
+              <TableHeaderColumn dataField={"labeltext"}>
+                Nombre
+              </TableHeaderColumn>
+            </BootstrapTable> */}
+            {/* {this.state.data ? (
               this.state.data.map((aux, id) => (
                 <Inputs
                   key={id}
@@ -59,7 +79,7 @@ class EditTemplateValues extends Component {
               ))
             ) : (
               <p className="text-danger">No hay datos para actualizar</p>
-            )}
+            )} */}
           </div>
         </div>
       </div>

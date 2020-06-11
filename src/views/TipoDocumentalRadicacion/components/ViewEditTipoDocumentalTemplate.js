@@ -39,7 +39,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
           users: data.users,
         });
         console.log(this.state.datatypedocumentary);
-        console.log(this.state.users);
+        //console.log(this.state.users);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -60,7 +60,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
   render() {
     const { datatypedocumentary } = this.state;
     const { users } = this.state;
-    console.log(datatypedocumentary);
+    //console.log(datatypedocumentary);
     const TypeCorrespondence = (data) => {
       let type;
       if (data === 1) {
@@ -210,7 +210,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
             </div>
           </div>
           <div className="col-md-6">
-            <EditValues auth={this.state.auth} id={this.state.id} />
+            <EditValues
+              auth={this.state.auth}
+              id={this.state.id}
+              dataComplete={this.state.datatypedocumentary}
+            />
           </div>
         </div>
       </div>

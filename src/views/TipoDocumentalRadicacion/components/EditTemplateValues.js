@@ -6,6 +6,7 @@ import {
 } from "./../../../services/EndPoints";
 import Inputs from "./../components/Forms/components/Inputs";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalEditValues from "./ModalEditValuesTemplate";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class EditTemplateValues extends Component {
       data: [],
       dataComplete: this.props.dataComplete,
       dataAux: [],
+      modaledit: false,
     };
   }
 
@@ -50,6 +52,7 @@ class EditTemplateValues extends Component {
           type="button"
           className="btn btn-secondary btn-sm"
           title="Editar valor de la plantilla"
+          onClick={() => this.OpenModalEdit()}
         >
           <i className="fa fa-pencil" />
         </button>
@@ -59,6 +62,10 @@ class EditTemplateValues extends Component {
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
+  }
+
+  OpenModalEdit() {
+    this.ModalEditRef.toggle();
   }
 
   render() {
@@ -120,6 +127,10 @@ class EditTemplateValues extends Component {
             )} */}
           </div>
         </div>
+        <ModalEditValues
+          modaledit={this.state.modaledit}
+          ref={(medv) => (this.ModalEditRef = medv)}
+        />
       </div>
     );
   }

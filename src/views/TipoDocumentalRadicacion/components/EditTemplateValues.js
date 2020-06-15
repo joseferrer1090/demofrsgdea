@@ -43,15 +43,28 @@ class EditTemplateValues extends Component {
       });
   };
 
+  editValueTemplate = (cell, row) => {
+    return (
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title="Editar valor de la plantilla"
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
+    );
+  };
+
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     // console.log(this.state.dataAux.map((x) => x.elementConfig));
-    console.log(this.state.dataAux);
-
+    // console.log(this.state.dataAux);
     return (
       <div className="animated fadeIn">
         {" "}
@@ -61,15 +74,37 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            <BootstrapTable data={this.state.dataAux}>
-              <TableHeaderColumn isKey dataField="id" dataFormat={this.indexN}>
+            <BootstrapTable
+              data={this.state.dataAux}
+              striped
+              hover
+              condensed
+              bordered={false}
+            >
+              <TableHeaderColumn
+                isKey
+                dataField="id"
+                dataFormat={this.indexN}
+                width="50"
+                dataAlign="center"
+              >
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="labeltext">
+              <TableHeaderColumn dataField="labeltext" dataAlign="center">
                 Label Text
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="name">Nombre</TableHeaderColumn>
-              <TableHeaderColumn dataField="type">Tipo</TableHeaderColumn>
+              <TableHeaderColumn dataField="name" dataAlign="center">
+                Nombre
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="type" dataAlign="center">
+                Tipo
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataFormat={(cell, row) => this.editValueTemplate(cell, row)}
+              >
+                Editar
+              </TableHeaderColumn>
             </BootstrapTable>
             {/* {this.state.data ? (
               this.state.data.map((aux, id) => (

@@ -47,27 +47,11 @@ class EditTemplateValues extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  // isExpandableRow(row) {
-  //   if (row.name) return true;
-  //   else return false;
-  // }
-
-  expandComponent(row) {
-    if (row === "name") {
-      return <div>Hola</div>;
-    } else {
-      return null;
-    }
-  }
-
   render() {
     console.log(this.props);
     // console.log(this.state.dataAux.map((x) => x.elementConfig));
     console.log(this.state.dataAux);
-    const options = {
-      expandRowBgColor: "rgb(242, 255, 163)",
-      expandBy: "column",
-    };
+
     return (
       <div className="animated fadeIn">
         {" "}
@@ -77,20 +61,14 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            <BootstrapTable
-              data={this.state.dataAux}
-              options={options}
-              expandComponent={this.expandComponent}
-            >
+            <BootstrapTable data={this.state.dataAux}>
               <TableHeaderColumn isKey dataField="id" dataFormat={this.indexN}>
                 #
               </TableHeaderColumn>
               <TableHeaderColumn dataField="labeltext">
                 Label Text
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="name" expandable={true}>
-                Nombre
-              </TableHeaderColumn>
+              <TableHeaderColumn dataField="name">Nombre</TableHeaderColumn>
               <TableHeaderColumn dataField="type">Tipo</TableHeaderColumn>
             </BootstrapTable>
             {/* {this.state.data ? (

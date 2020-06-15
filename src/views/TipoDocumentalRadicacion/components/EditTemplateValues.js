@@ -6,6 +6,7 @@ import {
 } from "./../../../services/EndPoints";
 import Inputs from "./../components/Forms/components/Inputs";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { zip } from "lodash";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class EditTemplateValues extends Component {
       .then((data) => {
         this.setState({
           data: data,
-          dataAux: data.map((aux) => aux.metadata),
+          dataAux: data.map((aux) => aux.metadata.elementConfig),
         });
       })
       .catch((err) => {
@@ -43,8 +44,14 @@ class EditTemplateValues extends Component {
       });
   };
 
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     console.log(this.props);
+    // console.log(this.state.dataAux.map((x) => x.elementConfig));
+    console.log(this.state.dataAux);
 
     return (
       <div className="animated fadeIn">
@@ -55,19 +62,20 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            <div className="row">
-              <div
-                className="col-md-12"
-                style={{ border: "1px solid red" }}
-              ></div>
-            </div>
-            {/* <BootstrapTable
-              data={this.state.dataAux.map((aux) => aux.elementConfig)}
-            >
-              <TableHeaderColumn dataField={"labeltext"}>
-                Nombre
+            <BootstrapTable data={this.state.dataAux}>
+              <TableHeaderColumn
+                isKey
+                dataField={"id"}
+                dataFormat={this.indexN}
+              >
+                #
               </TableHeaderColumn>
-            </BootstrapTable> */}
+              <TableHeaderColumn dataField={"labeltext"}>
+                Label Text
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField={"name"}>Nombre</TableHeaderColumn>
+              <TableHeaderColumn dataField={"type"}>Tipo</TableHeaderColumn>
+            </BootstrapTable>
             {/* {this.state.data ? (
               this.state.data.map((aux, id) => (
                 <Inputs

@@ -18,6 +18,7 @@ class EditTemplateValues extends Component {
       dataComplete: this.props.dataComplete,
       dataAux: [],
       modaledit: false,
+      newArray: [],
     };
   }
 
@@ -38,6 +39,9 @@ class EditTemplateValues extends Component {
         this.setState({
           data: data,
           dataAux: data.map((aux) => aux.metadata.elementConfig),
+          newArray: data.map((aux, id) => {
+            return { id: aux.id, dataInputs: aux.metadata.elementConfig };
+          }),
         });
       })
       .catch((err) => {
@@ -52,7 +56,7 @@ class EditTemplateValues extends Component {
           type="button"
           className="btn btn-secondary btn-sm"
           title="Editar valor de la plantilla"
-          onClick={() => this.OpenModalEdit()}
+          onClick={() => this.OpenModalEdit(row.type)}
         >
           <i className="fa fa-pencil" />
         </button>
@@ -64,14 +68,24 @@ class EditTemplateValues extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  OpenModalEdit() {
-    this.ModalEditRef.toggle();
+  OpenModalEdit(type) {
+    this.ModalEditRef.toggle(type);
   }
 
   render() {
     //console.log(this.props);
     // console.log(this.state.dataAux.map((x) => x.elementConfig));
     // console.log(this.state.dataAux);
+    //console.log(this.state.data);
+    // console.log(
+    //   this.state.data.map((aux, id) => {
+    //     return {
+    //       id: aux.id,
+    //       dataInputs: aux.metadata.elementConfig,
+    //     };
+    //   })
+    // );
+    console.log(this.state.newArray);
     return (
       <div className="animated fadeIn">
         {" "}
@@ -130,6 +144,8 @@ class EditTemplateValues extends Component {
         <ModalEditValues
           modaledit={this.state.modaledit}
           ref={(medv) => (this.ModalEditRef = medv)}
+          authorization={this.state.auth}
+          data={this.state.dataAux}
         />
       </div>
     );

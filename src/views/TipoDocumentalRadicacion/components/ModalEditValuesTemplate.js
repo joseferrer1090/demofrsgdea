@@ -1,6 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 import PropTypes from "prop-types";
+import Inputs from "./../components/Forms/components/Inputs";
 
 class ModalEditValuesTemplate extends Component {
   constructor(props) {
@@ -8,46 +11,54 @@ class ModalEditValuesTemplate extends Component {
     this.state = {
       modal: this.props.modaledit,
       auth: this.props.authorization,
-      type: this.props.typeinput,
+      type: "",
+      data: this.props.data,
     };
   }
 
-  toggle = () => {
+  toggle = (type) => {
     this.setState({
       modal: !this.state.modal,
+      type: type,
     });
   };
 
   render() {
+    console.log(this.state.type);
+    console.log(this.props.data);
     return (
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader>Editar Valor de la plantilla</ModalHeader>
-        <ModalBody>
-          <p>Probando apenas</p>
-        </ModalBody>
-        <ModalFooter>
-          <button type="button" className="btn btn-secondary btn-sm">
-            {" "}
-            Editar
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary btn-sm"
-            onClick={() =>
-              this.setState({
-                modal: false,
-              })
-            }
-          >
-            {" "}
-            Cancelar
-          </button>
-        </ModalFooter>
-      </Modal>
+      <Fragment>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader>Editar Valor de la plantilla</ModalHeader>
+          <ModalBody>
+            <Inputs formType={this.state.type} />
+          </ModalBody>
+          <ModalFooter>
+            <button type="button" className="btn btn-secondary btn-sm">
+              {" "}
+              Editar
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() =>
+                this.setState({
+                  modal: false,
+                })
+              }
+            >
+              {" "}
+              Cancelar
+            </button>
+          </ModalFooter>
+        </Modal>
+      </Fragment>
     );
   }
 }
 
-ModalEditValuesTemplate.propTypes = {};
+ModalEditValuesTemplate.propTypes = {
+  data: PropTypes.array,
+};
 
 export default ModalEditValuesTemplate;

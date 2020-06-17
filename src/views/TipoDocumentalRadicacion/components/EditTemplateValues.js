@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  GET_METADATA_FOR_TYPE_DOCUMENTARY,
-  THIRDPARTYS_STATUS,
-} from "./../../../services/EndPoints";
+import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
 import Inputs from "./../components/Forms/components/Inputs";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalEditValues from "./ModalEditValuesTemplate";
@@ -49,14 +46,16 @@ class EditTemplateValues extends Component {
       });
   };
 
-  editValueTemplate = (cell, row) => {
+  editValueTemplate = (id) => {
     return (
       <div>
         <button
           type="button"
           className="btn btn-secondary btn-sm"
           title="Editar valor de la plantilla"
-          onClick={() => this.OpenModalEdit(row.type)}
+          onClick={() => {
+            this.OpenModalEdit(id);
+          }}
         >
           <i className="fa fa-pencil" />
         </button>
@@ -68,15 +67,15 @@ class EditTemplateValues extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  OpenModalEdit(type) {
-    this.ModalEditRef.toggle(type);
+  OpenModalEdit(id, type) {
+    this.ModalEditRef.toggle(id, type);
   }
 
   render() {
-    //console.log(this.props);
+    console.log(this.props);
     // console.log(this.state.dataAux.map((x) => x.elementConfig));
     // console.log(this.state.dataAux);
-    //console.log(this.state.data);
+    console.log(this.state.data);
     // console.log(
     //   this.state.data.map((aux, id) => {
     //     return {
@@ -85,7 +84,7 @@ class EditTemplateValues extends Component {
     //     };
     //   })
     // );
-    console.log(this.state.newArray);
+    //console.log(this.state.newArray);
     return (
       <div className="animated fadeIn">
         {" "}
@@ -95,8 +94,39 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            <BootstrapTable
-              data={this.state.dataAux}
+            <div className="table-responseive">
+              <table className="table table-bordered table-sm table-hover">
+                <thead className="thead-light">
+                  <tr className="text-center">
+                    <th scope="col">Nombre del metadato</th>
+                    <th scope="col">Tipo metadato</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.data.map((aux, id) => {
+                    return (
+                      <tr className="text-center" key={id}>
+                        <td>{aux.metadata.elementConfig.labeltext}</td>
+                        <td>{aux.metadata.type}</td>
+                        <td>
+                          <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={() =>
+                              this.OpenModalEdit(aux.id, aux.metadata.type)
+                            }
+                          >
+                            <i className="fa fa-pencil" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            {/* <BootstrapTable
+              data={this.state.newArray}
               striped
               hover
               condensed
@@ -126,7 +156,7 @@ class EditTemplateValues extends Component {
               >
                 Editar
               </TableHeaderColumn>
-            </BootstrapTable>
+            </BootstrapTable> */}
             {/* {this.state.data ? (
               this.state.data.map((aux, id) => (
                 <Inputs
@@ -145,7 +175,6 @@ class EditTemplateValues extends Component {
           modaledit={this.state.modaledit}
           ref={(medv) => (this.ModalEditRef = medv)}
           authorization={this.state.auth}
-          data={this.state.dataAux}
         />
       </div>
     );

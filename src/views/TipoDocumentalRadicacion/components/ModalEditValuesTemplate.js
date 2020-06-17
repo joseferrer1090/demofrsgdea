@@ -3,7 +3,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
-import { TYPE_DOCUMENTARIES_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
+import {
+  TYPE_DOCUMENTARIES_METADATA_BAG_VIEW,
+  TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE,
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
 const Inputs = (props) => {
@@ -164,6 +167,7 @@ class ModalEditValuesTemplate extends Component {
       type: "",
       id: "",
       data: this.props.data,
+      dataGeneralAll: {},
       dataGeneral: {},
       dataMetadata: {},
       dataMetadaOptions: [],
@@ -199,12 +203,14 @@ class ModalEditValuesTemplate extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({
+          dataGeneralAll: data,
           dataGeneral: data.metadata,
           dataMetadata: data.metadata.elementConfig,
           dataMetadaOptions: data.metadata.elementConfig.options.length
             ? data.metadata.elementConfig.options
             : [],
         });
+        console.log(this.state.dataGeneralAll);
         //console.log(this.state.dataMetadata);
         // console.log(this.state.dataMetadaOptions);
       })
@@ -213,14 +219,59 @@ class ModalEditValuesTemplate extends Component {
       });
   };
 
+  putEditValue = () => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    console.log(
+      JSON.stringify(
+        {
+          id: this.state.values.id,
+          metadataBagId: "",
+          typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
+          defaultValue: this.state.values.defaultValue,
+          userName: username.user_name,
+        },
+        null,
+        2
+      )
+    );
+  };
+  //   fetch(
+  //     `http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag`,
+  //     {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         authorization: "Bearer " + auth,
+  //       },
+  //       body: JSON.stringify({
+  //         id: this.state.values.id,
+  //         metadataBagId: "",
+  //         typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
+  //         defaultValue: this.state.values.defaultValue,
+  //         userName: username.user_name,
+  //       }),
+  //     }
+  //   ).then((response) =>
+  //     response.json().then((data) => {
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //       } else if (response.status === 500) {
+  //         console.log(response);
+  //       }
+  //     })
+  //   );
+  // };
+
   render() {
     // console.log(this.state.id);
     // console.log(this.state.type);
     // console.log(this.state.dataMetadaOptions);
     // console.log(this.state.dataMetadata.elementConfig);
     // console.log(this.state.dataMetadaOptions);
-    console.log(this.state.dataGeneral.value);
-    console.log(this.state.values);
+    //console.log(this.state.dataGeneral.value);
+    //console.log(this.state.values);
+    //console.log(this.state.dataGeneral);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -261,16 +312,7 @@ class ModalEditValuesTemplate extends Component {
                 type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
-                  console.log(
-                    JSON.stringify(
-                      {
-                        id: this.state.id,
-                        type: this.state.type,
-                      },
-                      null,
-                      2
-                    )
-                  );
+                  this.putEditValue();
                 }}
               >
                 <i className="fa fa-pencil" /> Editar

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
+import {
+  GET_METADATA_FOR_TYPE_DOCUMENTARY,
+  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
+} from "./../../../services/EndPoints";
 import Inputs from "./../components/Forms/components/Inputs";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalEditValues from "./ModalEditValuesTemplate";
@@ -16,7 +19,27 @@ class EditTemplateValues extends Component {
       dataAux: [],
       modaledit: false,
       newArray: [],
+      template: {},
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.dataTemplate !== state.template) {
+      return {
+        template: props.dataTemplate,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dataTemplate !== prevProps.dataTemplate) {
+      this.setState({
+        template: this.props.dataTemplate,
+      });
+      this.getDataMetadataTemplate(this.state.template.id);
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -40,6 +63,24 @@ class EditTemplateValues extends Component {
             return { id: aux.id, dataInputs: aux.metadata.elementConfig };
           }),
         });
+      })
+      .catch((err) => {
+        console.log(`Error => ${err}`);
+      });
+  };
+
+  getDataMetadataTemplate = (id) => {
+    const auth = this.state.auth;
+    fetch(`${TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -72,10 +113,8 @@ class EditTemplateValues extends Component {
   }
 
   render() {
-    console.log(this.props);
     // console.log(this.state.dataAux.map((x) => x.elementConfig));
     // console.log(this.state.dataAux);
-    console.log(this.state.data);
     // console.log(
     //   this.state.data.map((aux, id) => {
     //     return {
@@ -85,6 +124,7 @@ class EditTemplateValues extends Component {
     //   })
     // );
     //console.log(this.state.newArray);
+
     return (
       <div className="animated fadeIn">
         {" "}

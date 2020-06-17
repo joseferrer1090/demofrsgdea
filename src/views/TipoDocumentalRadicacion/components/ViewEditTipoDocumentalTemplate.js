@@ -214,6 +214,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
               auth={this.state.auth}
               id={this.state.id}
               dataComplete={this.state.datatypedocumentary}
+              dataTemplate={this.state.datatypedocumentary.template}
             />
           </div>
         </div>

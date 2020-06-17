@@ -3,10 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
-import {
-  TYPE_DOCUMENTARIES_METADATA_BAG_VIEW,
-  TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE,
-} from "./../../../services/EndPoints";
+import { TYPE_DOCUMENTARIES_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
 const Inputs = (props) => {

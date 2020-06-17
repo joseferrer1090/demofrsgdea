@@ -164,6 +164,7 @@ class ModalEditValuesTemplate extends Component {
       type: "",
       id: "",
       data: this.props.data,
+      dataGeneral: {},
       dataMetadata: {},
       dataMetadaOptions: [],
       values: {
@@ -198,6 +199,7 @@ class ModalEditValuesTemplate extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({
+          dataGeneral: data.metadata,
           dataMetadata: data.metadata.elementConfig,
           dataMetadaOptions: data.metadata.elementConfig.options.length
             ? data.metadata.elementConfig.options
@@ -217,7 +219,8 @@ class ModalEditValuesTemplate extends Component {
     // console.log(this.state.dataMetadaOptions);
     // console.log(this.state.dataMetadata.elementConfig);
     // console.log(this.state.dataMetadaOptions);
-
+    console.log(this.state.dataGeneral.value);
+    console.log(this.state.values);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -235,7 +238,17 @@ class ModalEditValuesTemplate extends Component {
                 <Inputs
                   label={this.state.dataMetadata.labeltext}
                   formType={this.state.type}
+                  value={this.state.dataMetadata.value}
                   elementConfig={this.state.dataMetadaOptions}
+                  onChange={(event) => {
+                    this.setState({
+                      values: {
+                        ...this.state.values,
+                        id: this.state.id,
+                        defaultValue: event.target.value,
+                      },
+                    });
+                  }}
                 />
               </div>
               {/* <div>

@@ -166,6 +166,10 @@ class ModalEditValuesTemplate extends Component {
       data: this.props.data,
       dataMetadata: {},
       dataMetadaOptions: [],
+      values: {
+        id: "",
+        defaultValue: "",
+      },
     };
   }
 
@@ -194,12 +198,12 @@ class ModalEditValuesTemplate extends Component {
       .then((response) => response.json())
       .then((data) => {
         this.setState({
-          dataMetadata: data.metadata,
+          dataMetadata: data.metadata.elementConfig,
           dataMetadaOptions: data.metadata.elementConfig.options.length
             ? data.metadata.elementConfig.options
             : [],
         });
-        // console.log(this.state.dataMetadata);
+        //console.log(this.state.dataMetadata);
         // console.log(this.state.dataMetadaOptions);
       })
       .catch((err) => {
@@ -211,8 +215,9 @@ class ModalEditValuesTemplate extends Component {
     // console.log(this.state.id);
     // console.log(this.state.type);
     // console.log(this.state.dataMetadaOptions);
-    console.log(this.state.dataMetadata.elementConfig);
-    console.log(this.state.dataMetadaOptions);
+    // console.log(this.state.dataMetadata.elementConfig);
+    // console.log(this.state.dataMetadaOptions);
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -226,10 +231,13 @@ class ModalEditValuesTemplate extends Component {
                 reflejado en el modulo de correspondencia.
               </p>
               {/* En esta seccion la renderizacion dinamica del input */}
-              <Inputs
-                formType={this.state.type}
-                elementConfig={this.state.dataMetadaOptions}
-              />
+              <div className="card card-body">
+                <Inputs
+                  label={this.state.dataMetadata.labeltext}
+                  formType={this.state.type}
+                  elementConfig={this.state.dataMetadaOptions}
+                />
+              </div>
               {/* <div>
                 <p>{this.state.type}</p>
                 <p>{this.state.id}</p>

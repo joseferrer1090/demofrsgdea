@@ -269,6 +269,7 @@ class ModalEditValuesTemplate extends Component {
     //console.log(this.state.dataGeneral.value);
     //console.log(this.state.values);
     //console.log(this.state.dataGeneral);
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

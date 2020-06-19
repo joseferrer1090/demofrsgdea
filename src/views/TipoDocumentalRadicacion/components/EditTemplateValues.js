@@ -80,7 +80,7 @@ class EditTemplateValues extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log(data.metadataBag);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);

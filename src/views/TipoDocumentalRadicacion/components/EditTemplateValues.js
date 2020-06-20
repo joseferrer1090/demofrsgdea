@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import {
   GET_METADATA_FOR_TYPE_DOCUMENTARY,
   TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
@@ -7,6 +7,8 @@ import {
 import Inputs from "./../components/Forms/components/Inputs";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalEditValues from "./ModalEditValuesTemplate";
+import Axios from "axios";
+import { metadata } from "core-js/fn/reflect";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -20,6 +22,7 @@ class EditTemplateValues extends Component {
       modaledit: false,
       newArray: [],
       template: {},
+      metadataBagID: [],
     };
   }
 
@@ -80,7 +83,10 @@ class EditTemplateValues extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.metadataBag);
+        this.setState({
+          metadataBagID: data.map((aux, id) => aux.metadataBag.id),
+        });
+        console.log(this.state.metadataBagID);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -108,8 +114,8 @@ class EditTemplateValues extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  OpenModalEdit(id, type) {
-    this.ModalEditRef.toggle(id, type);
+  OpenModalEdit(id, type, idmetadata) {
+    this.ModalEditRef.toggle(id, type, idmetadata);
   }
 
   render() {
@@ -124,6 +130,25 @@ class EditTemplateValues extends Component {
     //   })
     // );
     //console.log(this.state.newArray);
+    //console.log(this.state.data);
+    const aux = this.state.data.map((aux, id) => {
+      return { id: aux.id, metadata: aux.metadata };
+    });
+    const ids = this.state.metadataBagID.map((aux, id) => {
+      return { idmetadata: aux };
+    });
+
+    // console.log(ids);
+
+    // const arrayTable = aux.map((obj, index) => {
+    //   let data = ids.find((item, i) => item.id === obj.id);
+    //   return { ...obj, ...data };
+    // });
+
+    const array = aux.map((obj, id) => {
+      return { ...obj, ...ids[id] };
+    });
+    console.log(array);
 
     return (
       <div className="animated fadeIn">
@@ -144,7 +169,29 @@ class EditTemplateValues extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.data.map((aux, id) => {
+                  {array.map((aux, id) => {
+                    return (
+                      <tr className="text-center" key={id}>
+                        <td>{aux.metadata.elementConfig.labeltext}</td>
+                        <td>{aux.metadata.type}</td>
+                        <td>
+                          <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={() =>
+                              this.OpenModalEdit(
+                                aux.id,
+                                aux.metadata.type,
+                                aux.idmetadata
+                              )
+                            }
+                          >
+                            <i className="fa fa-pencil" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {/* {this.state.data.map((aux, id) => {
                     return (
                       <tr className="text-center" key={id}>
                         <td>{aux.metadata.elementConfig.labeltext}</td>
@@ -161,7 +208,7 @@ class EditTemplateValues extends Component {
                         </td>
                       </tr>
                     );
-                  })}
+                  })} */}
                 </tbody>
               </table>
             </div>

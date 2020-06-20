@@ -163,6 +163,7 @@ class ModalEditValuesTemplate extends Component {
       auth: this.props.authorization,
       type: "",
       id: "",
+      idmetadata: this.props.idmetadata,
       data: this.props.data,
       dataGeneralAll: {},
       dataGeneral: {},
@@ -175,11 +176,12 @@ class ModalEditValuesTemplate extends Component {
     };
   }
 
-  toggle = (id, type) => {
+  toggle = (id, type, idmetadata) => {
     this.setState({
       modal: !this.state.modal,
       id: id,
       type: type,
+      idmetadata: idmetadata,
     });
     this.getDataMetadata(id);
   };
@@ -219,46 +221,46 @@ class ModalEditValuesTemplate extends Component {
   putEditValue = () => {
     const auth = this.state.auth;
     const username = decode(auth);
-    console.log(
-      JSON.stringify(
-        {
+    //   console.log(
+    //     JSON.stringify(
+    //       {
+    //         id: this.state.values.id,
+    //         metadataBagId: this.state.idmetadata,
+    //         typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
+    //         defaultValue: this.state.values.defaultValue,
+    //         userName: username.user_name,
+    //       },
+    //       null,
+    //       2
+    //     )
+    //   );
+    // };
+    fetch(
+      `http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + auth,
+        },
+        body: JSON.stringify({
           id: this.state.values.id,
-          metadataBagId: "",
+          metadataBagId: this.state.idmetadata,
           typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
           defaultValue: this.state.values.defaultValue,
           userName: username.user_name,
-        },
-        null,
-        2
-      )
+        }),
+      }
+    ).then((response) =>
+      response.json().then((data) => {
+        if (response.status === 200) {
+          console.log(response);
+        } else if (response.status === 500) {
+          console.log(response);
+        }
+      })
     );
   };
-  //   fetch(
-  //     `http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag`,
-  //     {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: "Bearer " + auth,
-  //       },
-  //       body: JSON.stringify({
-  //         id: this.state.values.id,
-  //         metadataBagId: "",
-  //         typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
-  //         defaultValue: this.state.values.defaultValue,
-  //         userName: username.user_name,
-  //       }),
-  //     }
-  //   ).then((response) =>
-  //     response.json().then((data) => {
-  //       if (response.status === 200) {
-  //         console.log(response);
-  //       } else if (response.status === 500) {
-  //         console.log(response);
-  //       }
-  //     })
-  //   );
-  // };
 
   render() {
     // console.log(this.state.id);
@@ -269,7 +271,6 @@ class ModalEditValuesTemplate extends Component {
     //console.log(this.state.dataGeneral.value);
     //console.log(this.state.values);
     //console.log(this.state.dataGeneral);
-
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

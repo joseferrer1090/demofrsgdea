@@ -760,7 +760,7 @@ export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea
 //--------------------------------------------- TYPE_DOCUMENTARIES_METADATA_BAG  -----------------------------------------------------//
 
 /* PUT params => idtemplate */
-export const TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/get/template/`;
+export const TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag`;
 
 /* GET params => idtemplate */
 export const TYPE_DOCUMENTARIES_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/`;

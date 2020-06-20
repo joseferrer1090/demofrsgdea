@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Formik, ErrorMessage, Field } from "formik";
-import * as Yup from "yup";
 import PropTypes from "prop-types";
-import { TYPE_DOCUMENTARIES_METADATA_BAG_VIEW } from "./../../../services/EndPoints";
+import {
+  TYPE_DOCUMENTARIES_METADATA_BAG_VIEW,
+  TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE,
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
 const Inputs = (props) => {
-  // console.log(props);
   let inputElement = null;
   switch (props.formType) {
     case "text":
@@ -176,14 +176,34 @@ class ModalEditValuesTemplate extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+    return null;
+  }
+
   toggle = (id, type, idmetadata) => {
-    this.setState({
-      modal: !this.state.modal,
-      id: id,
-      type: type,
-      idmetadata: idmetadata,
-    });
-    this.getDataMetadata(id);
+    this.setState(
+      {
+        modal: !this.state.modal,
+        id: id,
+        type: type,
+        idmetadata: idmetadata,
+      },
+      () => this.getDataMetadata(id)
+    );
   };
 
   getDataMetadata = (id) => {
@@ -217,25 +237,23 @@ class ModalEditValuesTemplate extends Component {
   };
 
   putEditValue = () => {
+    //http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: "Bearer " + auth,
-        },
-        body: JSON.stringify({
-          id: this.state.values.id,
-          metadataBagId: this.state.idmetadata,
-          typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
-          defaultValue: this.state.values.defaultValue,
-          userName: username.user_name,
-        }),
-      }
-    ).then((response) =>
+    fetch(`${TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        id: this.state.values.id,
+        metadataBagId: this.state.idmetadata,
+        typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
+        defaultValue: this.state.values.defaultValue,
+        userName: username.user_name,
+      }),
+    }).then((response) =>
       response.json().then((data) => {
         if (response.status === 200) {
           console.log(response);

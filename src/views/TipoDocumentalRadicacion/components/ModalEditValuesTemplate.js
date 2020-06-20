@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import {
   TYPE_DOCUMENTARIES_METADATA_BAG_VIEW,
   TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE,
+  THIRDPARTYS_EXPORT,
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
@@ -173,6 +174,8 @@ class ModalEditValuesTemplate extends Component {
         id: "",
         defaultValue: "",
       },
+      alert200: false,
+      alert500: false,
     };
   }
 
@@ -237,7 +240,6 @@ class ModalEditValuesTemplate extends Component {
   };
 
   putEditValue = () => {
-    //http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE}`, {
@@ -256,8 +258,25 @@ class ModalEditValuesTemplate extends Component {
     }).then((response) =>
       response.json().then((data) => {
         if (response.status === 200) {
+          this.setState({
+            alert200: true,
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false,
+              modal: false,
+            });
+          }, 1200);
           console.log(response);
         } else if (response.status === 500) {
+          this.setState({
+            alert500: true,
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false,
+            });
+          }, 1200);
           console.log(response);
         }
       })
@@ -271,12 +290,21 @@ class ModalEditValuesTemplate extends Component {
           <ModalHeader>Editar por defecto del metadato</ModalHeader>
           <form>
             <ModalBody>
-              <p className="text-justify alert alert-info">
+              <Alert color="success" isOpen={this.state.alert200}>
+                <i className="fa fa-exclamation-triangle" /> Se actualizo el
+                valor del metadato cone exito
+              </Alert>
+              <Alert color="danger" isOpen={this.state.alert500}>
+                <i className="fa fa-exclamation-triangle" /> Error al actualizar
+                el valor del metadatos
+              </Alert>
+              <p className="text-justify ">
                 <i className="fa fa-exclamation-triangle" /> Se asignara un
                 nuevo valor por default al metadado en la plantilla asociada al
                 tipo documental de radicacion. Este nuevo valor se vera
                 reflejado en el modulo de correspondencia.
               </p>
+
               <div className="card card-body">
                 <Inputs
                   label={this.state.dataMetadata.labeltext}

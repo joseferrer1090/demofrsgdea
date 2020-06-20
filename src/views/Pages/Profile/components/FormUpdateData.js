@@ -6,13 +6,13 @@ import {
   Row,
   Col,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import { decode } from "jsonwebtoken";
 import {
   SEARCH_BY_USERNAME,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
 } from "./../../../../services/EndPoints";
 import moment from "moment";
 import { Formik, ErrorMessage } from "formik";
@@ -27,13 +27,13 @@ class FormUpdateData extends Component {
       alertError500: false,
       alertError400: false,
       alertSuccess: false,
-      spinner: true
+      spinner: true,
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -41,7 +41,7 @@ class FormUpdateData extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       setTimeout(() => {
         this.getProfileByID();
@@ -56,11 +56,11 @@ class FormUpdateData extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           idProfile: data.id,
           spinner: false,
@@ -71,21 +71,20 @@ class FormUpdateData extends Component {
             profile_phone: data.phone,
             profile_address: data.address,
             profile_email: data.email,
-            profile_username: data.username
-          }
+            profile_username: data.username,
+          },
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  FormatDate = data => {
+  FormatDate = (data) => {
     return moment(data).format("YYYY-MM-DD");
   };
 
   render() {
     const { t } = this.props;
     const { dataPut } = this.state;
-    console.log(this.state.spinner);
     return (
       <Fragment>
         <Formik
@@ -99,7 +98,7 @@ class FormUpdateData extends Component {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + auth
+                  Authorization: "Bearer " + auth,
                 },
                 body: JSON.stringify({
                   id: this.state.idProfile,
@@ -107,40 +106,40 @@ class FormUpdateData extends Component {
                   phone: values.profile_phone,
                   address: values.profile_address,
                   birthDate: values.profile_birthday,
-                  userNameAuthenticate: values.profile_username
-                })
+                  userNameAuthenticate: values.profile_username,
+                }),
               })
-                .then(response => {
+                .then((response) => {
                   if (response.status === 200) {
                     this.setState({
-                      alertSuccess: true
+                      alertSuccess: true,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertSuccess: false
+                        alertSuccess: false,
                       });
                     }, 3000);
                   } else if (response.status === 400) {
                     this.setState({
-                      alertError400: true
+                      alertError400: true,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError400: false
+                        alertError400: false,
                       });
                     }, 3000);
                   } else if (response.status === 500) {
                     this.setState({
-                      alertError500: true
+                      alertError500: true,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError500: false
+                        alertError500: false,
                       });
                     }, 3000);
                   }
                 })
-                .catch(error => console.log("", error));
+                .catch((error) => console.log("", error));
               setSubmitting(false);
             }, 500);
           }}
@@ -151,9 +150,7 @@ class FormUpdateData extends Component {
             profile_name: Yup.string().required(
               "Por favor introduzca un nombre."
             ),
-            profile_birthday: Yup.date()
-              .nullable()
-              .notRequired(),
+            profile_birthday: Yup.date().nullable().notRequired(),
             profile_phone: Yup.string()
               .matches(
                 /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
@@ -167,10 +164,10 @@ class FormUpdateData extends Component {
               .required(" Por favor introduzca un email."),
             profile_username: Yup.string().required(
               " Por favor introduzca un username"
-            )
+            ),
           })}
         >
-          {props => {
+          {(props) => {
             const {
               values,
               touched,
@@ -178,7 +175,7 @@ class FormUpdateData extends Component {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting
+              isSubmitting,
             } = props;
             return (
               <Fragment>
@@ -233,9 +230,11 @@ class FormUpdateData extends Component {
                                   onBlur={handleBlur}
                                   value={values.profile_identification}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.profile_identification &&
+                                  className={`form-control form-control-sm ${
+                                    errors.profile_identification &&
                                     touched.profile_identification &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.profile_identification &&
@@ -259,9 +258,11 @@ class FormUpdateData extends Component {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.profile_name}
-                                  className={`form-control form-control-sm ${errors.profile_name &&
+                                  className={`form-control form-control-sm ${
+                                    errors.profile_name &&
                                     touched.profile_name &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.profile_name &&
@@ -308,9 +309,11 @@ class FormUpdateData extends Component {
                                   onBlur={handleBlur}
                                   value={values.profile_phone}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.profile_phone &&
+                                  className={`form-control form-control-sm ${
+                                    errors.profile_phone &&
                                     touched.profile_phone &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.profile_phone &&
@@ -358,9 +361,11 @@ class FormUpdateData extends Component {
                                   onBlur={handleBlur}
                                   value={values.profile_email}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.profile_email &&
+                                  className={`form-control form-control-sm ${
+                                    errors.profile_email &&
                                     touched.profile_email &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                               </div>
                             </Col>
@@ -379,9 +384,11 @@ class FormUpdateData extends Component {
                                   onBlur={handleBlur}
                                   value={values.profile_username}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.profile_username &&
+                                  className={`form-control form-control-sm ${
+                                    errors.profile_username &&
                                     touched.profile_username &&
-                                    "is-invalid"}`}
+                                    "is-invalid"
+                                  }`}
                                 />
                               </div>
                             </Col>

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   USER_PHOTO,
-  USER_UPLOAD_PHOTO
+  USER_UPLOAD_PHOTO,
 } from "./../../../../services/EndPoints";
 import axios from "axios";
 import { decode } from "jsonwebtoken";
@@ -23,19 +23,19 @@ class PhotoUser extends Component {
       alertError500: false,
       alertError400: false,
       t: this.props.t,
-      spinner: true
+      spinner: true,
     };
   }
 
   static getDerivedStaticFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        idUser: props.id
+        idUser: props.id,
       };
     }
   }
@@ -43,12 +43,12 @@ class PhotoUser extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
     if (this.props.id !== prevProps.id) {
       this.setState({
-        idUser: this.props.id
+        idUser: this.props.id,
       });
       setTimeout(() => {
         this.getPhoto(this.state.idUser);
@@ -56,23 +56,21 @@ class PhotoUser extends Component {
     }
   }
 
-  getPhoto = id => {
-    console.log("yeeesss");
+  getPhoto = (id) => {
     fetch(`${USER_PHOTO}${id}`, {
-      method: "GET"
+      method: "GET",
     })
-      .then(response => response.text())
-      .then(data => {
-        // console.log("yeees");
+      .then((response) => response.text())
+      .then((data) => {
         this.setState({
           photo: data,
-          spinner: false
+          spinner: false,
         });
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch((err) => console.log(`err => ${err}`));
   };
 
-  _handleImageChange = e => {
+  _handleImageChange = (e) => {
     e.preventDefault();
 
     let reader = new FileReader();
@@ -81,13 +79,13 @@ class PhotoUser extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        imagePreviewUrl: reader.result
+        imagePreviewUrl: reader.result,
       });
     };
     reader.readAsDataURL(file);
   };
 
-  _handleSubmit = e => {
+  _handleSubmit = (e) => {
     e.preventDefault();
     const token = this.state.auth;
     const username = decode(token);
@@ -102,40 +100,40 @@ class PhotoUser extends Component {
       .post(`${USER_UPLOAD_PHOTO}${this.props.id}`, formData, {
         headers: {
           Authorization: "Bearer " + token,
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       })
-      .then(response => {
+      .then((response) => {
         // console.log(response.data);
         if (response.status === 200) {
           this.setState({
-            alertSuccess: true
+            alertSuccess: true,
           });
           setTimeout(() => {
             this.setState({
-              alertSuccess: false
+              alertSuccess: false,
             });
           }, 3000);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // console.log(` ${error.response.status}`);
         if (error.response.status === 400) {
           this.setState({
-            alertError400: true
+            alertError400: true,
           });
           setTimeout(() => {
             this.setState({
-              alertError400: false
+              alertError400: false,
             });
           }, 3000);
         } else if (error.response.status === 500) {
           this.setState({
-            alertError500: true
+            alertError500: true,
           });
           setTimeout(() => {
             this.setState({
-              alertError500: false
+              alertError500: false,
             });
           }, 3000);
         }
@@ -171,7 +169,7 @@ class PhotoUser extends Component {
     return (
       <div>
         <form
-          onSubmit={e => this._handleSubmit(e)}
+          onSubmit={(e) => this._handleSubmit(e)}
           encType={"multipart/form-data"}
         >
           {this.state.spinner !== false ? (
@@ -213,7 +211,7 @@ class PhotoUser extends Component {
                     type="file"
                     style={{ display: "none" }}
                     ref={"uploadFile"}
-                    onChange={e => this._handleImageChange(e)}
+                    onChange={(e) => this._handleImageChange(e)}
                   />
                   {$imagePreviewUrl}
                 </Col>
@@ -229,12 +227,12 @@ class PhotoUser extends Component {
                   }}
                   onMouseOver={() => {
                     this.setState({
-                      popOverOpen: true
+                      popOverOpen: true,
                     });
                   }}
                   onMouseLeave={() => {
                     this.setState({
-                      popOverOpen: false
+                      popOverOpen: false,
                     });
                   }}
                 >
@@ -256,12 +254,12 @@ class PhotoUser extends Component {
                   data-hover="hover"
                   onMouseOver={() => {
                     this.setState({
-                      popOverOpen_Actualizar: true
+                      popOverOpen_Actualizar: true,
                     });
                   }}
                   onMouseLeave={() => {
                     this.setState({
-                      popOverOpen_Actualizar: false
+                      popOverOpen_Actualizar: false,
                     });
                   }}
                 >

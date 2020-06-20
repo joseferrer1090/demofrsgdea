@@ -60,7 +60,6 @@ class FormChangeAdvanceData extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         this.setState({
           dataPut: {
             conglomerado: data.dependence.headquarter.company.conglomerate.name,

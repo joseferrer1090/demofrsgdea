@@ -51,7 +51,6 @@ class TabProfile extends React.Component {
   }
   render() {
     const { t } = this.props;
-    console.log(this.state.auth);
     return (
       <div>
         <Nav tabs>

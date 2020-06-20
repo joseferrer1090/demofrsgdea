@@ -203,7 +203,6 @@ ViewMiddleware.propTypes = {};
 
 function mapStateToProps(state) {
   //const { loggingIn } = state.authentication;
-  console.log(state);
   return { state };
 }
 

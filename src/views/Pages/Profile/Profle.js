@@ -69,7 +69,6 @@ class Profle extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         this.setState({
           data: data,
           dataRoles: data.roles,

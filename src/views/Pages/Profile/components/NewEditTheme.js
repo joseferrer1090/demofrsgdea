@@ -6,7 +6,7 @@ import {
   CardFooter,
   Row,
   Col,
-  Collapse
+  Collapse,
 } from "reactstrap";
 import PropType from "prop-types";
 import { withTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ class NewEditTheme extends Component {
       headercollapse: false,
       bodycollapse: false,
       footercollapse: false,
-      componentscollapse: false
+      componentscollapse: false,
     };
   }
 
@@ -29,7 +29,7 @@ class NewEditTheme extends Component {
   toggleBody = () => {
     this.setState({
       headercollapse: false,
-      bodycollapse: !this.state.bodycollapse
+      bodycollapse: !this.state.bodycollapse,
     });
   };
 
@@ -37,7 +37,7 @@ class NewEditTheme extends Component {
     this.setState({
       headercollapse: false,
       bodycollapse: false,
-      footercollapse: !this.state.footercollapse
+      footercollapse: !this.state.footercollapse,
     });
   };
 
@@ -46,7 +46,7 @@ class NewEditTheme extends Component {
       headercollapse: false,
       bodycollapse: false,
       footercollapse: false,
-      componentscollapse: !this.state.componentscollapse
+      componentscollapse: !this.state.componentscollapse,
     });
   };
 

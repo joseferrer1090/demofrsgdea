@@ -82,7 +82,6 @@ class EditTemplateValues extends Component {
         this.setState({
           metadataBagID: data.map((aux, id) => aux.metadataBag.id),
         });
-        console.log(this.state.metadataBagID);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);

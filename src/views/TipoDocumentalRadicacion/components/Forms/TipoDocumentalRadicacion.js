@@ -42,9 +42,6 @@ const TipoDocumentalRadicacion = (props) => {
     setNewValueConglomerate(New);
   };
 
-  console.log(datainputs);
-  console.log(dataidMetadata);
-
   return (
     <Formik
       initialValues={{
@@ -136,28 +133,6 @@ const TipoDocumentalRadicacion = (props) => {
           const { t } = props;
           const auth = props.authorization;
           const username = decode(auth);
-          // console.log(
-          //   JSON.stringify(
-          //     {
-          //       code: values.codigo,
-          //       name: values.nombre,
-          //       description: values.descripcion,
-          //       answerDays: values.d_maximos,
-          //       issue: values.asunto,
-          //       status: tipoEstado(values.estado),
-          //       typeCorrespondence: tipoCorrespondencia(
-          //         values.tipocorrespondencia
-          //       ),
-          //       templateId: values.plantilla,
-          //       userName: username.user_name,
-          //       users: userData.users,
-          //       original: userData.original,
-          //       metadata: newDataInputs(datainputs),
-          //     },
-          //     2,
-          //     null
-          //   )
-          // );
           fetch(`${TYPEDOCUMENTARY_POST}`, {
             method: "POST",
             headers: {

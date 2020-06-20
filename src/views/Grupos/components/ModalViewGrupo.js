@@ -127,7 +127,6 @@ class ModalViewPais extends Component {
     };
 
     const data = this.state.dataUsers;
-    console.log(this.state.dataGroup);
     const { t } = this.state;
     return (
       <div>

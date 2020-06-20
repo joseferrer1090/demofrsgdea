@@ -107,11 +107,9 @@ class ModalUpdateDetails extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         this.setState({
           data: data,
         });
-        //console.log(this.state.data);
       })
       .catch((err) => {
         console.log(`Error => ${err.message}`);
@@ -124,7 +122,6 @@ class ModalUpdateDetails extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            console.log(row);
             setTimeout(() => {
               if (this.state.actions.visible2 === true) {
                 this.setState({

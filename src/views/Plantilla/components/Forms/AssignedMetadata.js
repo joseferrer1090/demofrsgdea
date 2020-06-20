@@ -25,8 +25,6 @@ const AssignedMetadata = (props) => {
     }
     setError(err);
   }, [props.data, err]);
-  console.log(useSelector((state) => state));
-
   // React.useEffect(() => {
   //   if (props.data !== undefined || props.data !== null) {
   //     setData(props.data);

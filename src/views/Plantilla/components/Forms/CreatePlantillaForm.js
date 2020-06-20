@@ -40,7 +40,6 @@ const CreatePlantillaForm = (props) => {
   };
 
   useEffect(() => {
-    console.log(props);
     setAuth(props.authorization);
     if (props.authorization !== "" || props.authorization !== auth) {
       getData();

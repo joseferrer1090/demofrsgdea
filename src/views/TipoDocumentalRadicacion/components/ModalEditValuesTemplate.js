@@ -232,7 +232,6 @@ class ModalEditValuesTemplate extends Component {
             ? data.metadata.elementConfig.options
             : [],
         });
-        console.log(this.state.dataGeneralAll);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -267,7 +266,6 @@ class ModalEditValuesTemplate extends Component {
               modal: false,
             });
           }, 1200);
-          console.log(response);
         } else if (response.status === 500) {
           this.setState({
             alert500: true,
@@ -277,7 +275,6 @@ class ModalEditValuesTemplate extends Component {
               alert500: false,
             });
           }, 1200);
-          console.log(response);
         }
       })
     );

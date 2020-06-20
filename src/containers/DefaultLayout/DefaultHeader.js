@@ -8,7 +8,7 @@ import {
   DropdownToggle,
   Nav,
   NavItem,
-  UncontrolledDropdown
+  UncontrolledDropdown,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import language from "./../../assets/img/language.png";
@@ -22,20 +22,20 @@ import decode from "jwt-decode";
 import { SEARCH_BY_USERNAME } from "../../services/EndPoints";
 
 const propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 const defaultProps = {};
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class DefaultHeader extends Component {
@@ -46,7 +46,7 @@ class DefaultHeader extends Component {
       logoMin: sygnet,
       lang: options[1],
       resp: {},
-      idUser: ""
+      idUser: "",
     };
   }
 
@@ -61,42 +61,40 @@ class DefaultHeader extends Component {
   getData = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.getInfoUser(resp.data.access_token);
         this.setState({
           resp: decode(resp.data.access_token),
-          auth: resp.data.access_token
+          auth: resp.data.access_token,
         });
-        console.log(this.state.auth);
-        console.log(this.state.resp);
       });
   };
 
-  getInfoUser = auth => {
+  getInfoUser = (auth) => {
     const username = decode(auth);
     fetch(`${SEARCH_BY_USERNAME}/?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          idUser: data.id
+          idUser: data.id,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
-  changeLanguaje = lang => {
+  changeLanguaje = (lang) => {
     const { i18n } = this.props;
     this.setState({
-      lang
+      lang,
     });
     i18n.changeLanguage(lang);
   };
@@ -131,13 +129,13 @@ class DefaultHeader extends Component {
             src: this.state.logoFull,
             width: 100,
             height: 40,
-            alt: "Logo Lexco "
+            alt: "Logo Lexco ",
           }}
           minimized={{
             src: this.state.logoMin,
             width: 40,
             height: 40,
-            alt: "Logo Lexco"
+            alt: "Logo Lexco",
           }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
@@ -151,7 +149,7 @@ class DefaultHeader extends Component {
               style={{ borderColor: "#9CAEB2" }}
               defaultValue={options[0].value}
               value={lang}
-              onChange={e => this.changeLanguaje(e.target.value)}
+              onChange={(e) => this.changeLanguaje(e.target.value)}
             >
               <option value={""} disabled style={{ background: "#D8E3E6" }}>
                 -- &nbsp; {t("language")} &nbsp; --
@@ -188,7 +186,7 @@ class DefaultHeader extends Component {
                   style={{
                     textDecoration: "none",
                     cursor: "pointer !important",
-                    color: "black"
+                    color: "black",
                   }}
                   to="/configuracion/perfil"
                 >
@@ -202,7 +200,7 @@ class DefaultHeader extends Component {
                   style={{
                     textDecoration: "none",
                     cursor: "pointer !important",
-                    color: "black"
+                    color: "black",
                   }}
                 >
                   {" "}

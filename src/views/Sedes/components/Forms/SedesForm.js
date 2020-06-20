@@ -9,7 +9,7 @@ import {
   CustomInput,
   Col,
   Row,
-  Alert
+  Alert,
 } from "reactstrap";
 import { HEADQUARTERS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -24,7 +24,7 @@ import FieldCity from "./components/SelectCity";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
-const SedesForm = props => {
+const SedesForm = (props) => {
   const {
     values,
     touched,
@@ -35,7 +35,7 @@ const SedesForm = props => {
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    t
+    t,
   } = props;
 
   const [visibleAlert, setVisibleAlert] = useState(true);
@@ -58,9 +58,7 @@ const SedesForm = props => {
     setNewValueConglomerate(New);
   };
 
-  useEffect(() => {
-    console.log(values);
-  });
+  useEffect(() => {});
   return (
     <div>
       <Card>
@@ -80,7 +78,7 @@ const SedesForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"conglomerateId"}
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("conglomerateId", e.target.value);
                       changeInValueConglomerate(
                         values.conglomerateId,
@@ -89,9 +87,11 @@ const SedesForm = props => {
                     }}
                     onBlur={() => setFieldTouched("conglomerateId", true)}
                     value={values.conglomerateId}
-                    className={`form-control form-control-sm ${errors.conglomerateId &&
+                    className={`form-control form-control-sm ${
+                      errors.conglomerateId &&
                       touched.conglomerateId &&
-                      "is-invalid"}`}
+                      "is-invalid"
+                    }`}
                   />
 
                   <div style={{ color: "#D54B4B" }}>
@@ -151,15 +151,15 @@ const SedesForm = props => {
                   </label>
                   <input
                     name="code"
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("code", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     value={values.code}
                     type="text"
-                    className={`form-control form-control-sm ${errors.code &&
-                      touched.code &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.code && touched.code && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.code && touched.code ? (
@@ -178,15 +178,15 @@ const SedesForm = props => {
                   </label>
                   <input
                     name="name"
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("name", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"
-                    className={`form-control form-control-sm ${errors.name &&
-                      touched.name &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.name && touched.name && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.name && touched.name ? (
@@ -223,9 +223,9 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.prefix}
                     type="text"
-                    className={`form-control form-control-sm ${errors.prefix &&
-                      touched.prefix &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.prefix && touched.prefix && "is-invalid"
+                    }`}
                     maxLength={"6"}
                     placeholder=" "
                   />
@@ -250,9 +250,9 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.sequence}
                     type="number"
-                    className={`form-control form-control-sm ${errors.sequence &&
-                      touched.sequence &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.sequence && touched.sequence && "is-invalid"
+                    }`}
                     min={0}
                   />
                   <div style={{ color: "#D54B4B" }}>
@@ -291,15 +291,15 @@ const SedesForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => {
+                    onChange={(e) => {
                       setFieldValue("countryId", e.target.value);
                       changeInValue(values.countryId, e.target.value);
                     }}
                     onBlur={() => setFieldTouched("countryId", true)}
                     value={values.countryId}
-                    className={`form-control form-control-sm ${errors.countryId &&
-                      touched.countryId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.countryId && touched.countryId && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.countryId && touched.countryId ? (
@@ -369,9 +369,9 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.address}
                     type="text"
-                    className={`form-control form-control-sm ${errors.address &&
-                      touched.address &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.address && touched.address && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.address && touched.address ? (
@@ -394,9 +394,9 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.phone}
                     type="text"
-                    className={`form-control form-control-sm ${errors.phone &&
-                      touched.phone &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.phone && touched.phone && "is-invalid"
+                    }`}
                   />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.phone && touched.phone ? (
@@ -420,14 +420,14 @@ const SedesForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"chargeId"}
-                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onChange={(e) => setFieldValue("chargeId", e.target.value)}
                     onBlur={() => {
                       setFieldTouched("chargeId", true);
                     }}
                     value={values.chargeId}
-                    className={`form-control form-control-sm ${errors.chargeId &&
-                      touched.chargeId &&
-                      "is-invalid"}`}
+                    className={`form-control form-control-sm ${
+                      errors.chargeId && touched.chargeId && "is-invalid"
+                    }`}
                   />
                 </div>
               </Col>
@@ -483,7 +483,7 @@ const SedesForm = props => {
 
 export default withTranslation("translations")(
   withFormik({
-    mapPropsToValues: props => ({
+    mapPropsToValues: (props) => ({
       conglomerateId: props.sede.conglomerateId,
       companyId: props.sede.companyId,
       code: props.sede.code,
@@ -497,7 +497,7 @@ export default withTranslation("translations")(
       address: props.sede.address,
       phone: props.sede.phone,
       chargeId: props.sede.chargeId,
-      status: props.sede.status
+      status: props.sede.status,
     }),
     validationSchema: Yup.object().shape({
       conglomerateId: Yup.string()
@@ -541,12 +541,12 @@ export default withTranslation("translations")(
         .test(
           "Activo",
           " Es necesario activar la sede.",
-          value => value === true
+          (value) => value === true
         )
-        .required(" Es necesario activar la sede.")
+        .required(" Es necesario activar la sede."),
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
-      const tipoEstado = data => {
+      const tipoEstado = (data) => {
         let tipo = null;
         if (data === true) {
           return (tipo = 1);
@@ -556,14 +556,14 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        const {t} = props;
+        const { t } = props;
         const auth = props.authorization;
         const username = decode(auth);
         fetch(HEADQUARTERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + auth,
           },
           body: JSON.stringify({
             description: values.description,
@@ -577,44 +577,41 @@ export default withTranslation("translations")(
             cityId: values.cityId,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: username.user_name
-          })
+            userName: username.user_name,
+          }),
         })
-          .then(response =>
-            response.json().then(data => {
+          .then((response) =>
+            response.json().then((data) => {
               if (response.status === 201) {
                 toast.success(t("app_sedes_alert_toast_201"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               } else if (response.status === 400) {
-                toast.error(
-                  t("app_sedes_alert_toast_400"),
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
+                toast.error(t("app_sedes_alert_toast_400"), {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px",
+                  }),
+                });
               } else if (response.status === 500) {
                 toast.error(t("app_sedes_alert_toast_500"), {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: "60px"
-                  })
+                    marginTop: "60px",
+                  }),
                 });
               }
             })
           )
-          .catch(error => {
+          .catch((error) => {
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
-              })
+                marginTop: "60px",
+              }),
             });
           });
         setSubmitting(false);
@@ -632,9 +629,9 @@ export default withTranslation("translations")(
           address: "",
           phone: "",
           chargeId: "",
-          status: ""
+          status: "",
         });
       }, 1000);
-    }
+    },
   })(SedesForm)
 );

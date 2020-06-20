@@ -10,19 +10,19 @@ i18n
   .init({
     resources: {
       en,
-      es
+      es,
     },
     fallbackLng: "es",
-    debug: true,
+    debug: false,
     ns: ["translations"],
     defaultNS: "translations",
     keySeparator: false,
     interpolation: {
       escapeValue: false,
-      formatSeparator: ","
+      formatSeparator: ",",
     },
     react: {
-      wait: true
-    }
+      wait: true,
+    },
   });
 export default i18n;

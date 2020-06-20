@@ -106,7 +106,6 @@ class TableContentRadicacionEmail extends Component {
   EstadoRadicacionEmail = (cell, row) => {
     const { t } = this.props;
     let status;
-    console.log(row.status);
     if (row.status === true) {
       status = (
         <b className="text-success"> {t("app_tablas_estado_activo")} </b>

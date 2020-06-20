@@ -103,7 +103,6 @@ class ModalviewTipoDocumentoRadication extends Component {
   render() {
     const { data } = this.state;
     const { t } = this.props;
-    console.log(data);
     const statusTipoDocumentalRadicacion = (data) => {
       let status;
       if (data === 1) {

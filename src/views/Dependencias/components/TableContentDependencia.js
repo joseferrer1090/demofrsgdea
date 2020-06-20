@@ -65,8 +65,7 @@ class TableContentDependencia extends Component {
   }
 
   accionesDependencias(cell, row) {
-    const {t} = this.props;
-    console.log(row);
+    const { t } = this.props;
     if (row.headquarter.status !== 1)
       return (
         <div className="table-actionMenuDep" style={{ marginRight: "55px" }}>
@@ -83,7 +82,7 @@ class TableContentDependencia extends Component {
           </button>
           &nbsp;
           <button
-          title={t("app_dependencia_administrar_table_acciones_btn_eliminar")}
+            title={t("app_dependencia_administrar_table_acciones_btn_eliminar")}
             className="btn btn-danger btn-sm"
             data-trigger="hover"
             onClick={() => {

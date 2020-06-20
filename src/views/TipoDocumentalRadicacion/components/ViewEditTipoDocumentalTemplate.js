@@ -38,7 +38,6 @@ class ViewEditTipoDocumentalTemplate extends Component {
           datatypedocumentary: data.typeDocumentary,
           users: data.users,
         });
-        console.log(this.state.datatypedocumentary);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);

@@ -39,7 +39,6 @@ class ViewEditTipoDocumentalTemplate extends Component {
           users: data.users,
         });
         console.log(this.state.datatypedocumentary);
-        //console.log(this.state.users);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -60,7 +59,6 @@ class ViewEditTipoDocumentalTemplate extends Component {
   render() {
     const { datatypedocumentary } = this.state;
     const { users } = this.state;
-    //console.log(datatypedocumentary);
     const TypeCorrespondence = (data) => {
       let type;
       if (data === 1) {

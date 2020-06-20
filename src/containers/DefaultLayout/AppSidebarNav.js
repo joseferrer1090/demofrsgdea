@@ -15,7 +15,7 @@ const propTypes = {
   isOpen: PropTypes.bool,
   staticContext: PropTypes.any,
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 const defaultProps = {
@@ -25,11 +25,11 @@ const defaultProps = {
       {
         name: "Incio",
         url: "/configuracion",
-        icon: "icon-home"
-      }
-    ]
+        icon: "icon-home",
+      },
+    ],
   },
-  isOpen: false
+  isOpen: false,
 };
 
 class AppSidebarNav extends Component {
@@ -40,102 +40,102 @@ class AppSidebarNav extends Component {
         {
           name: `${props.t("nav_app_home")}`,
           url: "/configuracion",
-          icon: "icon-home"
+          icon: "icon-home",
         },
         {
           name: `${props.t("nav_app_conglomerado")}`,
           icon: "icon-settings",
-          url: "/configuracion/conglomerado"
+          url: "/configuracion/conglomerado",
         },
         {
           name: `${props.t("nav_app_empresa")}`,
           icon: "icon-settings",
-          url: "/configuracion/empresa"
+          url: "/configuracion/empresa",
         },
         {
           name: `${props.t("nav_app_sedes")}`,
           icon: "icon-settings",
-          url: "/configuracion/sedes"
+          url: "/configuracion/sedes",
         },
         {
           name: `${props.t("nav_app_dependencia")}`,
           icon: "icon-settings",
-          url: "/configuracion/dependencia"
+          url: "/configuracion/dependencia",
         },
         {
           name: `${props.t("nav_app_cargo")}`,
           icon: "icon-settings",
-          url: "/configuracion/cargo"
+          url: "/configuracion/cargo",
         },
         {
           name: `${props.t("nav_app_mensajero")}`,
           icon: "icon-settings ",
-          url: "/configuracion/mensajero"
+          url: "/configuracion/mensajero",
         },
         {
           name: `${props.t("nav_app_tipo_llegada")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipollegada"
+          url: "/configuracion/tipollegada",
         },
         {
           name: `${props.t("nav_app_tipo_tramite")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipotramite"
+          url: "/configuracion/tipotramite",
         },
         {
           name: `${props.t("nav_app_usuarios")}`,
           icon: "icon-settings",
-          url: "/configuracion/usuarios"
+          url: "/configuracion/usuarios",
         },
         {
           name: `${props.t("nav_app_tipo_terceros")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipotercero"
+          url: "/configuracion/tipotercero",
         },
         {
           name: `${props.t("nav_app_roles")}`,
           icon: "icon-settings",
-          url: "/configuracion/roles"
+          url: "/configuracion/roles",
         },
         {
           name: `${props.t("nav_app_grupo_usuarios")}`,
           icon: "icon-settings",
-          url: "/configuracion/grupos"
+          url: "/configuracion/grupos",
         },
         {
           name: `${props.t("nav_app_terceros")}`,
           icon: "icon-settings",
-          url: "/configuracion/terceros"
+          url: "/configuracion/terceros",
         },
         {
           name: `${props.t("nav_app_tipo_radicacion")}`,
           icon: "icon-book-open",
-          url: "/configuracion/tipodocumentalradicacion"
+          url: "/configuracion/tipodocumentalradicacion",
         },
         {
           name: `${props.t("nav_app_cuentas_radicacion_email")}`,
           icon: "icon-book-open",
-          url: "/configuracion/radicacionemail"
+          url: "/configuracion/radicacionemail",
         },
         {
           name: `${props.t("nav_app_email_request")}`,
           icon: "icon-book-open",
-          url: "/configuracion/peticionescorreoelectronico"
+          url: "/configuracion/peticionescorreoelectronico",
         },
         {
           name: `${props.t("nav_app_pais")}`,
           icon: "icon-settings",
-          url: "/configuracion/pais"
+          url: "/configuracion/pais",
         },
         {
           name: `${props.t("nav_app_departamento")}`,
           icon: "icon-settings",
-          url: "/configuracion/departamento"
+          url: "/configuracion/departamento",
         },
         {
           name: `${props.t("nav_app_ciudad")}`,
           icon: "icon-settings",
-          url: "/configuracion/ciudad"
+          url: "/configuracion/ciudad",
         },
         {
           name: `${props.t("nav_app_auditoria")}`,
@@ -145,34 +145,34 @@ class AppSidebarNav extends Component {
             {
               name: `${props.t("nav_app_auditoria_consultar")}`,
               url: "/configuracion/auditoria",
-              icon: "fa fa-search"
+              icon: "fa fa-search",
             },
             {
               name: `${props.t("nav_app_auditoria_mover")}`,
               url: "/configuracion/auditoria/moverhistorico",
-              icon: "fa fa-server"
-            }
-          ]
+              icon: "fa fa-server",
+            },
+          ],
         },
         {
           name: `${props.t("nav_app_email_template")}`,
           url: "/configuracion/plantillaemail",
-          icon: "fa fa-puzzle-piece"
+          icon: "fa fa-puzzle-piece",
         },
         {
           name: `${props.t("nav_app_plantilla")}`,
           url: "/configuracion/plantilla",
-          icon: "fa fa-puzzle-piece"
+          icon: "fa fa-puzzle-piece",
         },
-        {
-          name: `${props.t("nav_app_tema")}`,
-          icon: "icon-pencil",
-          url: "/configuracion/tema"
-        },
+        // {
+        //   name: `${props.t("nav_app_tema")}`,
+        //   icon: "icon-pencil",
+        //   url: "/configuracion/tema"
+        // },
         {
           name: `${props.t("nav_app_parametros_generales")}`,
           icon: "icon-settings",
-          url: "/configuracion/parametrosgenerales"
+          url: "/configuracion/parametrosgenerales",
         },
         {
           name: `${props.t("nav_app_metadatos")}`,
@@ -182,27 +182,27 @@ class AppSidebarNav extends Component {
             {
               name: `${props.t("nav_app_metadatos_metadato")}`,
               icon: "fa fa-plus-circle",
-              url: "/configuracion/metadatos/new"
+              url: "/configuracion/metadatos/new",
             },
             {
               name: `${props.t("nav_app_metadatos_lista")}`,
               icon: "fa fa-list-ul",
-              url: "/configuracion/metadatos/list"
+              url: "/configuracion/metadatos/list",
             },
             {
               name: `${props.t("nav_app_metadatos_actualizar")}`,
               icon: "fa fa-wrench",
-              url: "/configuracion/metadatos/update"
+              url: "/configuracion/metadatos/update",
             },
             {
               name: `${props.t("nav_app_metadatos_eliminar")}`,
               icon: "fa fa-trash",
-              url: "/configuracion/metadatos/delete"
-            }
-          ]
-        }
+              url: "/configuracion/metadatos/delete",
+            },
+          ],
+        },
       ],
-      t: this.props.t
+      t: this.props.t,
     };
     this.handleClick = this.handleClick.bind(this);
     this.activeRoute = this.activeRoute.bind(this);
@@ -212,7 +212,7 @@ class AppSidebarNav extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.t !== state.t) {
       return {
-        t: props.t
+        t: props.t,
       };
     }
     return null;
@@ -224,109 +224,109 @@ class AppSidebarNav extends Component {
     }
   }
 
-  handleItems = t => {
+  handleItems = (t) => {
     this.setState({
       items: [
         {
           name: `${t("nav_app_home")}`,
           url: "/configuracion",
-          icon: "icon-home"
+          icon: "icon-home",
         },
         {
           name: `${t("nav_app_conglomerado")}`,
           icon: "icon-settings",
-          url: "/configuracion/conglomerado"
+          url: "/configuracion/conglomerado",
         },
         {
           name: `${t("nav_app_empresa")}`,
           icon: "icon-settings",
-          url: "/configuracion/empresa"
+          url: "/configuracion/empresa",
         },
         {
           name: `${t("nav_app_sedes")}`,
           icon: "icon-settings",
-          url: "/configuracion/sedes"
+          url: "/configuracion/sedes",
         },
         {
           name: `${t("nav_app_dependencia")}`,
           icon: "icon-settings",
-          url: "/configuracion/dependencia"
+          url: "/configuracion/dependencia",
         },
         {
           name: `${t("nav_app_cargo")}`,
           icon: "icon-settings",
-          url: "/configuracion/cargo"
+          url: "/configuracion/cargo",
         },
         {
           name: `${t("nav_app_mensajero")}`,
           icon: "icon-settings ",
-          url: "/configuracion/mensajero"
+          url: "/configuracion/mensajero",
         },
         {
           name: `${t("nav_app_tipo_llegada")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipollegada"
+          url: "/configuracion/tipollegada",
         },
         {
           name: `${t("nav_app_tipo_tramite")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipotramite"
+          url: "/configuracion/tipotramite",
         },
         {
           name: `${t("nav_app_usuarios")}`,
           icon: "icon-settings",
-          url: "/configuracion/usuarios"
+          url: "/configuracion/usuarios",
         },
         {
           name: `${t("nav_app_tipo_terceros")}`,
           icon: "icon-settings",
-          url: "/configuracion/tipotercero"
+          url: "/configuracion/tipotercero",
         },
         {
           name: `${t("nav_app_roles")}`,
           icon: "icon-settings",
-          url: "/configuracion/roles"
+          url: "/configuracion/roles",
         },
         {
           name: `${t("nav_app_grupo_usuarios")}`,
           icon: "icon-settings",
-          url: "/configuracion/grupos"
+          url: "/configuracion/grupos",
         },
         {
           name: `${t("nav_app_terceros")}`,
           icon: "icon-settings",
-          url: "/configuracion/terceros"
+          url: "/configuracion/terceros",
         },
         {
           name: `${t("nav_app_tipo_radicacion")}`,
           icon: "icon-book-open",
-          url: "/configuracion/tipodocumentalradicacion"
+          url: "/configuracion/tipodocumentalradicacion",
         },
         {
           name: `${t("nav_app_cuentas_radicacion_email")}`,
           icon: "icon-book-open",
-          url: "/configuracion/radicacionemail"
+          url: "/configuracion/radicacionemail",
         },
         {
           name: `${t("nav_app_email_request")}`,
           icon: "icon-book-open",
-          url: "/configuracion/peticionescorreoelectronico"
+          url: "/configuracion/peticionescorreoelectronico",
         },
 
         {
           name: `${t("nav_app_pais")}`,
           icon: "icon-settings",
-          url: "/configuracion/pais"
+          url: "/configuracion/pais",
         },
         {
           name: `${t("nav_app_departamento")}`,
           icon: "icon-settings",
-          url: "/configuracion/departamento"
+          url: "/configuracion/departamento",
         },
         {
           name: `${t("nav_app_ciudad")}`,
           icon: "icon-settings",
-          url: "/configuracion/ciudad"
+          url: "/configuracion/ciudad",
         },
         {
           name: `${t("nav_app_auditoria")}`,
@@ -336,34 +336,34 @@ class AppSidebarNav extends Component {
             {
               name: `${t("nav_app_auditoria_consultar")}`,
               url: "/configuracion/auditoria",
-              icon: "fa fa-search"
+              icon: "fa fa-search",
             },
             {
               name: `${t("nav_app_auditoria_mover")}`,
               url: "/configuracion/auditoria/moverhistorico",
-              icon: "fa fa-server"
-            }
-          ]
+              icon: "fa fa-server",
+            },
+          ],
         },
         {
           name: `${t("nav_app_email_template")}`,
           url: "/configuracion/plantillaemail",
-          icon: "fa fa-puzzle-piece"
+          icon: "fa fa-puzzle-piece",
         },
         {
           name: `${t("nav_app_plantilla")}`,
           url: "/configuracion/plantilla",
-          icon: "fa fa-puzzle-piece"
+          icon: "fa fa-puzzle-piece",
         },
-        {
-          name: `${t("nav_app_tema")}`,
-          icon: "icon-pencil",
-          url: "/configuracion/tema"
-        },
+        // {
+        //   name: `${t("nav_app_tema")}`,
+        //   icon: "icon-pencil",
+        //   url: "/configuracion/tema"
+        // },
         {
           name: `${t("nav_app_parametros_generales")}`,
           icon: "icon-settings",
-          url: "/configuracion/parametrosgenerales"
+          url: "/configuracion/parametrosgenerales",
         },
         {
           name: `${t("nav_app_metadatos")}`,
@@ -373,26 +373,26 @@ class AppSidebarNav extends Component {
             {
               name: `${t("nav_app_metadatos_metadato")}`,
               icon: "fa fa-plus-circle",
-              url: "/configuracion/metadatos/new"
+              url: "/configuracion/metadatos/new",
             },
             {
               name: `${t("nav_app_metadatos_lista")}`,
               icon: "fa fa-list-ul",
-              url: "/configuracion/metadatos/list"
+              url: "/configuracion/metadatos/list",
             },
             {
               name: `${t("nav_app_metadatos_actualizar")}`,
               icon: "fa fa-wrench",
-              url: "/configuracion/metadatos/update"
+              url: "/configuracion/metadatos/update",
             },
             {
               name: `${t("nav_app_metadatos_eliminar")}`,
               icon: "fa fa-trash",
-              url: "/configuracion/metadatos/delete"
-            }
-          ]
-        }
-      ]
+              url: "/configuracion/metadatos/delete",
+            },
+          ],
+        },
+      ],
     });
   };
 
@@ -468,7 +468,7 @@ class AppSidebarNav extends Component {
         !item.icon ? "fa fa-circle" : item.icon,
         item.label.variant ? `text-${item.label.variant}` : "",
         item.label.class ? item.label.class : ""
-      )
+      ),
     };
     return this.navLink(item, key, classes);
   }
@@ -509,7 +509,7 @@ class AppSidebarNav extends Component {
         "nav-link",
         item.variant ? `nav-link-${item.variant}` : ""
       ),
-      icon: classNames("nav-icon", item.icon)
+      icon: classNames("nav-icon", item.icon),
     };
     return this.navLink(item, key, classes);
   }

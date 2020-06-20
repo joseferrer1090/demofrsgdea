@@ -53,9 +53,7 @@ class SelectPlantilla extends Component {
     console.log(this.state.data);
     return (
       <div className="form-group">
-        <label>
-          Plantilla <span className="text-danger">*</span>
-        </label>
+        <label>Plantilla</label>
         <select
           value={this.props.value}
           name={this.props.name}

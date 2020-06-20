@@ -210,8 +210,6 @@ class ModalEditValuesTemplate extends Component {
             : [],
         });
         console.log(this.state.dataGeneralAll);
-        //console.log(this.state.dataMetadata);
-        // console.log(this.state.dataMetadaOptions);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
@@ -221,20 +219,6 @@ class ModalEditValuesTemplate extends Component {
   putEditValue = () => {
     const auth = this.state.auth;
     const username = decode(auth);
-    //   console.log(
-    //     JSON.stringify(
-    //       {
-    //         id: this.state.values.id,
-    //         metadataBagId: this.state.idmetadata,
-    //         typeDocumentaryId: this.state.dataGeneralAll.typeDocumentary.id,
-    //         defaultValue: this.state.values.defaultValue,
-    //         userName: username.user_name,
-    //       },
-    //       null,
-    //       2
-    //     )
-    //   );
-    // };
     fetch(
       `http://localhost:8090/api/sgdea/service/configuration/type/documentary/metadata/bag`,
       {
@@ -263,14 +247,6 @@ class ModalEditValuesTemplate extends Component {
   };
 
   render() {
-    // console.log(this.state.id);
-    // console.log(this.state.type);
-    // console.log(this.state.dataMetadaOptions);
-    // console.log(this.state.dataMetadata.elementConfig);
-    // console.log(this.state.dataMetadaOptions);
-    //console.log(this.state.dataGeneral.value);
-    //console.log(this.state.values);
-    //console.log(this.state.dataGeneral);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -283,7 +259,6 @@ class ModalEditValuesTemplate extends Component {
                 tipo documental de radicacion. Este nuevo valor se vera
                 reflejado en el modulo de correspondencia.
               </p>
-              {/* En esta seccion la renderizacion dinamica del input */}
               <div className="card card-body">
                 <Inputs
                   label={this.state.dataMetadata.labeltext}
@@ -301,10 +276,6 @@ class ModalEditValuesTemplate extends Component {
                   }}
                 />
               </div>
-              {/* <div>
-                <p>{this.state.type}</p>
-                <p>{this.state.id}</p>
-              </div> */}
             </ModalBody>
             <ModalFooter>
               <button

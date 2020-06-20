@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import PropTypes, { func } from "prop-types";
+import PropTypes from "prop-types";
 import {
   GET_METADATA_FOR_TYPE_DOCUMENTARY,
   TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
 } from "./../../../services/EndPoints";
-import Inputs from "./../components/Forms/components/Inputs";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalEditValues from "./ModalEditValuesTemplate";
-import Axios from "axios";
-import { metadata } from "core-js/fn/reflect";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -119,18 +115,6 @@ class EditTemplateValues extends Component {
   }
 
   render() {
-    // console.log(this.state.dataAux.map((x) => x.elementConfig));
-    // console.log(this.state.dataAux);
-    // console.log(
-    //   this.state.data.map((aux, id) => {
-    //     return {
-    //       id: aux.id,
-    //       dataInputs: aux.metadata.elementConfig,
-    //     };
-    //   })
-    // );
-    //console.log(this.state.newArray);
-    //console.log(this.state.data);
     const aux = this.state.data.map((aux, id) => {
       return { id: aux.id, metadata: aux.metadata };
     });
@@ -138,17 +122,9 @@ class EditTemplateValues extends Component {
       return { idmetadata: aux };
     });
 
-    // console.log(ids);
-
-    // const arrayTable = aux.map((obj, index) => {
-    //   let data = ids.find((item, i) => item.id === obj.id);
-    //   return { ...obj, ...data };
-    // });
-
     const array = aux.map((obj, id) => {
       return { ...obj, ...ids[id] };
     });
-    console.log(array);
 
     return (
       <div className="animated fadeIn">
@@ -191,71 +167,9 @@ class EditTemplateValues extends Component {
                       </tr>
                     );
                   })}
-                  {/* {this.state.data.map((aux, id) => {
-                    return (
-                      <tr className="text-center" key={id}>
-                        <td>{aux.metadata.elementConfig.labeltext}</td>
-                        <td>{aux.metadata.type}</td>
-                        <td>
-                          <button
-                            className="btn btn-secondary btn-sm"
-                            onClick={() =>
-                              this.OpenModalEdit(aux.id, aux.metadata.type)
-                            }
-                          >
-                            <i className="fa fa-pencil" />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })} */}
                 </tbody>
               </table>
             </div>
-            {/* <BootstrapTable
-              data={this.state.newArray}
-              striped
-              hover
-              condensed
-              bordered={false}
-            >
-              <TableHeaderColumn
-                isKey
-                dataField="id"
-                dataFormat={this.indexN}
-                width="50"
-                dataAlign="center"
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="labeltext" dataAlign="center">
-                Label Text
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="name" dataAlign="center">
-                Nombre
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="type" dataAlign="center">
-                Tipo
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cell, row) => this.editValueTemplate(cell, row)}
-              >
-                Editar
-              </TableHeaderColumn>
-            </BootstrapTable> */}
-            {/* {this.state.data ? (
-              this.state.data.map((aux, id) => (
-                <Inputs
-                  key={id}
-                  value={aux.value}
-                  formType={aux.metadata.elementConfig.type}
-                  elementConfig={aux.metadata.elementConfig}
-                />
-              ))
-            ) : (
-              <p className="text-danger">No hay datos para actualizar</p>
-            )} */}
           </div>
         </div>
         <ModalEditValues

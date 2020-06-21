@@ -40,7 +40,6 @@ const TipoTramiteForm = (props) => {
   return (
     <Formik
       initialValues={{
-        tipocorrespondencia: "",
         codigo: "",
         nombre: "",
         descripcion: "",
@@ -53,9 +52,6 @@ const TipoTramiteForm = (props) => {
         users: "",
       }}
       validationSchema={Yup.object().shape({
-        tipocorrespondencia: Yup.string()
-          .ensure()
-          .required(" Por favor seleccione el tipo de correspondencia."),
         codigo: Yup.string()
           .required(" Por favor introduzca un código.")
           .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
@@ -76,12 +72,6 @@ const TipoTramiteForm = (props) => {
             (value) => value === true
           )
           .required(" Es necesario activar el tipo de trámite."),
-        // workflow: Yup.string()
-        //   .ensure()
-        //   .required(" Por favor seleccione el WorkFlow."),
-        // plantilla: Yup.string()
-        //   .ensure()
-        //   .required(" Por favor seleccione la plantilla.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const tipoEstado = (data) => {
@@ -162,7 +152,6 @@ const TipoTramiteForm = (props) => {
           users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
-            tipocorrespondencia: "",
             codigo: "",
             nombre: "",
             descripcion: "",
@@ -171,8 +160,6 @@ const TipoTramiteForm = (props) => {
             empresa: "",
             sede: "",
             dependencia: "",
-            workflow: "",
-            plantilla: "",
           });
         }, 1000);
       }}
@@ -202,7 +189,7 @@ const TipoTramiteForm = (props) => {
                       </div>
                       <div className="card-body">
                         <div className="row">
-                          <div className="col-md-6">
+                          {/* <div className="col-md-6">
                             <div className="form-group">
                               <label>
                                 {t(
@@ -256,8 +243,8 @@ const TipoTramiteForm = (props) => {
                                 <ErrorMessage name="tipocorrespondencia" />
                               </div>
                             </div>
-                          </div>
-                          <div className="col-md-6">
+                          </div> */}
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label>
                                 {t("app_tipoTramite_form_registrar_codigo")}{" "}
@@ -288,7 +275,7 @@ const TipoTramiteForm = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label>
                                 {t("app_tipoTramite_form_registrar_nombre")}{" "}
@@ -319,7 +306,7 @@ const TipoTramiteForm = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6">
+                          <div className="col-md-4">
                             <div className="form-group">
                               <label>
                                 {t(

@@ -118,12 +118,7 @@ const TipoTramiteForm = (props) => {
               name: values.nombre,
               description: values.descripcion,
               answerDays: values.d_maximos,
-              issue: values.asunto,
               status: tipoEstado(values.estado),
-              typeCorrespondence: tipoCorrespondencia(
-                values.tipocorrespondencia
-              ),
-              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
               users: usersdata.users,
               original: usersdata.original,
@@ -525,113 +520,6 @@ const TipoTramiteForm = (props) => {
                     t={props.t}
                     aux={StateChangeAlert}
                   />
-                </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_4")}
-                      </div>
-                      <div className="card-body">
-                        <div>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {t("app_tipoTramite_form_registrar_asunto")}
-                                </label>
-                                <textarea
-                                  name={"asunto"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.asunto}
-                                  className="form-control form-control-sm"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_5")}
-                      </div>
-                      <div className="card-body">
-                        <div>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {t(
-                                    "app_tipoTramite_form_registrar_plantilla"
-                                  )}
-                                </label>
-                                <select
-                                  name={"plantilla"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.plantilla}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>
-                                    --
-                                    {t(
-                                      "app_tipoTramite_form_registrar_select_plantilla"
-                                    )}
-                                    --
-                                  </option>
-                                  <option>Plantilla 1</option>
-                                  <option>Plantilla 2</option>
-                                  <option>Plantilla 3</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_6")}
-                      </div>
-                      <div className="card-body">
-                        <div>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {t("app_tipoTramite_form_registrar_workflow")}
-                                </label>
-                                <select
-                                  name={"workflow"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.workflow}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>
-                                    --{" "}
-                                    {t(
-                                      "app_tipoTramite_form_registrar_select_workflow"
-                                    )}{" "}
-                                    --
-                                  </option>
-                                  <option>Workflow1</option>
-                                  <option>Workflow2</option>
-                                  <option>Workflow3</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div className="card-footer">

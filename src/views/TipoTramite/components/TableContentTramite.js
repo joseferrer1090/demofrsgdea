@@ -66,11 +66,11 @@ class TableContentTramite extends Component {
   };
 
   accionesTramite = (cell, row) => {
-    const {t} = this.props;
+    const { t } = this.props;
     return (
       <div
         className="table-actionMenuTTramite"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "8%" }}
       >
         <button
           title={t("app_tipoTramite_administrar_table_acciones_btn_ver")}

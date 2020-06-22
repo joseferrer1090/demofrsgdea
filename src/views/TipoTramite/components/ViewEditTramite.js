@@ -77,7 +77,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       enableReinitialize={true}
       initialValues={{
         codigo: response.code,
-        tipocorrespondencia: response.typeCorrespondence,
         nombre: response.name,
         descripcion: response.description,
         d_maximos: response.answerDays,
@@ -166,9 +165,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
         }, 500);
       }}
       validationSchema={Yup.object().shape({
-        tipocorrespondencia: Yup.string()
-          .ensure()
-          .required(" Por favor seleccione el tipo de correspondencia."),
         codigo: Yup.string().required(" Por favor introduzca un código."),
         nombre: Yup.string().required(" Por favor introduzca un nombre."),
         descripcion: Yup.string().required(
@@ -209,7 +205,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                             <div className="card-body">
                               <form className="form">
                                 <div className="row">
-                                  <div className="col-md-6">
+                                  {/* <div className="col-md-6">
                                     <div className="form-group">
                                       <label>
                                         {t(
@@ -261,8 +257,8 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         />
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="col-md-6">
+                                  </div> */}
+                                  <div className="col-md-4">
                                     <div className="form-group">
                                       <label>
                                         {t("app_tipoTramite_actualizar_codigo")}{" "}
@@ -288,7 +284,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-md-6">
+                                  <div className="col-md-4">
                                     <div className="form-group">
                                       <label>
                                         {t("app_tipoTramite_actualizar_nombre")}{" "}
@@ -314,36 +310,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <label>
-                                        {t(
-                                          "app_tipoTramite_actualizar_descripcion"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <input
-                                        name={"descripcion"}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.descripcion}
-                                        type="text"
-                                        className={`form-control form-control-sm ${
-                                          errors.descripcion &&
-                                          touched.descripcion &&
-                                          "is-invalid"
-                                        }`}
-                                      />
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.descripcion &&
-                                        touched.descripcion ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name={"descripcion"} />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="col-md-12">
+                                  <div className="col-md-4">
                                     <div className="form-group">
                                       <label>
                                         {" "}
@@ -374,6 +341,35 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                       </div>
                                     </div>
                                   </div>
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <label>
+                                        {t(
+                                          "app_tipoTramite_actualizar_descripcion"
+                                        )}{" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </label>
+                                      <textarea
+                                        name={"descripcion"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.descripcion}
+                                        className={`form-control form-control-sm ${
+                                          errors.descripcion &&
+                                          touched.descripcion &&
+                                          "is-invalid"
+                                        }`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.descripcion &&
+                                        touched.descripcion ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"descripcion"} />
+                                      </div>
+                                    </div>
+                                  </div>
+
                                   <Col sm="12">
                                     <div className="form-group">
                                       <label>
@@ -523,12 +519,9 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <UserListEnabled
-                          t={t}
-                          // aux={aux}
-                        />
+                        <UserListEnabled t={t} />
                       </div>
-                      <div className="row">
+                      {/* <div className="row">
                         <div className="col-md-4">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
@@ -547,7 +540,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         className="form-control form-control-sm"
-                                        // placeholder="Asunto ya cargado"
                                       />
                                     </div>
                                   </div>
@@ -618,7 +610,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="card-footer">
                       <div className="float-right">

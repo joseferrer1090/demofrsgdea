@@ -74,7 +74,6 @@ class ModalDeleteTramite extends Component {
         this.setState({
           dataProcedure: data.typeProcedure,
         });
-        console.log(this.state.dataProcedure);
       })
       .catch((err) => console.log("Error", err));
   };

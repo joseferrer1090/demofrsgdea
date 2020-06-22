@@ -37,6 +37,7 @@
     "i18next": "^17.0.12",
     "i18next-browser-languagedetector": "^3.0.3",
     "js-beautify": "^1.10.3",
+    "js-cookie": "^2.2.1",
     "json2csv": "^4.5.2",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",

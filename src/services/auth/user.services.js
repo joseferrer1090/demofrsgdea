@@ -1,6 +1,7 @@
 import { autHeader } from "./../../helpers/authHeader";
 import axios from "axios";
 import qs from "qs";
+import Cookie from "js-cookie";
 
 export const userService = {
   login,
@@ -44,6 +45,7 @@ function logout() {
   localStorage.removeItem("user");
   sessionStorage.removeItem("auth_token");
   window.location.replace("/");
+  Cookie.remove("auth");
 }
 
 function handleResponse(response) {

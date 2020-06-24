@@ -7,12 +7,12 @@ class SelectCountry extends React.Component {
     dataCountry: [],
     t: this.props.t,
     auth: this.props.authorization,
-    statusValue: this.props.statusValue
+    statusValue: this.props.statusValue,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -20,16 +20,14 @@ class SelectCountry extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
   componentDidMount() {
     this.getData();
-    setTimeout(() => {
-      console.log(this.props.value);
-    }, 1000);
+    setTimeout(() => {}, 1000);
   }
 
   getData = () => {
@@ -37,18 +35,18 @@ class SelectCountry extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
+        Authorization: "Bearer " + this.state.auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataCountry: data
+          dataCountry: data,
         });
       });
   };
 
-  handleChange = value => {
+  handleChange = (value) => {
     this.props.onChange("conglomerate_country", value);
   };
 
@@ -85,6 +83,6 @@ class SelectCountry extends React.Component {
 }
 SelectCountry.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 export default SelectCountry;

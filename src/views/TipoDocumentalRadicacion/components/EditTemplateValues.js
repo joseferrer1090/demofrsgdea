@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { GET_METADATA_FOR_TYPE_DOCUMENTARY } from "./../../../services/EndPoints";
-import Inputs from "./../components/Forms/components/Inputs";
+import {
+  GET_METADATA_FOR_TYPE_DOCUMENTARY,
+  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
+} from "./../../../services/EndPoints";
+import ModalEditValues from "./ModalEditValuesTemplate";
 
 class EditTemplateValues extends Component {
   constructor(props) {
@@ -10,7 +13,32 @@ class EditTemplateValues extends Component {
       id: this.props.id,
       auth: this.props.auth,
       data: [],
+      dataComplete: this.props.dataComplete,
+      dataAux: [],
+      modaledit: false,
+      newArray: [],
+      template: {},
+      metadataBagID: [],
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.dataTemplate !== state.template) {
+      return {
+        template: props.dataTemplate,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dataTemplate !== prevProps.dataTemplate) {
+      this.setState({
+        template: this.props.dataTemplate,
+      });
+      this.getDataMetadataTemplate(this.state.template.id);
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -29,16 +57,74 @@ class EditTemplateValues extends Component {
       .then((data) => {
         this.setState({
           data: data,
+          dataAux: data.map((aux) => aux.metadata.elementConfig),
+          newArray: data.map((aux, id) => {
+            return { id: aux.id, dataInputs: aux.metadata.elementConfig };
+          }),
         });
-        console.log(this.state.data);
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
       });
   };
 
+  getDataMetadataTemplate = (id) => {
+    const auth = this.state.auth;
+    fetch(`${TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          metadataBagID: data.map((aux, id) => aux.metadataBag.id),
+        });
+      })
+      .catch((err) => {
+        console.log(`Error => ${err}`);
+      });
+  };
+
+  editValueTemplate = (id) => {
+    return (
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title="Editar valor de la plantilla"
+          onClick={() => {
+            this.OpenModalEdit(id);
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
+    );
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  OpenModalEdit(id, type, idmetadata) {
+    this.ModalEditRef.toggle(id, type, idmetadata);
+  }
+
   render() {
-    //console.log(this.props);
+    const aux = this.state.data.map((aux, id) => {
+      return { id: aux.id, metadata: aux.metadata };
+    });
+    const ids = this.state.metadataBagID.map((aux, id) => {
+      return { idmetadata: aux };
+    });
+
+    const array = aux.map((obj, id) => {
+      return { ...obj, ...ids[id] };
+    });
+
     return (
       <div className="animated fadeIn">
         {" "}
@@ -48,20 +134,48 @@ class EditTemplateValues extends Component {
             <i className="fa fa-wpforms" /> Valores de la plantilla asociada
           </div>
           <div className="card-body">
-            {this.state.data ? (
-              this.state.data.map((aux, id) => (
-                <Inputs
-                  key={id}
-                  value={aux.value}
-                  formType={aux.metadata.elementConfig.type}
-                  elementConfig={aux.metadata.elementConfig}
-                />
-              ))
-            ) : (
-              <p className="text-danger">No hay datos para actualizar</p>
-            )}
+            <div className="table-responseive">
+              <table className="table table-bordered table-sm table-hover">
+                <thead className="thead-light">
+                  <tr className="text-center">
+                    <th scope="col">Nombre del metadato</th>
+                    <th scope="col">Tipo metadato</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {array.map((aux, id) => {
+                    return (
+                      <tr className="text-center" key={id}>
+                        <td>{aux.metadata.elementConfig.labeltext}</td>
+                        <td>{aux.metadata.type}</td>
+                        <td>
+                          <button
+                            className="btn btn-secondary btn-sm"
+                            onClick={() =>
+                              this.OpenModalEdit(
+                                aux.id,
+                                aux.metadata.type,
+                                aux.idmetadata
+                              )
+                            }
+                          >
+                            <i className="fa fa-pencil" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+        <ModalEditValues
+          modaledit={this.state.modaledit}
+          ref={(medv) => (this.ModalEditRef = medv)}
+          authorization={this.state.auth}
+        />
       </div>
     );
   }

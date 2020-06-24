@@ -86,6 +86,7 @@ class ViewComponent extends Component {
     return moment(data).format("DD-MM-YYYY, h:mm:ss a");
   };
   render() {
+    console.log(this.state.id);
     const aux = this.state.data;
     const { t } = this.state;
     return (

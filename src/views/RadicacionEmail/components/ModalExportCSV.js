@@ -15,14 +15,14 @@ class ModalExportCSV extends Component {
       modal: this.props.modalexport,
       dataExport: [],
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -30,14 +30,14 @@ class ModalExportCSV extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     this.getDataExportCSV();
   };
@@ -49,47 +49,45 @@ class ModalExportCSV extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response =>
-        response.json().then(data => {
+      .then((response) =>
+        response.json().then((data) => {
           this.setState({
-            dataExport: data
+            dataExport: data,
           });
         })
       )
-      .catch(error => console.log(" ", error));
+      .catch((error) => console.log(" ", error));
   };
   render() {
     const data = this.state.dataExport;
-    console.log(data);
     const fields = [
       {
         label: "protocol",
-        value: "protocol"
+        value: "protocol",
       },
       {
         label: "host",
-        value: "host"
+        value: "host",
       },
       {
         label: "port",
-        value: "port"
+        value: "port",
       },
       {
         label: "email",
-        value: "email"
+        value: "email",
       },
       {
         label: "status",
-        value: "status"
-      }
+        value: "status",
+      },
     ];
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
-    // console.log(csv);
     const { t } = this.props;
     return (
       <Fragment>
@@ -112,7 +110,7 @@ class ModalExportCSV extends Component {
               </thead>
               <tbody className="">
                 {data.map((aux, id) => {
-                  const statusRadicacionEmail = data => {
+                  const statusRadicacionEmail = (data) => {
                     let status;
                     if (data === true) {
                       status = (
@@ -138,7 +136,7 @@ class ModalExportCSV extends Component {
                       <td>{aux.port}</td>
                       <td>{aux.email}</td>
                       <td>{statusRadicacionEmail(aux.status)}</td>
-                    </tr>
+                    </tr>,
                   ];
                 })}
               </tbody>

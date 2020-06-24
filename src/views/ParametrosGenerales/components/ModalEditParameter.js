@@ -127,7 +127,6 @@ class ModalEditParameter extends Component {
       id: id,
       modal: !this.state.modal,
     });
-    //console.log(this.state.dataResult);
     this.getDataParametar(id);
   };
 
@@ -162,10 +161,6 @@ class ModalEditParameter extends Component {
         inputInfo: this.state.dataResult[key],
       });
     }
-    console.log(aux);
-    // console.log(
-    //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
-    // );
     const { t } = this.state;
     return (
       <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
@@ -236,7 +231,6 @@ class ModalEditParameter extends Component {
                       });
                     }, 3000);
                   }
-                  console.log(response.json());
                 })
                 .catch((error) => {
                   console.log(`${error}`);
@@ -244,9 +238,6 @@ class ModalEditParameter extends Component {
                     spinnerActualizar: false,
                   });
                 });
-              console.log(values);
-              //alert(JSON.stringify({ values }, null, 2));
-              //console.log(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
             }, 10);
           }}

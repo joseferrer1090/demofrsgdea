@@ -107,7 +107,6 @@ class ModalUpdateMetadata extends Component {
           formula: data.metadata.formula,
           spinner: false,
         });
-        console.log(data.metadata);
       })
       .catch((err) => {
         console.log(`${err.message}`);

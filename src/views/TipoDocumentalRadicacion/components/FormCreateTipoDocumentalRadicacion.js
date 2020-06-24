@@ -2,8 +2,7 @@ import React from "react";
 import TipoDocumentalRadicacion from "./Forms/TipoDocumentalRadicacion";
 import PropTypes from "prop-types";
 
-const FormCreateTipoTramite = props => {
-  console.log(props.authorization);
+const FormCreateTipoTramite = (props) => {
   return (
     <div className="animated fadeIn">
       <div className="row">
@@ -14,7 +13,7 @@ const FormCreateTipoTramite = props => {
 };
 
 FormCreateTipoTramite.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default FormCreateTipoTramite;

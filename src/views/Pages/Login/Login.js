@@ -9,7 +9,7 @@ import {
   CardGroup,
   Container,
   Form,
-  Alert
+  Alert,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -31,13 +31,13 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       visible: true,
-      alertType: ""
+      alertType: "",
     };
   }
 
   onDismiss = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
   };
 
@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
       loginError,
       isLogginIn,
       attempts,
-      errorMessage
+      errorMessage,
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -193,12 +193,12 @@ class LoginForm extends React.Component {
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     username: Yup.string().required("usuario no puede ir en blanco"),
-    password: Yup.string().required("constraseña invalida")
+    password: Yup.string().required("constraseña invalida"),
   }),
   mapPropsToValues: () => ({
     username: "",
     password: "",
-    grant_type: "password"
+    grant_type: "password",
   }),
   handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     setTimeout(() => {
@@ -211,21 +211,21 @@ const formikEnhancer = withFormik({
       setSubmitting(true);
       resetForm();
     }, 1500);
-  }
+  },
 })(LoginForm);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loginError: state.authenticationReducer.loginError,
     isLogginIn: state.authenticationReducer.isLogginIn,
     isAuthenticated: state.authenticationReducer.isAuthenticated,
     attempts: state.authenticationReducer.attempts,
-    errorMessage: state.authenticationReducer.message
+    errorMessage: state.authenticationReducer.message,
   };
 };
 
 const actionCreators = {
-  login: userActions.login
+  login: userActions.login,
 };
 
 const Login = connect(mapStateToProps, actionCreators)(formikEnhancer);

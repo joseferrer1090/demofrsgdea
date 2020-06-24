@@ -214,27 +214,6 @@ class ModalViewTramite extends Component {
                     <div className="col-md-4">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>{t("app_tipoTramite_ver_estado")} </dt>
-                          <dd>
-                            {" "}
-                            {statusTipoTramite(
-                              this.state.dataTipoTramite.status
-                            )}{" "}
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <dl className="param">
-                          <dt>{t("app_tipoTramite_ver_asunto")} </dt>
-                          <dd> {this.state.dataTipoTramite.issue}</dd>
-                        </dl>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <dl className="param">
                           <dt>{t("app_tipoTramite_ver_fecha_creacion")} </dt>
                           <dd>
                             {" "}

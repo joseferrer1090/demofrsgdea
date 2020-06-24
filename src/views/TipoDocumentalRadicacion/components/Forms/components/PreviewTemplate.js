@@ -77,39 +77,42 @@ class PreviewTemplate extends Component {
           </CardHeader>
           <CardBody>
             <Card body>
-              {this.state.template.length ? (
-                this.state.template.map((aux, id) => (
-                  <Inputs
-                    key={id}
-                    id={aux.id}
-                    value={aux.value}
-                    formType={aux.metadata.elementConfig.type}
-                    elementConfig={aux.metadata.elementConfig}
-                    onChange={(event) => {
-                      this.setState(
-                        {
-                          values: {
-                            ...this.state.values,
-                            [id]: {
-                              id: aux.idMetadata,
-                              defaultValue: event.target.value,
+              <div className="row">
+                {this.state.template.length ? (
+                  this.state.template.map((aux, id) => (
+                    <Inputs
+                      key={id}
+                      id={aux.id}
+                      value={aux.value}
+                      label={aux.metadata.elementConfig.labeltext}
+                      formType={aux.metadata.elementConfig.type}
+                      elementConfig={aux.metadata.elementConfig}
+                      onChange={(event) => {
+                        this.setState(
+                          {
+                            values: {
+                              ...this.state.values,
+                              [id]: {
+                                id: aux.idMetadata,
+                                defaultValue: event.target.value,
+                              },
                             },
                           },
-                        },
-                        () => this.props.onDataOnChange(this.state.values)
-                      );
-                    }}
-                  />
-                ))
-              ) : (
-                <p className="text-center">
-                  {" "}
-                  <strong>
+                          () => this.props.onDataOnChange(this.state.values)
+                        );
+                      }}
+                    />
+                  ))
+                ) : (
+                  <p className="text-center">
                     {" "}
-                    No hay dato verificar o seleccionar otra plantilla
-                  </strong>
-                </p>
-              )}
+                    <strong>
+                      {" "}
+                      No hay dato verificar o seleccionar otra plantilla
+                    </strong>
+                  </p>
+                )}
+              </div>
             </Card>
           </CardBody>
         </Card>

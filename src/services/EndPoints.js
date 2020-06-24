@@ -527,6 +527,9 @@ export const TYPEDOCUMENTARY_POST = `${config.IP}:${config.PORT}/api/sgdea/servi
 /* PUT */
 export const TYPEDOCUMENTARY_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
 
+/* PUT */
+export const TYPEDOCUMENTARY_UPDATE_CHANGE_TEMPLATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/change/template`;
+
 /* DELETE  params => id */
 export const TYPEDOCUMENTARY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
@@ -756,8 +759,8 @@ export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea
 
 //--------------------------------------------- TYPE_DOCUMENTARIES_METADATA_BAG  -----------------------------------------------------//
 
-/* GET params => idtemplate */
-export const TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/get/template/`;
+/* PUT params => idtemplate */
+export const TYPE_DOCUMENTARIES_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag`;
 
 /* GET params => idtemplate */
 export const TYPE_DOCUMENTARIES_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/`;

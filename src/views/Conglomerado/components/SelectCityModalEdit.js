@@ -7,19 +7,19 @@ const FieldCity = ({
   ...props
 }) => {
   const [dataCity, setDataCity] = useState([]);
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${CITIES_BY_DEPARTMENT}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setDataCity(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setDataCity([]);
       });
@@ -44,7 +44,7 @@ const FieldCity = ({
     // console.log(`country | old = ${PREValueCountry} new = ${props.countryId}`);
   }, [props.countryId, props.departmentId, props.cityId]);
 
-  const usePrevious = value => {
+  const usePrevious = (value) => {
     let valueRef;
     const ref = useRef();
     useEffect(() => {
@@ -66,11 +66,11 @@ const FieldCity = ({
     <div>
       {" "}
       <select
-        onChange={e => setFieldValue("conglomerate_city", e.target.value)}
-        onBlur={e => setFieldTouched("conglomerate_city", true)}
-        className={`form-control form-control-sm ${errors.conglomerate_city &&
-          touched.conglomerate_city &&
-          "is-invalid"}`}
+        onChange={(e) => setFieldValue("conglomerate_city", e.target.value)}
+        onBlur={(e) => setFieldTouched("conglomerate_city", true)}
+        className={`form-control form-control-sm ${
+          errors.conglomerate_city && touched.conglomerate_city && "is-invalid"
+        }`}
         value={values.conglomerate_city}
       >
         <option value={""}>

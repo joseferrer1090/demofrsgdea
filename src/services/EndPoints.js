@@ -773,3 +773,21 @@ export const GET_METADATA_FOR_TEMPLATE = `${config.IP}:${config.PORT}/api/sgdea/
 
 /* GET params => idtypedocumentary */
 export const GET_METADATA_FOR_TYPE_DOCUMENTARY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentary/metadata/bag/get/type/documentary/`;
+
+//--------------------------------------------- FILING STATUS CORRESPONDENCE  -----------------------------------------------------//
+
+/* GET  */
+export const FILING_STATUS_CORRESPONDENCE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status`;
+
+/* GET  params => id   */
+export const FILING_STATUS_CORRESPONDENCE_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status/1`;
+
+/* PUT */
+export const FILING_STATUS_CORRESPONDENCE_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status`;
+
+/* GET  */
+export const FILING_STATUS_CORRESPONDENCE_PAGINATION = () => {
+  const page = 0;
+  const size = 1;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status/pagination?page=${page}&size=${size}`;
+};

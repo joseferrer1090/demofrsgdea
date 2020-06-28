@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
+import { connect } from "react-redux";
+import { obtenerEstadosCorrespondencia } from "./../../../actions/statusCorrespondenceActions";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { bindActionCreators } from "redux";
 
 class TableStatusCorrespondence extends Component {
   constructor(props) {
@@ -8,7 +12,17 @@ class TableStatusCorrespondence extends Component {
       auth: this.props.authorization,
     };
   }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    this.props.sendTheAlert();
+  };
+
   render() {
+    console.log(this.props.estados.estados);
     return (
       <div>
         <p>probnado</p>
@@ -21,4 +35,18 @@ TableStatusCorrespondence.propTypes = {
   authorization: PropTypes.string.isRequired,
 };
 
-export default TableStatusCorrespondence;
+function mapState(state) {
+  return {
+    estados: state.statusCorrespondenceReducer,
+  };
+}
+
+function mapDispatch(dispatch) {
+  return {
+    sendTheAlert: () => {
+      dispatch(obtenerEstadosCorrespondencia());
+    },
+  };
+}
+
+export default connect(mapState, mapDispatch)(TableStatusCorrespondence);

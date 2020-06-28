@@ -22,10 +22,27 @@ class TableStatusCorrespondence extends Component {
   };
 
   render() {
-    console.log(this.props.estados.estados);
+    console.log(this.props.estados);
     return (
       <div>
-        <p>probnado</p>
+        <BootstrapTable data={this.props.estados}>
+          <TableHeaderColumn dataField={"id"} isKey dataAlign={"center"}>
+            ID
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"name"} dataAlign={"center"}>
+            Estado
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"description"} dataAlign={"center"}>
+            Descripcion
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"createdAt"} dataAlign={"center"}>
+            Fecha de creacion
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"updatedAt"} dataAlign={"center"}>
+            Fecha de modicacion
+          </TableHeaderColumn>
+          <TableHeaderColumn>Acciones</TableHeaderColumn>
+        </BootstrapTable>
       </div>
     );
   }
@@ -37,7 +54,7 @@ TableStatusCorrespondence.propTypes = {
 
 function mapState(state) {
   return {
-    estados: state.statusCorrespondenceReducer,
+    estados: state.statusCorrespondenceReducer.estados,
   };
 }
 

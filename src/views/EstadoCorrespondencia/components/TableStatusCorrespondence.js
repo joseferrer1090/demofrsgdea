@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import PropTypes, { func } from "prop-types";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { obtenerEstadosCorrespondencia } from "./../../../actions/statusCorrespondenceActions";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { bindActionCreators } from "redux";
 
 class TableStatusCorrespondence extends Component {
   constructor(props) {
@@ -25,7 +24,15 @@ class TableStatusCorrespondence extends Component {
     console.log(this.props.estados);
     return (
       <div>
-        <BootstrapTable data={this.props.estados}>
+        <BootstrapTable
+          data={this.props.estados}
+          hover
+          condensed
+          striped
+          search
+          searchPlaceholder="Buscar"
+          pagination
+        >
           <TableHeaderColumn dataField={"id"} isKey dataAlign={"center"}>
             ID
           </TableHeaderColumn>
@@ -41,7 +48,7 @@ class TableStatusCorrespondence extends Component {
           <TableHeaderColumn dataField={"updatedAt"} dataAlign={"center"}>
             Fecha de modicacion
           </TableHeaderColumn>
-          <TableHeaderColumn>Acciones</TableHeaderColumn>
+          <TableHeaderColumn dataAlign={"center"}>Acciones</TableHeaderColumn>
         </BootstrapTable>
       </div>
     );

@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
-import { connect } from "react-redux";
 import Formik from "formik";
 import * as Yup from "yup";
+import { connect } from "react-redux";
+import { obtenerEstadoCorrespondenciaID } from "./../../../actions/statusCorrespondenceActions";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
 class ModalEditStatus extends Component {
   constructor(props) {
@@ -18,9 +19,16 @@ class ModalEditStatus extends Component {
       modal: !this.state.modal,
       id: id,
     });
+    this.getDate(id);
+  };
+
+  getDate = (id) => {
+    this.props.getDataEdit(id);
   };
 
   render() {
+    const estado = this.props.estadoEdit;
+    console.log(estado);
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>Editar valores del estado</ModalHeader>
@@ -53,10 +61,18 @@ class ModalEditStatus extends Component {
 ModalEditStatus.propTypes = {};
 
 function mapState(state) {
-  return { state };
+  return {
+    estadoEdit: state.statusCorrespondenceReducer.estado,
+  };
 }
 
-function mapDispatch(dispatch) {}
+function mapDispatch(dispatch) {
+  return {
+    getDataEdit: (id) => {
+      dispatch(obtenerEstadoCorrespondenciaID(id));
+    },
+  };
+}
 
 export default connect(mapState, mapDispatch, null, { forwardRef: true })(
   ModalEditStatus

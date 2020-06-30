@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { obtenerEstadosCorrespondencia } from "./../../../actions/statusCorrespondenceActions";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewStatus";
+import ModalEdit from "./ModalEditStatus";
 import moment from "moment";
 
 class TableStatusCorrespondence extends Component {
@@ -12,6 +13,7 @@ class TableStatusCorrespondence extends Component {
     this.state = {
       auth: this.props.authorization,
       modalview: false,
+      modaledit: false,
     };
   }
 
@@ -41,6 +43,9 @@ class TableStatusCorrespondence extends Component {
           type="button"
           className="btn btn-secondary btn-sm"
           title={"Editar valores del estado"}
+          onClick={() => {
+            this.openModalEdit(row.id);
+          }}
         >
           {" "}
           <i className="fa fa-pencil" />{" "}
@@ -51,6 +56,10 @@ class TableStatusCorrespondence extends Component {
 
   openModalView(id) {
     this.ModalView.toogle(id);
+  }
+
+  openModalEdit(id) {
+    this.ModalEdit.toggle(id);
   }
 
   FechaCreacion(data) {
@@ -111,6 +120,10 @@ class TableStatusCorrespondence extends Component {
         <ModalView
           modalview={this.state.modalview}
           ref={(mv) => (this.ModalView = mv)}
+        />
+        <ModalEdit
+          modaledit={this.state.modaledit}
+          ref={(me) => (this.ModalEdit = me)}
         />
       </div>
     );

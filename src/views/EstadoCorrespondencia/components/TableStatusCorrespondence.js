@@ -3,12 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { obtenerEstadosCorrespondencia } from "./../../../actions/statusCorrespondenceActions";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalView from "./ModalViewStatus";
+import moment from "moment";
 
 class TableStatusCorrespondence extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: this.props.authorization,
+      modalview: false,
     };
   }
 
@@ -20,8 +23,48 @@ class TableStatusCorrespondence extends Component {
     this.props.sendTheAlert();
   };
 
+  accionesEstadosCorrespondencia(cell, row) {
+    return (
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title="Ver estado"
+          onClick={() => {
+            this.openModalView(row.id);
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title={"Editar valores del estado"}
+        >
+          {" "}
+          <i className="fa fa-pencil" />{" "}
+        </button>
+      </div>
+    );
+  }
+
+  openModalView(id) {
+    this.ModalView.toogle(id);
+  }
+
+  FechaCreacion(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
+  }
+  FechaModificacion(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
+  }
+
   render() {
-    console.log(this.props.estados);
     return (
       <div>
         <BootstrapTable
@@ -42,14 +85,33 @@ class TableStatusCorrespondence extends Component {
           <TableHeaderColumn dataField={"description"} dataAlign={"center"}>
             Descripcion
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"createdAt"} dataAlign={"center"}>
+          <TableHeaderColumn
+            dataField={"createdAt"}
+            dataAlign={"center"}
+            dataFormat={(cell, row) => this.FechaCreacion(cell, row)}
+          >
             Fecha de creacion
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"updatedAt"} dataAlign={"center"}>
+          <TableHeaderColumn
+            dataField={"updatedAt"}
+            dataAlign={"center"}
+            dataFormat={(cell, row) => this.FechaModificacion(cell, row)}
+          >
             Fecha de modicacion
           </TableHeaderColumn>
-          <TableHeaderColumn dataAlign={"center"}>Acciones</TableHeaderColumn>
+          <TableHeaderColumn
+            dataAlign={"center"}
+            dataFormat={(cell, row) =>
+              this.accionesEstadosCorrespondencia(cell, row)
+            }
+          >
+            Acciones
+          </TableHeaderColumn>
         </BootstrapTable>
+        <ModalView
+          modalview={this.state.modalview}
+          ref={(mv) => (this.ModalView = mv)}
+        />
       </div>
     );
   }

@@ -780,7 +780,7 @@ export const GET_METADATA_FOR_TYPE_DOCUMENTARY = `${config.IP}:${config.PORT}/ap
 export const FILING_STATUS_CORRESPONDENCE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status`;
 
 /* GET  params => id   */
-export const FILING_STATUS_CORRESPONDENCE_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status/1`;
+export const FILING_STATUS_CORRESPONDENCE_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status/`;
 
 /* PUT */
 export const FILING_STATUS_CORRESPONDENCE_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/external/correspondence/received/filing/status`;

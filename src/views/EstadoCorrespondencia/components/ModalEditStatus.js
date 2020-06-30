@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
-import { obtenerEstadoCorrespondenciaID } from "./../../../actions/statusCorrespondenceActions";
+import {
+  obtenerEstadoCorrespondenciaID,
+  editarEstadoCorrespondencia,
+} from "./../../../actions/statusCorrespondenceActions";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
 class ModalEditStatus extends Component {
@@ -42,20 +45,19 @@ class ModalEditStatus extends Component {
             initialValues={aux}
             onSubmit={(values, { setSubmiting }) => {
               setTimeout(() => {
-                alert(
-                  JSON.stringify({
-                    id: aux.id,
-                    name: values.name,
-                    description: values.description,
-                  })
-                );
+                this.props.editStatus(values);
+                // alert(
+                //   JSON.stringify({
+                //     id: aux.id,
+                //     name: values.name,
+                //     description: values.description,
+                //   })
+                // );
               }, 1200);
             }}
             validationSchema={Yup.object().shape({
               name: Yup.string().required(" Nombre no puede ir vacio"),
-              description: Yup.string().required(
-                "Descripcion no puede ir vacia"
-              ),
+              description: Yup.string(),
             })}
           >
             {(props) => {
@@ -152,6 +154,9 @@ function mapDispatch(dispatch) {
   return {
     getDataEdit: (id) => {
       dispatch(obtenerEstadoCorrespondenciaID(id));
+    },
+    editStatus: (estado) => {
+      dispatch(editarEstadoCorrespondencia(estado));
     },
   };
 }

@@ -102,7 +102,7 @@ export function editarEstadoCorrespondencia(estado) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + auth,
       },
-      body: JSON.stringify({ estado }),
+      body: JSON.stringify(estado),
     })
       .then((resp) => {
         if (resp.ok) {

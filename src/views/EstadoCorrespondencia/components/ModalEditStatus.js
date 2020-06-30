@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import Formik from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import { obtenerEstadoCorrespondenciaID } from "./../../../actions/statusCorrespondenceActions";
@@ -28,32 +28,114 @@ class ModalEditStatus extends Component {
 
   render() {
     const estado = this.props.estadoEdit;
-    console.log(estado);
+    const aux = {
+      id: estado.id,
+      name: estado.name,
+      description: estado.description,
+    };
     return (
-      <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader>Editar valores del estado</ModalHeader>
-        <ModalBody>
-          <p>Probando apenas</p>
-        </ModalBody>
-        <ModalFooter>
-          <button type="button" className="btn btn-secondary btn-sm">
-            {" "}
-            <i className="fa fa-pencil" /> Editar valores del estado
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary btn-sm"
-            onClick={() => {
-              this.setState({
-                modal: false,
-              });
+      <Fragment>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader>Editar valores del estado</ModalHeader>
+          <Formik
+            enableReinitialize={true}
+            initialValues={aux}
+            onSubmit={(values, { setSubmiting }) => {
+              setTimeout(() => {
+                alert(
+                  JSON.stringify({
+                    id: aux.id,
+                    name: values.name,
+                    description: values.description,
+                  })
+                );
+              }, 1200);
             }}
+            validationSchema={Yup.object().shape({
+              name: Yup.string().required(" Nombre no puede ir vacio"),
+              description: Yup.string().required(
+                "Descripcion no puede ir vacia"
+              ),
+            })}
           >
-            {" "}
-            <i className="fa fa-times" /> Cancelar
-          </button>
-        </ModalFooter>
-      </Modal>
+            {(props) => {
+              const {
+                values,
+                touched,
+                errors,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                setFieldTouched,
+                isSubmitting,
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                    <form>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>Nombre</label>
+                            <input
+                              type="text"
+                              name={"name"}
+                              className="form-control form-control-sm"
+                              value={values.name}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>Descripcion</label>
+                            <textarea
+                              name="description"
+                              className="form-control form-control-sm"
+                              value={values.description}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            ></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-pencil" /> Editar valores del estado
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({
+                          modal: false,
+                        });
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" /> Cancelar
+                    </button>
+                  </ModalFooter>
+                </Fragment>
+              );
+            }}
+          </Formik>
+        </Modal>
+      </Fragment>
     );
   }
 }

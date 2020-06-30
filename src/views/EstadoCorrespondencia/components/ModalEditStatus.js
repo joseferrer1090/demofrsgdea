@@ -39,20 +39,13 @@ class ModalEditStatus extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar valores del estado</ModalHeader>
+          <ModalHeader>Editar valores {aux.name}</ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={aux}
             onSubmit={(values, { setSubmiting }) => {
               setTimeout(() => {
                 this.props.editStatus(values);
-                // alert(
-                //   JSON.stringify({
-                //     id: aux.id,
-                //     name: values.name,
-                //     description: values.description,
-                //   })
-                // );
               }, 1200);
             }}
             validationSchema={Yup.object().shape({

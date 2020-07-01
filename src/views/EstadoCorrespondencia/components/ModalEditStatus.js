@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { connect } from "react-redux";
 import {
@@ -8,6 +8,7 @@ import {
   editarEstadoCorrespondencia,
 } from "./../../../actions/statusCorrespondenceActions";
 import { Modal, ModalBody, ModalHeader, ModalFooter, Alert } from "reactstrap";
+import NotificationContainer from "./../../../helpers/notificationContainer";
 
 class ModalEditStatus extends Component {
   constructor(props) {
@@ -54,7 +55,6 @@ class ModalEditStatus extends Component {
                   },
                   () => this.props.updateTable()
                 );
-                this.props.closeNotification();
               }, 2000);
             }}
             validationSchema={Yup.object().shape({
@@ -77,14 +77,15 @@ class ModalEditStatus extends Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="success" isOpen={this.props.alertSuccess}>
+                    {/* <Alert color="success" isOpen={this.props.alertSuccess}>
                       <i className="fa fa-check" /> Se realizo el cambio del
                       estado.
                     </Alert>
                     <Alert color="danger" isOpen={this.props.alertError}>
                       <i className="fa fa-exclamation-triangle" /> Se genero un
                       error al actualizar del estado.
-                    </Alert>
+                    </Alert> */}
+                    <NotificationContainer />
                     <form>
                       <div className="row">
                         <div className="col-md-12">
@@ -98,6 +99,12 @@ class ModalEditStatus extends Component {
                               onChange={handleChange}
                               onBlur={handleBlur}
                             />
+                            <div className="" style={{ color: "#D54B4B" }}>
+                              {errors.name && touched.name ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="name" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -169,9 +176,6 @@ function mapDispatch(dispatch) {
     },
     editStatus: (estado) => {
       dispatch(editarEstadoCorrespondencia(estado));
-    },
-    closeNotification: (data) => {
-      return !data;
     },
   };
 }

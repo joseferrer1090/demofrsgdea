@@ -252,7 +252,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                 {users ? (
                   <TableModal data={users} t={this.props.t} />
                 ) : (
-                  <p>No hay usuarios asociados</p>
+                  <p>
+                    {t(
+                      "app_documentalRadicacion_editar_plantilla_table_no_data"
+                    )}
+                  </p>
                 )}
               </div>
             </div>

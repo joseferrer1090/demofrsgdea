@@ -137,6 +137,10 @@ const DeleteMetadato = React.lazy(() =>
   import("./views/MetaDatos/components/EliminarMetadato")
 );
 
+const EstadoCorrespondencia = React.lazy(() =>
+  import("./views/EstadoCorrespondencia")
+);
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -417,6 +421,12 @@ const routes = [
     exact: true,
     name: "Configuracion / Metadatos / Eliminar metadato",
     component: DeleteMetadato,
+  },
+  {
+    path: "/configuracion/estadocorrespondencia",
+    exact: true,
+    name: "Configuracion / Estado de la correspondencia",
+    component: EstadoCorrespondencia,
   },
 ];
 

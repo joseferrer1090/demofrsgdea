@@ -15,6 +15,8 @@ const initialState = {
   estado: {},
   error: null,
   loading: false,
+  notification: false,
+  notificationerror: false,
 };
 
 export default function (state = initialState, action) {
@@ -68,13 +70,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         error: null,
-        estado: action.payload,
+        notification: true,
       };
     case OBTENER_STATUS_CORRESPONDENCIA_EDITAR_ERROR:
       return {
         ...state,
         error: true,
         loading: false,
+        notificationerror: true,
       };
 
     default:

@@ -7,7 +7,7 @@ import {
   obtenerEstadoCorrespondenciaID,
   editarEstadoCorrespondencia,
 } from "./../../../actions/statusCorrespondenceActions";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
+import { Modal, ModalBody, ModalHeader, ModalFooter, Alert } from "reactstrap";
 
 class ModalEditStatus extends Component {
   constructor(props) {
@@ -140,6 +140,8 @@ ModalEditStatus.propTypes = {};
 function mapState(state) {
   return {
     estadoEdit: state.statusCorrespondenceReducer.estado,
+    alertError: state.statusCorrespondenceReducer.notificacionerror,
+    alertSuccess: state.statusCorrespondenceReducer.notificacion,
   };
 }
 

@@ -5,8 +5,8 @@ import {
   OBTENER_STATUS_CORRESPONDENCIA_VER,
   OBTENER_STATUS_CORRESPONDENCIA_VER_EXITO,
   OBTENER_STATUS_CORRESPONDENCIA_VER_ERROR,
-  OBTENER_STATUS_CORRESPONDENCIA_EDITAR_EXITO,
   OBTENER_STATUS_CORRESPONDENCIA_EDITAR_ERROR,
+  OBTNER_STATUS_CORRESPONDENCIA_EDITAR_EXITO,
 } from "./../types/index";
 
 import {
@@ -107,16 +107,28 @@ export function editarEstadoCorrespondencia(estado) {
       .then((resp) => {
         if (resp.ok) {
           console.log(resp);
+          dispatch(estadoEditarExito());
         } else if (resp.status === 400) {
           console.log("Verificar el object que se envia", resp);
+          dispatch(estadoEditarError());
         } else if (resp.status === 500) {
           console.log("Error no se puede modificar el estado", resp);
+          dispatch(estadoEditarError());
         }
       })
       .catch((err) => {
         console.log(`Error => ${err}`);
+        dispatch(estadoEditarError());
       });
   };
 }
+
+const estadoEditarError = () => ({
+  type: OBTENER_STATUS_CORRESPONDENCIA_EDITAR_ERROR,
+});
+
+const estadoEditarExito = () => ({
+  type: OBTNER_STATUS_CORRESPONDENCIA_EDITAR_EXITO,
+});
 
 // FIN

@@ -2681,6 +2681,30 @@
     "app_metadatos_remover_metadatos_moda_eliminar_btn_cerrar": "Cancel",
     "app_metadatos_remover_metadatos_moda_eliminar_alert_200": "Metadata was successfully removed.",
     "app_metadatos_remover_metadatos_moda_eliminar_alert_400": "Error, the name is not valid to remove the metadata.",
-    "app_metadatos_remover_metadatos_moda_eliminar_alert_500": "Error, the metadata is associated."
+    "app_metadatos_remover_metadatos_moda_eliminar_alert_500": "Error, the metadata is associated.",
+
+    "app_filing_status_table_titulo": "States of correspondence",
+    "app_filing_status_table_id": "ID",
+    "app_filing_status_table_estado": "Status",
+    "app_filing_status_table_descripcion": "Description",
+    "app_filing_status_table_fecha_creacion": "Creation date",
+    "app_filing_status_table_fecha_modificacion": "Modification date",
+    "app_filing_status_table_acciones": "Actions",
+    "app_filing_status_table_acciones_btn_ver": "See status",
+    "app_filing_status_table_acciones_btn_modificar": "Edit status values",
+    "app_filing_status_table_acciones_placeholder": "Search",
+
+    "app_filing_status_modal_ver_titulo": "Status",
+    "app_filing_status_modal_ver_nombre": "Name",
+    "app_filing_status_modal_ver_fecha_creacion": "Creation date",
+    "app_filing_status_modal_ver_fecha_modificacion": "Modification date",
+    "app_filing_status_modal_ver_descripcion": "Description",
+    "app_filing_status_modal_ver_btn_cerrar": "Close",
+
+    "app_filing_status_modal_editar_titulo": "Edit values",
+    "app_filing_status_modal_editar_nombre": "Name",
+    "app_filing_status_modal_editar_descripcion": "Description",
+    "app_filing_status_modal_editar_btn_editar": "Edit status values",
+    "app_filing_status_modal_editar_btn_cancelar": "Cancel"
   }
 }

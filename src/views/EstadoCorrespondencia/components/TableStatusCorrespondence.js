@@ -14,6 +14,7 @@ class TableStatusCorrespondence extends Component {
       auth: this.props.authorization,
       modalview: false,
       modaledit: false,
+      t: this.props.t,
     };
   }
 
@@ -74,6 +75,7 @@ class TableStatusCorrespondence extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div>
         <BootstrapTable
@@ -82,31 +84,31 @@ class TableStatusCorrespondence extends Component {
           condensed
           striped
           search
-          searchPlaceholder="Buscar"
+          searchPlaceholder={t("app_filing_status_table_acciones_placeholder")}
           pagination
         >
           <TableHeaderColumn dataField={"id"} isKey dataAlign={"center"}>
-            ID
+            {t("app_filing_status_table_id")}
           </TableHeaderColumn>
           <TableHeaderColumn dataField={"name"} dataAlign={"center"}>
-            Estado
+            {t("app_filing_status_table_estado")}
           </TableHeaderColumn>
           <TableHeaderColumn dataField={"description"} dataAlign={"center"}>
-            Descripcion
+            {t("app_filing_status_table_descripcion")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField={"createdAt"}
             dataAlign={"center"}
             dataFormat={(cell, row) => this.FechaCreacion(cell, row)}
           >
-            Fecha de creacion
+            {t("app_filing_status_table_fecha_creacion")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField={"updatedAt"}
             dataAlign={"center"}
             dataFormat={(cell, row) => this.FechaModificacion(cell, row)}
           >
-            Fecha de modicacion
+            {t("app_filing_status_table_fecha_modificacion")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataAlign={"center"}
@@ -114,14 +116,16 @@ class TableStatusCorrespondence extends Component {
               this.accionesEstadosCorrespondencia(cell, row)
             }
           >
-            Acciones
+            {t("app_filing_status_table_acciones")}
           </TableHeaderColumn>
         </BootstrapTable>
         <ModalView
+          t={this.props.t}
           modalview={this.state.modalview}
           ref={(mv) => (this.ModalView = mv)}
         />
         <ModalEdit
+          t={this.props.t}
           modaledit={this.state.modaledit}
           ref={(me) => (this.ModalEdit = me)}
           updateTable={this.getData}
@@ -133,6 +137,7 @@ class TableStatusCorrespondence extends Component {
 
 TableStatusCorrespondence.propTypes = {
   authorization: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 function mapState(state) {

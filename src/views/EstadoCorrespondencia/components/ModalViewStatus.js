@@ -11,6 +11,7 @@ class ModalViewStatus extends Component {
     this.state = {
       modal: this.props.modalview,
       id: this.props.id,
+      t: this.props.t,
     };
   }
 
@@ -39,32 +40,35 @@ class ModalViewStatus extends Component {
 
   render() {
     const estado = this.props.estado;
+    const { t } = this.state;
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader>Estado {estado.name}</ModalHeader>
+        <ModalHeader>
+          {t("app_filing_status_modal_ver_titulo")} {estado.name}
+        </ModalHeader>
         <ModalBody>
           <div className="row">
             <div className="col-md-4">
               <div className="form-group">
-                <dt>Nombre</dt>
+                <dt>{t("app_filing_status_modal_ver_nombre")}</dt>
                 <dd>{estado.name}</dd>
               </div>
             </div>
             <div className="col-md-4">
               <div className="form-group">
-                <dt>Fecha de creacion</dt>
+                <dt>{t("app_filing_status_modal_ver_fecha_creacion")}</dt>
                 <dd>{this.FechaCreacion(estado.createdAt)}</dd>
               </div>
             </div>
             <div className="col-md-4">
               <div className="form-group">
-                <dt>Fecha de modificacion</dt>
+                <dt>{t("app_filing_status_modal_ver_fecha_modificacion")}</dt>
                 <dd>{this.FechaModificacion(estado.updatedAt)}</dd>
               </div>
             </div>
             <div className="col-md-12">
               <div className="form-group">
-                <dt>Descripcion</dt>
+                <dt>{t("app_filing_status_modal_ver_descripcion")}</dt>
                 <textarea
                   className="form-control form-control-sm"
                   value={estado.description}
@@ -80,7 +84,8 @@ class ModalViewStatus extends Component {
             className="btn btn-secondary btn-sm"
             onClick={() => this.setState({ modal: false })}
           >
-            <i className="fa fa-times" /> Cerrar
+            <i className="fa fa-times" />{" "}
+            {t("app_filing_status_modal_ver_btn_cerrar")}
           </button>
         </ModalFooter>
       </Modal>
@@ -90,6 +95,7 @@ class ModalViewStatus extends Component {
 
 ModalViewStatus.propTypes = {
   modalview: PropTypes.bool.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 function mapState(state) {

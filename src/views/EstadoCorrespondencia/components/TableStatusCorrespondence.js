@@ -75,7 +75,7 @@ class TableStatusCorrespondence extends Component {
   }
 
   render() {
-    const { t } = this.state;
+    const { t } = this.props;
     return (
       <div>
         <BootstrapTable
@@ -84,7 +84,7 @@ class TableStatusCorrespondence extends Component {
           condensed
           striped
           search
-          searchPlaceholder="Buscar"
+          searchPlaceholder={t("app_filing_status_table_acciones_placeholder")}
           pagination
         >
           <TableHeaderColumn dataField={"id"} isKey dataAlign={"center"}>

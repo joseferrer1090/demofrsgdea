@@ -2692,6 +2692,7 @@
     "app_filing_status_table_acciones": "Actions",
     "app_filing_status_table_acciones_btn_ver": "See status",
     "app_filing_status_table_acciones_btn_modificar": "Edit status values",
+    "app_filing_status_table_acciones_placeholder": "Search",
 
     "app_filing_status_modal_ver_titulo": "Status",
     "app_filing_status_modal_ver_nombre": "Name",

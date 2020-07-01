@@ -124,6 +124,7 @@ class TableStatusCorrespondence extends Component {
         <ModalEdit
           modaledit={this.state.modaledit}
           ref={(me) => (this.ModalEdit = me)}
+          updateTable={this.getData}
         />
       </div>
     );

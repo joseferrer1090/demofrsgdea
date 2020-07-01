@@ -15,6 +15,7 @@ import {
   FILING_STATUS_CORRESPONDENCE_UPDATE,
 } from "./../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import store from "./../store/store.js";
 
 // FUNCION PRINCIPAL PARA TENER LOS ESTADOS
 export function obtenerEstadosCorrespondencia(estados) {

@@ -36,6 +36,7 @@ class ModalEditStatus extends Component {
       name: estado.name,
       description: estado.description,
     };
+    // console.log(this.props.alertSuccess);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -44,9 +45,17 @@ class ModalEditStatus extends Component {
             enableReinitialize={true}
             initialValues={aux}
             onSubmit={(values, { setSubmiting }) => {
+              this.props.editStatus(values);
               setTimeout(() => {
-                this.props.editStatus(values);
-              }, 1200);
+                //this.props.editStatus(values);
+                this.setState(
+                  {
+                    modal: false,
+                  },
+                  () => this.props.updateTable()
+                );
+                this.props.closeNotification();
+              }, 2000);
             }}
             validationSchema={Yup.object().shape({
               name: Yup.string().required(" Nombre no puede ir vacio"),
@@ -68,6 +77,14 @@ class ModalEditStatus extends Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color="success" isOpen={this.props.alertSuccess}>
+                      <i className="fa fa-check" /> Se realizo el cambio del
+                      estado.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.props.alertError}>
+                      <i className="fa fa-exclamation-triangle" /> Se genero un
+                      error al actualizar del estado.
+                    </Alert>
                     <form>
                       <div className="row">
                         <div className="col-md-12">
@@ -140,8 +157,8 @@ ModalEditStatus.propTypes = {};
 function mapState(state) {
   return {
     estadoEdit: state.statusCorrespondenceReducer.estado,
-    alertError: state.statusCorrespondenceReducer.notificacionerror,
-    alertSuccess: state.statusCorrespondenceReducer.notificacion,
+    alertError: state.statusCorrespondenceReducer.notificationerror,
+    alertSuccess: state.statusCorrespondenceReducer.notification,
   };
 }
 
@@ -152,6 +169,9 @@ function mapDispatch(dispatch) {
     },
     editStatus: (estado) => {
       dispatch(editarEstadoCorrespondencia(estado));
+    },
+    closeNotification: (data) => {
+      return !data;
     },
   };
 }

@@ -8,6 +8,7 @@ import { addNotification } from "./../actions/notificationActions";
 class NotificationContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   render() {

@@ -44,6 +44,7 @@ class EstadoCorrespondencia extends Component {
 
   render() {
     const { authToken } = this.state;
+    console.log(authToken);
     return (
       <div>
         <div className="row">

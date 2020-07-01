@@ -58,12 +58,14 @@ class ModalAssignedTemplate extends Component {
   render() {
     const { dataTypeDocumentary } = this.state;
     const dataInitial = this.state.dataTypeDocumentaryTemplate;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modalassigned}>
           <ModalHeader>
-            <i className="fa fa-object-group" /> Asingar plantilla al tipo
-            documental {dataTypeDocumentary.name}
+            <i className="fa fa-object-group" />{" "}
+            {t("app_documentalRadicacion_asignar_plantilla_titulo")}{" "}
+            {dataTypeDocumentary.name}
           </ModalHeader>
           <Formik
             enableReinitialize="true"
@@ -74,7 +76,7 @@ class ModalAssignedTemplate extends Component {
               idTemplate: Yup.string()
                 .ensure()
                 .required(
-                  "Se debe seleccionar una plantilla para el tipo documental"
+                  "Por favor seleccione una plantilla para el tipo documental de radicación"
                 ),
             })}
             onSubmit={(values, actions) => {
@@ -141,21 +143,19 @@ class ModalAssignedTemplate extends Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color={"danger"} isOpen={this.state.alert500}>
-                      <i className="fa fa-exclamation-triangle" /> No se puede
-                      realizar el cambios de la plantilla, ya existen registros
-                      asociados.
+                      <i className="fa fa-exclamation-triangle" />{" "}
+                      {t(
+                        "app_documentalRadicacion_asignar_plantilla_alert_500"
+                      )}
                     </Alert>
                     <Alert color={"success"} isOpen={this.state.alert200}>
-                      <i className="fa fa-check-circle-o" /> Se realizo la
-                      asignacion de plantilla con exito.
+                      <i className="fa fa-check-circle-o" />{" "}
+                      {t(
+                        "app_documentalRadicacion_asignar_plantilla_alert_200"
+                      )}
                     </Alert>
                     <div className="text-justify">
-                      La asignacion de plantilla sera satisfactoria siempre y
-                      cuando el tipo documental se haya creado sin ninguna
-                      plantilla de datos asocida. En caso que se quiera
-                      modificar la plantilla asociada, se debe tener en cuenta
-                      que si esta ya tiene valores registrados no sera posible
-                      realizarla.
+                      {t("app_documentalRadicacion_asignar_plantilla_info")}
                     </div>
                     <br />
                     <form className="form">
@@ -166,7 +166,9 @@ class ModalAssignedTemplate extends Component {
                               <div className="col-md-12">
                                 <div className="form-group">
                                   <label>
-                                    Plantilla Seleccionada{" "}
+                                    {t(
+                                      "app_documentalRadicacion_asignar_plantilla_label_plantilla"
+                                    )}{" "}
                                     <span className="text-danger">*</span>
                                   </label>
                                   <Field
@@ -184,6 +186,7 @@ class ModalAssignedTemplate extends Component {
                                       setFieldTouched("idTemplate", true);
                                     }}
                                     component={SelectPlantilla}
+                                    t={this.props.t}
                                   />
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.idTemplate && touched.idTemplate ? (
@@ -207,7 +210,9 @@ class ModalAssignedTemplate extends Component {
                         onClick={() => props.handleSubmit()}
                       >
                         <i className="fa fa-check" />
-                        Asignar / Modificar plantilla seleccionada
+                        {t(
+                          "app_documentalRadicacion_asignar_plantilla_btn_asignar"
+                        )}
                       </button>
                       &nbsp;
                       <button
@@ -215,7 +220,10 @@ class ModalAssignedTemplate extends Component {
                         className="btn btn-secondary btn-sm"
                         onClick={() => this.setState({ modalassigned: false })}
                       >
-                        <i className="fa fa-times" /> Cerrar
+                        <i className="fa fa-times" />{" "}
+                        {t(
+                          "app_documentalRadicacion_asignar_plantilla_btn_cerrar"
+                        )}
                       </button>
                     </div>
                   </ModalFooter>
@@ -238,7 +246,7 @@ export default ModalAssignedTemplate;
 
 const SelectPlantilla = (props) => {
   const [data, setData] = useState([]);
-
+  const { t } = props;
   useEffect(() => {
     fetch(`${TEMPLATE_ACTIVE}`, {
       method: "GET",
@@ -266,13 +274,18 @@ const SelectPlantilla = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
       >
-        <option value="">-- Seleccione Plantilla --</option>
+        <option value="">
+          -- {t("app_documentalRadicacion_asignar_plantilla_select_plantilla")}{" "}
+          --
+        </option>
         {Object.keys(data) ? (
           data.map((aux, id) => {
             return <option value={aux.id}>{aux.name}</option>;
           })
         ) : (
-          <option value={null}>No hay datos</option>
+          <option value={null}>
+            {t("app_documentalRadicacion_asignar_plantilla_select_no_data")}
+          </option>
         )}
       </select>
     </div>

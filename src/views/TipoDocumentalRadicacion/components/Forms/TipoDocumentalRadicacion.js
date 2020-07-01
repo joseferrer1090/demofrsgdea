@@ -693,6 +693,7 @@ const TipoDocumentalRadicacion = (props) => {
                 <div className="row">
                   <div className="col-md-12">
                     <PreviewTemplate
+                      t={props.t}
                       authorization={props.authorization}
                       id={values.plantilla}
                       onDataFetch={(preview) => setDataPreview(preview)}

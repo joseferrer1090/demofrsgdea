@@ -95,6 +95,7 @@ class ModalViewCiudad extends Component {
   render() {
     const { t } = this.props;
     const dataCity = this.state.dataCity;
+    console.log(dataCity.id);
     const dataDepartment = this.state.dataDepartment;
     const dataCountry = this.state.dataCountry;
     const statusCity = (data) => {

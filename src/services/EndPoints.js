@@ -634,8 +634,6 @@ export const CITIES_PAGINATION = () => {
   return `http://192.168.10.180:7000/api/sgdea/city/pagination?page=${page}&size=${size}`;
 };
 
-export const TEMPLATE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/templates/`;
-
 //---------------------------------------------PLANTILLA EMAIL-----------------------------------------------------//
 
 /* GET */
@@ -675,6 +673,8 @@ export const TEMPLATES_PAGINATION = () => {
   return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/pagination?page=${page}&size=${size}`;
 };
 
+/* POST */
+export const TEMPLATE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/templates/`;
 //---------------------------------------------PERMISOS-----------------------------------------------------//
 
 /* GET params => idEntidad */

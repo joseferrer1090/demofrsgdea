@@ -117,6 +117,7 @@ class ModalViewSedes extends Component {
 
   render() {
     const dataSede = this.state.dataSedes;
+    console.log(dataSede.id);
     const dataEmpresa = this.state.dataEmpresa;
     const dataConglomerado = this.state.dataConglomerado;
     const dataPais = this.state.dataPais;

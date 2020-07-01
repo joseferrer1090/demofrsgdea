@@ -19,6 +19,7 @@ class EditTemplateValues extends Component {
       newArray: [],
       template: {},
       metadataBagID: [],
+      t: this.props.t,
     };
   }
 
@@ -114,6 +115,7 @@ class EditTemplateValues extends Component {
   }
 
   render() {
+    const { t } = this.state;
     const aux = this.state.data.map((aux, id) => {
       return { id: aux.id, metadata: aux.metadata };
     });
@@ -131,16 +133,29 @@ class EditTemplateValues extends Component {
         <div className="card">
           <div className="card-header">
             {" "}
-            <i className="fa fa-wpforms" /> Valores de la plantilla asociada
+            <i className="fa fa-wpforms" />{" "}
+            {t("app_documentalRadicacion_editar_plantilla_titulo_3")}
           </div>
           <div className="card-body">
             <div className="table-responseive">
               <table className="table table-bordered table-sm table-hover">
                 <thead className="thead-light">
                   <tr className="text-center">
-                    <th scope="col">Nombre del metadato</th>
-                    <th scope="col">Tipo metadato</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">
+                      {t(
+                        "app_documentalRadicacion_editar_plantilla_plantilla_asociada_nombre"
+                      )}
+                    </th>
+                    <th scope="col">
+                      {t(
+                        "app_documentalRadicacion_editar_plantilla_plantilla_asociada_tipo"
+                      )}
+                    </th>
+                    <th scope="col">
+                      {t(
+                        "app_documentalRadicacion_editar_plantilla_plantilla_asociada_acciones"
+                      )}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

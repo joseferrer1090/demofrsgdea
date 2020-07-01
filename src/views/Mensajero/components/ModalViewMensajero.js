@@ -98,7 +98,6 @@ class ModalViewMensajero extends Component {
 
   render() {
     const { t } = this.props;
-
     const statusMessenger = (data) => {
       let status;
       if (data === 1) {

@@ -13,6 +13,7 @@ class PreviewTemplate extends Component {
       template: {},
       idMetadata: [],
       values: {},
+      t: this.props.t,
     };
   }
 
@@ -68,12 +69,14 @@ class PreviewTemplate extends Component {
 
   render() {
     //console.log(this.state.template);
+    const { t } = this.state;
     return (
       <div>
         <Card>
           <CardHeader>
             {" "}
-            <i className="fa fa-wpforms" /> Preview de la plantilla
+            <i className="fa fa-wpforms" />{" "}
+            {t("app_documentalRadicacion_form_registrar_preview_template")}
           </CardHeader>
           <CardBody>
             <Card body>
@@ -108,7 +111,9 @@ class PreviewTemplate extends Component {
                     {" "}
                     <strong>
                       {" "}
-                      No hay dato verificar o seleccionar otra plantilla
+                      {t(
+                        "app_documentalRadicacion_form_registrar_preview_template_card"
+                      )}
                     </strong>
                   </p>
                 )}
@@ -124,6 +129,7 @@ class PreviewTemplate extends Component {
 PreviewTemplate.propTypes = {
   authorization: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
 };
 
 export default PreviewTemplate;

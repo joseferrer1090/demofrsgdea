@@ -8,7 +8,7 @@ import {
   editarEstadoCorrespondencia,
 } from "./../../../actions/statusCorrespondenceActions";
 import { Modal, ModalBody, ModalHeader, ModalFooter, Alert } from "reactstrap";
-import NotificationContainer from "./../../../helpers/notificationContainer";
+import NotificationContainer from "./../../../helpers/NotificationContainer";
 
 class ModalEditStatus extends Component {
   constructor(props) {
@@ -41,7 +41,9 @@ class ModalEditStatus extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar valores {aux.name}</ModalHeader>
+          <ModalHeader>
+            Editar valores {aux.name} que paso que paso que paso que paso
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={aux}

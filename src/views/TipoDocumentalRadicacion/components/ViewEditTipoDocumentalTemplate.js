@@ -15,6 +15,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
       users: [],
       id: this.props.match.params.id,
       auth: this.props.authorization,
+      t: this.props.t,
     };
   }
 
@@ -58,6 +59,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
   render() {
     const { datatypedocumentary } = this.state;
     const { users } = this.state;
+    const { t } = this.state;
     const TypeCorrespondence = (data) => {
       let type;
       if (data === 1) {
@@ -91,7 +93,8 @@ class ViewEditTipoDocumentalTemplate extends Component {
             <div className="card">
               <div className="card-header">
                 {" "}
-                <i className="fa fa-book" /> Informacion del tipo documental -{" "}
+                <i className="fa fa-book" />{" "}
+                {t("app_documentalRadicacion_editar_plantilla_titulo_1")} -{" "}
                 {datatypedocumentary.name}
               </div>
               <div className="card-body">
@@ -99,7 +102,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Codigo</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_codigo"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -110,7 +117,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Nombre</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_nombre"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -121,7 +132,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Tipo de correspondencia</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_tipo_correspondencia"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -134,7 +149,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Descripción</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_descripcion"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-contorl-sm"
@@ -145,7 +164,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Estado</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_estado"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -158,7 +181,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Asunto</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_asunto"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -169,7 +196,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Fecha de creacion</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_fecha_creacion"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -182,7 +213,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Fecha de modificacion</label>
+                        <label>
+                          {t(
+                            "app_documentalRadicacion_editar_plantilla_info_fecha_modificacion"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -197,10 +232,21 @@ class ViewEditTipoDocumentalTemplate extends Component {
                 </form>
               </div>
             </div>
+          </div>
+          <div className="col-md-6">
+            <EditValues
+              t={this.props.t}
+              auth={this.state.auth}
+              id={this.state.id}
+              dataComplete={this.state.datatypedocumentary}
+              dataTemplate={this.state.datatypedocumentary.template}
+            />
+          </div>
+          <div className="col-md-12">
             <div className="card">
               <div className="card-header">
-                <i className="fa fa-users" /> Usuarios asociados al tipo
-                documental
+                <i className="fa fa-users" />{" "}
+                {t("app_documentalRadicacion_editar_plantilla_titulo_2_table")}
               </div>
               <div className="card-body">
                 {users ? (
@@ -211,14 +257,7 @@ class ViewEditTipoDocumentalTemplate extends Component {
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <EditValues
-              auth={this.state.auth}
-              id={this.state.id}
-              dataComplete={this.state.datatypedocumentary}
-              dataTemplate={this.state.datatypedocumentary.template}
-            />
-          </div>
+
           <div className="col-md-12">
             <div className="animated fadeIn">
               {" "}
@@ -235,7 +274,10 @@ class ViewEditTipoDocumentalTemplate extends Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cerrar
+                      <i className="fa fa-times" />{" "}
+                      {t(
+                        "app_documentalRadicacion_editar_plantilla_btn_cerrar"
+                      )}
                     </button>
                   </div>
                 </div>

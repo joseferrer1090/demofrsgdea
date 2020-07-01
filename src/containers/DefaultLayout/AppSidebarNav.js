@@ -201,6 +201,11 @@ class AppSidebarNav extends Component {
             },
           ],
         },
+        {
+          name: "Estado de correspondencia",
+          icon: "icon-settings",
+          url: "/configuracion/estadocorrespondencia",
+        },
       ],
       t: this.props.t,
     };

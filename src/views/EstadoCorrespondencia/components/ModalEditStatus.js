@@ -8,7 +8,7 @@ import {
   editarEstadoCorrespondencia,
 } from "./../../../actions/statusCorrespondenceActions";
 import { Modal, ModalBody, ModalHeader, ModalFooter, Alert } from "reactstrap";
-import NotificationContainer from "./../../../helpers/notificationContainer";
+import NotificationContainer from "./../../../helpers/NotificationContainer";
 
 class ModalEditStatus extends Component {
   constructor(props) {

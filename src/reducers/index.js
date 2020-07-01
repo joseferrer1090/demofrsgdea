@@ -5,6 +5,7 @@ import documentaryTypeReducer from "./documentaryTypeReducer";
 import templateMetadata from "./templateMetadataReducer";
 import alertReducer from "./alert.Reducer";
 import statusCorrespondenceReducer from "./statusCorrespondenceReducer";
+import notificationReducer from "./notificationReducer";
 
 export default combineReducers({
   typeProcedureReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   templateMetadata,
   alertReducer,
   statusCorrespondenceReducer,
+  notificationReducer,
 });

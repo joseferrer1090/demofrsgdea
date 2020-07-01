@@ -7,14 +7,17 @@ import {
   OBTENER_STATUS_CORRESPONDENCIA_VER_ERROR,
   OBTENER_STATUS_CORRESPONDENCIA_EDITAR_ERROR,
   OBTNER_STATUS_CORRESPONDENCIA_EDITAR_EXITO,
+  STATUS_CORRESPONDENCIA_NOTIFICACION,
 } from "./../types/index";
 
 import {
   FILING_STATUS_CORRESPONDENCE_ALL,
   FILING_STATUS_CORRESPONDENCE_VIEW,
   FILING_STATUS_CORRESPONDENCE_UPDATE,
+  ACTIONS_ALL,
 } from "./../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import store from "./../store/store.js";
 
 // FUNCION PRINCIPAL PARA TENER LOS ESTADOS
 export function obtenerEstadosCorrespondencia(estados) {
@@ -108,6 +111,16 @@ export function editarEstadoCorrespondencia(estado) {
         if (resp.ok) {
           console.log(resp);
           dispatch(estadoEditarExito());
+          dispatch(
+            notificacion(
+              true,
+              "🆗 Se modificacion el estado de manera exitosa",
+              "success"
+            )
+          );
+          setTimeout(() => {
+            dispatch(notificacion(false, "", ""));
+          }, 2000);
         } else if (resp.status === 400) {
           console.log("Verificar el object que se envia", resp);
           dispatch(estadoEditarError());
@@ -131,4 +144,10 @@ const estadoEditarExito = () => ({
   type: OBTNER_STATUS_CORRESPONDENCIA_EDITAR_EXITO,
 });
 
+const notificacion = (active, message, level) => ({
+  type: STATUS_CORRESPONDENCIA_NOTIFICACION,
+  active: active,
+  message: message,
+  level: level,
+});
 // FIN

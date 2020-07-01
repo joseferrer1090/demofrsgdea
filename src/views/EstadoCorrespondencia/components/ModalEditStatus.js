@@ -15,6 +15,7 @@ class ModalEditStatus extends Component {
     super(props);
     this.state = {
       modal: this.props.modaledit,
+      t: this.props.t,
     };
   }
 
@@ -38,11 +39,12 @@ class ModalEditStatus extends Component {
       description: estado.description,
     };
     // console.log(this.props.alertSuccess);
+    const { t } = this.state;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Editar valores {aux.name} que paso que paso que paso que paso
+            {t("app_filing_status_modal_editar_titulo")} {aux.name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -92,7 +94,9 @@ class ModalEditStatus extends Component {
                       <div className="row">
                         <div className="col-md-12">
                           <div className="form-group">
-                            <label>Nombre</label>
+                            <label>
+                              {t("app_filing_status_modal_editar_nombre")}
+                            </label>
                             <input
                               type="text"
                               name={"name"}
@@ -113,7 +117,9 @@ class ModalEditStatus extends Component {
                       <div className="row">
                         <div className="col-md-12">
                           <div className="form-group">
-                            <label>Descripcion</label>
+                            <label>
+                              {t("app_filing_status_modal_editar_descripcion")}
+                            </label>
                             <textarea
                               name="description"
                               className="form-control form-control-sm"
@@ -136,7 +142,8 @@ class ModalEditStatus extends Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-pencil" /> Editar valores del estado
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_filing_status_modal_editar_btn_editar")}
                     </button>
                     <button
                       type="button"
@@ -148,7 +155,8 @@ class ModalEditStatus extends Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cancelar
+                      <i className="fa fa-times" />{" "}
+                      {t("app_filing_status_modal_editar_btn_cancelar")}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -161,7 +169,9 @@ class ModalEditStatus extends Component {
   }
 }
 
-ModalEditStatus.propTypes = {};
+ModalEditStatus.propTypes = {
+  t: PropTypes.func.isRequired,
+};
 
 function mapState(state) {
   return {

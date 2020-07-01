@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TableStatus from "./components/TableStatusCorrespondence";
 import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
+import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
   setItem: async function (key, value) {
@@ -19,6 +20,7 @@ class EstadoCorrespondencia extends Component {
     super(props);
     this.state = {
       authToken: "",
+      t: this.props.t,
     };
   }
 
@@ -44,7 +46,7 @@ class EstadoCorrespondencia extends Component {
 
   render() {
     const { authToken } = this.state;
-    console.log(authToken);
+    const { t } = this.state;
     return (
       <div>
         <div className="row">
@@ -52,10 +54,10 @@ class EstadoCorrespondencia extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-table" />
-                Estados de la correspondencia
+                {t("app_filing_status_table_titulo")}
               </CardHeader>
               <CardBody>
-                <TableStatus authorization={authToken} />
+                <TableStatus authorization={authToken} t={t} />
               </CardBody>
             </Card>
           </div>
@@ -67,4 +69,4 @@ class EstadoCorrespondencia extends Component {
 
 EstadoCorrespondencia.propTypes = {};
 
-export default EstadoCorrespondencia;
+export default withTranslation("translations")(EstadoCorrespondencia);

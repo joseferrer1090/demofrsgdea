@@ -78,6 +78,11 @@ class ViewEditTipoDocumentalTemplate extends Component {
       }
       return status;
     };
+    const back = (e) => {
+      e.preventDefault();
+      let path = `#/configuracion/tipodocumentalradicacion`;
+      window.location.replace(path);
+    };
 
     return (
       <div className="animated fadeIn">
@@ -213,6 +218,29 @@ class ViewEditTipoDocumentalTemplate extends Component {
               dataComplete={this.state.datatypedocumentary}
               dataTemplate={this.state.datatypedocumentary.template}
             />
+          </div>
+          <div className="col-md-12">
+            <div className="animated fadeIn">
+              {" "}
+              <div className="card">
+                <div className="card-footer">
+                  {" "}
+                  <div className="float-right">
+                    <button
+                      style={{ margin: 5 }}
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={(e) => {
+                        back(e);
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" /> Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

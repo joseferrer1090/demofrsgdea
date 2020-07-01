@@ -70,10 +70,12 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTDocRadicacion"
-        style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "23px" }}
       >
         <button
-          title="Ver tipo documental de radicacion"
+          title={t(
+            "app_documentalRadicacion_administrar_table_acciones_btn_ver"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalView(row.id);
@@ -83,7 +85,9 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
-          title="Asignar plantilla al tipo documental"
+          title={t(
+            "app_documentalRadicacion_administrar_table_acciones_btn_asignar_plantilla"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.openModalAssigned(row.id);
@@ -105,7 +109,9 @@ class TableContentTramite extends Component {
         </button>
         &nbsp;
         <button
-          title="Editar valores de la plantilla"
+          title={t(
+            "app_documentalRadicacion_administrar_table_acciones_btn_editar_plantilla"
+          )}
           className="btn btn-secondary btn-sm"
           onClick={() => {
             this.routeChangeEditPlantilla(row.id);
@@ -269,14 +275,18 @@ class TableContentTramite extends Component {
                 {" "}
                 {t("app_documentalRadicacion_table_administrar_nombre")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"description"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"description"}
+                dataAlign="center"
+                width={"205"}
+              >
                 {" "}
                 {t(
                   "app_documentalRadicacion_table_administrar_descripcion"
                 )}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"170"}
+                width={"140"}
                 dataField={"answerDays"}
                 dataAlign="center"
               >
@@ -288,6 +298,7 @@ class TableContentTramite extends Component {
                 dataField={"createdAt"}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.FechaCreacion(cell, row)}
+                width={"120"}
               >
                 {" "}
                 {t(
@@ -295,7 +306,7 @@ class TableContentTramite extends Component {
                 )}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"100"}
+                width={"80"}
                 dataField={"status"}
                 dataAlign="center"
                 dataFormat={(cell, row) =>
@@ -342,6 +353,7 @@ class TableContentTramite extends Component {
           ref={(meu) => (this.ModalExportUserRef = meu)}
         />
         <ModalAssigned
+          t={this.props.t}
           authorization={auth}
           modal={this.state.modalassigned}
           updateTable={this.getData}

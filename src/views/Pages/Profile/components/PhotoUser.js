@@ -89,10 +89,10 @@ class PhotoUser extends Component {
     e.preventDefault();
     const token = this.state.auth;
     const username = decode(token);
+
     const formData = new FormData();
     formData.append("photo", this.state.file);
     formData.append("username", username.user_name);
-
     for (var value of formData.values()) {
       console.log(value);
     }

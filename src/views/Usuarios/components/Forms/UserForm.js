@@ -644,7 +644,7 @@ export default withTranslation("translations")(
           }
         )
       );
-      setTimeout(() => {
+      setTimeout(() => {        
         axios
           .post(`${USERS}`, formData, {
             headers: {

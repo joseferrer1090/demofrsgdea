@@ -2,17 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
 import { Row, Col, ToastBody, Toast, ToastHeader, Spinner } from "reactstrap";
 
-const MyPdfViewer = props => {
+const MyPdfViewer = (props) => {
   const [page, setPage] = useState(1);
   const canvasRef = useRef(null);
   const [id, setId] = useState(props.id);
   const [filename, setFilename] = useState(props.filename);
 
   const { pdfDocument, pdfPage } = usePdf({
-    file: `http://192.168.0.19:8090/api/sgdea/service/filing/emails/view/file/${id}/${filename}`,
+    file: `http://localhost:8090/api/sgdea/service/filing/emails/view/file/${id}/${filename}`,
     page,
     canvasRef,
-    pdfPage
+    pdfPage,
   });
 
   const validateValues = () => {
@@ -25,9 +25,12 @@ const MyPdfViewer = props => {
     setId(props.id);
     setFilename(props.filename);
     validateValues();
+    console.log(
+      `http://localhost:8090/api/sgdea/service/filing/emails/view/file/${id}/${filename}`
+    );
   }, [props.id, props.filename, props.infoData]);
 
-  const PreviousValues = value => {
+  const PreviousValues = (value) => {
     const ref = useRef();
     useEffect(() => {
       ref.current = value;

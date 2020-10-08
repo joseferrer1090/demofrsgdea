@@ -91,6 +91,7 @@ const TipoDocumentalRadicacion = (props) => {
           } else if (data === false) {
             return (tipo = 0);
           }
+
           return null;
         };
         const tipoCorrespondencia = (data) => {

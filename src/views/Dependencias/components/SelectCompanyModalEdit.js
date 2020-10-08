@@ -7,19 +7,19 @@ const FieldCompany = ({
   ...props
 }) => {
   const [dataCompany, setDataCompany] = useState([]);
-  const fetchNewValues = id => {
+  const fetchNewValues = (id) => {
     fetch(`${COMPANY_BY_CONGLOMERATE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorization
-      }
+        Authorization: "Bearer " + props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setDataCompany(data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         setDataCompany([]);
       });
@@ -39,7 +39,7 @@ const FieldCompany = ({
     validateValues();
   }, [props.companyId, props.conglomerateId]);
 
-  const PreviousValues = value => {
+  const PreviousValues = (value) => {
     const ref = useRef();
     useEffect(() => {
       ref.current = value;
@@ -53,11 +53,11 @@ const FieldCompany = ({
     <div>
       {" "}
       <select
-        onChange={e => setFieldValue("company", e.target.value)}
+        onChange={(e) => setFieldValue("company", e.target.value)}
         onBlur={() => setFieldTouched("company", true)}
-        className={`form-control form-control-sm ${errors.company &&
-          touched.company &&
-          "is-invalid"}`}
+        className={`form-control form-control-sm ${
+          errors.company && touched.company && "is-invalid"
+        }`}
         value={values.company}
       >
         <option value={""}>

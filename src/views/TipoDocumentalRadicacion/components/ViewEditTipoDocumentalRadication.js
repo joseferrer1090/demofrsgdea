@@ -788,7 +788,7 @@ const UserListEnabled = (props) => {
     (state) => state.documentaryTypeReducer.tipodocumental
   );
   const [state, setstate] = useState(aux);
-
+console.log(users);
   return (
     <div className="col-md-12">
       {state === true ? (
